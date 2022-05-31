@@ -12,7 +12,10 @@ function App() {
     <div className="App">
       <GlobalStyle /> 
 
-      <Header />
+      <Header 
+        otherIcon='talk'
+      />
+      {/* 헤더가 각 페이지마다 다른 아이콘, 다른 기능으로 들어가기 때문에 이걸 해결하기 위한 함수 분리 or 헤더구성을 미리 해놔야 한다. */}
       <MobileBox>
   gd
         {/* <Popup 

@@ -1,26 +1,51 @@
 import React from "react";
 import styled from "styled-components";
 import { RowBox } from "./FlexBox";
-import { faCheckSquare, faSpinner } from "@fortawesome/free-solid-svg-icons";
-import { faSquare } from "@fortawesome/free-regular-svg-icons";
+
 
 import Text from "./Text";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGear, faBox } from "@fortawesome/free-solid-svg-icons";
+import { faGear, faBox, faMessage, faReply } from "@fortawesome/free-solid-svg-icons";
 
-const Header = () => {
+interface IHeader {
+  onClickGear?: (v: any) => void;
+  otherIcon: string
+  onClickOther?: (v: any) => void;
+}
+
+const Header = ( { onClickGear, otherIcon, onClickOther }: IHeader ) => {
+
+  const Seticon = (otherIcon: string) => {
+    switch (otherIcon) {
+      case "talk" :
+        return <FontAwesomeIcon icon={faMessage} size="lg" color="#679BFF" />
+      case "grid" :
+        return <FontAwesomeIcon icon={faBox} size="lg" color="#679BFF" />
+      case "return":
+        return <FontAwesomeIcon icon={faReply} size="lg" color="#679BFF" />
+    }
+    // if (otherIcon === "talk" ) 
+  }
 
   return(
     <HeaderEle>
-      <Text bold size='title' color='white'>Memo'nt</Text>
+      <Text bold size='title' color='white'>
+        Memo'nt
+      </Text>
+
       <RowBox width={5} padding="0" gap={.5} between>
-        <IconBox>
-        <FontAwesomeIcon icon={faGear} size="lg" width="24px" color="#679BFF" />
+        <IconBox
+          onClick={onClickGear}
+        >
+          <FontAwesomeIcon icon={faGear} size="lg" color="#679BFF" />
         </IconBox>
-        <IconBox>
-        <FontAwesomeIcon icon={faBox} size="lg" width="24px" color="#679BFF" />
+        <IconBox
+          onClick={onClickOther}
+        >
+          {Seticon(otherIcon)}
         </IconBox>
       </RowBox>
+
     </HeaderEle>
   )
 }
