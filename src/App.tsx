@@ -1,9 +1,15 @@
 import React from 'react';
+import Popup from './components/Popup';
+import GlobalStyle from './styles/GlobalStyle';
 
 function App() {
   return (
     <div className="App">
-        hi
+      <GlobalStyle />
+        <Popup 
+          title='테스트 팝업'
+        >
+        </Popup>
     </div>
   );
 }
