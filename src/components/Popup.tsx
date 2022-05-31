@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import { center } from "../styles/stylesCss";
 import { MainBtn } from "./Buttons";
 import { RowBox } from "./FlexBox";
-import { Text } from './Text'
+import Text from './Text'
 
 
 interface IPopup {
@@ -20,16 +20,16 @@ const Popup = ( { children, title, onClickCancel, onClickDo, gap }: IPopup) => {
     <Outer>
       <Inner gap={gap}>
 
-      <Text size='l' bold> {title} </Text>
+      <Text size='xl' bold> {title} </Text>
       
         {children}
 
-        <RowBox center >
-          <MainBtn width={12.5}
+        <RowBox center padding="0" >
+          <MainBtn
             onClick={onClickCancel}
           > 취소
           </MainBtn>
-          <MainBtn width={12.5} dark
+          <MainBtn primary
             onClick={onClickDo}
           > 확인
           </MainBtn>
@@ -56,7 +56,7 @@ export const Inner = styled.div<IInner>`
   gap: ${({gap}) => gap ? gap+"rem" : "1rem"};
 
   // size
-  width: 20rem;
+  width: 17.5rem;
   height: 10rem;
   padding: 1.5rem 1rem;
   box-shadow: ${({theme}) => theme.boxShadow.main};

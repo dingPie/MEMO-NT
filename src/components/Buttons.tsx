@@ -3,15 +3,15 @@ import { darken, lighten } from 'polished';
 import { polishedColor } from "../styles/stylesCss";
 
 interface IMainBtn {
-  dark?: boolean;
+  primary?: boolean;
   width?: number;
 }
 
 
 const modeSet = css<IMainBtn>`
-  ${({ theme, dark }) => {
-    const backColor = dark ? theme.colors.dark_gray : theme.colors.light_gray;
-    const fontColor = dark && theme.colors.white;
+  ${({ theme, primary }) => {
+    const backColor = primary ? theme.colors.primary_blue : theme.colors.light_gray;
+    const fontColor = primary && theme.colors.white;
 
     return css`
       background: ${backColor};
@@ -29,15 +29,15 @@ const modeSet = css<IMainBtn>`
 
 export const MainBtn = styled.button<IMainBtn>`
 /* 크기 */
-  width:${({width}) => width ? width+"rem" : "10rem" };
-  height: 2.25rem;
+  width:${({width}) => width ? width+"rem" : "5rem" };
+  height: 1.5rem;
   padding: 0;
   border-radius: 4px;
   border: none;
   cursor: pointer;
 
   /* 폰트 */
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
 
   // 그림자 생성

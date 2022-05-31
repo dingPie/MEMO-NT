@@ -15,11 +15,12 @@ interface Itext {
 const fontSizeSet = css<{size?: string}>`
   ${({ size }) => {
     let fontSize = "";
-    if (size === "xxl") fontSize = "2.5rem";
-    if (size === "xl") fontSize = "2rem";
-    else if (size === 'l') fontSize = "1.5rem";
-    else if (size === 's') fontSize = ".875rem";
-    else if (size === 'm' || !size) fontSize = "1.125rem";
+    if (size === "title") fontSize = "1.5rem";
+    else if (size === 'xl') fontSize = "1.25rem";
+    else if (size === 'l') fontSize = "1rem";
+    else if (size === 's') fontSize = ".75rem";
+    else if (size === 'xs') fontSize = ".625rem";
+    else if (size === 'm' || !size) fontSize = ".875rem";
 
     return css`
       font-size: ${fontSize};
@@ -27,7 +28,7 @@ const fontSizeSet = css<{size?: string}>`
   }}
 `
 
-export const Text = styled.div<Itext>`
+const Text = styled.div<Itext>`
   font-weight: ${({bold}) => bold && "bold"};
   text-align:${({center}) => center && "center" };
   ${fontSizeSet};
@@ -47,8 +48,4 @@ export const Text = styled.div<Itext>`
   }}
 `
 
-
-
-// 사이즈 관련 재정비 필요 
-// 32 24 18 14 xl l m s
-// 12 14 18 24 
+export default Text;

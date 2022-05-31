@@ -8,6 +8,7 @@ const colors = {
   white: "#FFFFFF",
   dark_gray: "#505050",
   light_gray: "#F5F5F5",
+  primary_blue: "#679BFF",
 };
 
 const fontSizes = {
