@@ -4,16 +4,24 @@ import { MobileBox } from "../../App";
 
 
 import { RowBox } from "../../components/FlexBox";
-import Header, { IconBox } from "../../components/Header";
+import Header from "../../components/Header";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { faPlusSquare } from "@fortawesome/free-regular-svg-icons";
+import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
 import { InputText } from "../../components/InputText";
 import Text from "../../components/Text"
+import TalkInput from "./TalkInput";
+import { IconBox } from "../../components/IconBox";
+import TalkList from "./TalkList";
+import { Time } from "../../utils/service/time";
 
+// 더미데이터
+import { dummyMemos } from "../../utils/data/dummyData";
 
 const TalkPage = () => {
+
+  
 
   
   return(
@@ -21,22 +29,15 @@ const TalkPage = () => {
       <Header 
         page="talk"
       />
-
       <MobileBox>
-        <Text>
 
-        톡 페이지입니다.
-        </Text>
-        <InputBox padding=".75rem">
-          <InputText
-            placeholder="내용과 # 로 제목을 입력하세요"
-          />
-          <IconBox>
-            <Icon icon={faPlusSquare} size="lg" color="#505050" />
+        { dummyMemos.map(memo => {
+          return <TalkList memo={memo} />
+        })
+        }
 
-          </IconBox>
-        </InputBox>
 
+        <TalkInput />
       </MobileBox>
 
     </>
@@ -45,11 +46,48 @@ const TalkPage = () => {
 
 export default TalkPage;
 
-const InputBox = styled(RowBox)`
-  align-items: center;
-  position: fixed;
-  bottom: 0;
-  max-width: 30rem;
-  /* width: 100%; */
-  background: white;
-`
+// const TalkList = styled.div`
+//   display: flex;
+//   gap: .5rem;
+//   width: 100%;
+//   padding: 0;
+
+// `
+
+// const TalkTag = styled.div<{color?: string}>`
+//   width: 1.75rem;
+//   height: 1.75rem;
+//   padding: 0 .5rem;
+//   background: ${({color}) => color && color};
+//   border-radius: 1.75rem;
+//   text-align: center;
+//   line-height: 1.75rem;
+//   font-size: .875rem;
+//   font-weight: bold;
+
+// `
+
+// const TalkContent = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   align-items: flex-end;
+//   padding: 6px;
+//   gap: 10px;
+//   border-radius: 4px;
+//   width: 15rem;
+//   /* height: 72px; */
+//   font-size: .875rem;
+//   background: white;
+// `
+
+// const TalkTime = styled.div`
+//   display: flex;
+//   align-items: flex-end;
+//   width: 48px;
+//   height: 28px;
+  
+//   font-weight: 500;
+//   font-size: 10px;
+//   text-align: center;
+//   line-height: 12px;
+// `

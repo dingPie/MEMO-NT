@@ -9,7 +9,7 @@ interface Itext {
   color?: string;
   width?: number;
   height?: number;
-  inline?: boolean
+  inline?: boolean;
 }
 
 const fontSizeSet = css<{size?: string}>`
@@ -44,7 +44,7 @@ const Text = styled.div<Itext>`
   }};
 
   ${({cursor}) => {
-    return cursor ?  `cursor: pointer` : `cursor: auto`
+    return cursor ? `cursor: pointer` : `cursor: auto`
   }}
 `
 

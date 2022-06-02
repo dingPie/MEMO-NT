@@ -6,6 +6,7 @@ import Text from "./Text";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faGear, faBox, faMessage, faReply } from "@fortawesome/free-solid-svg-icons";
 import { darken } from "polished";
+import { IconBox } from "./IconBox";
 
 interface IHeader {
   page: string
@@ -50,7 +51,7 @@ const Header = ( { page, onClickGear, onClickOther }: IHeader ) => {
       case "memo":
         return (
           <>
-            <IconBox
+            <IconBox 
               onClick={onClickGear}
             >
               <Icon icon={faGear} size="lg" color="#679BFF" />
@@ -99,19 +100,4 @@ const HeaderEle = styled.div`
   max-width: 480px; 
   width: 100%;
   height: 3.5rem;
-`
-
-export const IconBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  width: 2rem;
-  height: 2rem;
-  background: ${({theme}) => theme.colors.white} ;
-  border-radius: 2rem ;
-
-  &:active {
-    background: ${({theme}) => darken(0.1, theme.colors.white)};
-  }
 `

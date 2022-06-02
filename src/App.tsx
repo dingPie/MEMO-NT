@@ -63,13 +63,14 @@ function App() {
 export default App;
 
 export const MobileBox = styled.div`
-  flex: 1;
+  display: relative;
   width: 100%;
   height: 100%;
   min-width: 20rem;
   max-width: 30rem;
   margin: 0 auto;
+  padding: .75rem .5rem;
 
-  background: ${({theme}) => theme.colors.light_gray} ;
+  background: ${({theme}) => theme.colors.light_gray};
   /* background: white; */
 `
