@@ -14,15 +14,15 @@ import { dummyTags } from '../../utils/data/dummyData'
 
 interface ITalkList {
   memo: IMemo;
+  onClickMenuBtn: (memo: IMemo) => void;
 }
 
-const TalkList = ( { memo }: ITalkList ) => {
+const TalkList = ( { memo, onClickMenuBtn }: ITalkList ) => {
 
   const time = new Time();
   const tags = dummyTags;
   const tag = tags.filter(v => v.id === memo.tagId )[0]
 
-  console.log(tag.id)
   const setTalkTag = () => {
     if (tag.id === "undefined") return <Icon icon={faHashtag} />
     else if (tag.id === "timeBomb") return <Icon icon={faClockFour} />
@@ -43,6 +43,7 @@ const TalkList = ( { memo }: ITalkList ) => {
       </TalkTime>
       <IconBox 
         shadow width={1.75} height={1.75}
+        onClick={() => onClickMenuBtn(memo)}
       >
       <Icon size="lg" color="#505050" 
         icon={faEllipsis}
@@ -64,7 +65,7 @@ const TalkListEle = styled.div`
   margin-bottom: .5rem;
 `
 
-const TalkTag = styled.div<{color?: string}>`
+export const TalkTag = styled.div<{color?: string}>`
   width: 1.75rem;
   height: 1.75rem;
   padding: 0 .5rem;
@@ -78,7 +79,7 @@ const TalkTag = styled.div<{color?: string}>`
   box-shadow: ${({theme}) => theme.boxShadow.main};
 `
 
-const TalkContent = styled.div`
+export const TalkContent = styled.div`
   padding: .25rem .5rem;
   font-size: .875rem;
   border-radius: 4px;

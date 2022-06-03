@@ -13,7 +13,7 @@ const GlobalStyle= createGlobalStyle`
   body {
     margin: 0 auto;
     height: 100%;
-    background: ${({theme}) => theme.colors.primary_blue};
+    background: ${({theme}) => theme.colors.light_gray};
   }
 `
 
