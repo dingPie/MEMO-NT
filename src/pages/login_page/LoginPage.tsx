@@ -1,6 +1,6 @@
 import React from "react";
-import { MobileBox } from "../../App";
 import Header from "../../components/Header";
+import { MobileBox } from "../../components/MobileBox";
 
 
 const LoginPage = () => {

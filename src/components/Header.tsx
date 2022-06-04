@@ -100,4 +100,6 @@ const HeaderEle = styled.div`
   max-width: 480px; 
   width: 100%;
   height: 3.5rem;
+
+  background: ${({theme}) => theme.colors.primary_blue};
 `

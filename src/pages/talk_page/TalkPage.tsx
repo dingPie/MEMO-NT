@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { MobileBox } from "../../App";
 
 
 import { RowBox } from "../../components/FlexBox";
 import Header from "../../components/Header";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
+import { faPen, faTrashCan, faThumbTack, faExpand, faAlignLeft } from "@fortawesome/free-solid-svg-icons";
+import {  } from "@fortawesome/free-regular-svg-icons";
 
 import { InputText } from "../../components/InputText";
 import Text from "../../components/Text"
@@ -18,10 +18,57 @@ import { Time } from "../../utils/service/time";
 
 // 더미데이터
 import { dummyMemos } from "../../utils/data/dummyData";
+import { MobileBox } from "../../components/MobileBox";
+
+import { IMemo } from "../../utils/interface/interface";
+import TalkMemu from "./TalkMenu";
+import TalkDeletePopup from "./TalkDeletePopup";
+import TalkPinn from "./TalkPinn";
+import TalkPinnExpand from "./TalkPinnExpand";
+import TagOptions from "./TagOptions";
+import TalkInputOption from "./TalkInputOption";
+
 
 const TalkPage = () => {
 
-  
+  const [selectedMemo, setSelectedMemo] = useState<IMemo | boolean>(false);
+
+  const [isOpenDeletePopup, setIsOpenDeletePopup] = useState(false)
+  // const [isOpenDeleteConfrim, setIsOpenDeleteConfrim] = useState(false)
+  const onClickMemuBtn = (memo: IMemo) => {
+    console.log(memo)
+    setSelectedMemo(memo)
+  }
+  // 수정
+  const onClickEditBtn = () => {
+
+  }
+  // 삭제
+  const onClickDeleteBtn = () => {
+    setIsOpenDeletePopup(true)
+  }
+  // 상단 핀
+  const onClickPinnBtn = () => {
+    
+  }
+  // 줄임 확장
+  const onClickExpandBtn = () => {
+    
+  }
+  // 메모로 이동
+  const onClicGoMemoBtn = () => {
+    
+  }
+  // 메뉴 닫기
+  const onClickCloseMenuBtn = () => {
+    setSelectedMemo(false)
+  }
+
+  const deleteMemo = () => {
+    alert("삭제되었습니다.")
+    setIsOpenDeletePopup(false)
+    setSelectedMemo(false)
+  }
 
   
   return(
@@ -29,65 +76,66 @@ const TalkPage = () => {
       <Header 
         page="talk"
       />
-      <MobileBox>
+      {/* <TalkPinn /> */}
+      {/* <TalkPinnExpand /> */}
 
-        { dummyMemos.map(memo => {
-          return <TalkList memo={memo} />
+
+      <TalkBox>
+      {/* 테스트용 */}
+
+        { dummyMemos.map((memo) => {
+          return (
+            <TalkList
+              key={memo.id}
+              memo={memo}
+              onClickMenuBtn={onClickMemuBtn}
+            />
+          ) 
+        })
+        }
+           { dummyMemos.map((memo) => {
+          return (
+            <TalkList
+              key={memo.id}
+              memo={memo}
+              onClickMenuBtn={onClickMemuBtn}
+            />
+          ) 
         })
         }
 
+        { selectedMemo && 
+          <TalkMemu 
+            onClickEditBtn={onClickEditBtn}
+            onClickDeleteBtn={onClickDeleteBtn}
+            onClickPinnBtn={onClickPinnBtn}
+            onClickExpandBtn={onClickExpandBtn}
+            onClicGoMemoBtn={onClicGoMemoBtn}
+            onClickCloseMenuBtn={onClickCloseMenuBtn}
+          />
+        }
+  
+      </TalkBox>
 
-        <TalkInput />
-      </MobileBox>
+      <TalkInputOption />
 
+      <TalkInput />
+
+      { isOpenDeletePopup &&
+        <TalkDeletePopup 
+          onClickCancel={() => setIsOpenDeletePopup(false) }
+          onClickDo={deleteMemo}
+        />
+      }
     </>
   )
 }
 
 export default TalkPage;
 
-// const TalkList = styled.div`
-//   display: flex;
-//   gap: .5rem;
-//   width: 100%;
-//   padding: 0;
 
-// `
 
-// const TalkTag = styled.div<{color?: string}>`
-//   width: 1.75rem;
-//   height: 1.75rem;
-//   padding: 0 .5rem;
-//   background: ${({color}) => color && color};
-//   border-radius: 1.75rem;
-//   text-align: center;
-//   line-height: 1.75rem;
-//   font-size: .875rem;
-//   font-weight: bold;
-
-// `
-
-// const TalkContent = styled.div`
-//   display: flex;
-//   flex-direction: row;
-//   align-items: flex-end;
-//   padding: 6px;
-//   gap: 10px;
-//   border-radius: 4px;
-//   width: 15rem;
-//   /* height: 72px; */
-//   font-size: .875rem;
-//   background: white;
-// `
-
-// const TalkTime = styled.div`
-//   display: flex;
-//   align-items: flex-end;
-//   width: 48px;
-//   height: 28px;
-  
-//   font-weight: 500;
-//   font-size: 10px;
-//   text-align: center;
-//   line-height: 12px;
-// `
+const TalkBox = styled(MobileBox)`
+  height: 86.5%;
+  overflow-y: scroll ;
+`

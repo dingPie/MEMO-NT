@@ -26,13 +26,12 @@ const TalkInput = () => {
 export default TalkInput;
 
 const InputBox = styled(RowBox)`
-  align-items: center;
   position: fixed;
+  align-items: center;
   bottom: 0;
   left: 50%;
   transform: translate(-50%, 0);
   max-width: 30rem;
-  /* width: 100%; */
   background: white;
   justify-content: space-between;
 `

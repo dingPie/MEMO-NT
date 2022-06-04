@@ -9,11 +9,27 @@ export const polishedColor = css<{bgColor: string}>`
       background: ${bgColor};
 
       &:hover {
-        background: ${lighten(0.05, bgColor)};
+        background: ${lighten(0.02, bgColor)};
       }
       &:active {
-        background: ${darken(0.05, bgColor)};
+        background: ${darken(0.02, bgColor)};
       }
+    `;
+  }}
+`
+
+export const fontSizeSet = css<{size?: string}>`
+  ${({ size }) => {
+    let fontSize = "";
+    if (size === "title") fontSize = "1.5rem";
+    else if (size === 'xl') fontSize = "1.25rem";
+    else if (size === 'l') fontSize = "1rem";
+    else if (size === 's') fontSize = ".75rem";
+    else if (size === 'xs') fontSize = ".625rem";
+    else if (size === 'm' || !size) fontSize = ".875rem";
+
+    return css`
+      font-size: ${fontSize};
     `;
   }}
 `
