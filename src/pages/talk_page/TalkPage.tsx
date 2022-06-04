@@ -25,6 +25,8 @@ import TalkMemu from "./TalkMenu";
 import TalkDeletePopup from "./TalkDeletePopup";
 import TalkPinn from "./TalkPinn";
 import TalkPinnExpand from "./TalkPinnExpand";
+import TagOptions from "./TagOptions";
+import TalkInputOption from "./TalkInputOption";
 
 
 const TalkPage = () => {
@@ -74,11 +76,13 @@ const TalkPage = () => {
       <Header 
         page="talk"
       />
-      <TalkPinn />
+      {/* <TalkPinn /> */}
       {/* <TalkPinnExpand /> */}
 
 
       <TalkBox>
+      {/* 테스트용 */}
+
         { dummyMemos.map((memo) => {
           return (
             <TalkList
@@ -112,14 +116,17 @@ const TalkPage = () => {
         }
   
       </TalkBox>
+
+      <TalkInputOption />
+
       <TalkInput />
-        { isOpenDeletePopup &&
-          <TalkDeletePopup 
-            onClickCancel={() => setIsOpenDeletePopup(false) }
-            onClickDo={deleteMemo}
-          />
-        
-        }
+
+      { isOpenDeletePopup &&
+        <TalkDeletePopup 
+          onClickCancel={() => setIsOpenDeletePopup(false) }
+          onClickDo={deleteMemo}
+        />
+      }
     </>
   )
 }

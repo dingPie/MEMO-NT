@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { darken, lighten } from 'polished';
-import { polishedColor } from "../styles/stylesCss";
+import { fontSizeSet, polishedColor } from "../styles/stylesCss";
 
 interface IMainBtn {
   primary?: boolean;
@@ -52,21 +52,28 @@ interface ICustomBtn {
   color?: string, 
   radius?: number,
   width?: number;
+  padding?: string;
+
+  size?: string;
+  bold?: boolean;
+  center?: boolean;
+  height?: number;
 }
 
 export const CustomBtn = styled.button<ICustomBtn>`
 
   /* 크기 */
-  width:${({width}) => width && width+"rem"  };
-  height: 2.25rem;
-  padding: 0 1rem;
-  border-radius: ${({radius}) => radius ? radius+"px" : `8px` };
+  width: ${({width}) => width && width+"rem" };
+  height: ${({height}) => height && height+"rem" };
+  padding: ${({padding}) => padding ? padding : ".5rem" };
+  border-radius: ${({radius}) => radius ? radius+"rem" : `.25rem` };
   border: none;
+
   cursor: pointer;
 
   /* 폰트 */
-  font-size: .875rem;
-  font-weight: 600;
+  ${fontSizeSet}
+  font-weight: ${({bold}) => bold && "bold"};
   
   /* 색상 */
   color: ${({color}) => color && color };
@@ -74,4 +81,12 @@ export const CustomBtn = styled.button<ICustomBtn>`
   
   /* 그림자 */
   box-shadow: ${({theme}) => theme.boxShadow.main };
+
+
+  display: -webkit-box;
+  overflow-y: hidden;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  white-space: pre-wrap;
 `

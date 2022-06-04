@@ -66,7 +66,7 @@ const MenuBox = styled(RowBox)`
   display: flex;
   position: fixed;
   align-items: center;
-  bottom: 68px; // input Box 크기
+  bottom: 4rem; // input Box 크기
   left: 50%;
   transform: translate(-50%, 0);
   
