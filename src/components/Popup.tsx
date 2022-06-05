@@ -30,7 +30,9 @@ const Popup = ( { children, title, onClickCancel, onClickDo, cancelBtnName, doBt
             noBackground={noBackground}
           >
     
-          <Text size='xl' bold> {title} </Text>
+          <Text bold center size='xl' padding="0" >
+            {title}
+          </Text>
             {children}
             <RowBox center padding="0" >
               <MainBtn
@@ -51,16 +53,18 @@ const Popup = ( { children, title, onClickCancel, onClickDo, cancelBtnName, doBt
             noBackground={noBackground}
           >
 
-          <Text size='xl' bold> {title} </Text>
+          <Text bold center size='xl' padding="0" >
+            {title}
+          </Text>
             {children}
             <RowBox center padding="0" >
               <MainBtn
                 onClick={onClickCancel}
-              > 취소
+              > { cancelBtnName ? cancelBtnName : "취소" }
               </MainBtn>
               <MainBtn primary
                 onClick={onClickDo}
-              > 확인
+              > { doBtnName ? doBtnName : "확인" }
               </MainBtn>
             </RowBox>
           </Inner>
@@ -86,12 +90,12 @@ export const Inner = styled.div<IInner>`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  gap: ${({gap}) => gap ? gap+"rem" : "1rem"};
+  gap: ${({gap}) => gap ? gap+"rem" : ".5rem"};
 
   // size
   width: 17.5rem;
-  height: 10rem;
-  padding: 1.5rem 1rem;
+  min-height: 10rem;
+  padding: 1rem;
   box-shadow: ${({theme, noBackground}) => !noBackground ? theme.boxShadow.main : "none" };
   
   z-index:${({zIndex}) => zIndex ? zIndex : 3 };

@@ -6,15 +6,16 @@ interface IInputText extends IInputTextEle {
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement> |  React.ChangeEvent<HTMLTextAreaElement>) => void;
   placeholder?: string;
+  noResize?: boolean;
 }
 
-export const InputText = ( { value, onChange, placeholder, width, height, shadow }: IInputText) => {
+export const InputText = ( { value, onChange, noResize, placeholder, width, height, shadow, maxHeight, bold, bgColor }: IInputText) => {
   
   const inputRef = useRef<HTMLTextAreaElement>(null)
 
   const resize = (ref: React.RefObject<HTMLTextAreaElement>) => {
-    if (!ref.current) return
-    ref.current.style.height = 'auto'; // 줄어들때 먼저 설정
+    if (!ref.current || noResize) return
+    ref.current.style.height = "auto" ; // 줄어들때 먼저 설정
     ref.current.style.height = ref.current.scrollHeight +"px";
   }
   
@@ -25,10 +26,14 @@ export const InputText = ( { value, onChange, placeholder, width, height, shadow
       ref={inputRef}
       value={value}
       onChange={onChange}
+      // style
       placeholder={placeholder}
       width={width}
       height={height}
+      bold={bold}
       shadow={shadow}
+      maxHeight={maxHeight}
+      bgColor={bgColor}
     />
   )
 }
@@ -37,15 +42,21 @@ interface IInputTextEle {
   width?: number;
   height?: number;
   shadow?: boolean;
+  maxHeight?: number;
+  bold?: boolean;
+  bgColor?: string;
 }
 
 export const InputTextEle = styled.textarea<IInputTextEle>`  //["attrs"]
-  width:${({width}) => width ? width+"rem": "100%" };
-  height: auto;
+  width: ${({width}) => width ? width+"rem": "100%" };
+  height: ${({height}) => height ? height+"rem": "auto" };;
   line-height: 1.25rem;
+  max-height: ${({maxHeight}) => maxHeight ? maxHeight+"rem": "auto" };
+  background: ${({bgColor}) => bgColor && bgColor };
+
   font-size: .875rem;
-  max-height: 5rem ;
-  
+  font-weight: ${({bold}) => bold && "bold"};
+
   border: none;
   outline: none;
   resize: none;
@@ -56,14 +67,14 @@ export const InputTextEle = styled.textarea<IInputTextEle>`  //["attrs"]
    
   // 스크롤바 설정
   &::-webkit-scrollbar {
-    width: .375rem;
+    width: 0;
   }
-  &::-webkit-scrollbar-thumb {
+  /* &::-webkit-scrollbar-thumb {
     background-color: gray;
     border-radius: .375rem;
     background-clip: padding-box;
     border: 2px solid transparent;
-  }
+  } */
 
 `
 

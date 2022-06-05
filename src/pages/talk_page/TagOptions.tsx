@@ -4,6 +4,7 @@ import Text from '../../components/Text'
 
 import { CustomBtn } from "../../components/Buttons";
 import { FontAwesomeIconProps } from "@fortawesome/react-fontawesome";
+import { oneLineText } from "../../styles/stylesCss";
 
 interface ITagOptions {
   tag: string;
@@ -35,11 +36,12 @@ const RecomandTag = styled(CustomBtn)`
   max-width: 4.5rem;
   min-width: 2rem;
 
-  // overflow속성
-  display: -webkit-box;
+  ${oneLineText}
+  white-space: nowrap;
+
+  // overflow속성, 숨김
+  /* display: -webkit-box;
   overflow: hidden;
   -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  white-space: nowrap
-
+  -webkit-box-orient: vertical; */
 `

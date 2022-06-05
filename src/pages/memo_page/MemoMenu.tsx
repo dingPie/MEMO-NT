@@ -3,21 +3,19 @@ import styled from "styled-components";
 import { RowBox } from "../../components/FlexBox";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { faPen, faTrashCan, faThumbTack, faExpand, faAlignLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faPen, faTrashCan, faPalette, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { IconBox } from "../../components/IconBox";
 
 
-interface ITalkMenu {
-  onClickEditBtn: () => void;
-  onClickDeleteBtn: () => void;
-  onClickPinnBtn: () => void;
-  onClickExpandBtn: () => void;
-  onClicGoMemoBtn: () => void;
-  onClickCloseMenuBtn: () => void;
+interface IMemoMenu {
+  onClickEditBtn?: () => void;
+  onClickDeleteBtn?: () => void;
+  onClickPaletteBtn?: () => void;
+  onClickCloseMenuBtn?: () => void;
 }
 
 
-const TalkMemu = ( { onClickEditBtn, onClickDeleteBtn, onClickPinnBtn, onClickExpandBtn, onClicGoMemoBtn, onClickCloseMenuBtn }: ITalkMenu ) => {
+const MemoMenu = ( { onClickEditBtn, onClickDeleteBtn, onClickPaletteBtn, onClickCloseMenuBtn }: IMemoMenu ) => {
 
   return(
     <MenuBox>
@@ -34,19 +32,9 @@ const TalkMemu = ( { onClickEditBtn, onClickDeleteBtn, onClickPinnBtn, onClickEx
           <Icon icon={faTrashCan} />
         </IconBox>
         <IconBox
-          onClick={onClickPinnBtn}
+          onClick={onClickPaletteBtn}
         >
-          <Icon icon={faThumbTack} />
-        </IconBox>
-        <IconBox
-          onClick={onClickExpandBtn}
-        >
-          <Icon icon={faExpand} />
-        </IconBox>
-        <IconBox
-          onClick={onClicGoMemoBtn}
-        >
-          <Icon icon={faAlignLeft} />
+          <Icon icon={faPalette} />
         </IconBox>
       </RowBox>
 
@@ -60,13 +48,15 @@ const TalkMemu = ( { onClickEditBtn, onClickDeleteBtn, onClickPinnBtn, onClickEx
   )
 }
 
-export default TalkMemu;
+export default MemoMenu;
+
+// 나중에 Buttom 부분 빼서 동기화
 
 export const MenuBox = styled(RowBox)`
   display: flex;
   position: fixed;
   align-items: center;
-  bottom: 4rem; // input Box 크기
+  bottom: 0; // input Box 크기
   left: 50%;
   transform: translate(-50%, 0);
   

@@ -34,8 +34,7 @@ function App() {
         <Route path="/setting" element={<SettingPage />} />
         <Route path="/talk" element={<TalkPage />} />
         <Route path="/grid" element={<GridPage />} />
-        <Route path="/memo/:tag" element={<MemoPage />} />
-
+        <Route path="/memo/:tagId" element={<MemoPage />} />
       </Routes>
     </div>
   );
