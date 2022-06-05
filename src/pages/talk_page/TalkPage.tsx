@@ -76,9 +76,10 @@ const TalkPage = () => {
       <Header 
         page="talk"
       />
+      
+      {/* 상단 pinn ui */}
       {/* <TalkPinn /> */}
       {/* <TalkPinnExpand /> */}
-
 
       <TalkBox>
       {/* 테스트용 */}
@@ -103,7 +104,7 @@ const TalkPage = () => {
           ) 
         })
         }
-
+        {/* ... 클릭시 메뉴 */}
         { selectedMemo && 
           <TalkMemu 
             onClickEditBtn={onClickEditBtn}
@@ -114,13 +115,15 @@ const TalkPage = () => {
             onClickCloseMenuBtn={onClickCloseMenuBtn}
           />
         }
-  
       </TalkBox>
 
+      {/* 메모 입력시 등장하는 옵션 */}
       <TalkInputOption />
 
+      {/* 메모 입력 input */}
       <TalkInput />
 
+      {/*  삭제 팝업 */}
       { isOpenDeletePopup &&
         <TalkDeletePopup 
           onClickCancel={() => setIsOpenDeletePopup(false) }

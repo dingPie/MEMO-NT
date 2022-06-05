@@ -78,7 +78,7 @@ const Header = ( { page, onClickGear, onClickOther }: IHeader ) => {
 
   return(
     <HeaderEle>
-      <Text bold size='title' color='white'>
+      <Text bold size='2x' color='white'>
         Memo'nt
       </Text>
       <RowBox width={5} padding="0" gap={.75} right>

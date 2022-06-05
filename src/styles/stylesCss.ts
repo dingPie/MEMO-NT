@@ -21,7 +21,8 @@ export const polishedColor = css<{bgColor: string}>`
 export const fontSizeSet = css<{size?: string}>`
   ${({ size }) => {
     let fontSize = "";
-    if (size === "title") fontSize = "1.5rem";
+    if (size === "3x") fontSize = "2rem";
+    else if (size === '2x') fontSize = "1.25rem";
     else if (size === 'xl') fontSize = "1.25rem";
     else if (size === 'l') fontSize = "1rem";
     else if (size === 's') fontSize = ".75rem";

@@ -37,7 +37,7 @@ const RecomandTag = styled(CustomBtn)`
 
   // overflow속성
   display: -webkit-box;
-  overflow-y: hidden;
+  overflow: hidden;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   white-space: nowrap
