@@ -90,20 +90,16 @@ const TalkPage = () => {
               key={memo.id}
               memo={memo}
               onClickMenuBtn={onClickMemuBtn}
-            />
-          ) 
-        })
-        }
+            />) 
+        }) }
            { dummyMemos.map((memo) => {
           return (
             <TalkList
               key={memo.id}
               memo={memo}
               onClickMenuBtn={onClickMemuBtn}
-            />
-          ) 
-        })
-        }
+            />) 
+        }) }
         {/* ... 클릭시 메뉴 */}
         { selectedMemo && 
           <TalkMemu 
@@ -118,7 +114,7 @@ const TalkPage = () => {
       </TalkBox>
 
       {/* 메모 입력시 등장하는 옵션 */}
-      <TalkInputOption />
+      {/* <TalkInputOption /> */}
 
       {/* 메모 입력 input */}
       <TalkInput />
@@ -126,7 +122,7 @@ const TalkPage = () => {
       {/*  삭제 팝업 */}
       { isOpenDeletePopup &&
         <TalkDeletePopup 
-          onClickCancel={() => setIsOpenDeletePopup(false) }
+          onClickCancel={() => setIsOpenDeletePopup(false)}
           onClickDo={deleteMemo}
         />
       }
@@ -141,4 +137,8 @@ export default TalkPage;
 const TalkBox = styled(MobileBox)`
   height: 86.5%;
   overflow-y: scroll ;
+
+  &::-webkit-scrollbar {
+    width: 0;
+  }
 `

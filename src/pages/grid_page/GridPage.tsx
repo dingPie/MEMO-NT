@@ -1,12 +1,20 @@
 import React from "react";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import Header from "../../components/Header";
 import { MobileBox } from "../../components/MobileBox";
 import { dummyTags } from "../../utils/data/dummyData";
+import { ITag } from "../../utils/interface/interface";
 import GridMemo from "./GridMemo";
 
 
 const GridPage = () => {
+
+  const navigate = useNavigate();
+
+  const onClickTag = (tag: ITag)  => {
+    navigate(`/memo/${tag.id}`)
+  }
  
   return(
     <>
@@ -15,7 +23,10 @@ const GridPage = () => {
         <GridBox>
         { dummyTags.map( tag => {
           return (
-            <GridMemo tag={tag} />
+            <GridMemo 
+              tag={tag}
+              onClickMemo={() => onClickTag(tag)}
+            />
           )
         })}
         </GridBox>

@@ -22,11 +22,13 @@ const Header = ( { page, onClickGear, onClickOther }: IHeader ) => {
         return (
           <>
             <IconBox
+              height={2}
               onClick={onClickGear}
             >
               <Icon icon={faGear} size="lg" color="#679BFF" />
             </IconBox>
             <IconBox
+              height={2}
               onClick={onClickOther}
             >
               <Icon icon={faBox } size="lg" color="#679BFF" />
@@ -37,11 +39,15 @@ const Header = ( { page, onClickGear, onClickOther }: IHeader ) => {
         return (
           <>
             <IconBox
+              height={2}
+              width={2}
               onClick={onClickGear}
             >
               <Icon icon={faGear} size="lg" color="#679BFF" />
             </IconBox>
             <IconBox
+              height={2}
+              width={2}
               onClick={onClickOther}
             >
               <Icon icon={faMessage} size="lg" color="#679BFF" />
@@ -51,12 +57,16 @@ const Header = ( { page, onClickGear, onClickOther }: IHeader ) => {
       case "memo":
         return (
           <>
-            <IconBox 
+            <IconBox
+              height={2}
+              width={2}
               onClick={onClickGear}
             >
               <Icon icon={faGear} size="lg" color="#679BFF" />
             </IconBox>
             <IconBox
+              height={2}
+              width={2}
               onClick={onClickOther}
             >
              <Icon icon={faReply} size="lg" color="#679BFF" />
@@ -67,6 +77,8 @@ const Header = ( { page, onClickGear, onClickOther }: IHeader ) => {
         return (
           <>
             <IconBox
+              height={2}
+              width={2}
               onClick={onClickOther}
             >
              <Icon icon={faReply} size="lg" color="#679BFF" />

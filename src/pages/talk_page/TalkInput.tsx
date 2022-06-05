@@ -13,6 +13,7 @@ const TalkInput = () => {
   return (        
   <InputBox padding=".75rem">
     <InputText
+      maxHeight={5}
       placeholder="내용과 # 로 제목을 입력하세요"
     />
     <IconBox>

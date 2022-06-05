@@ -15,6 +15,7 @@ interface Itext {
   inline?: boolean;
   cursor?: boolean;
   center?: boolean;
+  margin?: string;
 }
 
 
@@ -22,11 +23,11 @@ interface Itext {
 const Text = styled.div<Itext>`
 
   // 크기
-  width: ${({width}) => width && width+"rem" };
+  width: ${({width}) => width ? width+"rem" : "100%" };
   height: ${({height}) => height && height+"rem" };
   line-height: ${({height}) => height && height+"rem" };
   padding: ${({padding}) => padding ? padding : ".5rem"};
-
+  margin: ${({margin}) => margin && margin };
   // 폰트
   font-weight: ${({bold}) => bold && "bold"};
   text-align: ${({center}) => center && "center" };
@@ -44,7 +45,7 @@ const Text = styled.div<Itext>`
   ${({shadow}) => {
       return shadow && 'box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1), -2px -2px 4px rgba(0, 0, 0, 0.05)'
   }};
-  
+
   ${({cursor}) => {
     return cursor ? `cursor: pointer` : `cursor: auto`
   }}

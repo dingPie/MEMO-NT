@@ -128,7 +128,7 @@ export const colors = [
   { 
     id: 7,
     name: "Little Girl Pink",
-    code: "FEB7D3"
+    code: "#FEB7D3"
   },
   { 
     id: 8,

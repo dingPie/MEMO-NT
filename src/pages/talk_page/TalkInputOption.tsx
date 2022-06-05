@@ -14,7 +14,7 @@ const TalkInputOption = () => {
 
   return(
     <MenuBox between gap={.1} >
-      <RowBox gap={.25} right>
+      <RowBox gap={.25} >
         { dummyRecent.map( v => {
           return <TagOptions tag={v} />
           })

@@ -8,13 +8,18 @@ import { ITag } from "../../utils/interface/interface";
 import { dummyMemos } from '../../utils/data/dummyData'
 
 interface IGridMemo {
-  tag: ITag
+  tag: ITag;
+  onClickMemo: () => void;
 }
 
-const GridMemo = ( { tag }: IGridMemo ) => {
+const GridMemo = ( { tag, onClickMemo }: IGridMemo ) => {
 
   return(
-    <ColBox shadow gap={.25} padding=".5rem" radius={.25}
+    <ColBox shadow 
+      gap={.25} 
+      padding=".5rem" 
+      radius={.25}
+      onClick={onClickMemo}
     >
       <Text
         bold

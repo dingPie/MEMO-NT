@@ -37,13 +37,11 @@ const RecomandTag = styled(CustomBtn)`
   min-width: 2rem;
 
   ${oneLineText}
+  white-space: nowrap;
 
   // overflow속성, 숨김
-
   /* display: -webkit-box;
   overflow: hidden;
   -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  white-space: nowrap */
-
+  -webkit-box-orient: vertical; */
 `
