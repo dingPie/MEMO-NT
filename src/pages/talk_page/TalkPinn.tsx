@@ -6,6 +6,7 @@ import { TalkTag, TalkContent } from "./TalkList";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { IconBox } from "../../components/IconBox";
+import { oneLineText } from "../../styles/stylesCss";
 
 
 const TalkPinn = () => {
@@ -65,12 +66,13 @@ const PinnContent = styled.div`
   line-height: 1.25rem ;
 
   // overflow 속성
-  display: -webkit-box;
+  ${oneLineText}
+  /* display: -webkit-box;
   overflow-y: hidden;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
-  white-space: pre-wrap;
+  white-space: pre-wrap; */
 
   box-shadow: ${({theme}) => theme.boxShadow.main};
 `

@@ -10,18 +10,13 @@ const SetBombTime = () => {
       <Text bold size='xl'>
         자동삭제 시간설정
       </Text>
-      <ColBox padding="0" gap={.25}>
         <RowBox align="center" gap={.25} padding=" 0" >
-          <Text> 매일</Text>
+          <Text width={2}>매일</Text>
           <Select
             options={timeOption}
           />
-          <Text> 시에 </Text>
+          <Text> 시에 삭제예정 메모가 제거됩니다. </Text>
         </RowBox>
-        <Text>
-          삭제예정 메모가 삭제됩니다.
-        </Text>
-      </ColBox>
 
       <Text bold size="s">
         삭제 처리동안 메모 이용이 불가능 합니다. <br />

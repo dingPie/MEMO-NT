@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { darken, lighten } from 'polished';
-import { fontSizeSet, polishedColor } from "../styles/stylesCss";
+import { fontSizeSet, oneLineText, polishedColor } from "../styles/stylesCss";
 
 interface IMainBtn {
   primary?: boolean;
@@ -82,11 +82,12 @@ export const CustomBtn = styled.button<ICustomBtn>`
   /* 그림자 */
   box-shadow: ${({theme}) => theme.boxShadow.main };
 
-
-  display: -webkit-box;
+  ${oneLineText}
+  /* overflow 속성 */
+  /* display: -webkit-box;
   overflow-y: hidden;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
-  white-space: pre-wrap;
+  white-space: pre-wrap; */
 `

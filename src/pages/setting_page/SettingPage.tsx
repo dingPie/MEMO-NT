@@ -19,9 +19,7 @@ const SettingPage = () => {
  
   return(
     <>
-      <Header 
-        page="setting"
-      />
+      <Header page="setting" />
       <MobileBox>
         {/* 로그인 설정/관리 */}
         <SetUser
