@@ -28,7 +28,7 @@ import TalkPinn from "./TalkPinn";
 import TalkPinnExpand from "./TalkPinnExpand";
 import TagOptions from "./TagOptions";
 import TalkInputOption from "./TalkInputOption";
-import Tag from "../../utils/data/tag";
+import Tag from "../../utils/data/tag_service";
 import TalkEditOption from "./TalkEditOption";
 
 

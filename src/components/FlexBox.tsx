@@ -40,7 +40,6 @@ export const RowBox = styled.div<IFlexPosition>`
   padding: ${({padding}) => padding ? padding : ".75rem 0"};
 
   background: ${({bgColor}) => bgColor && bgColor };
-  
   border-radius: ${({radius}) => radius && radius+"rem" };
   ${({shadow}) => {
       return shadow && 'box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1), -2px -2px 4px rgba(0, 0, 0, 0.05)'
@@ -52,13 +51,15 @@ export const RowBox = styled.div<IFlexPosition>`
 export const ColBox = styled.div<IFlexPosition>`
   display: flex;
   flex-direction: column;
-  padding: ${({padding}) => padding ? padding : ".75rem 0"};
-
-  width: 100%;
   gap: ${({gap}) => gap ? gap+"rem" : ".5rem"};
+
+  width: ${({width}) => width ? width+"rem" : "100%"};
+  padding: ${({padding}) => padding ? padding : ".75rem 0"};
+  
+  background: ${({bgColor}) => bgColor && bgColor };
+  border-radius: ${({radius}) => radius && radius+"rem" };
 
   ${({shadow}) => {
       return shadow && 'box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1), -2px -2px 4px rgba(0, 0, 0, 0.05)'
   }};
-  border-radius: ${({radius}) => radius && radius+"rem" };
 `

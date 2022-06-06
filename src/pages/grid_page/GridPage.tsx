@@ -15,10 +15,17 @@ const GridPage = () => {
   const onClickTag = (tag: ITag)  => {
     navigate(`/memo/${tag.id}`)
   }
+  const onClickOtherBtn = ()  => {
+    navigate(`/talk`)
+  }
+
  
   return(
     <>
-      <Header page='grid' />
+      <Header 
+        page='grid' 
+        onClickOtherBtn={onClickOtherBtn}
+      />
       <MobileBox>
         <GridBox>
         { dummyTags.map( tag => {
@@ -29,6 +36,7 @@ const GridPage = () => {
             />
           )
         })}
+        
         </GridBox>
       </MobileBox>
     </>

@@ -7,14 +7,17 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { IconBox } from "../../components/IconBox";
 import { colors } from "../../utils/data/dummyData";
 
+interface IMemoPalette {
+  onClickDoEditPalette: () => void;
+}
 
-const MemoPalette = () => {
+const MemoPalette = ( { onClickDoEditPalette }: IMemoPalette ) => {
 
   return (
     <MenuBox>
       <IconBox
         inline
-        // onClick={null}
+        onClick={onClickDoEditPalette}
       >
         <Icon size='lg' icon={faCheck} />
       </IconBox>
