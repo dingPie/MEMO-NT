@@ -6,8 +6,12 @@ import Text from "../../components/Text";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faGithub, faGoogle } from "@fortawesome/free-brands-svg-icons";
 
+interface IWithSnsLogin {
+  onClickGoogleLlogin: () => void;
+  onClickGithubLogin: () => void;
+}
 
-const WithSnsLogin = () => {
+const WithSnsLogin = ( { onClickGoogleLlogin, onClickGithubLogin }: IWithSnsLogin ) => {
 
   return(
     <ColBox>
@@ -18,6 +22,7 @@ const WithSnsLogin = () => {
       <ColBox gap={.75}>
         <LoginBtn
           bgColor="#F5F5F5"
+          onClick={onClickGoogleLlogin}
         >
           <Icon size="lg" icon={faGoogle} />
           <Text inline bold >
@@ -27,6 +32,7 @@ const WithSnsLogin = () => {
 
         <LoginBtn
           bgColor="#505050"
+          onClick={onClickGithubLogin}
         >
           <Icon size="lg" icon={faGithub} color="white" />
           <Text inline color="white" >

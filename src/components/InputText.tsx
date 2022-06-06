@@ -4,12 +4,13 @@ import styled, { css } from "styled-components";
 
 interface IInputText extends IInputTextEle {
   value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement> |  React.ChangeEvent<HTMLTextAreaElement>) => void;
+  defaultValue?: string;
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   placeholder?: string;
   noResize?: boolean;
 }
 
-export const InputText = ( { value, onChange, noResize, placeholder, width, height, shadow, maxHeight, bold, bgColor }: IInputText) => {
+export const InputText = ( { value, defaultValue, onChange, noResize, placeholder, width, height, shadow, maxHeight, bold, bgColor }: IInputText) => {
   
   const inputRef = useRef<HTMLTextAreaElement>(null)
 
@@ -25,6 +26,7 @@ export const InputText = ( { value, onChange, noResize, placeholder, width, heig
       onKeyDown={() => resize(inputRef)}
       ref={inputRef}
       value={value}
+      defaultValue={defaultValue}
       onChange={onChange}
       // style
       placeholder={placeholder}

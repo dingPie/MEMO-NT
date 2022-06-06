@@ -30,9 +30,10 @@ const EditMemoName = ( { tag }: IEditMemoName ) => {
       </Text>
       <InputText 
         noResize
+        defaultValue={tag.name}
+        bgColor={tag.color}
         bold
         height={1.25}
-        bgColor={tag.color}
       />
 
       <IconBox
@@ -42,7 +43,6 @@ const EditMemoName = ( { tag }: IEditMemoName ) => {
       >
         <Icon icon={faCheck} />
       </IconBox>
-
     </RowBox>
   )
 }

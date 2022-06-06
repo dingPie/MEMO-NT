@@ -7,27 +7,44 @@ import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { IconBox } from "../../components/IconBox";
 import { oneLineText } from "../../styles/stylesCss";
+import { IMemo } from "../../utils/interface/interface";
+import { dummyTags } from "../../utils/data/dummyData";
 
 
-const TalkPinn = () => {
+interface ITalkPinn {
+  memo: IMemo;
+  onClickDeletePinn: () => void;
+  // onClickExpandPinn: () => void;
+}
+
+
+const TalkPinn = ( { memo, onClickDeletePinn }: ITalkPinn ) => {
+
+  const tags = dummyTags;
+  const tag = tags.filter(v => v.id === memo.tagId )[0]
 
   return(
     <PinnBox>
       <TalkTag
-        color="#E2F0CB" // 테스트 컬러
+        color={tag.color} // 테스트 컬러
       >
-        테
+        { tag.name.slice(0, 1) }
       </TalkTag>
       <PinnContent>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nostrum accusamus eos enim ad ipsa rerum velit consequatur est unde odit, labore omnis illum soluta
+        {memo.content}
       </PinnContent>
 
       <PinnBtns>
 
-        <IconBox height={1.75}>
+        <IconBox 
+          height={1.75}
+        >
          <Icon size="lg" icon={faChevronDown} />
         </IconBox>
-        <IconBox height={1.75}>
+        <IconBox 
+          height={1.75}
+          onClick={onClickDeletePinn}
+        >
          <Icon size="lg" icon={faTrashCan} />
         </IconBox>
 

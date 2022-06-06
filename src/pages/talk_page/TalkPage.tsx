@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router";
 
 
 import { RowBox } from "../../components/FlexBox";
@@ -27,58 +28,122 @@ import TalkPinn from "./TalkPinn";
 import TalkPinnExpand from "./TalkPinnExpand";
 import TagOptions from "./TagOptions";
 import TalkInputOption from "./TalkInputOption";
+import Tag from "../../utils/data/tag";
+import TalkEditOption from "./TalkEditOption";
 
 
 const TalkPage = () => {
 
-  const [selectedMemo, setSelectedMemo] = useState<IMemo | boolean>(false);
+  const tag = new Tag();
+  const navigate = useNavigate();
+  const inputRef = useRef<HTMLDivElement>(null)
+
+  const [selectedMemo, setSelectedMemo] = useState<IMemo | null>(null); // 선택한 메모(메뉴)
+  const [pinnedMemo, setPinnedMemo] = useState<IMemo | null>(null); // 상단 pinn메모
+  const [bottomSpace, setBottomSpace] = useState(0); // option창 bottom 좌표 설정
+
+  const [editMemo, setEditMemo] = useState<IMemo | null>(null); // 수정할 메모 (따로 관리하기 위함)
+
+  const [inputMemo, setInputMemo] = useState('') // 입력중인 memo
 
   const [isOpenDeletePopup, setIsOpenDeletePopup] = useState(false)
-  // const [isOpenDeleteConfrim, setIsOpenDeleteConfrim] = useState(false)
-  const onClickMemuBtn = (memo: IMemo) => {
-    console.log(memo)
-    setSelectedMemo(memo)
-  }
-  // 수정
-  const onClickEditBtn = () => {
 
+  // Header 버튼: grid 이동
+  const onClickOtherBtn = () => {
+    navigate('/grid')
   }
-  // 삭제
+
+  /*메뉴창 관련*/ 
+  // 메뉴 on
+  const onClickMemuBtn = (memo: IMemo) => {
+    console.log("선택한 메모:", memo)
+    if (selectedMemo === memo) {
+      setSelectedMemo(null)
+    } else {
+      setSelectedMemo(memo)
+    }
+  }
+  // 메뉴 off
+  const onClickCloseMenuBtn = () => {
+    setSelectedMemo(null)
+  }
+  
+  /* input창 관련 */ 
+  // input 창이 바뀔때마다 실행하는 로직
+  const onChangeInputMemo = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInputMemo(e.target.value)
+    if (inputRef.current) setBottomSpace( inputRef.current.clientHeight )
+    // option 추천하는 로직
+  }
+
+  /* Menu: 수정관련 */ 
+  // 수정버튼 클릭
+  const onClickEditBtn = () => {
+    if (!selectedMemo) return
+    setEditMemo(selectedMemo)
+    setInputMemo(selectedMemo.content)
+    setSelectedMemo(null)
+  }
+  // 수정 취소
+  const onClickCancelEditMemo = () => {
+    setEditMemo(null)
+    setInputMemo("")
+  }
+
+  /* Menu: 삭제관련 */
+  // 삭제버튼 클릭
   const onClickDeleteBtn = () => {
     setIsOpenDeletePopup(true)
   }
-  // 상단 핀
-  const onClickPinnBtn = () => {
-    
-  }
-  // 줄임 확장
-  const onClickExpandBtn = () => {
-    
-  }
-  // 메모로 이동
-  const onClicGoMemoBtn = () => {
-    
-  }
-  // 메뉴 닫기
-  const onClickCloseMenuBtn = () => {
-    setSelectedMemo(false)
-  }
-
+  // 삭제 실행 완료
   const deleteMemo = () => {
     alert("삭제되었습니다.")
     setIsOpenDeletePopup(false)
-    setSelectedMemo(false)
+    setSelectedMemo(null)
+    // 메모 삭제 로직
   }
+
+  /* Menu: 상단 핀 관련 */
+  // 핀 버튼 클릭
+   const onClickPinnBtn = () => {
+    if (selectedMemo) setPinnedMemo(selectedMemo)
+    setSelectedMemo(null)
+  }
+  // 핀 삭제
+  const onClickDeletePinn = () => {
+    setPinnedMemo(null)
+  }
+
+  /* Menu: 메모 확장 관련 */
+  // 메모 확장클릭
+  const onClickExpandBtn = () => {
+    
+  }
+
+  /* Menu: 메모 이동 관련 */
+  // 메모 이동 클릭
+  const onClicGoMemoBtn = () => {
+    navigate(`/memo/${selectedMemo!.tagId}`)
+  }
+
+
+
 
   
   return(
     <>
       <Header 
         page="talk"
+        onClickOtherBtn={onClickOtherBtn}
       />
       
       {/* 상단 pinn ui */}
-      {/* <TalkPinn /> */}
+      { pinnedMemo &&
+        <TalkPinn 
+          memo={pinnedMemo}
+          onClickDeletePinn={onClickDeletePinn}
+        />
+      }
       {/* <TalkPinnExpand /> */}
 
       <TalkBox>
@@ -92,14 +157,7 @@ const TalkPage = () => {
               onClickMenuBtn={onClickMemuBtn}
             />) 
         }) }
-           { dummyMemos.map((memo) => {
-          return (
-            <TalkList
-              key={memo.id}
-              memo={memo}
-              onClickMenuBtn={onClickMemuBtn}
-            />) 
-        }) }
+        
         {/* ... 클릭시 메뉴 */}
         { selectedMemo && 
           <TalkMemu 
@@ -114,10 +172,28 @@ const TalkPage = () => {
       </TalkBox>
 
       {/* 메모 입력시 등장하는 옵션 */}
-      {/* <TalkInputOption /> */}
+
+      { inputMemo && !editMemo &&
+        <TalkInputOption
+          bottomSpace={bottomSpace}
+        />
+      }
+
+      { editMemo &&
+        <TalkEditOption
+          bottomSpace={bottomSpace}
+          editMemo={editMemo}
+          onClickCancelEditMemo={onClickCancelEditMemo}
+        />
+      }
 
       {/* 메모 입력 input */}
-      <TalkInput />
+      <TalkInput
+        ref={inputRef}
+        // defaultValue={}
+        inputMemo={inputMemo}
+        onChangeInputMemo={(e) => onChangeInputMemo(e)}
+      />
 
       {/*  삭제 팝업 */}
       { isOpenDeletePopup &&

@@ -23,7 +23,7 @@ interface Itext {
 const Text = styled.div<Itext>`
 
   // 크기
-  width: ${({width}) => width ? width+"rem" : "100%" };
+  width: ${({width}) => width && width+"rem" };
   height: ${({height}) => height && height+"rem" };
   line-height: ${({height}) => height && height+"rem" };
   padding: ${({padding}) => padding ? padding : ".5rem"};
