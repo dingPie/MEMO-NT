@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { InputText } from "../../components/InputText"
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faPlusSquare } from "@fortawesome/free-regular-svg-icons";
@@ -7,12 +7,23 @@ import Header from "../../components/Header";
 import styled from "styled-components";
 import { IconBox } from "../../components/IconBox";
 
+interface ITaklInput {
+  inputMemo: string
+  onChangeInputMemo: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 
-const TalkInput = () => {
+}
+
+const TalkInput = forwardRef<HTMLDivElement, ITaklInput>(( { inputMemo, onChangeInputMemo }, ref ) => {
+
 
   return (        
-  <InputBox padding=".75rem">
+  <InputBox 
+    padding=".75rem" 
+    ref={ref}
+  >
     <InputText
+      value={inputMemo}
+      onChange={onChangeInputMemo}
       maxHeight={5}
       placeholder="내용과 # 로 제목을 입력하세요"
     />
@@ -22,7 +33,8 @@ const TalkInput = () => {
       />
     </IconBox>
   </InputBox>)
-}
+
+})
 
 export default TalkInput;
 

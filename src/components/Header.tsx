@@ -7,14 +7,22 @@ import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faGear, faBox, faMessage, faReply } from "@fortawesome/free-solid-svg-icons";
 import { darken } from "polished";
 import { IconBox } from "./IconBox";
+import { useNavigate } from "react-router";
 
 interface IHeader {
   page: string
-  onClickGear?: (v: any) => void;
-  onClickOther?: (v: any) => void;
+  onClickGear?: () => void;
+  onClickOtherBtn?: () => void;
 }
 
-const Header = ( { page, onClickGear, onClickOther }: IHeader ) => {
+const Header = ( { page, onClickGear, onClickOtherBtn }: IHeader ) => {
+  
+  const navigate = useNavigate();
+
+  const onClickGaerBtn = () => {
+    navigate('/setting')
+  }
+
 
   const setIcons = (page: string) => {
     switch (page) {
@@ -23,13 +31,15 @@ const Header = ( { page, onClickGear, onClickOther }: IHeader ) => {
           <>
             <IconBox
               height={2}
-              onClick={onClickGear}
+              width={2}
+              onClick={onClickGaerBtn}
             >
               <Icon icon={faGear} size="lg" color="#679BFF" />
             </IconBox>
             <IconBox
               height={2}
-              onClick={onClickOther}
+              width={2}
+              onClick={onClickOtherBtn}
             >
               <Icon icon={faBox } size="lg" color="#679BFF" />
             </IconBox>
@@ -41,14 +51,14 @@ const Header = ( { page, onClickGear, onClickOther }: IHeader ) => {
             <IconBox
               height={2}
               width={2}
-              onClick={onClickGear}
+              onClick={onClickGaerBtn}
             >
               <Icon icon={faGear} size="lg" color="#679BFF" />
             </IconBox>
             <IconBox
               height={2}
               width={2}
-              onClick={onClickOther}
+              onClick={onClickOtherBtn}
             >
               <Icon icon={faMessage} size="lg" color="#679BFF" />
             </IconBox>
@@ -60,14 +70,14 @@ const Header = ( { page, onClickGear, onClickOther }: IHeader ) => {
             <IconBox
               height={2}
               width={2}
-              onClick={onClickGear}
+              onClick={onClickGaerBtn}
             >
               <Icon icon={faGear} size="lg" color="#679BFF" />
             </IconBox>
             <IconBox
               height={2}
               width={2}
-              onClick={onClickOther}
+              onClick={onClickOtherBtn}
             >
              <Icon icon={faReply} size="lg" color="#679BFF" />
             </IconBox>
@@ -79,7 +89,7 @@ const Header = ( { page, onClickGear, onClickOther }: IHeader ) => {
             <IconBox
               height={2}
               width={2}
-              onClick={onClickOther}
+              onClick={onClickOtherBtn}
             >
              <Icon icon={faReply} size="lg" color="#679BFF" />
             </IconBox>

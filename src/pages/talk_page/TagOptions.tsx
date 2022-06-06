@@ -5,24 +5,27 @@ import Text from '../../components/Text'
 import { CustomBtn } from "../../components/Buttons";
 import { FontAwesomeIconProps } from "@fortawesome/react-fontawesome";
 import { oneLineText } from "../../styles/stylesCss";
+import { ITag } from "../../utils/interface/interface";
 
 interface ITagOptions {
-  tag: string;
+  tagColor: string;
+  tagName: string;
+  maxWidth?: number;
 }
 
-const TagOptions = ( { tag }: ITagOptions ) => {
+const TagOptions = ( { tagColor, tagName, maxWidth }: ITagOptions ) => {
 
 
   return(
     <>
       <RecomandTag
-        color="white"
-        bgColor="#679BFF"
+        // color="white"
+        bgColor={tagColor}
         padding=".25rem .5rem"
         radius={1}
-        
+        maxWidth={maxWidth}
       >
-        {tag}
+        {tagName}
       </RecomandTag>
     </>
   )
@@ -32,8 +35,8 @@ export default TagOptions;
 
 // 여기 이제 input 옵션창 해야함..
 
-const RecomandTag = styled(CustomBtn)`
-  max-width: 4.5rem;
+const RecomandTag = styled(CustomBtn)<{maxWidth?: number}>`
+  max-width: ${({maxWidth}) => maxWidth ? maxWidth +"rem" : "4.5rem" };
   min-width: 2rem;
 
   ${oneLineText}

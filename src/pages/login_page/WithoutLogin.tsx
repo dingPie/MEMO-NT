@@ -7,16 +7,24 @@ import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faUserSlash } from "@fortawesome/free-solid-svg-icons";
 import { LoginBtn } from "./LoginPage";
 
-const WithoutLogin = () => {
+interface IWithoutLogin {
+  onClickWithoutLogin: () => void;
+}
+
+const WithoutLogin = ( { onClickWithoutLogin }: IWithoutLogin ) => {
+
 
   return (
-    <ColBox>
+    <ColBox
+
+    >
       <Text bold size="xl" >
         로그인 없이 이용하기
       </Text>
 
       <ColBox gap={.75}>
         <LoginBtn
+          onClick={onClickWithoutLogin}
           bgColor="#F5F5F5"
         >
           <Icon size="lg" icon={faUserSlash} />

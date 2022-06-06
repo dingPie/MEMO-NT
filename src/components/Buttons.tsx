@@ -53,6 +53,7 @@ interface ICustomBtn {
   radius?: number,
   width?: number;
   padding?: string;
+  whiteSpace?: string;
 
   size?: string;
   bold?: boolean;
@@ -75,19 +76,18 @@ export const CustomBtn = styled.button<ICustomBtn>`
   ${fontSizeSet}
   font-weight: ${({bold}) => bold && "bold"};
   
+  /* 그림자 */
+  box-shadow: ${({theme}) => theme.boxShadow.main };
   /* 색상 */
   color: ${({color}) => color && color };
   ${polishedColor}
-  
-  /* 그림자 */
-  box-shadow: ${({theme}) => theme.boxShadow.main };
 
-  ${oneLineText}
+  
   /* overflow 속성 */
   /* display: -webkit-box;
   overflow-y: hidden;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
-  white-space: pre-wrap; */
+  white-space: nowrap; */
 `

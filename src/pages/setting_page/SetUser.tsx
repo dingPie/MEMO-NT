@@ -19,13 +19,14 @@ const SetUser = ( { testUser }: ISetUser ) => {
       return  (
         <>
           <RowBox between>
-            <Text bold size='xl'>
+            <Text bold size='xl' width={10}>
               연결된 계정
             </Text>
             <CustomBtn
               color="white"
               bgColor="#505050"
               padding=".25rem 1rem"
+              // whiteSpace="nowrap"
             >
               로그아웃
             </CustomBtn>
@@ -34,10 +35,10 @@ const SetUser = ( { testUser }: ISetUser ) => {
           <UserBox>
             <Icon icon={faUserCircle} size='2x' color="#505050" />
             <ColBox gap={.1} padding="0">
-              <Text color="#505050">
+              <Text color="#505050" padding="0">
                 유저 이름
               </Text>
-              <Text>
+              <Text padding="0">
                 tester@gmail.com
               </Text>
             </ColBox>

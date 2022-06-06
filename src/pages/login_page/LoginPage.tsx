@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router";
 
 // Components
 import Header from "../../components/Header";
@@ -13,6 +14,28 @@ import WithoutLogin from "./WithoutLogin";
 import WithSnsLogin from "./WithSnsLogin";
 
 const LoginPage = () => {
+
+  const navigate = useNavigate();
+
+  const onClickWithoutLogin = () => {
+    // localStorage로 tag / memo set
+    console.log("localStorage로 로그인...")
+    navigate(`/talk`)
+  }
+
+  const onClickGoogleLlogin = () => {
+    // firebase google 로그인 로직
+    // 로그인 한 정보로 tag / memo / user set
+    console.log("firebase google로 로그인...")
+    navigate(`/talk`)
+  }
+
+  const onClickGithubLogin = () => {
+    // firebase github 로그인 로직
+    // 로그인 한 정보로 tag / memo / user set
+    console.log("firebase github으로 로그인...")
+    navigate(`/talk`)
+  }
  
   return(
     <>
@@ -25,9 +48,14 @@ const LoginPage = () => {
           LOGIN
         </Text>
       
-        <WithoutLogin />
+        <WithoutLogin 
+          onClickWithoutLogin={onClickWithoutLogin}
+        />
  
-        <WithSnsLogin />
+        <WithSnsLogin
+          onClickGoogleLlogin={onClickGoogleLlogin}
+          onClickGithubLogin={onClickGithubLogin}
+        />
 
       </ColBox>
     </MobileBox>
@@ -40,5 +68,7 @@ export default LoginPage;
 export const LoginBtn = styled(CustomBtn)`
   width: 100%;
   display: grid;
-  grid-template-columns: 2rem 1fr ;
+  grid-template-columns: 2rem 1fr;
+  align-items: center;
+  padding: 0 1rem;
 `
