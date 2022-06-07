@@ -18,8 +18,16 @@ import MemoDeleteConfirmPopup from "./MemoDeleteConfirmPopup";
 import MemoPalette from "./MemoPalette";
 import TagService from "../../utils/data/tag_service";
 import MemoInputEdit from "./MemoInputEdit";
-import MemoInput from "./MemoInput";
+import MemoInputAdd from "./MemoInputAdd";
+import { IMemo } from "../../utils/interface/interface";
 
+export interface IEditMemo {
+  memo: IMemo;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
 
 const MemoPage = () => {
 
@@ -36,19 +44,22 @@ const MemoPage = () => {
   const [isOpenPalette, setIsOpenPalette] = useState(false); // palette창 on/off
 
   const [isOpenInputMemo, setIsOpenInputMemo] = useState(false);
-  const [inputMemo, setInputMemo] = useState("")
-  const [inputTag, setInputTag] = useState("")
+  const [inputMemo, setInputMemo] = useState("");
+
+  const [editMemo, setEditMemo] = useState<IEditMemo | null>(null)
 
   const [isOpenDeleteMemo, setIsOpenDeleteMemo] = useState(false);
   const [isOpenDeleteConfirm, setIsOpenDeleteConfirm] = useState(false);
 
+  const onClickOtherBtn = () => {
+    navigate(-1)
+  }
 
   /* Memo: 추가 관련 */
   // 메모추가버튼 클릭
   const onClickAddMemoBtn = () => {
     setIsOpenInputMemo(true)
   }
-
   // 메모 추가 확인
   const onClickAddConfirm = () => {
     // 신규 메모 추가로직
@@ -61,12 +72,39 @@ const MemoPage = () => {
     setInputMemo("")
   }
 
-  // 태그네임 클릭
+  /* Memo: 수정 관련 */
+  // 메모 클릭 => 수정 input창 출력
+  const onClickMemo = (e: React.MouseEvent<HTMLDivElement>, memo: IMemo) => {
+    const { x, y, width, height } = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.offsetTop
+    const newEditMemo = {
+      memo: memo,
+      x: x,
+      y: y,
+      width: width,
+      height: height
+    }
+    setInputMemo(memo.content )
+    setEditMemo(newEditMemo)
+  }
+  // 수정 종료
+  const onClickDoEdit = () => {
+    if (inputMemo === editMemo!.memo.content) {
+      console.log("내용 수정이 없습니다. 이대로 종료")
+    } else {
+      console.log("수정 로직을 실행합니다. 해당 메모 수정")
+    }
+    setInputMemo("")
+    setEditMemo(null)
+  }
+
+  
+  // 태그네임 클릭: Menu Open
   const onClickTagName = () => {
     setIsOpenMenu(true)
   }
-  
-  /* Menu: 수정관련 */
+
+  /*Tag Menu: 태그 수정관련 */
   // 수정버튼 클릭
   const onClickEditBtn = () => {
     setIsOpenEditTag(true)
@@ -78,7 +116,7 @@ const MemoPage = () => {
     setIsOpenEditTag(false)
   }
 
-  /* Menu: 삭제관련 */
+  /*Tag Menu: 삭제관련 */
   // 삭제버튼 클릭
   const onClickDeleteBtn = () => {
     setIsOpenDeleteMemo(true)
@@ -102,7 +140,7 @@ const MemoPage = () => {
     navigate('/grid')
   }
 
-  /* Menu: 색상관련 */
+  /*Tag Menu: 색상관련 */
   // 팔레트 클릭
   const onClickPaletteBtn = () => {
     setIsOpenPalette(true)
@@ -121,39 +159,50 @@ const MemoPage = () => {
  
   return(
     <>
-      <Header page="memo" />
+      <Header 
+        page="memo"
+        onClickOtherBtn={onClickOtherBtn}
+      />
       <MobileBox height="93%">
         <MemoBox>
-
+          {/* Tag name */}
           <MemoName 
             tag={tag}
             isOpenMenu={isOpenMenu}
             onClickTagName={onClickTagName}
           />
-          
+          {/* Tag Name 수정 관련 */}
           { isOpenEditTag && 
             <EditMemoTag 
               tag={tag}
               onClickDoEditTag={onClickDoEditTag}
             />
           }
-
+          {/* 메모 콘텐츠 */}
           <ColBox gap={.25} padding="0" >
-
             { memoList.map( memo => {
               return(
                 <MemoContent
-                 memo={memo} 
+                  memo={memo}
+                  onClickMemo={(e) => onClickMemo(e, memo)} 
                 />
               )
             })}
           </ColBox>
 
-          {/* <MemoInputEdit /> */}
+          {/* 메모 수정 */}
+          { editMemo &&
+            <MemoInputEdit 
+              editMemo={editMemo}
+              onClickDoEdit={onClickDoEdit}
+              inputMemo={inputMemo}
+              onChangeInputMemo={ (e) => setInputMemo(e.target.value) }
+            />
+          }
 
-          {/* 메모 추가 관련 */}
+          {/* 메모 추가 */}
           { isOpenInputMemo ?
-            <MemoInput 
+            <MemoInputAdd 
               inputMemo={inputMemo}
               onChangeInputMemo={(e) => setInputMemo(e.target.value)}
               onClickAddConfirm={onClickAddConfirm}
@@ -174,20 +223,16 @@ const MemoPage = () => {
               onClickDoEditPalette={onClickDoEditPalette}
             />
           }
-            
-            {/* 메뉴 */}
-            { isOpenMenu &&
-              <MemoMenu
-                onClickEditBtn={onClickEditBtn}
-                onClickDeleteBtn={onClickDeleteBtn}
-                onClickPaletteBtn={onClickPaletteBtn}
-                onClickCloseMenuBtn={onClickCloseMenuBtn}
-              />
-            }
-
-
+          {/* 메뉴 */}
+          { isOpenMenu &&
+            <MemoMenu
+              onClickEditBtn={onClickEditBtn}
+              onClickDeleteBtn={onClickDeleteBtn}
+              onClickPaletteBtn={onClickPaletteBtn}
+              onClickCloseMenuBtn={onClickCloseMenuBtn}
+            />
+          }
         </MemoBox>
-
       </MobileBox>
 
       { isOpenDeleteMemo &&
@@ -224,11 +269,4 @@ const MemoBox = styled(ColBox)`
   &::-webkit-scrollbar {
     width: 0;
   }
-
-`
-
-const MemoText = styled(Text)`
-  padding: .5rem;
-  border-radius: 0;
-  border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
 `

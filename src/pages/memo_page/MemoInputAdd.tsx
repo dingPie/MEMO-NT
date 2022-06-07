@@ -3,14 +3,14 @@ import { CustomBtn } from "../../components/Buttons";
 import { RowBox } from "../../components/FlexBox";
 import { InputText } from "../../components/InputText";
 
-interface IMemoInput {
+interface IMemoInputAdd {
   inputMemo: string;
   onChangeInputMemo: (e: React.ChangeEvent<HTMLInputElement> ) => void;
   onClickAddConfirm: () => void;
   onClickAddCancel: () => void;
 }
 
-const MemoInput = ( { inputMemo, onChangeInputMemo, onClickAddConfirm, onClickAddCancel }: IMemoInput ) => {
+const MemoInputAdd = ( { inputMemo, onChangeInputMemo, onClickAddConfirm, onClickAddCancel }: IMemoInputAdd ) => {
 
   return(
     <>
@@ -39,4 +39,4 @@ const MemoInput = ( { inputMemo, onChangeInputMemo, onClickAddConfirm, onClickAd
   )
 }
 
-export default MemoInput;
+export default MemoInputAdd;
