@@ -21,7 +21,12 @@ const MemoPalette = ( { onClickDoEditPalette }: IMemoPalette ) => {
       >
         <Icon size='lg' icon={faCheck} />
       </IconBox>
-      { colors.map( v => <PaletteBox bgColor={v.code} /> )
+      { colors.map( v => {
+        return <PaletteBox
+        onClick={() => console.log("색상변경 이벤트")}
+         bgColor={v.code} 
+         /> 
+      })
 
       }
     </MenuBox>
