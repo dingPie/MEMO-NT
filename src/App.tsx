@@ -17,6 +17,7 @@ import Text from './components/Text';
 import { InputText } from './components/InputText';
 
 import "./App.css"
+import TestPage from './TestPage';
 
 // const appStyle = {
 //   display: "flex",
@@ -35,6 +36,8 @@ function App() {
         <Route path="/talk" element={<TalkPage />} />
         <Route path="/grid" element={<GridPage />} />
         <Route path="/memo/:tagId" element={<MemoPage />} />
+
+        <Route path="/test" element={<TestPage />} />
       </Routes>
     </div>
   );

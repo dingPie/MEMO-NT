@@ -9,19 +9,16 @@ import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { ITag } from "../../utils/interface/interface";
 
-interface IEditMemoName {
+interface IEditMemoTag {
   tag: ITag;
-  onClickCompleteBtn?: () => void;
+  onClickDoEditTag?: () => void;
 }
 
-const EditMemoName = ( { tag }: IEditMemoName ) => {
+const EditMemoTag = ( { tag, onClickDoEditTag }: IEditMemoTag ) => {
 
   return (
-    <RowBox
+    <EditTagBox
       shadow
-      padding=".5rem .75rem"
-      radius={.25}
-      gap={.1}
       bgColor={tag.color}
       // height={2.25}
     >
@@ -39,12 +36,20 @@ const EditMemoName = ( { tag }: IEditMemoName ) => {
       <IconBox
         height={1.25}
         bgColor={tag.color}
-        // onClick={null}
+        onClick={onClickDoEditTag}
       >
         <Icon icon={faCheck} />
       </IconBox>
-    </RowBox>
+    </EditTagBox>
   )
 }
 
-export default EditMemoName;
+export default EditMemoTag;
+
+const EditTagBox = styled(RowBox)`
+  position: absolute;
+  width: 96%;
+  padding: .5rem .75rem;
+  border-radius: .25rem;
+  gap: .1rem;
+`

@@ -18,7 +18,10 @@ const SetUser = ( { testUser }: ISetUser ) => {
     if (testUser) {
       return  (
         <>
-          <RowBox between>
+          <RowBox 
+            between align="center" 
+            padding="0"
+          >
             <Text bold size='xl' width={10}>
               연결된 계정
             </Text>
@@ -26,6 +29,7 @@ const SetUser = ( { testUser }: ISetUser ) => {
               color="white"
               bgColor="#505050"
               padding=".25rem 1rem"
+              height={2}
               // whiteSpace="nowrap"
             >
               로그아웃
@@ -52,24 +56,28 @@ const SetUser = ( { testUser }: ISetUser ) => {
     } else {
       return (
         <>
-        <RowBox between>
-          <Text bold size='xl'>
-            연결된 계정
-          </Text>
-          <CustomBtn
-            color="white"
-            bgColor="#505050"
-            padding=".25rem 1rem"
+          <RowBox 
+            between align="center" 
+            padding="0"
           >
-            로그인
-          </CustomBtn>
-        </RowBox>
+            <Text bold size='xl'>
+              연결된 계정
+            </Text>
+            <CustomBtn
+              color="white"
+              bgColor="#505050"
+              padding=".25rem 1rem"
+              height={2}
+            >
+              로그인
+            </CustomBtn>
+          </RowBox>
 
-        <Text color="#505050">
-          현재 연결된 계정이 없습니다. <br />
-          계정을 연결하여 여러 환경에서 메모를 관리하세요        
-        </Text>
-      </>
+          <Text color="#505050">
+            현재 연결된 계정이 없습니다. <br />
+            계정을 연결하여 여러 환경에서 메모를 관리하세요        
+          </Text>
+        </>
       )
     }
   }

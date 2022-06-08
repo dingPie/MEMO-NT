@@ -11,22 +11,33 @@ import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import Select from "../../components/Select";
 import SetUser from "./SetUser";
 import SetBombTime from "./SetBombTime";
+import { useNavigate } from "react-router";
 
 
 const SettingPage = () => {
+  
+  const navigate = useNavigate();
+
+  const onClickOtherBtn = () => {
+    navigate(-1)
+  }
 
   const [testUser, setTestUser] = useState(false)
  
   return(
     <>
-      <Header page="setting" />
+      <Header page="setting" 
+        onClickOtherBtn={onClickOtherBtn}
+      />
       <MobileBox>
         {/* 로그인 설정/관리 */}
         <SetUser
           testUser={testUser}
         />
         {/* 삭제예약 설정 */}
-        <SetBombTime />
+        <SetBombTime 
+        
+        />
 
         <Text bold
           onClick={() =>setTestUser(!testUser)}

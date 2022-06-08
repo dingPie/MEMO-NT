@@ -1,10 +1,10 @@
 import { IMemo, ITag } from "../interface/interface";
 import { dummyTags } from "./dummyData";
 
-class Tag {
-  findTag (memo: IMemo, tagArr?: ITag[]) {
+class TagService {
+  findTag (tagId: string, tagArr?: ITag[]) {
     const tags = dummyTags; 
-    return tags.filter(v => v.id === memo.tagId )[0];
+    return tags.filter(v => v.id === tagId )[0];
   }
 
   tagName (tag: ITag) {
@@ -14,4 +14,4 @@ class Tag {
   }
 }
 
-export default Tag;
+export default TagService;

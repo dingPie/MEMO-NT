@@ -11,8 +11,8 @@ import { dummyTags } from "../../utils/data/dummyData";
 import { IMemo } from "../../utils/interface/interface";
 import { InputText } from "../../components/InputText";
 import Text from "../../components/Text"
-import Tag from "../../utils/data/tag";
 import { IconBox } from "../../components/IconBox";
+import TagService from "../../utils/data/tag_service";
 
 interface ITalkInputOption {
   editMemo: IMemo;
@@ -22,8 +22,8 @@ interface ITalkInputOption {
 
 const TalkInputOption = ( { editMemo, bottomSpace, onClickCancelEditMemo }: ITalkInputOption ) => {
 
-  const tag = new Tag();
-  const targetTag = tag.findTag(editMemo)
+  const tagService = new TagService();
+  const tag = tagService.findTag(editMemo.tagId)
 
   return(
     <MenuBox 
@@ -35,7 +35,7 @@ const TalkInputOption = ( { editMemo, bottomSpace, onClickCancelEditMemo }: ITal
       gap={.25} 
       radius={1}
       padding=".25rem .5rem"
-      bgColor={targetTag.color}
+      bgColor={tag.color}
      >
       <Text 
         bold 
@@ -47,8 +47,8 @@ const TalkInputOption = ( { editMemo, bottomSpace, onClickCancelEditMemo }: ITal
       </Text>
       <InputText 
         noResize
-        bgColor={targetTag.color}
-        defaultValue={tag.tagName(targetTag)}
+        bgColor={tag.color}
+        defaultValue={tagService.tagName(tag)}
         bold
         height={1.25}
       />

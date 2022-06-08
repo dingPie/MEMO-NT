@@ -20,6 +20,7 @@ const GridMemo = ( { tag, onClickMemo }: IGridMemo ) => {
       padding=".5rem" 
       radius={.25}
       onClick={onClickMemo}
+      bgColor={"white"}
     >
       <Text
         bold

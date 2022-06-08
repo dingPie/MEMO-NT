@@ -86,6 +86,68 @@ export const dummyMemos: IMemo[] = [
   }
 ]
 
+export interface IMemoTest {
+  id?: string;
+  tagId: string;
+  content: string;
+  createTime: number;
+}
+
+export interface IDummyMemo {
+  [id: string ] : IMemoTest;
+}
+
+export const dummyMemos2: IDummyMemo = {
+  "memo1": {
+    id: "memo1",
+    tagId: "tag1",
+    content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam beatae voluptate, molestiae tenetur eveniet blanditiis impedit autem similique, obcaecati praesentium ea totam eligendi placeat iure provident expedita tempora.",
+    createTime: 1654183548345
+  },
+  "memo2": {
+    id: "memo2",
+    tagId: "tag1",
+    content: "Lorem ipsum dolor sit amet",
+    createTime: 1654183548345
+  },
+  "memo3": {
+    id: "memo3",
+    tagId: "tag2",
+    content: "한글 테스트 내용입니다.",
+    createTime: 1654183548345
+  },
+  "memo4": {
+    id: "memo4",
+    tagId: "tag3",
+    content: "세번째 태그 테스트 내용입니다.",
+    createTime: 1654183548345
+  },
+  "memo5": {
+    id: "memo5",
+    tagId: "undefined",
+    content: "태그없이 생성한 메모",
+    createTime: 1654183548345
+  },
+  "memo6": {
+    id: "memo6",
+    tagId: "timeBomb",
+    content: "삭제예정 메모입니다.",
+    createTime: 1654183548345
+  },
+  "memo7": {
+    id: "memo7",
+    tagId: "timeBomb",
+    content: "consectetur adipisicing elit. Laboriosam beatae voluptate,",
+    createTime: 1654183548345
+  },
+  "memo8": {
+    id: "memo8",
+    tagId: "tag2",
+    content: "molestiae tenetur eveniet blanditiis impedit autem similique",
+    createTime: 1654183548345
+  }
+}
+
 
 
 // 색상코드

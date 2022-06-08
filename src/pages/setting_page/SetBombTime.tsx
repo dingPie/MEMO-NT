@@ -6,17 +6,19 @@ import Text from "../../components/Text";
 const SetBombTime = () => {
 
   return(
-    <ColBox padding="1rem .5rem" gap={1}>
+    <ColBox padding="1rem .5rem" gap={.5}>
       <Text bold size='xl'>
         자동삭제 시간설정
       </Text>
         <RowBox align="center" gap={.125} padding=" 0" >
-          <Text>매일</Text>
+          <Text padding=".25rem">
+            매일
+          </Text>
           <Select
             options={timeOption}
           />
-          <Text padding="0">
-            시에 삭제예정 메모가 제거됩니다.
+          <Text padding=".25rem">
+            삭제예정 메모가 제거됩니다.
           </Text>
         </RowBox>
 

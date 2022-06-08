@@ -6,14 +6,16 @@ import { IMemo, ITag } from "../../utils/interface/interface";
 
 interface IMemoContent {
   memo: IMemo;
-  onClickMemo?: () => void;
+  onClickMemo?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-const MemoContent = ( { memo }: IMemoContent ) => {
+const MemoContent = ( { memo, onClickMemo }: IMemoContent ) => {
 
 
   return(
-    <MemoText>
+    <MemoText
+      onClick={onClickMemo}
+    >
       {memo.content}
     </MemoText>
 

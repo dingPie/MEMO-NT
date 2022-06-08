@@ -5,10 +5,11 @@ import { ITag } from "../../utils/interface/interface";
 
 interface IMemoName {
   tag: ITag;
-  onClickMemo?: () => void;
+  isOpenMenu?: boolean;
+  onClickTagName?: () => void;
 }
 
-const MemoName = ( { tag }: IMemoName ) => {
+const MemoName = ( { tag, isOpenMenu, onClickTagName }: IMemoName ) => {
 
 
   return(
@@ -19,6 +20,7 @@ const MemoName = ( { tag }: IMemoName ) => {
       padding=".5rem .75rem"
       size="l"
       bgColor={tag.color}
+      onClick={onClickTagName}
     >
       # {tag.name}
     </Text>
