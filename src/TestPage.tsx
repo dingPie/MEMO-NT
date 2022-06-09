@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Text from "./components/Text";
 
-import { collection, addDoc, getDoc, doc, query, getDocs, where, onSnapshot, setDoc, limit, startAfter, orderBy, updateDoc, deleteDoc, deleteField } from "firebase/firestore";
+import { collection, addDoc, getDoc, doc, query, getDocs, where, onSnapshot, setDoc, limit, startAfter, orderBy, updateDoc, deleteDoc, deleteField, QueryDocumentSnapshot, DocumentData } from "firebase/firestore";
 import { fireStoreDB } from "./firebase/firebase_config";
 
 import Uid from './utils/service/uid'
@@ -15,16 +15,17 @@ const TestPage = () => {
   const uid = new Uid();
 
   const [testArray, setTestArray] = useState<IMemo[]>([])
-
   const [testmemo, setTestmemo] = useState<IDummyMemo>(dummyMemos2)
+
+  const [lastMemo, setLastMemo] = useState<QueryDocumentSnapshot<DocumentData>>()
 
   // 문서 추가. id는 Date.now의 String값으로 한다. 내부의 id는 date가 대신할 수 있다.
   const addTest = async () => {
     const testId = Date.now();
     const addData = {
       // id: testId,
-      tagId: "timeBomb",
-      content: "setDoc Test 2",
+      tagId: "undefined",
+      content: "setDoc Test 7",
       createTime: testId
     }
     try {
@@ -56,10 +57,10 @@ const TestPage = () => {
   }
 
   const readTestOne = async () => {
-    const q = query(collection(fireStoreDB, "memo2", "1654699888645") );
+    const q = query(collection(fireStoreDB, "memoData"), where("content", "==", "이 내용을 가져오고싶어!"));
     
     const querySnapshot = await getDocs(q);
-    // console.log(querySnapshot.docs )
+    console.log(querySnapshot.docs )
     querySnapshot.forEach((doc) => {
       console.log(doc.id, " => ", doc.data());
     });
@@ -74,16 +75,51 @@ const TestPage = () => {
       result.push(doc.data() as IMemo)
       console.log(doc.id, " => ", doc.data());
     });
-    setTestArray(result)
+    let t = querySnapshot.docs.map(doc => doc.data() as IMemo )
+    // setTestArray(result)
+    setTestArray(t)
   }
 
   const snapshotTest = async () => {
-    const unsub = onSnapshot(doc(fireStoreDB, "memoData", "BGJfG8GoLRNXcUgwyEmB"), (doc) => {
-      const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
-      console.log(source, " data: ", doc.data());
-      console.log("Current data: ", doc.data());
+    // doc(fireStoreDB, "memoData", "BGJfG8GoLRNXcUgwyEmB")
+    const q = query(collection(fireStoreDB, "memo2"));
+
+    const unsub = onSnapshot(q, ( snapshot ) => {
+      const data = snapshot.docs.map(doc => doc.data() as IMemo )
+      console.log(data)
+      setTestArray(data)
   });
   }
+
+  const snapshotTest2 = async () => {
+    // doc(fireStoreDB, "memoData", "BGJfG8GoLRNXcUgwyEmB")
+    let q = query(collection(fireStoreDB, "memo2")
+      ,orderBy("createTime","desc"), 
+      limit(3)
+    );
+
+    if (lastMemo) {
+      q = query(collection(fireStoreDB, "memo2")
+      ,orderBy("createTime","desc"),
+      startAfter(lastMemo),
+      limit(3)
+    );
+    }
+
+    const snapshotDocs = onSnapshot(q, ( snapshot ) => {
+      const data = snapshot.docs.map(doc => doc.data() as IMemo )
+      console.log(data)
+      setTestArray(data)
+      setLastMemo(snapshot.docs[snapshot.docs.length-1])
+    });
+
+  }
+
+  React.useEffect(() => {
+    console.log(lastMemo)
+  }, [lastMemo])
+  
+
 
   // 페이지네이션과 같은 형식으로 받아오는 함수.
   // 무한 스크롤 구현에 용이하다.
@@ -99,7 +135,7 @@ const TestPage = () => {
     // Get the last visible document
     const lastVisible = firstDoc.docs[firstDoc.docs.length-1];
     console.log("last", lastVisible);
-    
+    setLastMemo(lastVisible)
     // Construct a new query starting at this document,
     // get the next 3 cities.
     const second = query(collection(fireStoreDB, "memoData"),
@@ -178,16 +214,22 @@ const TestPage = () => {
       >
         getPage
       </MainBtn>
+
+      <MainBtn
+        onClick={() => snapshotTest2()}
+      >
+        스냅샷
+      </MainBtn>
       
 
       { testmemo &&
         Object.values(testmemo)
-        .filter(v => v.tagId === "tag1")
-        .map( memo => {
-          return <TalkList 
-             memo={memo as IMemo}
-             onClickMenuBtn={onClickTest}
-           /> })
+              .filter(v => v.tagId === "tag1")
+              .map( memo => {
+                return <TalkList 
+                  memo={memo as IMemo}
+                  onClickMenuBtn={onClickTest}
+                /> })
       }
 
 

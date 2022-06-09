@@ -35,6 +35,8 @@ export const dummyTags: ITag[] = [
   }
 ]
 
+
+//실제 state에서 사용 형태 
 export const dummyMemos: IMemo[] = [
   {
     id: "memo1",
@@ -86,6 +88,7 @@ export const dummyMemos: IMemo[] = [
   }
 ]
 
+
 export interface IMemoTest {
   id?: string;
   tagId: string;
@@ -97,7 +100,8 @@ export interface IDummyMemo {
   [id: string ] : IMemoTest;
 }
 
-export const dummyMemos2: IDummyMemo = {
+// firebase에 저장된 형태
+export const dummyMemos2: IDummyMemo = { 
   "memo1": {
     id: "memo1",
     tagId: "tag1",
