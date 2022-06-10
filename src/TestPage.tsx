@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import Text from "./components/Text";
 
 import { collection, addDoc, getDoc, doc, query, getDocs, where, onSnapshot, setDoc, limit, startAfter, orderBy, updateDoc, deleteDoc, deleteField, QueryDocumentSnapshot, DocumentData } from "firebase/firestore";
-import { fireStoreDB } from "./firebase/firebase_config";
+import { app, firebaseAuth, fireStoreDB } from "./firebase/firebase_config";
+import { getAuth, signInWithPopup, signInWithRedirect, signOut, GoogleAuthProvider, GithubAuthProvider, onIdTokenChanged, getRedirectResult, setPersistence, updateCurrentUser, browserSessionPersistence, browserLocalPersistence, User } from "firebase/auth";
 
 import Uid from './utils/service/uid'
 import { MainBtn } from "./components/Buttons";
@@ -18,6 +19,61 @@ const TestPage = () => {
   const [testmemo, setTestmemo] = useState<IDummyMemo>(dummyMemos2)
 
   const [lastMemo, setLastMemo] = useState<QueryDocumentSnapshot<DocumentData>>()
+
+  const [testUser, setTestUser] = useState<User>()
+  
+  // const auth = getAuth(app);
+  const loginWithGoogle = async () => {
+    await setPersistence(firebaseAuth, browserSessionPersistence );
+    const googleProvider = new GoogleAuthProvider();
+    const result = await signInWithPopup(firebaseAuth, googleProvider);
+
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential!.accessToken;
+    const user = result.user;
+    console.log( "전체정보", result)
+    setTestUser(user)
+    // console.log("유저정보", user.email, user.uid )
+  }
+
+  const loginWithGithub = async () => {
+    await setPersistence(firebaseAuth, browserSessionPersistence ); // 세션 스토리지 저장. 
+    const githubProvider = new GithubAuthProvider();
+    const result = await signInWithPopup(firebaseAuth, githubProvider);
+    
+    const credential = GithubAuthProvider.credentialFromResult(result);
+    const token = credential!.accessToken;
+    const user = result.user;
+    console.log( "전체정보", result)
+  }
+
+  const logout = async () => {
+    const result = await signOut(firebaseAuth);
+    console.log(result)
+  }
+
+  const userTest = async () => {
+    // await setPersistence(firebaseAuth, browserSessionPersistence ); // 세션 스토리지 저장. 
+    // const githubProvider = new GithubAuthProvider();
+    // const result = await signInWithPopup(firebaseAuth, githubProvider);
+    
+    // const credential = GithubAuthProvider.credentialFromResult(result);
+    // const token = credential!.accessToken;
+    // const user = result.user;
+
+    const test = await updateCurrentUser(firebaseAuth, testUser!)
+    console.log( test )
+    // console.log( "전체정보", result)
+  }
+
+  React.useEffect(() => {
+    onIdTokenChanged(firebaseAuth, (user) => {
+      console.log(user)
+    })
+  }, [])
+  
+
+
 
   // 문서 추가. id는 Date.now의 String값으로 한다. 내부의 id는 date가 대신할 수 있다.
   const addTest = async () => {
@@ -70,14 +126,14 @@ const TestPage = () => {
     const q = query(collection(fireStoreDB, "memo2")); // , orderBy("createTime")
 
     const querySnapshot = await getDocs(q);
-    const result: IMemo[] = []
-    querySnapshot.forEach((doc) => {
-      result.push(doc.data() as IMemo)
-      console.log(doc.id, " => ", doc.data());
-    });
-    let t = querySnapshot.docs.map(doc => doc.data() as IMemo )
+    let res = querySnapshot.docs.map(doc => doc.data() as IMemo )
+    setTestArray(res)
+
+    // const result: IMemo[] = []
+    // querySnapshot.forEach((doc) => {
+    //   result.push(doc.data() as IMemo)
+    // });
     // setTestArray(result)
-    setTestArray(t)
   }
 
   const snapshotTest = async () => {
@@ -115,9 +171,6 @@ const TestPage = () => {
 
   }
 
-  React.useEffect(() => {
-    console.log(lastMemo)
-  }, [lastMemo])
   
 
 
@@ -147,9 +200,18 @@ const TestPage = () => {
 
   }
 
+  
+  // React.useEffect(() => {
+  //   console.log(lastMemo)
+  // }, [lastMemo])
+  
+  // React.useEffect(() => {
+  //   console.log(testArray)
+  // }, [testArray])
+
   React.useEffect(() => {
-    console.log(testArray)
-  }, [testArray])
+   if (testUser) console.log(testUser)
+  }, [testUser])
 
   const onClickTest = () => {
     console.log("따란!")
@@ -220,13 +282,38 @@ const TestPage = () => {
       >
         스냅샷
       </MainBtn>
+
+      <MainBtn
+        onClick={() => loginWithGoogle()}
+      >
+        구글테스트
+      </MainBtn>
+
+      <MainBtn
+        onClick={() => loginWithGithub()}
+      >
+        깃허브테스트
+      </MainBtn>
+
+      <MainBtn
+        onClick={() => logout()}
+      >
+        로그아웃
+      </MainBtn>
+
+      <MainBtn
+        onClick={() => userTest()}
+      >
+        유저저장 테스트
+      </MainBtn>
       
 
       { testmemo &&
         Object.values(testmemo)
               .filter(v => v.tagId === "tag1")
               .map( memo => {
-                return <TalkList 
+                return <TalkList
+                  key={memo.id}
                   memo={memo as IMemo}
                   onClickMenuBtn={onClickTest}
                 /> })
