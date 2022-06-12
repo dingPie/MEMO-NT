@@ -13,17 +13,33 @@ import { dummyMemos2, IDummyMemo } from "./utils/data/dummyData";
 import { async } from "@firebase/util";
 import { FbTag } from "./firebase/firestore_tag_serivce";
 import { FbAuth } from "./firebase/firebase_auth_service";
+import { FbMemo } from "./firebase/firestore_memo_service";
+
+export interface INewTag {
+  [tagId: string]: ITag;
+}
+
+export interface INewMemo {
+  [memoId: string]: IDummyMemo;
+}
 
 const TagTestPage = () => {
-
+  
   const uid = new Uid();
   const fbAuth = new FbAuth(firebaseAuth, fireStoreDB);
-  const fbTag = new FbTag(firebaseAuth, fireStoreDB, "testUid");
-  const [testUser, setTestUser] = useState<User | null>()
+  const fbTag = new FbTag(firebaseAuth, fireStoreDB, "ttt");
+  const fbMemo = new FbMemo(firebaseAuth, fireStoreDB, "ttt");
+
+  const [testUser, setTestUser] = useState<User | null>();
+
+  const [tags, setTags] = useState<INewTag>() // 얘는 object 형태 그대로 쓰자.
+  const [memo, setMemo] = useState<INewMemo>()
 
   // const [lastMemo, setLastMemo] = useState<QueryDocumentSnapshot<DocumentData>>()
   
-  // const auth = getAuth(app);
+  /* 
+    유저 관련
+  */
   const loginWithGoogle = async () => {
     fbAuth.loginWithGoogle(setTestUser)
   }
@@ -42,30 +58,34 @@ const TagTestPage = () => {
     fbTag.lookChangeTags()
   }, [])
 
-  const addTag = (tagName: string, memoId: string) => {
-    fbTag.addTag(tagName, memoId)
-  }  
-
-  const findTag1 = () => {
-    fbTag.findTag("tag1")
-  }
-
+  /* 
+    태그 관련
+    */
+   const addTag = (tagName: string) => {
+     fbTag.addTag(tagName)
+    }  
+    
 const testTargetTag = {
   id: "1655004873392",
   name: "테스트태그",
   color: "#F5F5F5",
   usedMemo: ['memo1']
 }
-const editTagColor = (targetTag: ITag, newColor: string) => {
-  fbTag.editTagColor(targetTag, newColor)
+const editTagColor = (tagId: string, newColor: string) => {
+  fbTag.editTagColor(tagId, newColor)
 }
 
-const editTagName = (targetTag: ITag, newName: string) => {
-  fbTag.editTagName(targetTag, newName)
+const editTagName = (tagId: string, newName: string) => {
+  fbTag.editTagName(tagId, newName)
 }
-const deleteTag = (targetTag: ITag) => {
-  fbTag.deleteTag(targetTag)
+const deleteTag = (tagId: string) => {
+  fbTag.deleteTag(tagId)
 }
+
+const updateUsedMemo = (tagId: string, memoId: string) => {
+  fbTag.updateUsedMemo(tagId, memoId)
+}
+
 
 const t = {
   id: "tagId",
@@ -73,6 +93,23 @@ const t = {
   color: "#F5F5F5",
   usedMemo: ['memo1']
 }
+
+React.useEffect(() => {
+  if (tags) {
+    console.log("찾은 태그", fbTag.findTag(tags, "1655004873392"))
+    console.log("전체 태그", tags)
+  }
+  }, [tags])
+
+
+  /* 
+    메모 관련
+  */
+ const getMemo = () => {
+  fbMemo.getMemo()
+ }
+
+
 
 
   return (
@@ -82,25 +119,37 @@ const t = {
       </Text>
 
       <MainBtn
-        onClick={() => addTag("테스트태그", "memo1")}
+        onClick={() => getMemo()}
+      >
+        메모 불러오기
+      </MainBtn>
+
+      <MainBtn
+        onClick={() => addTag("테스트태그1")}
       >
         태그 추가
       </MainBtn>
 
       <MainBtn
-        onClick={ () => editTagColor(testTargetTag, "#FF9AA2")}
+        onClick={() => updateUsedMemo("AW34V1URwPbBaAS7WJm7", "테스트메모아이디")}
+      >
+        태그배열추가
+      </MainBtn>
+
+      <MainBtn
+        onClick={ () => editTagColor("AW34V1URwPbBaAS7WJm7", "#FF9AA2")}
       >
         태그색 수정
       </MainBtn>
 
       <MainBtn
-        onClick={ () => editTagName(testTargetTag, "새로운 태그명")}
+        onClick={ () => editTagName("AW34V1URwPbBaAS7WJm7", "새로운 태그명")}
       >
         태그이름수정
       </MainBtn>
 
       <MainBtn
-        onClick={ () => deleteTag(t)}
+        onClick={ () => deleteTag("AW34V1URwPbBaAS7WJm7")}
       >
         태그삭제
       </MainBtn>
