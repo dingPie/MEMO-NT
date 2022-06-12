@@ -36,7 +36,7 @@ const MemoPage = () => {
   const tag = tagService.findTag(tagId!);
 
   const navigate = useNavigate();
-  const memoList = tag.memo.map( memoId => dummyMemos.filter(memo => memo.id === memoId)[0]);
+  const memoList = tag.usedMemo.map( memoId => dummyMemos.filter(memo => memo.id === memoId)[0]);
 
   const [isOpenMenu, setIsOpenMenu] = useState(false); // munue on /off
   

@@ -10,6 +10,8 @@ import { MainBtn } from "./components/Buttons";
 import { IMemo } from "./utils/interface/interface";
 import TalkList from "./pages/talk_page/TalkList";
 import { dummyMemos2, IDummyMemo } from "./utils/data/dummyData";
+import { async } from "@firebase/util";
+import { FbTag } from "./firebase/firestore_tag_serivce";
 
 const TestPage = () => {
 
@@ -53,17 +55,7 @@ const TestPage = () => {
   }
 
   const userTest = async () => {
-    // await setPersistence(firebaseAuth, browserSessionPersistence ); // 세션 스토리지 저장. 
-    // const githubProvider = new GithubAuthProvider();
-    // const result = await signInWithPopup(firebaseAuth, githubProvider);
-    
-    // const credential = GithubAuthProvider.credentialFromResult(result);
-    // const token = credential!.accessToken;
-    // const user = result.user;
-
-    const test = await updateCurrentUser(firebaseAuth, testUser!)
-    console.log( test )
-    // console.log( "전체정보", result)
+    await updateCurrentUser(firebaseAuth, testUser!)
   }
 
   React.useEffect(() => {
@@ -72,6 +64,23 @@ const TestPage = () => {
     })
   }, [])
   
+
+  const 첫유저체크 = async (uid: string) => {
+    const docRef = doc(fireStoreDB, "UserDB", uid); // , orderBy("createTime")
+    const querySnapshot = await getDoc(docRef);
+    console.log(querySnapshot)
+    console.log(querySnapshot.data())
+  }
+
+  const 새유저등록 = async (uid: string) => {
+    const addData = { uid: uid }
+    try {
+      await setDoc(doc(fireStoreDB, "UserDB", uid), addData);
+      console.log("해당 문서에 추가되었습니다.")
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }
 
 
 
@@ -135,6 +144,56 @@ const TestPage = () => {
     // });
     // setTestArray(result)
   }
+
+  const 태그바로읽기 = async () => {
+    const docRef = doc(fireStoreDB, "testDB", "tagsTest")
+
+    const test = onSnapshot(docRef, (doc) => {
+      console.log("태그값 읽어오기", doc.data())
+    })
+  }
+
+  const 태그추가 = async (uid: string) => {
+    const testId = Date.now();
+    const docRef = doc(fireStoreDB, uid, "tagsTest");
+    const addData = {
+      // id: testId,
+      id: "tag2",
+      name: "태그2",
+      color: "#000000",
+      usedMemo: []
+    }
+    try {
+      await setDoc(docRef, addData);
+      console.log( uid, "태그가 추가되었습니다.")
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }
+  
+  // 새 태그 추가
+  const 태그업데이트 = async (uid: string) => { 
+    const tagId = Date.now();
+    const newTag = {
+      // id: testId,
+      id: "tag2",
+      name: "태그2내용수정", // 수정할 내용
+      color: "#000000", // 수정할 태그 
+      usedMemo: []
+    }
+    const docRef = doc(fireStoreDB, uid, "tagsTest");
+    try {
+      await updateDoc(docRef, {tag2: newTag}); // 이렇게 추가해줘야 정상적으로 업데이트된다.
+      console.log( uid, "태그가 추가되었습니다.")
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }
+
+  React.useEffect(() => {
+    태그바로읽기()
+  }, [])
+  
 
   const snapshotTest = async () => {
     // doc(fireStoreDB, "memoData", "BGJfG8GoLRNXcUgwyEmB")
@@ -204,7 +263,7 @@ const TestPage = () => {
   // React.useEffect(() => {
   //   console.log(lastMemo)
   // }, [lastMemo])
-  
+
   // React.useEffect(() => {
   //   console.log(testArray)
   // }, [testArray])
@@ -218,6 +277,20 @@ const TestPage = () => {
   }
   
   console.log(dummyMemos2[0])
+
+
+  const fbTag = new FbTag(firebaseAuth, fireStoreDB, "테스트용유저아이디");
+  const 태그이니셜라이즈 = async () => {
+    await fbTag.initTag()
+  }
+
+
+
+
+
+
+
+
 
   return (
     <>
@@ -307,6 +380,35 @@ const TestPage = () => {
         유저저장 테스트
       </MainBtn>
       
+      <MainBtn
+        onClick={() => 새유저등록("test")}
+      >
+        새유저등록
+      </MainBtn>
+
+      <MainBtn
+        onClick={() => 첫유저체크("test1")}
+      >
+        첫유저체크 
+      </MainBtn>
+
+      <MainBtn
+        onClick={() => 태그추가("testDB")}
+      >
+        태그추가 
+      </MainBtn>
+
+      <MainBtn
+        onClick={() => 태그업데이트("testDB")}
+      >
+        태그업뎃
+      </MainBtn>
+
+      <MainBtn
+        onClick={() => 태그이니셜라이즈()}
+      >
+        태그초기화
+      </MainBtn>
 
       { testmemo &&
         Object.values(testmemo)

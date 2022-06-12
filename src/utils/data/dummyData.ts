@@ -7,31 +7,31 @@ export const dummyTags: ITag[] = [
     id: "undefined",
     name: "태그 없음",
     color: "#F5F5F5",
-    memo: ["memo5"]
+    usedMemo: ["memo5"]
   },
   {
     id: "timeBomb",
     name: "삭제 예정",
     color: "#505050",
-    memo: ["memo6", "memo7"]
+    usedMemo: ["memo6", "memo7"]
   },
   {
     id: "tag1",
     name: "테스트",
     color: "#FF9AA2",
-    memo: ["memo1", "memo2"]
+    usedMemo: ["memo1", "memo2"]
   },
   {
     id: "tag2",
     name: "태그",
     color: "#FFB7B2",
-    memo: ["memo3", "memo8"]
+    usedMemo: ["memo3", "memo8"]
   },
   {
     id: "tag3",
     name: "테스트용 태그",
     color: "#FFDAC1",
-    memo: ["memo4"]
+    usedMemo: ["memo4"]
   }
 ]
 
