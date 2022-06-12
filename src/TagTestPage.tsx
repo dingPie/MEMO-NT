@@ -14,6 +14,7 @@ import { async } from "@firebase/util";
 import { FbTag } from "./firebase/firestore_tag_serivce";
 import { FbAuth } from "./firebase/firebase_auth_service";
 import { FbMemo } from "./firebase/firestore_memo_service";
+import { RowBox } from "./components/FlexBox";
 
 export interface INewTag {
   [tagId: string]: ITag;
@@ -23,17 +24,23 @@ export interface INewMemo {
   [memoId: string]: IDummyMemo;
 }
 
-const TagTestPage = () => {
+interface ITest {
+  fbMemo: FbMemo
+}
+
+const TagTestPage = ( {fbMemo}: ITest ) => {
   
   const uid = new Uid();
   const fbAuth = new FbAuth(firebaseAuth, fireStoreDB);
   const fbTag = new FbTag(firebaseAuth, fireStoreDB, "ttt");
-  const fbMemo = new FbMemo(firebaseAuth, fireStoreDB, "ttt");
-
+  // const fbMemo = new FbMemo(firebaseAuth, fireStoreDB, "ttt");
+  
   const [testUser, setTestUser] = useState<User | null>();
+  
+  const [tags, setTags] = useState<ITag[]>() // 얘는 object 형태 그대로 쓰자.
+  const [memo, setMemo] = useState<IMemo[]>([])
+  const [lastLoadedMemo, setLastLoadedMemo] = useState(null)
 
-  const [tags, setTags] = useState<INewTag>() // 얘는 object 형태 그대로 쓰자.
-  const [memo, setMemo] = useState<INewMemo>()
 
   // const [lastMemo, setLastMemo] = useState<QueryDocumentSnapshot<DocumentData>>()
   
@@ -61,42 +68,30 @@ const TagTestPage = () => {
   /* 
     태그 관련
     */
-   const addTag = (tagName: string) => {
-     fbTag.addTag(tagName)
-    }  
-    
-const testTargetTag = {
-  id: "1655004873392",
-  name: "테스트태그",
-  color: "#F5F5F5",
-  usedMemo: ['memo1']
-}
-const editTagColor = (tagId: string, newColor: string) => {
-  fbTag.editTagColor(tagId, newColor)
-}
+  const addTag = (tagName: string) => {
+    fbTag.addTag(tagName)
+  }  
+  
 
-const editTagName = (tagId: string, newName: string) => {
-  fbTag.editTagName(tagId, newName)
-}
-const deleteTag = (tagId: string) => {
-  fbTag.deleteTag(tagId)
-}
+  const editTagColor = (tagId: string, newColor: string) => {
+    fbTag.editTagColor(tagId, newColor)
+  }
 
-const updateUsedMemo = (tagId: string, memoId: string) => {
-  fbTag.updateUsedMemo(tagId, memoId)
-}
+  const editTagName = (tagId: string, newName: string) => {
+    fbTag.editTagName(tagId, newName)
+  }
+  const deleteTag = (tagId: string) => {
+    fbTag.deleteTag(tagId)
+  }
 
+  const updateUsedMemo = (tagId: string, memoId: string) => {
+    fbTag.addUsedMemo(tagId, memoId)
+  }
 
-const t = {
-  id: "tagId",
-  name: "테스트태그",
-  color: "#F5F5F5",
-  usedMemo: ['memo1']
-}
 
 React.useEffect(() => {
   if (tags) {
-    console.log("찾은 태그", fbTag.findTag(tags, "1655004873392"))
+    // console.log("찾은 태그", fbTag.findTag(tags, "1655004873392"))
     console.log("전체 태그", tags)
   }
   }, [tags])
@@ -105,11 +100,50 @@ React.useEffect(() => {
   /* 
     메모 관련
   */
- const getMemo = () => {
-  fbMemo.getMemo()
+ const getMemo = async () => {
+  const t = await fbMemo.getMemo(memo, setMemo)
+  // setMemo([...memo, ...t])
+  console.log(t)
  }
 
+ const initMemo = () => {
+  fbMemo.initMemo()
+ }
 
+ const addMemo = async (
+  tagId: string,
+  newContent: string
+ ) => {
+  // tagId 검색 시스템에 대해 좀 더 생각해보자!
+  const memoId = await fbMemo.addMemo(tagId, newContent)
+  fbTag.addUsedMemo("undefined", memoId!)
+ }
+
+ const editMemoContent = async (
+  memoId: string,
+  editContent: string
+  ) => {
+  await fbMemo.editMemoContent(memoId, editContent)
+ }
+
+ const editMemoUsedTag = async (
+  memoId: string,
+  newTagId: string
+  ) => {
+    // memo[0].id 이런식으로 이전 id값 뽑아내야함.
+  await fbMemo.editMemoUsedTag(memoId, newTagId)
+  fbTag.addUsedMemo(newTagId, memoId)
+  fbTag.deleteUsedMemo("undefined", memoId)
+  // 태그 usedMemo 수정
+ }
+
+ const deleteMemo = async (
+  memoId: string,
+  tagId: string
+  ) => {
+  await fbMemo.deleteMemo(memoId);
+  fbTag.deleteUsedMemo(tagId, memoId)
+ }
 
 
   return (
@@ -118,63 +152,95 @@ React.useEffect(() => {
         테스트 페이지 입니다.
       </Text>
 
-      <MainBtn
-        onClick={() => getMemo()}
-      >
-        메모 불러오기
-      </MainBtn>
+      { memo &&
+        memo.map( v => <div> {v.content} </div> )
+      }
 
-      <MainBtn
-        onClick={() => addTag("테스트태그1")}
-      >
-        태그 추가
-      </MainBtn>
+      <RowBox>
+        <MainBtn
+          onClick={() => getMemo()}
+        >
+          메모 불러오기
+        </MainBtn>
+        <MainBtn
+          onClick={() => initMemo()}
+        >
+          메모 초기화
+        </MainBtn>
+        <MainBtn
+          onClick={() => addMemo("undefined", "새로운 메모 추가 테스트")}
+        >
+          메모 추가
+        </MainBtn>
 
-      <MainBtn
-        onClick={() => updateUsedMemo("AW34V1URwPbBaAS7WJm7", "테스트메모아이디")}
-      >
-        태그배열추가
-      </MainBtn>
+        <MainBtn
+          onClick={() => editMemoContent("1655047759787", "메모내용 수정테스트")}
+        >
+          메모내용수정
+        </MainBtn>
+        <MainBtn
+          onClick={() => editMemoUsedTag("1655047759787", "toBeDeleted")}
+        >
+          메모태그수정
+        </MainBtn>
+        <MainBtn
+          onClick={() => deleteMemo("1655047759787", "toBeDeleted")}
+        >
+          메모삭제
+        </MainBtn>
+      </RowBox>
 
-      <MainBtn
-        onClick={ () => editTagColor("AW34V1URwPbBaAS7WJm7", "#FF9AA2")}
-      >
-        태그색 수정
-      </MainBtn>
 
-      <MainBtn
-        onClick={ () => editTagName("AW34V1URwPbBaAS7WJm7", "새로운 태그명")}
-      >
-        태그이름수정
-      </MainBtn>
 
-      <MainBtn
-        onClick={ () => deleteTag("AW34V1URwPbBaAS7WJm7")}
-      >
-        태그삭제
-      </MainBtn>
-      
+
+      <RowBox>
+        <MainBtn
+          onClick={() => addTag("테스트태그1")}
+        >
+          태그 추가
+        </MainBtn>
+        <MainBtn
+          onClick={() => updateUsedMemo("AW34V1URwPbBaAS7WJm7", "테스트메모아이디")}
+        >
+          태그배열추가
+        </MainBtn>
+        <MainBtn
+          onClick={ () => editTagColor("AW34V1URwPbBaAS7WJm7", "#FF9AA2")}
+        >
+          태그색 수정
+        </MainBtn>
+        <MainBtn
+          onClick={ () => editTagName("AW34V1URwPbBaAS7WJm7", "새로운 태그명")}
+        >
+          태그이름수정
+        </MainBtn>
+        <MainBtn
+          onClick={ () => deleteTag("AW34V1URwPbBaAS7WJm7")}
+        >
+          태그삭제
+        </MainBtn>
+      </RowBox>
+
       <Text>
         현재 로그인된 계정 도메인: { testUser && testUser.providerData[0].providerId }
       </Text> 
-      <MainBtn
-        onClick={() => loginWithGoogle()}
-      >
-        구글테스트
-      </MainBtn>
-
-      <MainBtn
-        onClick={() => loginWithGithub()}
-      >
-        깃허브테스트
-      </MainBtn>
-
-      <MainBtn
-        onClick={() => logout()}
-      >
-        로그아웃
-      </MainBtn>
-
+      <RowBox>
+        <MainBtn
+          onClick={() => loginWithGoogle()}
+        >
+          구글테스트
+        </MainBtn>
+        <MainBtn
+          onClick={() => loginWithGithub()}
+        >
+          깃허브테스트
+        </MainBtn>
+        <MainBtn
+          onClick={() => logout()}
+        >
+          로그아웃
+        </MainBtn>
+      </RowBox>
     </>
   )
 }

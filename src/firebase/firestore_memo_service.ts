@@ -26,64 +26,144 @@ import { IMemo, ITag } from "../utils/interface/interface";
 export class FbMemo {
   private firebaseAuth: Auth // auth 의존성주입
   private fireStoreDB: Firestore
-  private uid: string
+  private doc: string
   private lastMemo: QueryDocumentSnapshot<DocumentData> | null
   private loadSize: number
 
-  constructor(firebaseAuth: Auth, fireStoreDB: Firestore, uid: string) {
+  constructor(
+    firebaseAuth: Auth, 
+    fireStoreDB: Firestore, 
+    uid: string, 
+    // lastMemo: QueryDocumentSnapshot<DocumentData> | null
+    ) {
     this.firebaseAuth = firebaseAuth
     this.fireStoreDB = fireStoreDB
-    this.uid = uid
+    this.doc = uid+"_memo"
     this.lastMemo = null
     this.loadSize = 1
   }
 
+
   /* 메모 이니셜라이즈 (set) */
   async initMemo () {
     const undefinedTime = Date.now();
-    const toBeDeletedTime = undefinedTime + 1;
-    const initMemo = {
-      [undefinedTime.toString()]: {
-        id: undefinedTime.toString(),
-        tagId: "undefined",
-        content: "태그 없는 메모 내용입니다", 
-        createTime: undefinedTime
-      },
-      [toBeDeletedTime]: {
+    const undefinedMemo = {
+      id: undefinedTime.toString(),
+      tagId: "undefined",
+      content: "태그 없는 메모 내용입니다", 
+      createTime: undefinedTime
+    }
+    const undefinedRef = doc(this.fireStoreDB, this.doc, undefinedTime.toString());
+
+    const toBeDeletedTime = undefinedTime+1;
+    const toBeDeletedMemo =  {
         id: toBeDeletedTime.toString(),
         tagId: "toBeDeleted",
         content: "삭제될 메모 내용입니다", 
         createTime: toBeDeletedTime
-      },
-    }
-    const docRef = doc(this.fireStoreDB, this.uid, "memo");
+      }
+    const toBeDeletedRef = doc(this.fireStoreDB, this.doc, toBeDeletedTime.toString());
+    
     try {
-      await setDoc(docRef, initMemo); // 이렇게 추가해줘야 정상적으로 업데이트된다.
-      console.log( this.uid, "기본 메모 생성완료")
+      await setDoc(undefinedRef, undefinedMemo);
+      await setDoc(toBeDeletedRef, toBeDeletedMemo);
+      console.log( this.doc, "기본 메모 생성완료")
     } catch (e) {
       console.error("Error adding document: ", e);
     }
   }
 
-  async getMemo () {
-    const colRef = collection(this.fireStoreDB, this.uid )
-    const dofRef = doc(this.fireStoreDB, this.uid, "memo")
-    // const colRef = collection(this.fireStoreDB, `${this.uid}/memo`)
-
-    let q = query(colRef, orderBy("memo", "desc"));
-    // if (this.lastMemo) {
-    //   q = query(colRef, orderBy("createTime","desc"), startAfter(this.lastMemo), limit(this.loadSize));
-    // }
-
- 
-    onSnapshot(q, ( snapshot ) => {
-      const data = snapshot.docs.map(doc => doc.data() as IMemo )
-      console.log("메모값 불러오기", data)
-      this.lastMemo = snapshot.docs[snapshot.docs.length-1]
-      // setTestArray(data)
-    });
-  
+  // 메모 불러오기
+  async getMemo (
+    memo?: IMemo[],
+    update?: (memo: IMemo[]) => void
+  ) {
+    const colRef = collection(this.fireStoreDB, this.doc )
+    let q = query(colRef, limit(this.loadSize));
+    if (this.lastMemo) {
+      console.log("여기 실행됨")
+      q = query(colRef, startAfter(this.lastMemo), limit(this.loadSize));
+    }
+    try {
+      const querySnapshot = await getDocs(q);
+      const result = querySnapshot.docs.map(doc => doc.data() as IMemo )
+      this.lastMemo = querySnapshot.docs[querySnapshot.docs.length-1]
+      if (update) update([...memo!, ...result])
+      return result
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
     
+  }
+
+  // 새 메모 추가
+  async addMemo (
+    tagId: string,
+    newContent: string
+  ) {
+    const nowTime = Date.now()
+    const newMemo = {
+      id: nowTime.toString(),
+      tagId: tagId,
+      content: newContent,
+      createTime: nowTime
+    }
+    const docRef = doc(this.fireStoreDB, this.doc, nowTime.toString())
+    try {
+      const result = await setDoc(docRef, newMemo)
+      console.log("추가된 메모 Id", nowTime.toString())
+      return nowTime.toString()
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }
+
+  // 메모 내용 변경
+  async editMemoContent (
+    memoId: string,
+    editContent: string
+  ) {
+
+    const docRef = doc(this.fireStoreDB, this.doc, memoId)
+    try {
+      const result = await updateDoc(docRef, {
+        content: editContent
+      })
+      console.log("메모 내용이 수정되었습니다.")
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }
+
+  // 메모 태그 변경
+  async editMemoUsedTag (
+    memoId: string,
+    newTagId: string
+  ) {
+
+    const docRef = doc(this.fireStoreDB, this.doc, memoId)
+    try {
+      const result = await updateDoc(docRef, {
+        tagId: newTagId
+      })
+      console.log("메모 태그가 수정되었습니다.")
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }
+
+  // 메모 삭제
+  async deleteMemo (
+    memoId: string,
+    ) {
+    const docRef = doc(this.fireStoreDB, this.doc, memoId);
+
+    try {
+      await deleteDoc(docRef);
+      console.log( memoId, "태그 삭제완료")
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
   }
 
 }
