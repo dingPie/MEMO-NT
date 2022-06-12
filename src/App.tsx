@@ -21,6 +21,8 @@ import "./App.css"
 //테스트 페이지
 import TestPage from './TestPage';
 import TagTestPage from './TagTestPage';
+import { firebaseAuth, fireStoreDB } from './firebase/firebase_config';
+import { FbMemo } from './firebase/firestore_memo_service';
 
 // const appStyle = {
 //   display: "flex",
@@ -29,6 +31,9 @@ import TagTestPage from './TagTestPage';
 // }
 
 function App() {
+
+  const fbMemo = new FbMemo(firebaseAuth, fireStoreDB, "ttt");
+
   return (
     <div className="App">
       <GlobalStyle /> 
@@ -41,7 +46,7 @@ function App() {
         <Route path="/memo/:tagId" element={<MemoPage />} />
 
         <Route path="/test" element={<TestPage />} />
-        <Route path="/tagtest" element={<TagTestPage />} />
+        <Route path="/tagtest" element={<TagTestPage fbMemo={fbMemo} />} />
       </Routes>
     </div>
   );
