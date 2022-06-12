@@ -17,7 +17,10 @@ import Text from './components/Text';
 import { InputText } from './components/InputText';
 
 import "./App.css"
+
+//테스트 페이지
 import TestPage from './TestPage';
+import TagTestPage from './TagTestPage';
 
 // const appStyle = {
 //   display: "flex",
@@ -38,6 +41,7 @@ function App() {
         <Route path="/memo/:tagId" element={<MemoPage />} />
 
         <Route path="/test" element={<TestPage />} />
+        <Route path="/tagtest" element={<TagTestPage />} />
       </Routes>
     </div>
   );

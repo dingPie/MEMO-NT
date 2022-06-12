@@ -34,13 +34,13 @@ const GridMemo = ( { tag, onClickMemo }: IGridMemo ) => {
 
       <ColBox gap={.25} padding="0" >
         <GridText>
-          { tag.memo[0] ? dummyMemos.filter(v => v.id ===tag.memo[0] )[0].content  : " "}
+          { tag.usedMemo[0] ? dummyMemos.filter(v => v.id ===tag.usedMemo[0] )[0].content  : " "}
         </GridText>
         <GridText>
-          { tag.memo[1] ? dummyMemos.filter(v => v.id ===tag.memo[1] )[0].content : " "}
+          { tag.usedMemo[1] ? dummyMemos.filter(v => v.id ===tag.usedMemo[1] )[0].content : " "}
         </GridText>
         <GridText>
-          { tag.memo[2] ? dummyMemos.filter(v => v.id ===tag.memo[2] )[0].content : " "}
+          { tag.usedMemo[2] ? dummyMemos.filter(v => v.id ===tag.usedMemo[2] )[0].content : " "}
         </GridText>
       </ColBox>
     </ColBox>

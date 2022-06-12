@@ -279,9 +279,9 @@ const TestPage = () => {
   console.log(dummyMemos2[0])
 
 
-  const fbTag = new FbTag(firebaseAuth, fireStoreDB);
-  const 태그이니셜라이즈 = async (uid: string) => {
-    await fbTag.initTag(uid)
+  const fbTag = new FbTag(firebaseAuth, fireStoreDB, "테스트용유저아이디");
+  const 태그이니셜라이즈 = async () => {
+    await fbTag.initTag()
   }
 
 
@@ -405,7 +405,7 @@ const TestPage = () => {
       </MainBtn>
 
       <MainBtn
-        onClick={() => 태그이니셜라이즈("테스트용유저아이디")}
+        onClick={() => 태그이니셜라이즈()}
       >
         태그초기화
       </MainBtn>
