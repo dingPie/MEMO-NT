@@ -43,17 +43,26 @@ export class FbMemo {
     this.loadSize = 1
   }
 
+  setUser (
+    uid: string
+  ) {
+    this.doc = uid + "_memo"
+  }
+
 
   /* 메모 이니셜라이즈 (set) */
-  async initMemo () {
+  async initMemo (
+    uid?: string
+  ) {
     const undefinedTime = Date.now();
+    const docId = uid ? uid+"_memo" : this.doc // init 절차 및 인스턴스 생성 범위 때문에 외부 주입도 고려
     const undefinedMemo = {
       id: undefinedTime.toString(),
       tagId: "undefined",
       content: "태그 없는 메모 내용입니다", 
       createTime: undefinedTime
     }
-    const undefinedRef = doc(this.fireStoreDB, this.doc, undefinedTime.toString());
+    const undefinedRef = doc(this.fireStoreDB, docId, undefinedTime.toString());
 
     const toBeDeletedTime = undefinedTime+1;
     const toBeDeletedMemo =  {
@@ -62,12 +71,13 @@ export class FbMemo {
         content: "삭제될 메모 내용입니다", 
         createTime: toBeDeletedTime
       }
-    const toBeDeletedRef = doc(this.fireStoreDB, this.doc, toBeDeletedTime.toString());
+    const toBeDeletedRef = doc(this.fireStoreDB, docId, toBeDeletedTime.toString());
     
     try {
       await setDoc(undefinedRef, undefinedMemo);
       await setDoc(toBeDeletedRef, toBeDeletedMemo);
-      console.log( this.doc, "기본 메모 생성완료")
+      return { undefinedMemoId: undefinedTime.toString(), toBeDeletedMemoId: toBeDeletedTime.toString() }
+      console.log( docId, "기본 메모 생성완료")
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -112,7 +122,7 @@ export class FbMemo {
     try {
       const result = await setDoc(docRef, newMemo)
       console.log("추가된 메모 Id", nowTime.toString())
-      return nowTime.toString()
+      return newMemo
     } catch (e) {
       console.error("Error adding document: ", e);
     }

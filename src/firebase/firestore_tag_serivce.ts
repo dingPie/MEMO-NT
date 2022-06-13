@@ -41,18 +41,11 @@ export class FbTag {
     this.doc = uid+"_tag"
   }
 
-  // 태그 변화 감지
-  // async lookChangeTags (
-  //   update: (tag: INewTag) => void 
-  // ) {
-  //   const docRef = doc(this.fireStoreDB, this.doc)
-
-  //   onSnapshot(docRef, (doc) => {
-  //     console.log("태그값 읽어오기", doc.data())
-  //     update(doc.data() as INewTag) // 이거 수정해야 할수도
-  //   })
-  // }
-
+  setUser (
+    uid: string
+  ) {
+    this.doc = uid + "_tag"
+  }
 
   // 태그 실시간 변화 감시
   async lookChangeTags (
@@ -73,7 +66,9 @@ export class FbTag {
   }
 
   // 첫 유저 기본태그 작성
-  async initTag () {
+  async initTag (
+    uid?: string
+  ) {
     const undefinedTag = {
       name: "태그 없음", 
       color: "#F5F5F5", 
@@ -84,19 +79,22 @@ export class FbTag {
       color: "#505050", 
       usedMemo: []
     }
-    const undefinedRef = doc(this.fireStoreDB, this.doc, "undefined");
-    const toBeDeletedRef = doc(this.fireStoreDB, this.doc, "toBeDeleted");
+    const docId = uid ? uid+"_tag" : this.doc // init 절차 및 인스턴스 생성 범위 때문에 외부 주입도 고려
+    const undefinedRef = doc(this.fireStoreDB, docId, "undefined");
+    const toBeDeletedRef = doc(this.fireStoreDB, docId, "toBeDeleted");
     try {
       await setDoc(undefinedRef, undefinedTag); 
       await setDoc(toBeDeletedRef, tobeDeletedTag);
-      console.log( this.doc, "기본 태그 생성완료")
+      console.log( docId, "기본 태그 생성완료")
     } catch (e) {
       console.error("Error adding document: ", e);
     }
   }
 
   // 새 태그 추가
-  async addTag (tagName: string) {
+  async addTag (
+    tagName: string
+    ) {
     const newTag = {
       name: tagName,
       color: "#F5F5F5", // 기본 색상

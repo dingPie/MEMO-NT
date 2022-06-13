@@ -35,7 +35,7 @@ const TagTestPage = ( {fbMemo}: ITest ) => {
   const fbTag = new FbTag(firebaseAuth, fireStoreDB, "ttt");
   // const fbMemo = new FbMemo(firebaseAuth, fireStoreDB, "ttt");
   
-  const [testUser, setTestUser] = useState<User | null>();
+  const [testUser, setTestUser] = useState<User | null>(null);
   
   const [tags, setTags] = useState<ITag[]>() // 얘는 object 형태 그대로 쓰자.
   const [memo, setMemo] = useState<IMemo[]>([])
@@ -59,11 +59,40 @@ const TagTestPage = ( {fbMemo}: ITest ) => {
     const result = await signOut(firebaseAuth);
     console.log(result)
   }
-
+  // 실시간으로 유저 로그인상황 체크 하기 
+  const checkJoinedUser = (uid: string) => {
+    fbAuth.checkJoinedUser(uid)
+  }
+   // 유저DB에서 유저 정보 가져오기
+  const getUserInfo = (uid: string) => {
+    fbAuth.getUserInfo(uid)
+  }
+  // 유저 추가 및 memo / tag init
+  const addUser = async (user: User | null) => {
+    if (!user) return
+    const newUser = await fbAuth.addUser(user)
+    await fbTag.initTag(newUser!.uid)
+    fbMemo.setUser(newUser!.uid)
+    fbTag.setUser(newUser!.uid)
+    
+    const initMemoId = await fbMemo.initMemo(newUser!.uid)
+    console.log( "이니셜라이즈 메모 아이디", initMemoId)
+    fbTag.addUsedMemo("undefined", initMemoId!.undefinedMemoId )
+    fbTag.addUsedMemo("toBeDeleted", initMemoId!.toBeDeletedMemoId )
+  }
+  // 회원탈퇴 (회원DB에서 삭제 + uid_memo / uid_tag collection 삭제해야 함.)
+  const withdrawUser = (user: User | null) => {
+    if (!user) return
+    fbAuth.withdrawUser(user.uid)
+  }
+  
   React.useEffect(() => {
     fbAuth.lookChangeUpdate(setTestUser)
     fbTag.lookChangeTags()
   }, [])
+
+
+
 
   /* 
     태그 관련
@@ -115,8 +144,8 @@ React.useEffect(() => {
   newContent: string
  ) => {
   // tagId 검색 시스템에 대해 좀 더 생각해보자!
-  const memoId = await fbMemo.addMemo(tagId, newContent)
-  fbTag.addUsedMemo("undefined", memoId!)
+  const newMemo = await fbMemo.addMemo(tagId, newContent)
+  fbTag.addUsedMemo("undefined", newMemo!.id)
  }
 
  const editMemoContent = async (
@@ -240,6 +269,29 @@ React.useEffect(() => {
         >
           로그아웃
         </MainBtn>
+        <MainBtn
+          onClick={() => checkJoinedUser("testUid")}
+        >
+          가입유저체크
+        </MainBtn>
+        <MainBtn
+          onClick={() => getUserInfo("testUid")}
+        >
+          유저정보조회
+        </MainBtn>
+        <MainBtn
+          onClick={() => addUser(testUser)}
+        >
+          새유저추가
+        </MainBtn>
+        <MainBtn
+          onClick={() => withdrawUser(testUser)}
+        >
+          유저탈퇴
+        </MainBtn>
+
+        
+        
       </RowBox>
     </>
   )
