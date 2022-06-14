@@ -1,5 +1,5 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Routes, Route, useNavigate, } from 'react-router-dom';
 import styled from 'styled-components';
 import GlobalStyle from './styles/GlobalStyle';
 
@@ -23,6 +23,11 @@ import TestPage from './TestPage';
 import TagTestPage from './TagTestPage';
 import { firebaseAuth, fireStoreDB } from './firebase/firebase_config';
 import { FbMemo } from './firebase/firestore_memo_service';
+import { FbAuth } from './firebase/firebase_auth_service';
+import useStore from './store/useStore';
+import { MainBtn } from './components/Buttons';
+import { User } from 'firebase/auth';
+import { FbTag } from './firebase/firestore_tag_serivce';
 
 // const appStyle = {
 //   display: "flex",
@@ -30,17 +35,71 @@ import { FbMemo } from './firebase/firestore_memo_service';
 //   height: "100%"
 // }
 
+export interface Props {
+  user: User | null;
+  setUser?: (v: User | null) => void;
+}
+
 function App() {
 
-  const fbMemo = new FbMemo(firebaseAuth, fireStoreDB, "ttt");
+  const fbMemo = new FbMemo(firebaseAuth, fireStoreDB);
+  const fbAuth = new FbAuth(firebaseAuth, fireStoreDB);
+  const fbTag = new FbTag(firebaseAuth, fireStoreDB);
+  const { userStore } = useStore();
+  const navitage = useNavigate();
+  const [user, setUser] = useState<User|null>(null)
+  
 
+  const CheckAndInitUser = async (user: User) => {
+    const joinedResult = await fbAuth.checkJoinedUser(user.uid);
+    if (joinedResult) return
+
+    console.log("가입되지 않은 유저니까 init해줘야 해요!")
+    const newUser = await fbAuth.addUser(user)
+    await fbTag.initTag(user.uid)
+    const initMemoId = await fbMemo.initMemo(user.uid)
+    // console.log( "이니셜라이즈 메모 아이디", initMemoId)
+    fbTag.addUsedMemo("undefined", initMemoId!.undefinedMemoId)
+    fbTag.addUsedMemo("toBeDeleted", initMemoId!.toBeDeletedMemoId)
+    console.log("정상적으로 init 완료")
+  }
+
+  useEffect(() => {
+    fbAuth.onCheckUser(setUser);
+  }, [])
+
+  useEffect(() => {
+    if (user) {
+      fbTag.setDoc(user) // uid 의존성 주입
+      fbMemo.setDoc(user)
+      CheckAndInitUser(user)
+      navitage('/talk')
+    }
+    else if (user === null) {
+      navitage('/login')
+    }
+  }, [user])
+
+  
+  
   return (
     <div className="App">
       <GlobalStyle /> 
 
       <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/setting" element={<SettingPage />} />
+        <Route path="/login" element={
+          <LoginPage
+            user={user}
+            setUser={setUser} 
+          />} 
+         />
+        <Route path="/setting" element={
+          <SettingPage 
+            user={user}
+            setUser={setUser}
+            fbAuth={fbAuth}
+          />}
+        />
         <Route path="/talk" element={<TalkPage />} />
         <Route path="/grid" element={<GridPage />} />
         <Route path="/memo/:tagId" element={<MemoPage />} />

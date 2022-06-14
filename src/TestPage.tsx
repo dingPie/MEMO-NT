@@ -279,7 +279,7 @@ const TestPage = () => {
   console.log(dummyMemos2[0])
 
 
-  const fbTag = new FbTag(firebaseAuth, fireStoreDB, "테스트용유저아이디");
+  const fbTag = new FbTag(firebaseAuth, fireStoreDB);
   const 태그이니셜라이즈 = async () => {
     await fbTag.initTag()
   }

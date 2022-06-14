@@ -32,7 +32,7 @@ const TagTestPage = ( {fbMemo}: ITest ) => {
   
   const uid = new Uid();
   const fbAuth = new FbAuth(firebaseAuth, fireStoreDB);
-  const fbTag = new FbTag(firebaseAuth, fireStoreDB, "ttt");
+  const fbTag = new FbTag(firebaseAuth, fireStoreDB);
   // const fbMemo = new FbMemo(firebaseAuth, fireStoreDB, "ttt");
   
   const [testUser, setTestUser] = useState<User | null>(null);
@@ -71,10 +71,10 @@ const TagTestPage = ( {fbMemo}: ITest ) => {
   const addUser = async (user: User | null) => {
     if (!user) return
     const newUser = await fbAuth.addUser(user)
+    fbTag.setDoc(user)
+    fbMemo.setDoc(user) // 의존성 외부 주입
     await fbTag.initTag(newUser!.uid)
-    fbMemo.setUser(newUser!.uid)
-    fbTag.setUser(newUser!.uid)
-    
+
     const initMemoId = await fbMemo.initMemo(newUser!.uid)
     console.log( "이니셜라이즈 메모 아이디", initMemoId)
     fbTag.addUsedMemo("undefined", initMemoId!.undefinedMemoId )
@@ -87,7 +87,7 @@ const TagTestPage = ( {fbMemo}: ITest ) => {
   }
   
   React.useEffect(() => {
-    fbAuth.lookChangeUpdate(setTestUser)
+    fbAuth.onCheckUser()
     fbTag.lookChangeTags()
   }, [])
 

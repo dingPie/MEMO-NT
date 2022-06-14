@@ -7,15 +7,23 @@ import { CustomBtn } from "../../components/Buttons";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
+import { User } from "firebase/auth";
+import { FbAuth } from "../../firebase/firebase_auth_service";
 
 interface ISetUser {
-  testUser: boolean;
+  user: User | null;
+  onClickLogout: () => void;
 }
 
-const SetUser = ( { testUser }: ISetUser ) => {
+const SetUser = ( { user, onClickLogout }: ISetUser ) => {
+
+  const presentEmail = (user: User) => {
+    if (user.providerData[0].email) return user.providerData[0].email
+    else if (user.email) return user.email
+  }
 
   const setUserComponent = () => {
-    if (testUser) {
+    if (user) {
       return  (
         <>
           <RowBox 
@@ -30,7 +38,7 @@ const SetUser = ( { testUser }: ISetUser ) => {
               bgColor="#505050"
               padding=".25rem 1rem"
               height={2}
-              // whiteSpace="nowrap"
+              onClick={onClickLogout}
             >
               로그아웃
             </CustomBtn>
@@ -40,20 +48,22 @@ const SetUser = ( { testUser }: ISetUser ) => {
             <Icon icon={faUserCircle} size='2x' color="#505050" />
             <ColBox gap={.1} padding="0">
               <Text color="#505050" padding="0">
-                유저 이름
+                { user.displayName ? user.displayName : "사용자" }
               </Text>
               <Text padding="0">
-                tester@gmail.com
+              {presentEmail(user)}
               </Text>
             </ColBox>
           </UserBox>
 
           <Text color="#505050">
-            Google로 연결됨
+            {user.providerData[0].providerId} 로 연결됨
           </Text>
         </>
       )
-    } else {
+    } 
+    
+    else {
       return (
         <>
           <RowBox 

@@ -12,9 +12,16 @@ import Select from "../../components/Select";
 import SetUser from "./SetUser";
 import SetBombTime from "./SetBombTime";
 import { useNavigate } from "react-router";
+import { Props } from "../../App";
+import { User } from "firebase/auth";
+import { FbAuth } from "../../firebase/firebase_auth_service";
 
 
-const SettingPage = () => {
+interface ISettingPage extends Props {
+  fbAuth: FbAuth;
+}
+
+const SettingPage = ( { user, setUser, fbAuth }: ISettingPage ) => {
   
   const navigate = useNavigate();
 
@@ -22,7 +29,10 @@ const SettingPage = () => {
     navigate(-1)
   }
 
-  const [testUser, setTestUser] = useState(false)
+  const onClickLogout = () => {
+    fbAuth.logOut()
+  }
+
  
   return(
     <>
@@ -32,18 +42,19 @@ const SettingPage = () => {
       <MobileBox>
         {/* 로그인 설정/관리 */}
         <SetUser
-          testUser={testUser}
+          user={user}
+          onClickLogout={onClickLogout}
         />
         {/* 삭제예약 설정 */}
         <SetBombTime 
         
         />
 
-        <Text bold
+        {/* <Text bold
           onClick={() =>setTestUser(!testUser)}
         >
           임시 로그인 버튼
-        </Text>
+        </Text> */}
       </MobileBox>
     </>
   )

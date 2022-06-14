@@ -1,4 +1,4 @@
-import { Auth } from "firebase/auth";
+import { Auth, User } from "firebase/auth";
 import { 
   collection,
   addDoc, 
@@ -33,22 +33,24 @@ export class FbMemo {
   constructor(
     firebaseAuth: Auth, 
     fireStoreDB: Firestore, 
-    uid: string, 
+    // uid: string | null, 
     // lastMemo: QueryDocumentSnapshot<DocumentData> | null
     ) {
     this.firebaseAuth = firebaseAuth
     this.fireStoreDB = fireStoreDB
-    this.doc = uid+"_memo"
+    // this.doc = !uid ? "test" : uid+"_memo"
+    this.doc = "default"
     this.lastMemo = null
     this.loadSize = 1
   }
 
-  setUser (
-    uid: string
-  ) {
-    this.doc = uid + "_memo"
+  setDoc (user: User) {
+    this.doc = user.uid+"_memo"
   }
 
+  getDoc () {
+    return this.doc
+  }
 
   /* 메모 이니셜라이즈 (set) */
   async initMemo (

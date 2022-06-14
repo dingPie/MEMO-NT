@@ -15,8 +15,8 @@ export interface IMemo {
 export interface IUser {
 	uid: string;
 	provider: string; // 유저의 로그인한 아이디. cpie1216
-	userEmail?: string; // 유저의 로그인 한 이메일 cpie1216@gmail.com
-	name?: string // google, github 등 로그인 소스 (표시용)
+	name: string | null // google, github 등 로그인 소스 (표시용)
+	email: string | null; // 유저의 로그인 한 이메일, github는 null cpie1216@gmail.com
 }
 
 export interface IDeleteTime {

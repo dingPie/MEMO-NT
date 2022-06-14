@@ -1,4 +1,4 @@
-import { Auth } from "firebase/auth";
+import { Auth, User } from "firebase/auth";
 import { 
   collection,
   addDoc, 
@@ -35,16 +35,18 @@ export class FbTag {
   private fireStoreDB: Firestore
   private doc: string
 
-  constructor(firebaseAuth: Auth, fireStoreDB: Firestore, uid: string) {
+  constructor(firebaseAuth: Auth, fireStoreDB: Firestore) {
     this.firebaseAuth = firebaseAuth
     this.fireStoreDB = fireStoreDB
-    this.doc = uid+"_tag"
+    this.doc = "default"
   }
 
-  setUser (
-    uid: string
-  ) {
-    this.doc = uid + "_tag"
+  setDoc (user: User) {
+    this.doc = user.uid+"_tag"
+  }
+
+  getDoc () {
+    return this.doc
   }
 
   // 태그 실시간 변화 감시
