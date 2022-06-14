@@ -13,27 +13,39 @@ import Text from "../../components/Text";
 import WithoutLogin from "./WithoutLogin";
 import WithSnsLogin from "./WithSnsLogin";
 
-const LoginPage = () => {
+// firebase
+import { FbAuth } from "../../firebase/firebase_auth_service";
+import { firebaseAuth, fireStoreDB } from "../../firebase/firebase_config";
+import { Props } from "../../App";
 
+interface ILoginPage extends Props {
+
+}
+
+const LoginPage = ( { user, setUser }: ILoginPage ) => {
+
+
+  // 인스턴스 생성을... app이나 index에서 해주고 user정보를 하위에서 받아올까?
+  const fbAuth = new FbAuth(firebaseAuth, fireStoreDB);
   const navigate = useNavigate();
 
+
+
   const onClickWithoutLogin = () => {
-    // localStorage로 tag / memo set
     console.log("localStorage로 로그인...")
-    navigate(`/talk`)
+    alert("작동안함")
+    // navigate(`/talk`)
   }
-
-  const onClickGoogleLlogin = () => {
-    // firebase google 로그인 로직
-    // 로그인 한 정보로 tag / memo / user set
+  
+  const onClickGoogleLlogin = async () => {
     console.log("firebase google로 로그인...")
+    await fbAuth.loginWithGoogle(setUser)
     navigate(`/talk`)
   }
-
-  const onClickGithubLogin = () => {
-    // firebase github 로그인 로직
-    // 로그인 한 정보로 tag / memo / user set
+  
+  const onClickGithubLogin = async () => {
     console.log("firebase github으로 로그인...")
+    await fbAuth.loginWithGithub(setUser)
     navigate(`/talk`)
   }
  

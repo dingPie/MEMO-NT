@@ -9,7 +9,8 @@ import {
   updateCurrentUser, 
   browserSessionPersistence, 
   User, 
-  Auth } from "firebase/auth";
+  Auth, 
+  browserLocalPersistence} from "firebase/auth";
 import { deleteDoc, doc, Firestore, getDoc, setDoc } from "firebase/firestore";
 import { IUser } from "../utils/interface/interface";
 
@@ -19,30 +20,35 @@ export class FbAuth {
   private firebaseAuth: Auth // auth 의존성주입
   private fireStoreDB: Firestore
   private doc: string
+  private user: User | null
 
   constructor(firebaseAuth: Auth, fireStoreDB: Firestore) {
     this.firebaseAuth = firebaseAuth
     this.fireStoreDB = fireStoreDB
     this.doc = "user"
+    this.user = null
   }
+
+
 
   // 구글로 로그인
   async loginWithGoogle ( 
-    update: (user: User | null) => void 
+    update?: (user: User | null) => void 
     ) {
-    await setPersistence(this.firebaseAuth, browserSessionPersistence );
+    await setPersistence(this.firebaseAuth, browserLocalPersistence );
     const googleProvider = new GoogleAuthProvider();
     const result = await signInWithPopup(this.firebaseAuth, googleProvider);
 
     const credential = GoogleAuthProvider.credentialFromResult(result);
     const token = credential!.accessToken;
     console.log("유저정보", result.user)
-    update(result.user)
+    if(update) update(result.user)
+    return result.user
   }
 
   // 깃허브로 로그인 
   async loginWithGithub (
-    update: (user: User | null) => void 
+    update?: (user: User | null) => void 
   ) {
     await setPersistence(this.firebaseAuth, browserSessionPersistence ); // 세션 스토리지 저장. 
     const githubProvider = new GithubAuthProvider();
@@ -51,7 +57,7 @@ export class FbAuth {
     const credential = GithubAuthProvider.credentialFromResult(result);
     const token = credential!.accessToken;
     console.log( "유저정보", result.user)
-    update(result.user)
+    if(update) update(result.user)
   }
 
   //로그아웃
@@ -61,15 +67,26 @@ export class FbAuth {
   }
 
   // 유저정보 변화 감지
-  async lookChangeUpdate (
-    update: (user: User | null) => void 
-  ): Promise<void> {
+  async onCheckUser (
+    update?: (user: User | null) => void 
+  ) {
     onIdTokenChanged(this.firebaseAuth, (user) => {
-      update(user)
-      console.log( "유저정보 감지: ", user)
+      if(update) update(user)
+      // console.log("유저정보 감지", user)
     })
   }
 
+  async setUserReatTime () {
+    onIdTokenChanged(this.firebaseAuth, (user) => {
+      this.user = user
+      console.log( "유저 지정됨", this.user)
+    })
+  }
+
+  getUser () {
+    return this.user
+  }
+  
 
   // 유저 있는지 확인
   async checkJoinedUser (
