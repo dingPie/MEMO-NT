@@ -88,7 +88,7 @@ const TagTestPage = ( {fbMemo}: ITest ) => {
   
   React.useEffect(() => {
     fbAuth.onCheckUser()
-    fbTag.lookChangeTags()
+    fbTag.onCheckTag()
   }, [])
 
 

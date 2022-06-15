@@ -50,10 +50,10 @@ export class FbTag {
   }
 
   // 태그 실시간 변화 감시
-  async lookChangeTags (
+  async onCheckTag (
     update?: (tag: ITag[]) => void 
   ) {
-    const q = query(collection(this.fireStoreDB, this.doc), where("name", "!=", false))
+    const q = query(collection(this.fireStoreDB, this.doc), orderBy("lastUpdate", "desc")) // , where("name", "!=", false)
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const result = querySnapshot.docs.map(doc => {
@@ -74,12 +74,14 @@ export class FbTag {
     const undefinedTag = {
       name: "태그 없음", 
       color: "#F5F5F5", 
-      usedMemo: []
+      usedMemo: [],
+      lastUpdate: 0
     }
     const tobeDeletedTag = {
       name: "삭제 예정", 
       color: "#505050", 
-      usedMemo: []
+      usedMemo: [],
+      lastUpdate: 0
     }
     const docId = uid ? uid+"_tag" : this.doc // init 절차 및 인스턴스 생성 범위 때문에 외부 주입도 고려
     const undefinedRef = doc(this.fireStoreDB, docId, "undefined");
@@ -100,7 +102,8 @@ export class FbTag {
     const newTag = {
       name: tagName,
       color: "#F5F5F5", // 기본 색상
-      usedMemo: []
+      usedMemo: [],
+      lastUpdate: 0
   } 
     const addCollection = collection(this.fireStoreDB, this.doc);
     try {
@@ -112,7 +115,7 @@ export class FbTag {
     }
   }
 
-  // 사용한 메모 추가
+  // 해당 태그에 사용한 메모 추가
   async addUsedMemo (
     tagId: string,
     memoId: string,
@@ -120,7 +123,8 @@ export class FbTag {
     const docRef = doc(this.fireStoreDB, this.doc, tagId)
     try {
       await updateDoc( docRef, {
-        usedMemo: arrayUnion(memoId)
+        usedMemo: arrayUnion(memoId),
+        lastUpdate: parseInt(memoId)
       }); 
       console.log("사용된 메모id 추가완료")
     } catch (e) {
@@ -128,7 +132,7 @@ export class FbTag {
     }
   }
 
-  // 사용한 메모 삭제
+  // 해당 태그에 사용한 메모 삭제
   async deleteUsedMemo (
     tagId: string,
     memoId: string,
@@ -190,13 +194,5 @@ export class FbTag {
       console.error("Error adding document: ", e);
     }
   }
-
-  // 태그찾기는 state에서 찾는걸로 구성하자.
-  // findTag (
-  //   tags: INewTag,
-  //   tagId: string
-  // ) {
-  //   return tags[tagId]
-  // }
   
 }

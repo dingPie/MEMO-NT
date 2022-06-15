@@ -21,32 +21,68 @@ import { Time } from "../../utils/service/time";
 import { dummyMemos } from "../../utils/data/dummyData";
 import { MobileBox } from "../../components/MobileBox";
 
-import { IMemo } from "../../utils/interface/interface";
+import { IMemo, ITag } from "../../utils/interface/interface";
 import TalkMemu from "./TalkMenu";
 import TalkDeletePopup from "./TalkDeletePopup";
 import TalkPinn from "./TalkPinn";
 import TalkPinnExpand from "./TalkPinnExpand";
-import TagOptions from "./TagOptions";
-import TalkInputOption from "./TalkInputOption";
+import TagOptions from "./InputBox/TagOptions";
+import TalkInputOption from "./InputBox/TalkInputOption";
 import Tag from "../../utils/data/tag_service";
-import TalkEditOption from "./TalkEditOption";
+import TalkEditOption from "./InputBox/TalkEditInput";
+import { FbTag } from "../../firebase/firestore_tag_serivce";
+
+import { firebaseAuth, fireStoreDB } from "../../firebase/firebase_config";
+import { Props } from "../../App";
+import { FbMemo } from "../../firebase/firestore_memo_service";
+import TalkInpuContainer from "./InputBox/TalkInpuContainer";
+
+interface ITalkPage extends Props {
+  tags: ITag[];
+  setTags: (v: ITag[]) => void;
+  fbMemo: FbMemo;
+}
+
+export interface TalkProps {
+  tags: ITag[]
+}
 
 
-const TalkPage = () => {
+const TalkPage = ( { user, tags, setTags, fbMemo }: ITalkPage ) => {
 
-  const tag = new Tag();
   const navigate = useNavigate();
   const inputRef = useRef<HTMLDivElement>(null)
+  const talkBoxRef = useRef<HTMLDivElement>(null)
 
   const [selectedMemo, setSelectedMemo] = useState<IMemo | null>(null); // 선택한 메모(메뉴)
   const [pinnedMemo, setPinnedMemo] = useState<IMemo | null>(null); // 상단 pinn메모
   const [bottomSpace, setBottomSpace] = useState(0); // option창 bottom 좌표 설정
 
   const [editMemo, setEditMemo] = useState<IMemo | null>(null); // 수정할 메모 (따로 관리하기 위함)
-
   const [inputMemo, setInputMemo] = useState('') // 입력중인 memo
 
   const [isOpenDeletePopup, setIsOpenDeletePopup] = useState(false)
+
+  const [viewMemo, setViewMemo] = useState<IMemo[]>([])
+
+
+  const focusLast = () => {
+		if (!talkBoxRef.current) return
+    const scrollHeight = talkBoxRef.current.scrollHeight
+    talkBoxRef.current!.scroll(({ top: scrollHeight, left: 0, behavior: "smooth" }))
+	}
+
+  useEffect(() => {
+    if (!user) return
+    loadPaginationMemo()
+  }, [])
+
+  const loadPaginationMemo = async () => {
+    const result = await fbMemo.getMemo(viewMemo, setViewMemo)
+    console.log(result)
+  }
+  
+
 
   // Header 버튼: grid 이동
   const onClickOtherBtn = () => {
@@ -136,25 +172,30 @@ const TalkPage = () => {
         page="talk"
         onClickOtherBtn={onClickOtherBtn}
       />
-      
+
       {/* 상단 pinn ui */}
       { pinnedMemo &&
-        <TalkPinn 
+        <TalkPinn
+          tags={tags}
           memo={pinnedMemo}
           onClickDeletePinn={onClickDeletePinn}
         />
       }
       {/* <TalkPinnExpand /> */}
 
-      <TalkBox>
+      <TalkBox
+        ref={talkBoxRef}
+      >
       {/* 테스트용 */}
 
-        { dummyMemos.map((memo) => {
+        { viewMemo.map((memo) => {
           return (
             <TalkList
+              tags={tags}
               key={memo.id}
               memo={memo}
               onClickMenuBtn={onClickMemuBtn}
+              // ref={}
             />) 
         }) }
         
@@ -171,9 +212,8 @@ const TalkPage = () => {
         }
       </TalkBox>
 
-      {/* 메모 입력시 등장하는 옵션 */}
 
-      { inputMemo && !editMemo &&
+      {/* { inputMemo && !editMemo &&
         <TalkInputOption
           bottomSpace={bottomSpace}
         />
@@ -181,18 +221,26 @@ const TalkPage = () => {
 
       { editMemo &&
         <TalkEditOption
+          tags={tags}
           bottomSpace={bottomSpace}
           editMemo={editMemo}
           onClickCancelEditMemo={onClickCancelEditMemo}
         />
       }
 
-      {/* 메모 입력 input */}
       <TalkInput
         ref={inputRef}
         // defaultValue={}
         inputMemo={inputMemo}
         onChangeInputMemo={(e) => onChangeInputMemo(e)}
+      /> */}
+
+      <TalkInpuContainer
+        tags={tags}
+        inputMemo={inputMemo}
+        setInputMemo={setInputMemo}
+        editMemo={editMemo}
+        setEditMemo={setEditMemo}
       />
 
       {/*  삭제 팝업 */}

@@ -41,9 +41,9 @@ export class FbMemo {
     // this.doc = !uid ? "test" : uid+"_memo"
     this.doc = "default"
     this.lastMemo = null
-    this.loadSize = 1
+    this.loadSize = 5
   }
-
+  
   setDoc (user: User) {
     this.doc = user.uid+"_memo"
   }

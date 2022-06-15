@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { RowBox } from "../../components/FlexBox";
-import { TalkTag, TalkContent } from "./TalkList";
+import { TalkContent } from "./TalkList";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faChevronUp, faTrashCan, faAlignLeft } from "@fortawesome/free-solid-svg-icons";
@@ -14,7 +14,7 @@ const TalkPinnExpand = () => {
     <PinnBoxExpand>
       <RowBox padding="0" gap={.5}>
         <TalkTagExpand
-          color="#E2F0CB" // 테스트 컬러
+          bgColor="#E2F0CB" // 테스트 컬러
         >
           테스트 메모
         </TalkTagExpand>
@@ -98,8 +98,10 @@ const PinnBtns = styled.div`
   border-radius: .25rem;
 `
 
-const TalkTagExpand = styled(TalkTag)`
+const TalkTagExpand = styled(IconBox)`
   width: 100%;
   border-radius: .25rem;
-  align-self: center;
+  justify-content: flex-start;
+  padding: 0 .5rem;
+/* align-self: center; */
 `

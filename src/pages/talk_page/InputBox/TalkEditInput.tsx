@@ -1,29 +1,47 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { RowBox } from "../../components/FlexBox";
+import { RowBox } from "../../../components/FlexBox";
 import TagOptions from "./TagOptions";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faHashtag, faXmark } from "@fortawesome/free-solid-svg-icons";
 
-import { CustomBtn } from "../../components/Buttons";
-import { dummyTags } from "../../utils/data/dummyData";
-import { IMemo } from "../../utils/interface/interface";
-import { InputText } from "../../components/InputText";
-import Text from "../../components/Text"
-import { IconBox } from "../../components/IconBox";
-import TagService from "../../utils/data/tag_service";
+import { CustomBtn } from "../../../components/Buttons";
+import { dummyTags } from "../../../utils/data/dummyData";
+import { IMemo } from "../../../utils/interface/interface";
+import { InputText } from "../../../components/InputText";
+import Text from "../../../components/Text"
+import { IconBox } from "../../../components/IconBox";
+import TagService from "../../../utils/data/tag_service";
+import { TalkProps } from "../TalkPage";
+import useStore from "../../../store/useStore";
 
-interface ITalkInputOption {
+interface ITalkEditInput extends TalkProps {
   editMemo: IMemo;
   bottomSpace: number;
   onClickCancelEditMemo: () => void;
+  editTagName: string;
+  onChangeTagName: (e?: React.ChangeEvent<HTMLTextAreaElement> | null, tagName?: string) => void;
 }
 
-const TalkInputOption = ( { editMemo, bottomSpace, onClickCancelEditMemo }: ITalkInputOption ) => {
+const TalkEditInput = ( { 
+  tags, 
+  editMemo, 
+  bottomSpace, 
+  onClickCancelEditMemo, 
+  editTagName, 
+  onChangeTagName
+}: ITalkEditInput ) => {
 
-  const tagService = new TagService();
-  const tag = tagService.findTag(editMemo.tagId)
+
+  const { palette } = useStore();
+  const tag = tags.filter(v => v.id === editMemo.tagId)[0]
+  console.log(editMemo, tag)
+
+  useEffect(() => {
+    onChangeTagName( null, tag.name)
+  }, [])
+  
 
   return(
     <MenuBox 
@@ -35,7 +53,7 @@ const TalkInputOption = ( { editMemo, bottomSpace, onClickCancelEditMemo }: ITal
       gap={.25} 
       radius={1}
       padding=".25rem .5rem"
-      bgColor={tag.color}
+      bgColor={palette.getColor(tag)}
      >
       <Text 
         bold 
@@ -46,11 +64,13 @@ const TalkInputOption = ( { editMemo, bottomSpace, onClickCancelEditMemo }: ITal
        #
       </Text>
       <InputText 
-        noResize
-        bgColor={tag.color}
-        defaultValue={tagService.tagName(tag)}
         bold
+        noResize
+        // defaultValue={tag.name}
         height={1.25}
+        bgColor={palette.getColor(tag)}
+        value={editTagName}
+        onChange={onChangeTagName}
       />
     </RowBox>
 
@@ -71,7 +91,7 @@ const TalkInputOption = ( { editMemo, bottomSpace, onClickCancelEditMemo }: ITal
   )
 }
 
-export default TalkInputOption;
+export default TalkEditInput;
 
 // 여기 이제 input 옵션창 해야함..
 

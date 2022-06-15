@@ -1,21 +1,25 @@
 import React from "react";
 import styled from "styled-components";
-import { RowBox } from "../../components/FlexBox";
+import { RowBox } from "../../../components/FlexBox";
 import TagOptions from "./TagOptions";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import {  faHashtag } from "@fortawesome/free-solid-svg-icons";
 
-import { CustomBtn } from "../../components/Buttons";
-import { dummyTags } from "../../utils/data/dummyData";
+import { CustomBtn } from "../../../components/Buttons";
+import { dummyTags } from "../../../utils/data/dummyData";
+import { TalkProps } from "../TalkPage";
+import useStore from "../../../store/useStore";
 
-interface ITalkInputOption {
+interface ITalkInputOption extends TalkProps {
   bottomSpace: number;
 }
 
-const TalkInputOption = ( { bottomSpace }: ITalkInputOption ) => {
+const TalkInputOption = ( { tags, bottomSpace }: ITalkInputOption ) => {
 
-  const dummyRecent = dummyTags.filter( v => v.id !== "undefined" && v.id !== "timeBomb" )
+  const recentTags = tags.filter( v => v.id !== "undefined" && v.id !== "toBeDeleted" ).slice(0, 3)
+  const { palette } = useStore();
+  // const tag = tags.filter(v => v.id === editMemo.tagId)[0]
 
   return(
     <MenuBox 
@@ -23,19 +27,18 @@ const TalkInputOption = ( { bottomSpace }: ITalkInputOption ) => {
       bottomSpace={bottomSpace}
     >
       <RowBox gap={.25} padding="0" >
-        { dummyRecent.map( v => {
-          return  <TagOptions 
-                    tagColor={v.color} 
-                    tagName={v.name} 
-                  />
-          })
-        }
+        { tags.slice(0, 3).map( tag => // 추후 recentTags로 변경
+          <TagOptions 
+            tagColor={palette.getColor(tag)} 
+            tagName={tag.name} 
+          />
+        )}
       </RowBox>
 
     <RowBox gap={.25} padding="0" right>
       <TagOptions 
         tagColor="#679BFF" 
-        tagName="추천태그"  
+        tagName="추천태그"  // 태그 추천 관련 로직 적용
       /> 
       <TagOptions 
         tagColor="#F5F5F5"
