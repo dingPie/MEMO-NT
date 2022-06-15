@@ -8,12 +8,12 @@ import styled from "styled-components";
 import { IconBox } from "../../components/IconBox";
 
 interface ITaklInput {
-  inputMemo: string
+  value: string
   onChangeInputMemo: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 
 }
 
-const TalkInput = forwardRef<HTMLDivElement, ITaklInput>(( { inputMemo, onChangeInputMemo }, ref ) => {
+const TalkInput = forwardRef<HTMLDivElement, ITaklInput>(( { value, onChangeInputMemo }, ref ) => {
 
 
   return (        
@@ -22,7 +22,7 @@ const TalkInput = forwardRef<HTMLDivElement, ITaklInput>(( { inputMemo, onChange
     ref={ref}
   >
     <InputText
-      value={inputMemo}
+      value={value}
       onChange={onChangeInputMemo}
       maxHeight={5}
       placeholder="내용과 # 로 제목을 입력하세요"

@@ -6,35 +6,36 @@ import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faEllipsis, faHashtag } from "@fortawesome/free-solid-svg-icons";
 import { faClockFour } from "@fortawesome/free-regular-svg-icons";
 import { IconBox } from "../../components/IconBox";
-import { IMemo } from "../../utils/interface/interface";
+import { IMemo, ITag } from "../../utils/interface/interface";
 import { Time } from "../../utils/service/time";
 
-// dummy
-import { dummyTags } from '../../utils/data/dummyData'
+import useStore from "../../store/useStore";
+import { TalkProps } from "./TalkPage";
 
-interface ITalkList {
+interface ITalkList extends TalkProps {
   memo: IMemo;
   onClickMenuBtn: (memo: IMemo) => void;
 }
 
-const TalkList = ( { memo, onClickMenuBtn }: ITalkList ) => {
+const TalkList = ( {tags, memo, onClickMenuBtn }: ITalkList ) => {
 
+
+  const { palette } = useStore();
   const time = new Time();
-  const tags = dummyTags;
   const tag = tags.filter(v => v.id === memo.tagId )[0]
 
   const setTalkTag = () => {
     if (tag.id === "undefined") return <Icon icon={faHashtag} />
-    else if (tag.id === "timeBomb") return <Icon icon={faClockFour} />
+    else if (tag.id === "toBeDeleted") return <Icon icon={faClockFour} color="#FFFFFF" />
     else return tag.name.substring(0, 1)
   }
 
 
   return(
     <TalkListEle>
-      <TalkTag color={tag.color}>
+      <IconBox bgColor={palette.getColor(tag)}>
         {setTalkTag()}
-      </TalkTag>
+      </IconBox>
       <TalkContent>
         {memo.content}
       </TalkContent>
@@ -45,9 +46,9 @@ const TalkList = ( { memo, onClickMenuBtn }: ITalkList ) => {
         shadow width={1.75} height={1.75}
         onClick={() => onClickMenuBtn(memo)}
       >
-      <Icon size="lg" color="#505050" 
-        icon={faEllipsis}
-      />
+        <Icon size="lg" color="#505050" 
+          icon={faEllipsis}
+        />
       </IconBox>
     </TalkListEle>
   )
@@ -65,19 +66,6 @@ const TalkListEle = styled.div`
   margin-bottom: .5rem;
 `
 
-export const TalkTag = styled.div<{color?: string}>`
-  width: 1.75rem;
-  height: 1.75rem;
-  padding: 0 .5rem;
-
-  font-size: .875rem;
-  font-weight: bold;
-  line-height: 1.75rem;
-
-  background: ${({color}) => color && color};
-  border-radius: 1.75rem;
-  box-shadow: ${({theme}) => theme.boxShadow.main};
-`
 
 export const TalkContent = styled.div`
   padding: .25rem .5rem;

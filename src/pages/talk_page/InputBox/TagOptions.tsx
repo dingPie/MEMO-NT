@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import Text from '../../components/Text'
+import Text from '../../../components/Text'
 
-import { CustomBtn } from "../../components/Buttons";
+import { CustomBtn } from "../../../components/Buttons";
 import { FontAwesomeIconProps } from "@fortawesome/react-fontawesome";
-import { oneLineText } from "../../styles/stylesCss";
-import { ITag } from "../../utils/interface/interface";
+import { oneLineText } from "../../../styles/stylesCss";
+import { ITag } from "../../../utils/interface/interface";
 
 interface ITagOptions {
   tagColor: string;
@@ -15,6 +15,7 @@ interface ITagOptions {
 
 const TagOptions = ( { tagColor, tagName, maxWidth }: ITagOptions ) => {
 
+  
 
   return(
     <>

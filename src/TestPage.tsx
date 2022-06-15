@@ -298,13 +298,6 @@ const TestPage = () => {
         테스트 페이지 입니다.
       </Text>
       
-      { testArray &&
-        testArray.map( memo => {
-         return <TalkList 
-            memo={memo}
-            onClickMenuBtn={onClickTest}
-          /> })
-      }
 
       <MainBtn
         primary
@@ -410,16 +403,6 @@ const TestPage = () => {
         태그초기화
       </MainBtn>
 
-      { testmemo &&
-        Object.values(testmemo)
-              .filter(v => v.tagId === "tag1")
-              .map( memo => {
-                return <TalkList
-                  key={memo.id}
-                  memo={memo as IMemo}
-                  onClickMenuBtn={onClickTest}
-                /> })
-      }
 
 
     </>

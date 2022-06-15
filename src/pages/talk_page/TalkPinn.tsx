@@ -1,41 +1,55 @@
 import React from "react";
 import styled from "styled-components";
 import { RowBox } from "../../components/FlexBox";
-import { TalkTag, TalkContent } from "./TalkList";
+import { TalkContent } from "./TalkList";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { IconBox } from "../../components/IconBox";
 import { oneLineText } from "../../styles/stylesCss";
-import { IMemo } from "../../utils/interface/interface";
+import { IMemo, ITag } from "../../utils/interface/interface";
 import { dummyTags } from "../../utils/data/dummyData";
+import useStore from "../../store/useStore";
+import { setTalkTag } from "./utils/talk_service";
+import { TalkProps } from "./TalkPage";
 
 
-interface ITalkPinn {
+interface ITalkPinn extends TalkProps {
   memo: IMemo;
   onClickDeletePinn: () => void;
   // onClickExpandPinn: () => void;
 }
 
 
-const TalkPinn = ( { memo, onClickDeletePinn }: ITalkPinn ) => {
+const TalkPinn = ( { tags, memo, onClickDeletePinn }: ITalkPinn ) => {
 
-  const tags = dummyTags;
+  const { palette } = useStore();
   const tag = tags.filter(v => v.id === memo.tagId )[0]
+
+  // const setTalkTag = () => {
+  //   if (tag.id === "undefined") return <Icon icon={faHashtag} />
+  //   else if (tag.id === "toBeDeleted") return <Icon icon={faClockFour} color="#FFFFFF" />
+  //   else return tag.name.substring(0, 1)
+  // }
+
+  
 
   return(
     <PinnBox>
-      <TalkTag
-        color={tag.color} // 테스트 컬러
+
+      <IconBox
+        bgColor={palette.getColor(tag)} // 테스트 컬러
+        width={1.875}
+        height={1.875}
       >
-        { tag.name.slice(0, 1) }
-      </TalkTag>
+        {setTalkTag(tag)}
+      </IconBox>
+
       <PinnContent>
         {memo.content}
       </PinnContent>
 
       <PinnBtns>
-
         <IconBox 
           height={1.75}
         >
@@ -47,7 +61,6 @@ const TalkPinn = ( { memo, onClickDeletePinn }: ITalkPinn ) => {
         >
          <Icon size="lg" icon={faTrashCan} />
         </IconBox>
-
       </PinnBtns>
 
     </PinnBox>
@@ -57,20 +70,21 @@ export default TalkPinn;
 
 const PinnBox = styled.div`
   position: fixed;
-  align-items: center;
-  top: 56px;
+  top: 3.5rem;
   left: 50%;
   transform: translate(-50%, 0);
+  
+  display: grid;
+  grid-template-columns: 1.75rem 1fr 4rem;
+  padding: .5rem;
+  gap: .5rem;
+  align-items: center;
+  
+  width: 100%;
+  height: 3rem;
   max-width: 30rem;
   background: ${({theme}) => theme.colors.primary_blue };
-  justify-content: space-between;
 
-  display: flex;
-  padding: 8px 12px;
-  gap: 8px;
-
-  width: 100%;
-  height: 48px;
 `
 
 const PinnContent = styled.div`
@@ -79,20 +93,12 @@ const PinnContent = styled.div`
   border-radius: 4px;
   background: white;
   
-  width: 100%;
-  line-height: 1.25rem ;
+  line-height: 1.5rem ;
 
   // overflow 속성
   ${oneLineText}
-  /* display: -webkit-box;
-  overflow-y: hidden;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  text-overflow: ellipsis;
-  white-space: pre-wrap; */
-
   box-shadow: ${({theme}) => theme.boxShadow.main};
-`
+  `
 
 const PinnBtns = styled.div`
   display: flex;
@@ -100,9 +106,9 @@ const PinnBtns = styled.div`
   align-items: center;
   padding: 0 .25rem;
   gap: .5rem;
-
+  
   width: 4rem;
-  height: 1.75rem;
+  height: 2rem;
 
   background: ${({theme}) => theme.colors.white };
   border-radius: .25rem;

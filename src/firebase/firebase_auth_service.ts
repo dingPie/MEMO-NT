@@ -11,7 +11,8 @@ import {
   User, 
   Auth, 
   browserLocalPersistence} from "firebase/auth";
-import { deleteDoc, doc, Firestore, getDoc, setDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, Firestore, getDoc, getDocs, setDoc } from "firebase/firestore";
+import { IPalette } from "../store/palette";
 import { IUser } from "../utils/interface/interface";
 
 
@@ -94,7 +95,7 @@ export class FbAuth {
   ): Promise<IUser | undefined> {
     const docRef = doc(this.fireStoreDB, "user", uid); // , orderBy("createTime")
     const result = await getDoc(docRef);
-    console.log(result.data())
+    console.log( "현재 유저정보:", result.data())
     return result.data() as IUser | undefined
   }
 
@@ -146,5 +147,18 @@ export class FbAuth {
     }
   }
 
+  async getPalette () : Promise<IPalette | undefined> {
+    const col = collection(this.fireStoreDB, "palette");
+    try {
+      const querySnapshot  = await getDocs(col)
+      const test = querySnapshot.docs.map(v => v.data())
+      console.log("테스트", test)
+      let target = {}
+      const t = Object.assign(target, test)
+      return t as unknown as IPalette | undefined
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }
 
 }
