@@ -12,13 +12,14 @@ import Select from "../../components/Select";
 import SetUser from "./SetUser";
 import SetBombTime from "./SetBombTime";
 import { useNavigate } from "react-router";
-import { Props } from "../../App";
 import { User } from "firebase/auth";
 import { FbAuth } from "../../firebase/firebase_auth_service";
 
 
-interface ISettingPage extends Props {
+interface ISettingPage {
   fbAuth: FbAuth;
+  user: User | null;
+  setUser: (v: User | null) => void;
 }
 
 const SettingPage = ( { user, setUser, fbAuth }: ISettingPage ) => {

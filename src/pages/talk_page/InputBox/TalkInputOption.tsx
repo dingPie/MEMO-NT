@@ -10,12 +10,15 @@ import { CustomBtn } from "../../../components/Buttons";
 import { dummyTags } from "../../../utils/data/dummyData";
 import { TalkProps } from "../TalkPage";
 import useStore from "../../../store/useStore";
+import { ITag } from "../../../utils/interface/interface";
 
 interface ITalkInputOption extends TalkProps {
   bottomSpace: number;
+  recommTag: ITag | undefined;
+  onClickTagOption: (v?: string) => void;
 }
 
-const TalkInputOption = ( { tags, bottomSpace }: ITalkInputOption ) => {
+const TalkInputOption = ( { tags, recommTag, bottomSpace, onClickTagOption }: ITalkInputOption ) => {
 
   const recentTags = tags.filter( v => v.id !== "undefined" && v.id !== "toBeDeleted" ).slice(0, 3)
   const { palette } = useStore();
@@ -29,6 +32,7 @@ const TalkInputOption = ( { tags, bottomSpace }: ITalkInputOption ) => {
       <RowBox gap={.25} padding="0" >
         { tags.slice(0, 3).map( tag => // 추후 recentTags로 변경
           <TagOptions 
+            onClick={ () => onClickTagOption(tag.name)}
             tagColor={palette.getColor(tag)} 
             tagName={tag.name} 
           />
@@ -36,11 +40,16 @@ const TalkInputOption = ( { tags, bottomSpace }: ITalkInputOption ) => {
       </RowBox>
 
     <RowBox gap={.25} padding="0" right>
-      <TagOptions 
-        tagColor="#679BFF" 
-        tagName="추천태그"  // 태그 추천 관련 로직 적용
-      /> 
-      <TagOptions 
+      
+      { recommTag &&
+        <TagOptions 
+          onClick={ () => onClickTagOption(recommTag.name)}
+          tagColor={palette.getColor(recommTag)} 
+          tagName={recommTag.name}  // 태그 추천 관련 로직 적용
+        /> 
+      }
+      <TagOptions
+        onClick={ () => onClickTagOption("")}
         tagColor="#F5F5F5"
         tagName="#"  
       />

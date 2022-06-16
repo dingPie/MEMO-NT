@@ -33,13 +33,12 @@ const TalkEditInput = ( {
   onChangeTagName
 }: ITalkEditInput ) => {
 
-
   const { palette } = useStore();
   const tag = tags.filter(v => v.id === editMemo.tagId)[0]
-  console.log(editMemo, tag)
+  // console.log(editMemo, tag)
 
   useEffect(() => {
-    onChangeTagName( null, tag.name)
+    onChangeTagName(null, tag.name)
   }, [])
   
 
@@ -66,7 +65,6 @@ const TalkEditInput = ( {
       <InputText 
         bold
         noResize
-        // defaultValue={tag.name}
         height={1.25}
         bgColor={palette.getColor(tag)}
         value={editTagName}

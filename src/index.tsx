@@ -8,7 +8,7 @@ import { ThemeProvider } from 'styled-components';
 import theme from './styles/theme';
 
 import { FbAuth } from './firebase/firebase_auth_service';
-import { FbTag } from './firebase/firestore_tag_serivce';
+import { FbTag } from './firebase/firestore_tag_service';
 import { FbMemo } from './firebase/firestore_memo_service';
 import { firebaseAuth, fireStoreDB } from './firebase/firebase_config';
 

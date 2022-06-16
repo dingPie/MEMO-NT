@@ -12,7 +12,7 @@ import {  } from "@fortawesome/free-regular-svg-icons";
 
 import { InputText } from "../../components/InputText";
 import Text from "../../components/Text"
-import TalkInput from "./TalkInput";
+import TalkInput from "./InputBox/TalkInput";
 import { IconBox } from "../../components/IconBox";
 import TalkList from "./TalkList";
 import { Time } from "../../utils/service/time";
@@ -30,40 +30,40 @@ import TagOptions from "./InputBox/TagOptions";
 import TalkInputOption from "./InputBox/TalkInputOption";
 import Tag from "../../utils/data/tag_service";
 import TalkEditOption from "./InputBox/TalkEditInput";
-import { FbTag } from "../../firebase/firestore_tag_serivce";
+import { FbTag } from "../../firebase/firestore_tag_service";
 
 import { firebaseAuth, fireStoreDB } from "../../firebase/firebase_config";
-import { Props } from "../../App";
 import { FbMemo } from "../../firebase/firestore_memo_service";
 import TalkInpuContainer from "./InputBox/TalkInpuContainer";
+import { User } from "firebase/auth";
 
-interface ITalkPage extends Props {
+interface ITalkPage {
+  user: User | null;
   tags: ITag[];
   setTags: (v: ITag[]) => void;
   fbMemo: FbMemo;
+  fbTag: FbTag;
 }
 
 export interface TalkProps {
-  tags: ITag[]
+  tags: ITag[];
 }
 
 
-const TalkPage = ( { user, tags, setTags, fbMemo }: ITalkPage ) => {
+const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
 
   const navigate = useNavigate();
-  const inputRef = useRef<HTMLDivElement>(null)
   const talkBoxRef = useRef<HTMLDivElement>(null)
 
   const [selectedMemo, setSelectedMemo] = useState<IMemo | null>(null); // 선택한 메모(메뉴)
   const [pinnedMemo, setPinnedMemo] = useState<IMemo | null>(null); // 상단 pinn메모
-  const [bottomSpace, setBottomSpace] = useState(0); // option창 bottom 좌표 설정
 
   const [editMemo, setEditMemo] = useState<IMemo | null>(null); // 수정할 메모 (따로 관리하기 위함)
   const [inputMemo, setInputMemo] = useState('') // 입력중인 memo
 
   const [isOpenDeletePopup, setIsOpenDeletePopup] = useState(false)
 
-  const [viewMemo, setViewMemo] = useState<IMemo[]>([])
+  const [viewMemo, setViewMemo] = useState<IMemo[]>([]) // 데이터를 load해와서 보여지는 메모
 
 
   const focusLast = () => {
@@ -104,27 +104,16 @@ const TalkPage = ( { user, tags, setTags, fbMemo }: ITalkPage ) => {
     setSelectedMemo(null)
   }
   
-  /* input창 관련 */ 
-  // input 창이 바뀔때마다 실행하는 로직
-  const onChangeInputMemo = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setInputMemo(e.target.value)
-    if (inputRef.current) setBottomSpace( inputRef.current.clientHeight )
-    // option 추천하는 로직
-  }
 
   /* Menu: 수정관련 */ 
   // 수정버튼 클릭
   const onClickEditBtn = () => {
     if (!selectedMemo) return
     setEditMemo(selectedMemo)
-    setInputMemo(selectedMemo.content)
+    // setInputMemo(selectedMemo.content)
     setSelectedMemo(null)
   }
-  // 수정 취소
-  const onClickCancelEditMemo = () => {
-    setEditMemo(null)
-    setInputMemo("")
-  }
+
 
   /* Menu: 삭제관련 */
   // 삭제버튼 클릭
@@ -212,33 +201,11 @@ const TalkPage = ( { user, tags, setTags, fbMemo }: ITalkPage ) => {
         }
       </TalkBox>
 
-
-      {/* { inputMemo && !editMemo &&
-        <TalkInputOption
-          bottomSpace={bottomSpace}
-        />
-      }
-
-      { editMemo &&
-        <TalkEditOption
-          tags={tags}
-          bottomSpace={bottomSpace}
-          editMemo={editMemo}
-          onClickCancelEditMemo={onClickCancelEditMemo}
-        />
-      }
-
-      <TalkInput
-        ref={inputRef}
-        // defaultValue={}
-        inputMemo={inputMemo}
-        onChangeInputMemo={(e) => onChangeInputMemo(e)}
-      /> */}
-
+      {/* Talk Input관련 Container */}
       <TalkInpuContainer
+        fbMemo={fbMemo}
+        fbTag={fbTag}
         tags={tags}
-        inputMemo={inputMemo}
-        setInputMemo={setInputMemo}
         editMemo={editMemo}
         setEditMemo={setEditMemo}
       />

@@ -1,25 +1,25 @@
 import React, { forwardRef } from "react";
-import { InputText } from "../../components/InputText"
+import { InputText } from "../../../components/InputText"
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faPlusSquare } from "@fortawesome/free-regular-svg-icons";
-import { RowBox } from "../../components/FlexBox";
-import Header from "../../components/Header";
+import { RowBox } from "../../../components/FlexBox";
+import Header from "../../../components/Header";
 import styled from "styled-components";
-import { IconBox } from "../../components/IconBox";
+import { IconBox } from "../../../components/IconBox";
 
 interface ITaklInput {
-  value: string
+  value: string;
   onChangeInputMemo: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-
+  onClickInputBtn: () => void;
 }
 
-const TalkInput = forwardRef<HTMLDivElement, ITaklInput>(( { value, onChangeInputMemo }, ref ) => {
+const TalkInput = forwardRef<HTMLDivElement, ITaklInput>(( { value, onChangeInputMemo, onClickInputBtn }, inputBoxRef ) => {
 
 
   return (        
   <InputBox 
     padding=".75rem" 
-    ref={ref}
+    ref={inputBoxRef}
   >
     <InputText
       value={value}
@@ -27,7 +27,9 @@ const TalkInput = forwardRef<HTMLDivElement, ITaklInput>(( { value, onChangeInpu
       maxHeight={5}
       placeholder="내용과 # 로 제목을 입력하세요"
     />
-    <IconBox>
+    <IconBox
+      onClick={onClickInputBtn}
+    >
       <Icon size="lg" color="#505050" 
         icon={faPlusSquare}
       />

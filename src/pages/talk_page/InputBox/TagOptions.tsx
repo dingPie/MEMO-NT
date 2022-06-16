@@ -11,16 +11,16 @@ interface ITagOptions {
   tagColor: string;
   tagName: string;
   maxWidth?: number;
+  onClick?: (v: any) => void;
 }
 
-const TagOptions = ( { tagColor, tagName, maxWidth }: ITagOptions ) => {
+const TagOptions = ( { tagColor, tagName, maxWidth, onClick }: ITagOptions ) => {
 
-  
 
   return(
     <>
       <RecomandTag
-        // color="white"
+        onClick={onClick}
         bgColor={tagColor}
         padding=".25rem .5rem"
         radius={1}
