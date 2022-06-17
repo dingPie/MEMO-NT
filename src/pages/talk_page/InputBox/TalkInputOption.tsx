@@ -19,10 +19,10 @@ interface ITalkInputOption extends TalkProps {
 }
 
 const TalkInputOption = ( { tags, recommTag, bottomSpace, onClickTagOption }: ITalkInputOption ) => {
-
-  const recentTags = tags.filter( v => v.id !== "undefined" && v.id !== "toBeDeleted" ).slice(0, 3)
+  
   const { palette } = useStore();
-  // const tag = tags.filter(v => v.id === editMemo.tagId)[0]
+  const recentTags = tags.filter( v => v.id !== "undefined" && v.id !== "toBeDeleted" ).slice(0, 3)
+  // firebase에서 sort시, sort 된 옵션으로 불러와진다!
 
   return(
     <MenuBox 
@@ -30,8 +30,9 @@ const TalkInputOption = ( { tags, recommTag, bottomSpace, onClickTagOption }: IT
       bottomSpace={bottomSpace}
     >
       <RowBox gap={.25} padding="0" >
-        { tags.slice(0, 3).map( tag => // 추후 recentTags로 변경
-          <TagOptions 
+        { recentTags.map( tag =>
+          <TagOptions
+            key={tag.id}
             onClick={ () => onClickTagOption(tag.name)}
             tagColor={palette.getColor(tag)} 
             tagName={tag.name} 
@@ -40,10 +41,9 @@ const TalkInputOption = ( { tags, recommTag, bottomSpace, onClickTagOption }: IT
       </RowBox>
 
     <RowBox gap={.25} padding="0" right>
-      
       { recommTag &&
         <TagOptions 
-          onClick={ () => onClickTagOption(recommTag.name)}
+          onClick={() => onClickTagOption(recommTag.name)}
           tagColor={palette.getColor(recommTag)} 
           tagName={recommTag.name}  // 태그 추천 관련 로직 적용
         /> 
@@ -53,7 +53,6 @@ const TalkInputOption = ( { tags, recommTag, bottomSpace, onClickTagOption }: IT
         tagColor="#F5F5F5"
         tagName="#"  
       />
-
     </RowBox>
 
     </MenuBox>

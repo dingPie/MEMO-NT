@@ -1,10 +1,11 @@
 import React from "react";
 
 import Text from "../../components/Text";
+import { LegacyTag } from "../../utils/data/dummyData";
 import { ITag } from "../../utils/interface/interface";
 
 interface IMemoName {
-  tag: ITag;
+  tag: LegacyTag;
   isOpenMenu?: boolean;
   onClickTagName?: () => void;
 }

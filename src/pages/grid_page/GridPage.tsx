@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import styled from "styled-components";
 import Header from "../../components/Header";
 import { MobileBox } from "../../components/MobileBox";
-import { dummyTags } from "../../utils/data/dummyData";
+import { dummyTags, LegacyTag } from "../../utils/data/dummyData";
 import { ITag } from "../../utils/interface/interface";
 import GridMemo from "./GridMemo";
 
@@ -12,7 +12,7 @@ const GridPage = () => {
 
   const navigate = useNavigate();
 
-  const onClickTag = (tag: ITag)  => {
+  const onClickTag = (tag: LegacyTag)  => {
     navigate(`/memo/${tag.id}`)
   }
   const onClickOtherBtn = ()  => {

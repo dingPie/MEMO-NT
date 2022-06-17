@@ -29,7 +29,7 @@ import TalkPinnExpand from "./TalkPinnExpand";
 import TagOptions from "./InputBox/TagOptions";
 import TalkInputOption from "./InputBox/TalkInputOption";
 import Tag from "../../utils/data/tag_service";
-import TalkEditOption from "./InputBox/TalkEditInput";
+import TalkEditOption from "./InputBox/TalkEditTagName";
 import { FbTag } from "../../firebase/firestore_tag_service";
 
 import { firebaseAuth, fireStoreDB } from "../../firebase/firebase_config";
@@ -110,7 +110,6 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
   const onClickEditBtn = () => {
     if (!selectedMemo) return
     setEditMemo(selectedMemo)
-    // setInputMemo(selectedMemo.content)
     setSelectedMemo(null)
   }
 
@@ -120,12 +119,18 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
   const onClickDeleteBtn = () => {
     setIsOpenDeletePopup(true)
   }
-  // 삭제 실행 완료
-  const deleteMemo = () => {
-    alert("삭제되었습니다.")
+  // 삭제 실행 로직
+  const deleteMemo = async (selectedMemo: IMemo) => {
+    // 메모 삭제 로직
+    await fbMemo.deleteMemo(selectedMemo!.id)
+    await fbTag.deleteUsedMemo(selectedMemo)
+    // await fbTag.deleteTag(selectedMemo.tagId)
+    const newViewMemo = viewMemo.filter(v => v.id !== selectedMemo.id);
+    setViewMemo(newViewMemo);
+
+    alert("삭제되었습니다.");
     setIsOpenDeletePopup(false)
     setSelectedMemo(null)
-    // 메모 삭제 로직
   }
 
   /* Menu: 상단 핀 관련 */
@@ -208,11 +213,14 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
         tags={tags}
         editMemo={editMemo}
         setEditMemo={setEditMemo}
+        viewMemo={viewMemo}
+        setViewMemo={setViewMemo}
       />
 
       {/*  삭제 팝업 */}
       { isOpenDeletePopup &&
         <TalkDeletePopup 
+          selectedMemo={selectedMemo}
           onClickCancel={() => setIsOpenDeletePopup(false)}
           onClickDo={deleteMemo}
         />

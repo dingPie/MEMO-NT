@@ -16,7 +16,7 @@ import TagService from "../../../utils/data/tag_service";
 import { TalkProps } from "../TalkPage";
 import useStore from "../../../store/useStore";
 
-interface ITalkEditInput extends TalkProps {
+interface ITalkEditTagName extends TalkProps {
   editMemo: IMemo;
   bottomSpace: number;
   onClickCancelEditMemo: () => void;
@@ -24,23 +24,18 @@ interface ITalkEditInput extends TalkProps {
   onChangeTagName: (e?: React.ChangeEvent<HTMLTextAreaElement> | null, tagName?: string) => void;
 }
 
-const TalkEditInput = ( { 
+const TalkEditTagName = ( { 
   tags, 
   editMemo, 
   bottomSpace, 
   onClickCancelEditMemo, 
   editTagName, 
   onChangeTagName
-}: ITalkEditInput ) => {
+}: ITalkEditTagName ) => {
 
   const { palette } = useStore();
   const tag = tags.filter(v => v.id === editMemo.tagId)[0]
-  // console.log(editMemo, tag)
 
-  useEffect(() => {
-    onChangeTagName(null, tag.name)
-  }, [])
-  
 
   return(
     <MenuBox 
@@ -89,7 +84,7 @@ const TalkEditInput = ( {
   )
 }
 
-export default TalkEditInput;
+export default TalkEditTagName;
 
 // 여기 이제 input 옵션창 해야함..
 

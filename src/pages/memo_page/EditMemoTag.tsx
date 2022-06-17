@@ -8,9 +8,10 @@ import { InputText } from "../../components/InputText";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { ITag } from "../../utils/interface/interface";
+import { LegacyTag } from "../../utils/data/dummyData";
 
 interface IEditMemoTag {
-  tag: ITag;
+  tag: LegacyTag;
   onClickDoEditTag?: () => void;
 }
 

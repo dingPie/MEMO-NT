@@ -2,7 +2,8 @@ export interface ITag {
 	id: string; // 난수
 	name: string;
 	color: string;
-	usedMemo: string[] // memo Id
+	usedMemo: string[]; // memo Id
+	lastUpdate: number;
 }
 
 export interface IMemo {
