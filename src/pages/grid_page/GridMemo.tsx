@@ -5,10 +5,10 @@ import Text from "../../components/Text";
 import { ColBox } from "../../components/FlexBox";
 import { oneLineText } from "../../styles/stylesCss";
 import { ITag } from "../../utils/interface/interface";
-import { dummyMemos } from '../../utils/data/dummyData'
+import { dummyMemos, LegacyTag } from '../../utils/data/dummyData'
 
 interface IGridMemo {
-  tag: ITag;
+  tag: LegacyTag;
   onClickMemo: () => void;
 }
 

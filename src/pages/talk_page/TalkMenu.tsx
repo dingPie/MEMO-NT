@@ -28,21 +28,25 @@ const TalkMemu = ( { onClickEditBtn, onClickDeleteBtn, onClickPinnBtn, onClickEx
         >
           <Icon icon={faPen} />
         </IconBox>
+        
         <IconBox
           onClick={onClickDeleteBtn}
         >
           <Icon icon={faTrashCan} />
         </IconBox>
+
         <IconBox
           onClick={onClickPinnBtn}
         >
           <Icon icon={faThumbTack} />
         </IconBox>
+
         <IconBox
           onClick={onClickExpandBtn}
         >
           <Icon icon={faExpand} />
         </IconBox>
+
         <IconBox
           onClick={onClicGoMemoBtn}
         >

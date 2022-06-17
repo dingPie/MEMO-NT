@@ -10,16 +10,19 @@ import { CustomBtn } from "../../../components/Buttons";
 import { dummyTags } from "../../../utils/data/dummyData";
 import { TalkProps } from "../TalkPage";
 import useStore from "../../../store/useStore";
+import { ITag } from "../../../utils/interface/interface";
 
 interface ITalkInputOption extends TalkProps {
   bottomSpace: number;
+  recommTag: ITag | undefined;
+  onClickTagOption: (v?: string) => void;
 }
 
-const TalkInputOption = ( { tags, bottomSpace }: ITalkInputOption ) => {
-
-  const recentTags = tags.filter( v => v.id !== "undefined" && v.id !== "toBeDeleted" ).slice(0, 3)
+const TalkInputOption = ( { tags, recommTag, bottomSpace, onClickTagOption }: ITalkInputOption ) => {
+  
   const { palette } = useStore();
-  // const tag = tags.filter(v => v.id === editMemo.tagId)[0]
+  const recentTags = tags.filter( v => v.id !== "undefined" && v.id !== "toBeDeleted" ).slice(0, 3)
+  // firebase에서 sort시, sort 된 옵션으로 불러와진다!
 
   return(
     <MenuBox 
@@ -27,8 +30,10 @@ const TalkInputOption = ( { tags, bottomSpace }: ITalkInputOption ) => {
       bottomSpace={bottomSpace}
     >
       <RowBox gap={.25} padding="0" >
-        { tags.slice(0, 3).map( tag => // 추후 recentTags로 변경
-          <TagOptions 
+        { recentTags.map( tag =>
+          <TagOptions
+            key={tag.id}
+            onClick={ () => onClickTagOption(tag.name)}
             tagColor={palette.getColor(tag)} 
             tagName={tag.name} 
           />
@@ -36,15 +41,18 @@ const TalkInputOption = ( { tags, bottomSpace }: ITalkInputOption ) => {
       </RowBox>
 
     <RowBox gap={.25} padding="0" right>
-      <TagOptions 
-        tagColor="#679BFF" 
-        tagName="추천태그"  // 태그 추천 관련 로직 적용
-      /> 
-      <TagOptions 
+      { recommTag &&
+        <TagOptions 
+          onClick={() => onClickTagOption(recommTag.name)}
+          tagColor={palette.getColor(recommTag)} 
+          tagName={recommTag.name}  // 태그 추천 관련 로직 적용
+        /> 
+      }
+      <TagOptions
+        onClick={ () => onClickTagOption("")}
         tagColor="#F5F5F5"
         tagName="#"  
       />
-
     </RowBox>
 
     </MenuBox>

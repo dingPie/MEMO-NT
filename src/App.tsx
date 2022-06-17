@@ -27,7 +27,7 @@ import { FbAuth } from './firebase/firebase_auth_service';
 import useStore from './store/useStore';
 import { MainBtn } from './components/Buttons';
 import { User } from 'firebase/auth';
-import { FbTag } from './firebase/firestore_tag_serivce';
+import { FbTag } from './firebase/firestore_tag_service';
 import { ITag } from './utils/interface/interface';
 import { IPalette } from './store/palette';
 
@@ -37,18 +37,18 @@ import { IPalette } from './store/palette';
 //   height: "100%"
 // }
 
-interface IIndex {
+interface IApp {
   fbAuth: FbAuth;
   fbTag: FbTag;
   fbMemo: FbMemo;
 }
 
-export interface Props {
-  user: User | null;
-  setUser?: (v: User | null) => void;
-}
+// export interface Props {
+//   user: User | null;
+//   setUser?: (v: User | null) => void;
+// }
 
-function App( {fbAuth, fbTag, fbMemo }: IIndex ) {
+function App( {fbAuth, fbTag, fbMemo }: IApp ) {
 
   // const fbAuth = new FbAuth(firebaseAuth, fireStoreDB);
   // const fbTag = new FbTag(firebaseAuth, fireStoreDB);
@@ -124,6 +124,7 @@ function App( {fbAuth, fbTag, fbMemo }: IIndex ) {
             tags={tags}
             setTags={setTags}
             fbMemo={fbMemo}
+            fbTag={fbTag}
           />} 
         />
         <Route path="/grid" element={<GridPage />} />

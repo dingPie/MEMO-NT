@@ -10,7 +10,7 @@ interface IPopup {
   children: ReactNode;
   title: string;
   onClickCancel?: () => void;
-  onClickDo?: () => void;
+  onClickDo?: (v: any) => void;
   cancelBtnName?: string;
   doBtnName?: string;
 

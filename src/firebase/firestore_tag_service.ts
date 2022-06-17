@@ -22,7 +22,7 @@ import {
   arrayUnion,
   arrayRemove} from "firebase/firestore";
 import { INewTag } from "../TagTestPage";
-import { ITag } from "../utils/interface/interface";
+import { IMemo, ITag } from "../utils/interface/interface";
 
 interface Test {
   name: string,
@@ -72,14 +72,14 @@ export class FbTag {
     uid?: string
   ) {
     const undefinedTag = {
-      name: "태그 없음", 
-      color: "#F5F5F5", 
+      name: "undefined", 
+      color: "0", 
       usedMemo: [],
       lastUpdate: 0
     }
     const tobeDeletedTag = {
-      name: "삭제 예정", 
-      color: "#505050", 
+      name: "toBeDeleted", 
+      color: "1", 
       usedMemo: [],
       lastUpdate: 0
     }
@@ -99,17 +99,18 @@ export class FbTag {
   async addTag (
     tagName: string
     ) {
-    const newTag = {
+    const newTag: any = {
       name: tagName,
-      color: "#F5F5F5", // 기본 색상
+      color: "0", // 기본 색상
       usedMemo: [],
       lastUpdate: 0
   } 
     const addCollection = collection(this.fireStoreDB, this.doc);
     try {
       const result = await addDoc(addCollection, newTag);
-      console.log( result.id, "태그 추가완료")
-      return result.id
+      newTag.id = result.id
+      console.log( newTag, "태그 추가완료")
+      return newTag as ITag;
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -134,13 +135,12 @@ export class FbTag {
 
   // 해당 태그에 사용한 메모 삭제
   async deleteUsedMemo (
-    tagId: string,
-    memoId: string,
+    memo: IMemo,
   ) {
-    const docRef = doc(this.fireStoreDB, this.doc, tagId)
+    const docRef = doc(this.fireStoreDB, this.doc, memo.tagId)
     try {
       await updateDoc( docRef, {
-        usedMemo: arrayRemove(memoId)
+        usedMemo: arrayRemove(memo.id)
       }); 
       console.log("바뀐(삭제된) 메모id 삭제완료")
     } catch (e) {
@@ -182,6 +182,7 @@ export class FbTag {
     }
   }
 
+  // 태그 삭제
   async deleteTag (
     tagId: string,
     ) {

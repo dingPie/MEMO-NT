@@ -11,7 +11,7 @@ import { IMemo } from "./utils/interface/interface";
 import TalkList from "./pages/talk_page/TalkList";
 import { dummyMemos2, IDummyMemo } from "./utils/data/dummyData";
 import { async } from "@firebase/util";
-import { FbTag } from "./firebase/firestore_tag_serivce";
+import { FbTag } from "./firebase/firestore_tag_service";
 
 const TestPage = () => {
 

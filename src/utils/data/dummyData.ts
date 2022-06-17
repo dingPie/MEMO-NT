@@ -1,8 +1,13 @@
 import { ITag, IMemo, IUser, IDeleteTime } from "../interface/interface";
 
+export interface LegacyTag {
+  id: string;
+  name: string;
+  color: string;
+  usedMemo: string[];
+}
 
-
-export const dummyTags: ITag[] = [
+export const dummyTags: LegacyTag[] = [
   {
     id: "undefined",
     name: "태그 없음",

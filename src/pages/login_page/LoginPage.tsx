@@ -16,10 +16,11 @@ import WithSnsLogin from "./WithSnsLogin";
 // firebase
 import { FbAuth } from "../../firebase/firebase_auth_service";
 import { firebaseAuth, fireStoreDB } from "../../firebase/firebase_config";
-import { Props } from "../../App";
+import { User } from "firebase/auth";
 
-interface ILoginPage extends Props {
-
+interface ILoginPage {
+  user: User | null;
+  setUser: (v: User | null) => void;
 }
 
 const LoginPage = ( { user, setUser }: ILoginPage ) => {

@@ -41,7 +41,7 @@ export class FbMemo {
     // this.doc = !uid ? "test" : uid+"_memo"
     this.doc = "default"
     this.lastMemo = null
-    this.loadSize = 5
+    this.loadSize = 50
   }
   
   setDoc (user: User) {
@@ -124,7 +124,7 @@ export class FbMemo {
     try {
       const result = await setDoc(docRef, newMemo)
       console.log("추가된 메모 Id", nowTime.toString())
-      return newMemo
+      return newMemo as IMemo;
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -141,7 +141,7 @@ export class FbMemo {
       const result = await updateDoc(docRef, {
         content: editContent
       })
-      console.log("메모 내용이 수정되었습니다.")
+      console.log("메모 내용이 수정되었습니다.");
     } catch (e) {
       console.error("Error adding document: ", e);
     }

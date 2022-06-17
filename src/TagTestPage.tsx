@@ -11,7 +11,7 @@ import { IMemo, ITag } from "./utils/interface/interface";
 import TalkList from "./pages/talk_page/TalkList";
 import { dummyMemos2, IDummyMemo } from "./utils/data/dummyData";
 import { async } from "@firebase/util";
-import { FbTag } from "./firebase/firestore_tag_serivce";
+import { FbTag } from "./firebase/firestore_tag_service";
 import { FbAuth } from "./firebase/firebase_auth_service";
 import { FbMemo } from "./firebase/firestore_memo_service";
 import { RowBox } from "./components/FlexBox";
@@ -161,8 +161,8 @@ React.useEffect(() => {
   ) => {
     // memo[0].id 이런식으로 이전 id값 뽑아내야함.
   await fbMemo.editMemoUsedTag(memoId, newTagId)
-  fbTag.addUsedMemo(newTagId, memoId)
-  fbTag.deleteUsedMemo("undefined", memoId)
+  // fbTag.addUsedMemo(newTagId, memoId)
+  // fbTag.deleteUsedMemo("undefined", memoId)
   // 태그 usedMemo 수정
  }
 
@@ -171,7 +171,7 @@ React.useEffect(() => {
   tagId: string
   ) => {
   await fbMemo.deleteMemo(memoId);
-  fbTag.deleteUsedMemo(tagId, memoId)
+  // fbTag.deleteUsedMemo(tagId, memoId)
  }
 
 
