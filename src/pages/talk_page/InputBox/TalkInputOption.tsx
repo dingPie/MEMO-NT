@@ -4,13 +4,14 @@ import { RowBox } from "../../../components/FlexBox";
 import TagOptions from "./TagOptions";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import {  faHashtag } from "@fortawesome/free-solid-svg-icons";
+import {  faHashtag,  } from "@fortawesome/free-solid-svg-icons";
 
 import { CustomBtn } from "../../../components/Buttons";
 import { dummyTags } from "../../../utils/data/dummyData";
 import { TalkProps } from "../TalkPage";
 import useStore from "../../../store/useStore";
 import { ITag } from "../../../utils/interface/interface";
+import { IconBox } from "../../../components/IconBox";
 
 interface ITalkInputOption extends TalkProps {
   bottomSpace: number;
@@ -48,6 +49,7 @@ const TalkInputOption = ( { tags, recommTag, bottomSpace, onClickTagOption }: IT
           tagName={recommTag.name}  // 태그 추천 관련 로직 적용
         /> 
       }
+
       <TagOptions
         onClick={ () => onClickTagOption("")}
         tagColor="#F5F5F5"
