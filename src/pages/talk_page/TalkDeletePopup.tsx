@@ -4,18 +4,17 @@ import Text from "../../components/Text";
 import { IMemo } from "../../utils/interface/interface";
 
 interface ITalkDeletePopup {
-  selectedMemo: IMemo | null;
   onClickCancel: () => void;
-  onClickDo: (v: IMemo) => void;
+  onClickDo: () => void;
 }
 
-const TalkDeletePopup = ( { selectedMemo, onClickCancel, onClickDo }: ITalkDeletePopup ) => {
+const TalkDeletePopup = ( { onClickCancel, onClickDo }: ITalkDeletePopup ) => {
 
   return(
     <Popup
       title="메모 삭제"
       onClickCancel={onClickCancel}
-      onClickDo={() => onClickDo(selectedMemo!)}
+      onClickDo={onClickDo}
     >
       <Text>
         이 메모를 삭제할까요?

@@ -1,5 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components"
+import { fontSizeSet } from "../styles/stylesCss";
 
 interface IFlexPosition {
   center?: boolean;
@@ -13,6 +14,7 @@ interface IFlexPosition {
   radius?: number;
   height?: number;
   bgColor?: string;
+  size?: string;
 }
 
 const setJustify = css<IFlexPosition>`
@@ -45,7 +47,8 @@ export const RowBox = styled.div<IFlexPosition>`
       return shadow && 'box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1), -2px -2px 4px rgba(0, 0, 0, 0.05)'
   }};
 
-  ${setJustify}
+  ${setJustify};
+  ${fontSizeSet};
   `
 
 export const ColBox = styled.div<IFlexPosition>`
@@ -62,4 +65,5 @@ export const ColBox = styled.div<IFlexPosition>`
   ${({shadow}) => {
       return shadow && 'box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1), -2px -2px 4px rgba(0, 0, 0, 0.05)'
   }};
+  ${fontSizeSet};
 `

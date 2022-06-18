@@ -48,10 +48,10 @@ export const center = css`
   transform: translate(-50%,-50%);
 `
 
-export const oneLineText = css<{whiteSpace?: string}>`
+export const setTextLine = css<{whiteSpace?: string, lineClamp?: number}>`
   display: -webkit-box;
   overflow: hidden;
-  -webkit-line-clamp: 1;
+  -webkit-line-clamp: ${({lineClamp}) => lineClamp ? lineClamp : 1  };;
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
   white-space: ${({whiteSpace}) => whiteSpace ? whiteSpace : 'pre-wrap'  };

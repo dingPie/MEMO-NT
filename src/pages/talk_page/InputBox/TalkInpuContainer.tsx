@@ -47,7 +47,7 @@ const TalkInpuContainer = ( { fbMemo, fbTag, tags, editMemo, setEditMemo, viewMe
   // 수정할 tagName state 관리
   const onChangeTagName = (e?: React.ChangeEvent<HTMLTextAreaElement> | null, tagName?: string) => {
     if (e) setEditTagName(e.target.value)
-    else if (tagName) setEditTagName(tagName)
+    else if (tagName !== undefined) setEditTagName(tagName)
   }
 
 

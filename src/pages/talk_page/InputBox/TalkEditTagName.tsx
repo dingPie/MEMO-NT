@@ -5,6 +5,7 @@ import TagOptions from "./TagOptions";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faHashtag, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faClockFour } from "@fortawesome/free-regular-svg-icons";
 
 import { CustomBtn } from "../../../components/Buttons";
 import { dummyTags } from "../../../utils/data/dummyData";
@@ -49,6 +50,7 @@ const TalkEditTagName = ( {
       padding=".25rem .5rem"
       bgColor={palette.getColor(tag)}
      >
+
       <Text 
         bold 
         padding="0" 
@@ -68,10 +70,19 @@ const TalkEditTagName = ( {
     </RowBox>
 
     <RowBox gap={.25} padding="0" right>
-      <TagOptions 
-        tagColor="#F5F5F5"
-        tagName="#"  
-      />
+
+      <IconBox bgColor="#505050"
+        onClick={ () => onChangeTagName(null,"toBeDeleted")}
+      >
+        <Icon icon={faClockFour} color="#FFFFFF" />
+      </IconBox>
+
+      <IconBox bgColor="#f5f5f5"
+        onClick={ () => onChangeTagName(null, "")}
+      >
+        <Icon icon={faHashtag} />
+      </IconBox>
+
       <IconBox
         onClick={onClickCancelEditMemo}
       >

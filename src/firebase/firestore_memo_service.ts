@@ -43,6 +43,10 @@ export class FbMemo {
     this.lastMemo = null
     this.loadSize = 50
   }
+
+  initLastMemo () {
+    this.lastMemo = null;
+  }
   
   setDoc (user: User) {
     this.doc = user.uid+"_memo"
@@ -93,7 +97,6 @@ export class FbMemo {
     const colRef = collection(this.fireStoreDB, this.doc )
     let q = query(colRef, limit(this.loadSize));
     if (this.lastMemo) {
-      console.log("여기 실행됨")
       q = query(colRef, startAfter(this.lastMemo), limit(this.loadSize));
     }
     try {
@@ -101,7 +104,7 @@ export class FbMemo {
       const result = querySnapshot.docs.map(doc => doc.data() as IMemo )
       this.lastMemo = querySnapshot.docs[querySnapshot.docs.length-1]
       if (update) update([...memo!, ...result])
-      return result
+      return [...memo!, ...result] as IMemo[]
     } catch (e) {
       console.error("Error adding document: ", e);
     }

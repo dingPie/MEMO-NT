@@ -4,7 +4,7 @@ import Text from '../../../components/Text'
 
 import { CustomBtn } from "../../../components/Buttons";
 import { FontAwesomeIconProps } from "@fortawesome/react-fontawesome";
-import { oneLineText } from "../../../styles/stylesCss";
+import { setTextLine } from "../../../styles/stylesCss";
 import { ITag } from "../../../utils/interface/interface";
 
 interface ITagOptions {
@@ -40,7 +40,7 @@ const RecomandTag = styled(CustomBtn)<{maxWidth?: number}>`
   max-width: ${({maxWidth}) => maxWidth ? maxWidth +"rem" : "4.5rem" };
   min-width: 2rem;
 
-  ${oneLineText}
+  ${setTextLine}
   white-space: nowrap;
 
   // overflow속성, 숨김
