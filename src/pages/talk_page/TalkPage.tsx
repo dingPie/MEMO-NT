@@ -36,6 +36,7 @@ import { firebaseAuth, fireStoreDB } from "../../firebase/firebase_config";
 import { FbMemo } from "../../firebase/firestore_memo_service";
 import TalkInpuContainer from "./InputBox/TalkInpuContainer";
 import { User } from "firebase/auth";
+import TalkListExpand from "./TalkListExpand";
 
 interface ITalkPage {
   user: User | null;
@@ -59,7 +60,7 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
   const [pinnedMemo, setPinnedMemo] = useState<IMemo | null>(null); // 상단 pinn메모
 
   const [editMemo, setEditMemo] = useState<IMemo | null>(null); // 수정할 메모 (따로 관리하기 위함)
-  const [inputMemo, setInputMemo] = useState('') // 입력중인 memo
+  // const [inputMemo, setInputMemo] = useState('') // 입력중인 memo
 
   const [isOpenDeletePopup, setIsOpenDeletePopup] = useState(false)
 
@@ -78,8 +79,8 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
   }, [])
 
   const loadPaginationMemo = async () => {
+    fbMemo.initLastMemo()
     const result = await fbMemo.getMemo(viewMemo, setViewMemo)
-    console.log(result)
   }
   
 
@@ -180,18 +181,26 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
       <TalkBox
         ref={talkBoxRef}
       >
-      {/* 테스트용 */}
-
+      {/* 메모 리스트 표시 */}
         { viewMemo.map((memo) => {
           return (
             <TalkList
-              tags={tags}
               key={memo.id}
+              tags={tags}
               memo={memo}
               onClickMenuBtn={onClickMemuBtn}
+              selectedMemo={selectedMemo}
               // ref={}
             />) 
-        }) }
+        })}
+
+        {/* {viewMemo.length &&
+          <TalkListExpand
+            tags={tags}
+            memo={viewMemo[viewMemo.length-2]}
+            onClickMenuBtn={onClickMemuBtn}
+          />
+        } */}
         
         {/* ... 클릭시 메뉴 */}
         { selectedMemo && 

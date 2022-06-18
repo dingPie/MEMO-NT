@@ -70,20 +70,19 @@ const TalkEditTagName = ( {
     </RowBox>
 
     <RowBox gap={.25} padding="0" right>
-      {/* <TagOptions 
-        tagColor="#F5F5F5"
-        tagName="#"  
-      /> */}
-    <IconBox bgColor="#505050"
-      onClick={ () => onChangeTagName(null,"toBeDeleted")}
-    >
-      <Icon icon={faClockFour} color="#FFFFFF" />
-    </IconBox>
-    <IconBox bgColor="#f5f5f5"
-      onClick={ () => onChangeTagName(null, "")}
-    >
-      <Icon icon={faHashtag} />
-    </IconBox>
+
+      <IconBox bgColor="#505050"
+        onClick={ () => onChangeTagName(null,"toBeDeleted")}
+      >
+        <Icon icon={faClockFour} color="#FFFFFF" />
+      </IconBox>
+
+      <IconBox bgColor="#f5f5f5"
+        onClick={ () => onChangeTagName(null, "")}
+      >
+        <Icon icon={faHashtag} />
+      </IconBox>
+
       <IconBox
         onClick={onClickCancelEditMemo}
       >

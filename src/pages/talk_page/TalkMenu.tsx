@@ -41,11 +41,11 @@ const TalkMemu = ( { onClickEditBtn, onClickDeleteBtn, onClickPinnBtn, onClickEx
           <Icon icon={faThumbTack} />
         </IconBox>
 
-        <IconBox
+        {/* <IconBox
           onClick={onClickExpandBtn}
         >
           <Icon icon={faExpand} />
-        </IconBox>
+        </IconBox> */}
 
         <IconBox
           onClick={onClicGoMemoBtn}

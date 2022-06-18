@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { darken, lighten } from 'polished';
-import { fontSizeSet, oneLineText, polishedColor } from "../styles/stylesCss";
+import { fontSizeSet, polishedColor } from "../styles/stylesCss";
 
 interface IMainBtn {
   primary?: boolean;

@@ -11,87 +11,68 @@ import { Time } from "../../utils/service/time";
 
 import useStore from "../../store/useStore";
 import { TalkProps } from "./TalkPage";
+import { getTagWithMemo } from "./utils/talk_service";
+import { setTextLine } from "../../styles/stylesCss";
+import TalkListaDefault from "./TalkListaDefault";
+import TalkListExpand from "./TalkListExpand";
+import { RowBox } from "../../components/FlexBox";
 
 interface ITalkList extends TalkProps {
   memo: IMemo;
   onClickMenuBtn: (memo: IMemo) => void;
+  selectedMemo: IMemo | null;
 }
 
-const TalkList = ( {tags, memo, onClickMenuBtn }: ITalkList ) => {
+const TalkList = ( { tags, memo, selectedMemo,  onClickMenuBtn }: ITalkList ) => {
 
+  const tag = getTagWithMemo(tags, memo);
 
-  const { palette } = useStore();
-  const time = new Time();
-  const tag = tags.filter(v => v.id === memo.tagId )[0]
-
-  const setTalkTag = () => {
+  const setTalkTag = (expand?: string) => {
     if (tag.id === "undefined") return <Icon icon={faHashtag} />
     else if (tag.id === "toBeDeleted") return <Icon icon={faClockFour} color="#FFFFFF" />
+
+    if (expand) return tag.name
     else return tag.name.substring(0, 1)
   }
 
+  React.useEffect(() => {
+    if (selectedMemo === memo) console.log("이 메모가 선택된 메모입니다.", memo)
+  }, [selectedMemo])
+  
 
   return(
-    <TalkListEle>
-      <IconBox bgColor={palette.getColor(tag)}>
-        {setTalkTag()}
-      </IconBox>
-      <TalkContent>
-        {memo.content}
-      </TalkContent>
-      <TalkTime>
-        {time.toTalk(memo.createTime)}
-      </TalkTime>
-      <IconBox 
-        shadow width={1.75} height={1.75}
-        onClick={() => onClickMenuBtn(memo)}
-      >
-        <Icon size="lg" color="#505050" 
-          icon={faEllipsis}
-        />
-      </IconBox>
-    </TalkListEle>
+    <>
+    { selectedMemo !== memo ? 
+      <TalkListaDefault 
+        tag={tag}
+        memo={memo}
+        talkTagName={setTalkTag()}
+        onClickMenuBtn={onClickMenuBtn}
+      /> :
+      <TalkListExpand 
+        tag={tag}
+        memo={memo}
+        talkTagName={setTalkTag("expand")}
+        onClickMenuBtn={onClickMenuBtn}
+      />
+    }
+     
+    </>
   )
 }
 
 export default TalkList;
 
+export const TalkContent = styled(RowBox)<{lineClamp?: number}>` //  styled.div
+  padding: .25rem .5rem;
+  ${setTextLine}
+`
 
-const TalkListEle = styled.div`
+export const TalkListBox = styled.div<{expand?: boolean}>`
   display: grid;
-  grid-template-columns: 1.75rem 1fr 3rem 1.75rem;
+  grid-template-columns: ${({expand}) => expand ? "1fr 3rem 1.75rem" : "1.75rem 1fr 3rem 1.75rem" };
   gap: .5rem;
   width: 100%;
   padding: 0;
   margin-bottom: .5rem;
-`
-
-
-export const TalkContent = styled.div`
-  padding: .25rem .5rem;
-  font-size: .875rem;
-  border-radius: 4px;
-  background: white;
-
-  // overflow 속성
-  display: -webkit-box;
-  overflow-y: hidden;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  text-overflow: ellipsis;
-  white-space: pre-wrap;
-
-  box-shadow: ${({theme}) => theme.boxShadow.main};
-`
-
-const TalkTime = styled.div`
-  display: flex;
-  align-items: flex-end;
-  width: 48px;
-  height: 28px;
-  
-  font-weight: 500;
-  font-size: 10px;
-  text-align: center;
-  line-height: 12px;
 `

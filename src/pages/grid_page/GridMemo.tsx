@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import Text from "../../components/Text";
 import { ColBox } from "../../components/FlexBox";
-import { oneLineText } from "../../styles/stylesCss";
+import { setTextLine } from "../../styles/stylesCss";
 import { ITag } from "../../utils/interface/interface";
 import { dummyMemos, LegacyTag } from '../../utils/data/dummyData'
 
@@ -54,5 +54,5 @@ const GridText = styled(Text)`
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
   line-height: 1.375rem ;
 
-  ${oneLineText}
+  ${setTextLine}
 `

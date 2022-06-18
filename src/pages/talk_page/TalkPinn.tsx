@@ -6,7 +6,7 @@ import { TalkContent } from "./TalkList";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { IconBox } from "../../components/IconBox";
-import { oneLineText } from "../../styles/stylesCss";
+import { setTextLine } from "../../styles/stylesCss";
 import { IMemo, ITag } from "../../utils/interface/interface";
 import { dummyTags } from "../../utils/data/dummyData";
 import useStore from "../../store/useStore";
@@ -96,7 +96,7 @@ const PinnContent = styled.div`
   line-height: 1.5rem ;
 
   // overflow 속성
-  ${oneLineText}
+  ${setTextLine}
   box-shadow: ${({theme}) => theme.boxShadow.main};
   `
 
