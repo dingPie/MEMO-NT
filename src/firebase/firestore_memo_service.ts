@@ -104,7 +104,7 @@ export class FbMemo {
       const result = querySnapshot.docs.map(doc => doc.data() as IMemo )
       this.lastMemo = querySnapshot.docs[querySnapshot.docs.length-1]
       if (update) update([...memo!, ...result])
-      return result
+      return [...memo!, ...result] as IMemo[]
     } catch (e) {
       console.error("Error adding document: ", e);
     }

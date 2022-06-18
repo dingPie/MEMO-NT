@@ -4,9 +4,11 @@ import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faEllipsis, faHashtag } from "@fortawesome/free-solid-svg-icons";
 import { faClockFour } from "@fortawesome/free-regular-svg-icons";
 
-export const setTalkTag = (tag: ITag) => {
+export const setTalkTag = (tag: ITag, expand?: "expand") => {
   if (tag.id === "undefined") return <Icon icon={faHashtag} />
   else if (tag.id === "toBeDeleted") return <Icon icon={faClockFour} color="#FFFFFF" />
+
+  if (expand) return tag.name
   else return tag.name.substring(0, 1)
 }
 
