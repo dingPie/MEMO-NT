@@ -34,11 +34,13 @@ export class FbTag {
   private firebaseAuth: Auth // auth 의존성주입
   private fireStoreDB: Firestore
   private doc: string
+  private paletteLength: number;
 
   constructor(firebaseAuth: Auth, fireStoreDB: Firestore) {
     this.firebaseAuth = firebaseAuth
     this.fireStoreDB = fireStoreDB
     this.doc = "default"
+    this.paletteLength = 10 // 0, 1번을 제외한 팔레트 수
   }
 
   setDoc (user: User) {
@@ -101,7 +103,7 @@ export class FbTag {
     ) {
     const newTag: any = {
       name: tagName,
-      color: "0", // 기본 색상
+      color: (Date.now()%this.paletteLength + 2).toString() , // 기본 색상
       usedMemo: [],
       lastUpdate: 0
   } 

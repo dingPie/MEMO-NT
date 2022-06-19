@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import styled from "styled-components";
 import Header from "../../../components/Header";
 import Text from "../../../components/Text";
@@ -19,12 +19,12 @@ import { TalkListBox } from "./TalkList";
 import { TalkContent } from "../utils/TalkComponents";
 
 interface ITalkListaDefault {
-  onClickMenuBtn: (memo: IMemo) => void;
-  memo: IMemo;
   tag: ITag;
+  memo: IMemo;
+  onClickMenuBtn: (memo: IMemo) => void;
 }
 
-const TalkListaDefault = ( {tag, memo, onClickMenuBtn }: ITalkListaDefault ) => {
+const TalkListaDefault = ( {tag, memo, onClickMenuBtn }: ITalkListaDefault  ) => {
 
   const { palette } = useStore();
   const time = new Time();

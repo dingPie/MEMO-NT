@@ -17,12 +17,11 @@ import TalkPinnDefault from "./TalkPinnDefault";
 
 interface ITalkPinn extends TalkProps {
   memo: IMemo;
-  onClickDeletePinn: () => void;
-  // onClickExpandPinn: () => void;
+  setPinnedMemo: (v: IMemo|null) => void;
 }
 
 
-const TalkPinn = ( { tags, memo, onClickDeletePinn }: ITalkPinn ) => {
+const TalkPinn = ( { tags, memo, setPinnedMemo }: ITalkPinn ) => {
 
   const tag = getTagWithMemo(tags, memo);
   const [isExpand, setIsExpand] = useState(false)
@@ -35,6 +34,9 @@ const TalkPinn = ( { tags, memo, onClickDeletePinn }: ITalkPinn ) => {
     setIsExpand(false)
   }
 
+  const onClickDeletePinn = () => {
+    setPinnedMemo(null)
+  }
 
 
   return(

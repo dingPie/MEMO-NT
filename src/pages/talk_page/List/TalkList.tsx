@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import styled from "styled-components";
 import Header from "../../../components/Header";
 
@@ -36,19 +36,18 @@ const TalkList = ( { tags, memo, selectedMemo,  onClickMenuBtn }: ITalkList ) =>
 
   return(
     <>
-    { selectedMemo !== memo ? 
-      <TalkListaDefault 
-        tag={tag}
-        memo={memo}
-        onClickMenuBtn={onClickMenuBtn}
-      /> :
-      <TalkListExpand 
-        tag={tag}
-        memo={memo}
-        onClickMenuBtn={onClickMenuBtn}
-      />
-    }
-     
+      { selectedMemo !== memo ? 
+        <TalkListaDefault 
+          tag={tag}
+          memo={memo}
+          onClickMenuBtn={onClickMenuBtn}
+        /> :
+        <TalkListExpand 
+          tag={tag}
+          memo={memo}
+          onClickMenuBtn={onClickMenuBtn}
+        />
+      }
     </>
   )
 }

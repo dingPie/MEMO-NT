@@ -1,14 +1,23 @@
+import { User } from "firebase/auth";
 import React from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import Header from "../../components/Header";
 import { MobileBox } from "../../components/MobileBox";
+import { FbMemo } from "../../firebase/firestore_memo_service";
+import { FbTag } from "../../firebase/firestore_tag_service";
 import { dummyTags, LegacyTag } from "../../utils/data/dummyData";
 import { ITag } from "../../utils/interface/interface";
 import GridMemo from "./GridMemo";
 
+interface IGridPage {
+  user: User | null;
+  tags: ITag[];
+  fbMemo: FbMemo;
+  fbTag: FbTag;
+}
 
-const GridPage = () => {
+const GridPage = ( {tags, user, fbMemo, fbTag}: IGridPage ) => {
 
   const navigate = useNavigate();
 

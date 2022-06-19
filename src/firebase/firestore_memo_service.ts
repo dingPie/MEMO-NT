@@ -27,7 +27,7 @@ export class FbMemo {
   private firebaseAuth: Auth // auth 의존성주입
   private fireStoreDB: Firestore
   private doc: string
-  private lastMemo: QueryDocumentSnapshot<DocumentData> | null
+  private lastMemo: QueryDocumentSnapshot<DocumentData> | null | undefined
   private loadSize: number
 
   constructor(
@@ -41,7 +41,7 @@ export class FbMemo {
     // this.doc = !uid ? "test" : uid+"_memo"
     this.doc = "default"
     this.lastMemo = null
-    this.loadSize = 50
+    this.loadSize = 20
   }
 
   initLastMemo () {
@@ -94,17 +94,21 @@ export class FbMemo {
     memo?: IMemo[],
     update?: (memo: IMemo[]) => void
   ) {
+    if (this.lastMemo === undefined) return // undefined (으로 지정되었으면) 더이상 실행하지 않는다
     const colRef = collection(this.fireStoreDB, this.doc )
-    let q = query(colRef, limit(this.loadSize));
-    if (this.lastMemo) {
-      q = query(colRef, startAfter(this.lastMemo), limit(this.loadSize));
-    }
+
+    let q = query(colRef, orderBy("createTime", "desc"), limit(this.loadSize));
+    if (this.lastMemo) q = query(colRef, orderBy("createTime", "desc"), startAfter(this.lastMemo), limit(this.loadSize));
+    
     try {
       const querySnapshot = await getDocs(q);
-      const result = querySnapshot.docs.map(doc => doc.data() as IMemo )
-      this.lastMemo = querySnapshot.docs[querySnapshot.docs.length-1]
-      if (update) update([...memo!, ...result])
-      return [...memo!, ...result] as IMemo[]
+      const result = querySnapshot.docs.map(doc => doc.data() as IMemo)
+
+      if (result === []) this.lastMemo = undefined; // 결과지정. 더 불러올 메모가 없으면 undefined로 변경
+      else this.lastMemo = querySnapshot.docs[querySnapshot.docs.length-1]
+
+      if (update) update([...result.reverse(), ...memo!])
+      return [...result.reverse(), ...memo!] as IMemo[]
     } catch (e) {
       console.error("Error adding document: ", e);
     }
