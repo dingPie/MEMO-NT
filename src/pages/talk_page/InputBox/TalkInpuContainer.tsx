@@ -9,7 +9,8 @@ import { FbTag } from "../../../firebase/firestore_tag_service";
  
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faEllipsis, faHashtag, faTag } from "@fortawesome/free-solid-svg-icons";
-import { getTagWithMemo, getTagWithTagName } from "../utils/talk_service";
+import { getTagWithMemo, getTagWithTagName, focusLastMemo } from "../utils/talk_service";
+import { ColBox } from "../../../components/FlexBox";
 
 
 interface ITalkInpuContainer extends TalkProps {
@@ -19,9 +20,10 @@ interface ITalkInpuContainer extends TalkProps {
   setEditMemo: (v: IMemo | null) => void;
   viewMemo: IMemo[];
   setViewMemo: (v: IMemo[]) => void;
+  talkBoxRef: React.RefObject<HTMLDivElement>
 }
 
-const TalkInpuContainer = ( { fbMemo, fbTag, tags, editMemo, setEditMemo, viewMemo, setViewMemo }: ITalkInpuContainer ) => {
+const TalkInpuContainer = ( { fbMemo, fbTag, tags, editMemo, setEditMemo, viewMemo, setViewMemo, talkBoxRef}: ITalkInpuContainer ) => {
 
   const inputBoxRef = useRef<HTMLDivElement>(null)
   const [inputMemo, setInputMemo] = useState<string>('') // 입력중인 memo
@@ -94,6 +96,7 @@ const TalkInpuContainer = ( { fbMemo, fbTag, tags, editMemo, setEditMemo, viewMe
     else { 
       const newMemo = await onClickAddMemo(inputMemo) as IMemo ; // 메모 데이터 추가
       setViewMemo([...viewMemo, newMemo]) // 메모 state 추가
+      focusLastMemo(talkBoxRef) // 추가한 메모 보기
     }
     setInputMemo("") // 이건 둘 다 실행되어야 함.
   }
@@ -136,6 +139,7 @@ const TalkInpuContainer = ( { fbMemo, fbTag, tags, editMemo, setEditMemo, viewMe
     
     const newMemo = await fbMemo.addMemo(newTag.id, content) // 메모 추가하고
     fbTag.addUsedMemo(newTag.id, newMemo!.id) // 사용한 태그에 현재 메모 로그를 추가해준다.
+
     return newMemo 
   }
 

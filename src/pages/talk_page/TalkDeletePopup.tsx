@@ -10,6 +10,7 @@ interface ITalkDeletePopup {
 
 const TalkDeletePopup = ( { onClickCancel, onClickDo }: ITalkDeletePopup ) => {
 
+
   return(
     <Popup
       title="메모 삭제"

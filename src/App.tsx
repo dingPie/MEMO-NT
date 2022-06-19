@@ -85,6 +85,7 @@ function App( {fbAuth, fbTag, fbMemo }: IApp ) {
       navitage('/login')
     }
   }, [user])
+
   // 가장 처음: user 및 tag 정보를 실시간으로 받아와, state에 저장
   useEffect(() => {
     if (!user) fbAuth.onCheckUser(setUser);
@@ -127,7 +128,14 @@ function App( {fbAuth, fbTag, fbMemo }: IApp ) {
             fbTag={fbTag}
           />} 
         />
-        <Route path="/grid" element={<GridPage />} />
+        <Route path="/grid" element={
+          <GridPage 
+            user={user}
+            tags={tags}
+            fbMemo={fbMemo}
+            fbTag={fbTag}
+          />} 
+          />
         <Route path="/memo/:tagId" element={<MemoPage />} />
 
         <Route path="/test" element={<TestPage />} />
