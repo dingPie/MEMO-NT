@@ -1,18 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import Text from "../../components/Text";
 import { ColBox } from "../../components/FlexBox";
 import { setTextLine } from "../../styles/stylesCss";
-import { ITag } from "../../utils/interface/interface";
+import { IMemo, ITag } from "../../utils/interface/interface";
 import { dummyMemos, LegacyTag } from '../../utils/data/dummyData'
+import useStore from "../../store/useStore";
+import { IconBox } from "../../components/IconBox";
+import { setTalkTag } from "../talk_page/utils/talk_service";
+import { FbMemo } from "../../firebase/firestore_memo_service";
+import { FbTag } from "../../firebase/firestore_tag_service";
 
 interface IGridMemo {
-  tag: LegacyTag;
+  fbMemo: FbMemo;
+  fbTag: FbTag;
+  tag: ITag;
   onClickMemo: () => void;
 }
 
-const GridMemo = ( { tag, onClickMemo }: IGridMemo ) => {
+const GridMemo = ( {fbMemo, fbTag, tag, onClickMemo }: IGridMemo ) => {
+
+  const { palette } = useStore();
+  const [usedMemo, setUsedMemo] = useState<IMemo[]>([]);
+
+  useEffect(() => {
+    if (!tag) return
+    getUsedMemo(tag)
+  }, [tag])
+
+  const getUsedMemo = async (tag: ITag) => {
+    // const promiseResult = await fbMemo.getUsedMemo(tag.usedMemo);
+    const promiseResult = await fbMemo.getMemoWithTag(tag, "gridPage");
+    const result = await Promise.all(promiseResult);
+    console.log( "getDoc 결과", result)
+    setUsedMemo(result)
+  }
+  
 
   return(
     <ColBox shadow 
@@ -22,25 +46,23 @@ const GridMemo = ( { tag, onClickMemo }: IGridMemo ) => {
       onClick={onClickMemo}
       bgColor={"white"}
     >
-      <Text
-        bold
+      <TalkTagExpand
         shadow
-        radius={.25}
-        padding=".375rem .5rem"
-        bgColor={tag.color}
+        height={2}
+        bgColor={palette.getColor(tag)} // 테스트 컬러
       >
-       # {tag.name}
-      </Text>
-
+        {setTalkTag(tag, "expand")}
+      </TalkTagExpand>
+      
       <ColBox gap={.25} padding="0" >
         <GridText>
-          { tag.usedMemo[0] ? dummyMemos.filter(v => v.id ===tag.usedMemo[0] )[0].content  : " "}
+          {usedMemo[0] ? usedMemo[0].content : " "}
         </GridText>
         <GridText>
-          { tag.usedMemo[1] ? dummyMemos.filter(v => v.id ===tag.usedMemo[1] )[0].content : " "}
+          {usedMemo[1] ? usedMemo[1].content : " "}
         </GridText>
         <GridText>
-          { tag.usedMemo[2] ? dummyMemos.filter(v => v.id ===tag.usedMemo[2] )[0].content : " "}
+          {usedMemo[2] ? usedMemo[2].content : " "}
         </GridText>
       </ColBox>
     </ColBox>
@@ -56,3 +78,19 @@ const GridText = styled(Text)`
 
   ${setTextLine}
 `
+const TalkTagExpand = styled(IconBox)`
+  justify-content: flex-start;
+  width: 100%;
+  padding: 0 .5rem;
+  border-radius: .25rem;
+`
+
+{/* <Text
+  bold
+  shadow
+  radius={.25}
+  padding=".375rem .5rem"
+  bgColor={palette.getColor(tag)}
+>
+  # {tag.name}
+</Text> */}

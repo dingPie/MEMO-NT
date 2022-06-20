@@ -68,8 +68,8 @@ const TalkPinnExpand = ( { tag, memo, onClickDeletePinn, onClickReducePinn }: IT
 export default TalkPinnExpand;
 
 const TalkTagExpand = styled(IconBox)`
-  width: 100%;
-  border-radius: .25rem;
   justify-content: flex-start;
+  width: 100%;
   padding: 0 .5rem;
+  border-radius: .25rem;
 `

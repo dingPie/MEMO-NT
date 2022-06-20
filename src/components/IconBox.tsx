@@ -26,6 +26,7 @@ export const IconBox = styled.div<IIconBox>`
   width: ${({width}) => width ? width+"rem": "1.75rem" };
   min-width: ${({width}) => width && width+"rem"}; // width가 작게 표기 될때를 방지하기 위함
   height: ${({height}) => height ? height+"rem": "1.75rem" };
+  min-height: ${({height}) => height && height+"rem"};
 
   border-radius: 2rem;
   background: ${({bgColor}) => bgColor ? bgColor : "white" };

@@ -1,3 +1,4 @@
+import { rejects } from "assert";
 import { Auth, User } from "firebase/auth";
 import { 
   collection,
@@ -19,6 +20,7 @@ import {
   DocumentData, 
   Firestore,
   collectionGroup} from "firebase/firestore";
+import { resolve } from "path";
 import { INewTag } from "../TagTestPage";
 import { IMemo, ITag } from "../utils/interface/interface";
 
@@ -83,7 +85,6 @@ export class FbMemo {
       await setDoc(undefinedRef, undefinedMemo);
       await setDoc(toBeDeletedRef, toBeDeletedMemo);
       return { undefinedMemoId: undefinedTime.toString(), toBeDeletedMemoId: toBeDeletedTime.toString() }
-      console.log( docId, "기본 메모 생성완료")
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -184,5 +185,31 @@ export class FbMemo {
       console.error("Error adding document: ", e);
     }
   }
+
+  // tagId와 같은 메모를 전부 가져온다.
+  async getMemoWithTag (tag: ITag, gridPage?: "gridPage" ): Promise<IMemo[]> {
+    let q = query(collection(this.fireStoreDB, this.doc), where("tagId", "==", tag.id)); 
+    if (gridPage) q = query(collection(this.fireStoreDB, this.doc), where("tagId", "==", tag.id), limit(3));
+
+    return new Promise( async(resolve, rejects) => {
+      const querySnapshot = await getDocs(q);
+      const result = querySnapshot.docs.map(doc => doc.data() as IMemo)
+      resolve(result)
+    })
+  }
+
+  
+  // 딱 세개만 가져오는걸 해야되는데..
+  // async getUsedMemo (usedMemo: string[], update?: (v: IMemo[]) => void ): Promise<IMemo[]> {
+  //   const col = collection(this.fireStoreDB, this.doc)
+  //   const q = query(col, where("id", "in", usedMemo.slice(0,3) )); // where 조건문 in은 array 10개까지만 지원하므로 limit(3) 대신 slice를 사용하였다.
+
+  //   return new Promise( async(resolve, rejects) => {
+  //     const querySnapshot = await getDocs(q);
+  //     const result = querySnapshot.docs.map(doc => doc.data() as IMemo)
+  //     if (update) update(result)
+  //     resolve(result)
+  //   })
+  // }
 
 }

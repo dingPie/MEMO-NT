@@ -136,7 +136,12 @@ function App( {fbAuth, fbTag, fbMemo }: IApp ) {
             fbTag={fbTag}
           />} 
           />
-        <Route path="/memo/:tagId" element={<MemoPage />} />
+        <Route path="/memo/:tagId" element={
+          <MemoPage
+            fbMemo={fbMemo}
+            fbTag={fbTag}
+          />} 
+        />
 
         <Route path="/test" element={<TestPage />} />
         <Route path="/tagtest" element={<TagTestPage fbMemo={fbMemo} />} />
