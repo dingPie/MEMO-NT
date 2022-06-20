@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import Text from "../../components/Text";
 import { ColBox, RowBox } from "../../components/FlexBox";
@@ -19,7 +19,9 @@ import MemoPalette from "./MemoPalette";
 import TagService from "../../utils/data/tag_service";
 import MemoInputEdit from "./MemoInputEdit";
 import MemoInputAdd from "./MemoInputAdd";
-import { IMemo } from "../../utils/interface/interface";
+import { IMemo, ITag } from "../../utils/interface/interface";
+import { FbMemo } from "../../firebase/firestore_memo_service";
+import { FbTag } from "../../firebase/firestore_tag_service";
 
 export interface IEditMemo {
   memo: IMemo;
@@ -29,14 +31,22 @@ export interface IEditMemo {
   height: number;
 }
 
-const MemoPage = () => {
+interface IMemoPage {
+  fbMemo: FbMemo;
+  fbTag: FbTag;
+  // tag: ITag;
+}
+
+const MemoPage = ( { fbMemo, fbTag }: IMemoPage ) => {
 
   const tagService = new TagService();
   const { tagId } = useParams();
-  const tag = tagService.findTag(tagId!);
+  const tag = useLocation().state as ITag;
+  
+  // const tag = tagService.findTag(tagId!);
 
   const navigate = useNavigate();
-  const memoList = tag.usedMemo.map( memoId => dummyMemos.filter(memo => memo.id === memoId)[0]);
+  const [memoList, setMemoList] = useState<IMemo[]>([])
 
   const [isOpenMenu, setIsOpenMenu] = useState(false); // munue on /off
   
@@ -50,6 +60,20 @@ const MemoPage = () => {
 
   const [isOpenDeleteMemo, setIsOpenDeleteMemo] = useState(false);
   const [isOpenDeleteConfirm, setIsOpenDeleteConfirm] = useState(false);
+
+
+  useEffect(() => {
+    console.log(tag)
+    getUsedMemo(tag)
+  }, [])
+  
+  const getUsedMemo = async (tag: ITag) => {
+    const promiseResult = await fbMemo.getMemoWithTag(tag);
+    const result = await Promise.all(promiseResult);
+    console.log( "getDoc 결과", result)
+    setMemoList(result)
+  }
+
 
   const onClickOtherBtn = () => {
     navigate(-1)
@@ -166,18 +190,22 @@ const MemoPage = () => {
       <MobileBox height="93%">
         <MemoBox>
           {/* Tag name */}
+
+
           <MemoName 
             tag={tag}
             isOpenMenu={isOpenMenu}
             onClickTagName={onClickTagName}
           />
           {/* Tag Name 수정 관련 */}
-          { isOpenEditTag && 
+          {/* { isOpenEditTag && 
             <EditMemoTag 
               tag={tag}
               onClickDoEditTag={onClickDoEditTag}
             />
-          }
+          } */}
+
+          
           {/* 메모 콘텐츠 */}
           <ColBox gap={.25} padding="0" >
             { memoList.map( memo => {

@@ -17,16 +17,18 @@ interface IGridPage {
   fbTag: FbTag;
 }
 
-const GridPage = ( {tags, user, fbMemo, fbTag}: IGridPage ) => {
+const GridPage = ( { tags, user, fbMemo, fbTag }: IGridPage ) => {
 
   const navigate = useNavigate();
 
   const onClickTag = (tag: LegacyTag)  => {
-    navigate(`/memo/${tag.id}`)
+    navigate(`/memo/${tag.id}`, { state: tag })
   }
   const onClickOtherBtn = ()  => {
     navigate(`/talk`)
   }
+  
+  const usedTag = tags.filter(v => v.usedMemo.length > 0 );
 
  
   return(
@@ -37,9 +39,11 @@ const GridPage = ( {tags, user, fbMemo, fbTag}: IGridPage ) => {
       />
       <MobileBox>
         <GridBox>
-        { dummyTags.map( tag => {
+        { usedTag.map( tag => {
           return (
-            <GridMemo 
+            <GridMemo
+              fbMemo={fbMemo}
+              fbTag={fbTag}
               tag={tag}
               onClickMemo={() => onClickTag(tag)}
             />

@@ -223,16 +223,7 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
               selectedMemo={selectedMemo}
             />) 
         })}       
-        {/* { viewMemo.map((memo, i) => {
-          return (
-            <TalkList
-              key={memo.id}
-              tags={tags}
-              memo={memo}
-              onClickMenuBtn={onClickMemuBtn}
-              selectedMemo={selectedMemo}
-            />) 
-        })} */}
+
 
         {/* ... 클릭시 메뉴 */}
         { selectedMemo && 

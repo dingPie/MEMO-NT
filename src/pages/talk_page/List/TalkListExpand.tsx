@@ -73,7 +73,7 @@ export default TalkListExpand;
 
 const IconBoxExpand = styled(IconBox)`
   justify-content: flex-start;
-  padding: 0 .5rem;
   width: fit-content;
   height: 1.75rem;
+  padding: 0 .5rem;
 `
