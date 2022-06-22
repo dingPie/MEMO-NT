@@ -13,9 +13,11 @@ import useStore from "../../../store/useStore";
 interface IEditMemoName {
   tag: ITag;
   onClickDoEditTag?: () => void;
+  inputMemoName?: string;
+  onChangeMemoName?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-const EditMemoName = ( { tag, onClickDoEditTag }: IEditMemoName ) => {
+const EditMemoName = ( { tag, onClickDoEditTag, inputMemoName, onChangeMemoName }: IEditMemoName ) => {
 
   const { palette } = useStore();
 
@@ -23,24 +25,21 @@ const EditMemoName = ( { tag, onClickDoEditTag }: IEditMemoName ) => {
   return (
     <EditTagBox
       shadow
-      bgColor={tag.color}
-      // height={2.25}
+      bgColor={palette.getColor(tag)}
     >
-      {/* <Text bold padding="0" size='l' width={1}>
-       #
-      </Text> */}
       <InputText
         bold
         noResize
-        defaultValue={tag.name}
-        bgColor={palette.getColor(tag)}
+        size="l"
         height={1.25}
         padding="0"
-        size="l"
+        lineHeight={1.875}
+        bgColor={palette.getColor(tag)}
+        value={inputMemoName}
+        onChange={onChangeMemoName}
       />
 
       <IconBox
-        height={1.25}
         size="l"
         bgColor={palette.getColor(tag)}
         onClick={onClickDoEditTag}
@@ -54,9 +53,7 @@ const EditMemoName = ( { tag, onClickDoEditTag }: IEditMemoName ) => {
 export default EditMemoName;
 
 const EditTagBox = styled(RowBox)`
-  position: absolute;
-  width: 96%;
+  width: 100%;
   padding: .5rem .75rem;
   border-radius: .25rem;
-  gap: .1rem;
 `

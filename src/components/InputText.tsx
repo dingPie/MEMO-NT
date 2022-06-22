@@ -63,7 +63,7 @@ export const InputTextEle = styled.textarea<IInputTextEle>`  //["attrs"]
   width: ${({width}) => width ? width+"rem": "100%" };
   height: ${({height}) => height ? height+"rem": "auto" };
   max-height: ${({maxHeight}) => maxHeight ? maxHeight+"rem": "auto" };
-  min-height: 2rem;
+  min-height: 1.75rem;
   line-height: ${({lineHeight}) => lineHeight ? lineHeight+"rem": "1.25rem" };
   background: ${({bgColor}) => bgColor && bgColor };
   padding: ${({padding}) => padding && padding };

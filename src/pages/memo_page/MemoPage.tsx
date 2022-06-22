@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import styled from "styled-components";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
@@ -23,6 +23,9 @@ import { IMemo, ITag } from "../../utils/interface/interface";
 import { FbMemo } from "../../firebase/firestore_memo_service";
 import { FbTag } from "../../firebase/firestore_tag_service";
 import MemoContentContainer from "./memo_content/MemoContentContainer";
+import MemoNameContainer from "./memo_name/MemoNameContainer";
+import MemoMenuContainer from "./menu/MemoMenuContainer";
+import MemoDeletePopupContainer from "./popup/MemoDeletePopupContainer";
 
 export interface IEditMemo {
   memo: IMemo;
@@ -44,26 +47,25 @@ const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
   const tagService = new TagService();
   const navigate = useNavigate();
   const { tagId } = useParams();
-  // const tag = useLocation().state as ITag;
 
   const [tag, setTag] = useState<ITag>(tags.filter(tag => tag.id === tagId )[0]);
   const [memoList, setMemoList] = useState<IMemo[]>([])
 
-  const [isOpenMenu, setIsOpenMenu] = useState(false); // munue on /off
-  
-  const [isOpenEditTag, setIsOpenEditTag] = useState(false); // edit 창 on/off
-  const [isOpenPalette, setIsOpenPalette] = useState(false); // palette창 on/off
-
+  const [isOpenMenu, setIsOpenMenu] = useState(false);
+  const [isOpenEditTag, setIsOpenEditTag] = useState(false);
   const [isOpenDeleteMemo, setIsOpenDeleteMemo] = useState(false);
-  const [isOpenDeleteConfirm, setIsOpenDeleteConfirm] = useState(false);
 
 
-  useEffect(() => {
-    console.log("태그확인", tag)
+  useLayoutEffect(() => {
     if(!tag) return
     getUsedMemo(tag)
   }, [])
+
+  useLayoutEffect(() => {
+    setTag(tags.filter(tag => tag.id === tagId )[0])
+  }, [tags])
   
+  // 현재 태그에서 사용 할 메모 가져오기
   const getUsedMemo = async (tag: ITag) => {
     const promiseResult = await fbMemo.getMemoWithTag(tag);
     const result = await Promise.all(promiseResult);
@@ -71,68 +73,14 @@ const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
     setMemoList(result)
   }
 
-
+  // 뒤로가기 버튼 (Header)
   const onClickOtherBtn = () => {
     navigate(-1)
   }
 
-  
   // 태그네임 클릭: Menu Open
   const onClickTagName = () => {
     setIsOpenMenu(true)
-  }
-
-  /*Tag Menu: 태그 수정관련 */
-  // 수정버튼 클릭
-  const onClickEditBtn = () => {
-    setIsOpenEditTag(true)
-    setIsOpenMenu(false)
-  }
-  // 수정완료
-  const onClickDoEditTag = () => {
-    //수정관련로직 후 종료
-    setIsOpenEditTag(false)
-  }
-
-  /*Tag Menu: 삭제관련 */
-  // 삭제버튼 클릭
-  const onClickDeleteBtn = () => {
-    setIsOpenDeleteMemo(true)
-    setIsOpenMenu(false)
-  }
-  // 삭제 확인버튼 클릭
-  const onClickDoDelete = () => {
-    setIsOpenDeleteMemo(false)
-    setIsOpenDeleteConfirm(true)
-  }
-  // 삭제: 태그와 메모 전체삭제
-  const onClickDoDeleteAll = () => {
-    setIsOpenDeleteConfirm(false)
-    // 전체 삭제 로직 실행
-    navigate('/grid')
-  }
-  // 삭제: 태그만 삭제
-  const onClickDoDeleteOnlyTag = () => {
-    setIsOpenDeleteConfirm(false)
-    // 태그만 삭제 로직 실행
-    navigate('/grid')
-  }
-
-  /*Tag Menu: 색상관련 */
-  // 팔레트 클릭
-  const onClickPaletteBtn = () => {
-    setIsOpenPalette(true)
-    setIsOpenMenu(false)
-  }
-  const onClickDoEditPalette = () => {
-    // 수정 관련로직
-    setIsOpenPalette(false)
-  }
-
-  
-  /* Menu: 창 닫기 */
-  const onClickCloseMenuBtn = () => {
-    setIsOpenMenu(false)
   }
  
   return(
@@ -143,23 +91,18 @@ const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
       />
       <MobileBox height="93%">
         <MemoBox>
-
-          {/* Tag name */}
-          { tag &&
-            <MemoName 
+          {tag &&
+            <MemoNameContainer
+              fbTag={fbTag}
+              fbMemo={fbMemo} 
               tag={tag}
               isOpenMenu={isOpenMenu}
+              isOpenEditTag={isOpenEditTag}
+              setIsOpenEditTag={setIsOpenEditTag}
               onClickTagName={onClickTagName}
             />
           }
-          {/* Tag Name 수정 관련 */}
-          { isOpenEditTag && 
-            <EditMemoName 
-              tag={tag}
-              onClickDoEditTag={onClickDoEditTag}
-            />
-          }
-          
+        
           {/* 메모 컨텐츠, 추가, 수정관련  */}
           <MemoContentContainer 
             fbTag={fbTag}
@@ -169,37 +112,24 @@ const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
             setMemoList={setMemoList}
           />
 
-          {/* 팔레트 */}
-          { isOpenPalette &&
-            <MemoPalette 
-              onClickDoEditPalette={onClickDoEditPalette}
-            />
-          }
-          {/* 메뉴 */}
-          { isOpenMenu &&
-            <MemoMenu
-              onClickEditBtn={onClickEditBtn}
-              onClickDeleteBtn={onClickDeleteBtn}
-              onClickPaletteBtn={onClickPaletteBtn}
-              onClickCloseMenuBtn={onClickCloseMenuBtn}
-            />
-          }
+          <MemoMenuContainer
+            fbTag={fbTag}
+            fbMemo={fbMemo}
+            isOpenMenu={isOpenMenu}
+            setIsOpenMenu={setIsOpenMenu}
+            setIsOpenDeleteMemo={setIsOpenDeleteMemo}
+            setIsOpenEditTag={setIsOpenEditTag}
+          />
         </MemoBox>
       </MobileBox>
 
-      { isOpenDeleteMemo &&
-        <MemoDeletePopup 
-          onClickCancel={() => setIsOpenDeleteMemo(false)}
-          onClickDo={onClickDoDelete}
-        />
-      }
-        { isOpenDeleteConfirm &&
-        <MemoDeleteConfirmPopup
-          onClickDoDeleteOnlyTag={onClickDoDeleteOnlyTag}
-          onClickDoDeleteAll={onClickDoDeleteAll}
-        />
-      }
-
+      <MemoDeletePopupContainer 
+        fbTag={fbTag}
+        fbMemo={fbMemo}
+        tag={tag}
+        isOpenDeleteMemo={isOpenDeleteMemo}
+        setIsOpenDeleteMemo={setIsOpenDeleteMemo}
+      />
     </>
   )
 }

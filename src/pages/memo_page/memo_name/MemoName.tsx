@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { IconBox } from "../../../components/IconBox";
 
@@ -16,16 +16,25 @@ interface IMemoName {
 const MemoName = ( { tag, isOpenMenu, onClickTagName }: IMemoName ) => {
 
   const { palette } = useStore();
+  const [memoName, setMemoName] = useState(setTalkTag(tag, "expand"))
+
+  React.useEffect(() => {
+    console.log("태그이름바뀜")
+    setMemoName(setTalkTag(tag, "expand"))
+  }, [tag])
+  
+
+  console.log("태그명 변화 확인", tag)
 
   return(
     <TalkTagExpand
       shadow
-      height={2.25}
+      height={2.75}
       size="l"
       bgColor={palette.getColor(tag)}
       onClick={onClickTagName}
     >
-      {setTalkTag(tag, "expand")}
+      {memoName}
     </TalkTagExpand>
   )
 }
