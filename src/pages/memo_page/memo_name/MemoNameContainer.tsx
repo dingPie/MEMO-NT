@@ -8,13 +8,12 @@ import { FbTag } from "../../../firebase/firestore_tag_service";
 import useStore from "../../../store/useStore";
 import { ITag } from "../../../utils/interface/interface";
 import { setTalkTag } from "../../talk_page/utils/talk_service";
+import { MemoProps } from "../MemoPage";
 import EditMemoName from "./EditMemoName";
 import MemoName from "./MemoName";
 
-interface IMemoNameContainer {
-  fbTag: FbTag;
-  fbMemo: FbMemo;
-  tag: ITag;
+interface IMemoNameContainer extends MemoProps {
+
   isOpenMenu: boolean;
   isOpenEditTag: boolean;
   setIsOpenEditTag: (v: boolean) => void; 
@@ -30,8 +29,8 @@ const MemoNameContainer = ( { fbTag, fbMemo, tag, isOpenMenu, isOpenEditTag, set
     setinputMemoName(e.target.value)
   }
 
-  // 메모 네임 변경 ()
-  const onClickDoEditTag = () => {
+  // 메모  태그네임 변경
+  const onClickDoEditTag = (tag: ITag) => {
     setIsOpenEditTag(false)
     if (inputMemoName === tag.name) return
     fbTag.editTagName(tag.id, inputMemoName)

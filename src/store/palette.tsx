@@ -5,7 +5,7 @@ import { ITag, IUser } from '../utils/interface/interface';
 
 export interface IPalette {
   [id: string] : {
-    id: string;
+    id: number;
     name: string;
     code: string
   }

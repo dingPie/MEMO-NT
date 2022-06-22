@@ -1,33 +1,43 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { RowBox } from "../../../components/FlexBox";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { IconBox } from "../../../components/IconBox";
 import { colors } from "../../../utils/data/dummyData";
+import { ITag } from "../../../utils/interface/interface";
+import useStore from "../../../store/useStore";
+import { toJS } from "mobx";
 
 interface IMemoPalette {
-  onClickDoEditPalette: () => void;
+  tag: ITag;
+  seletedColor: number;
+  onClickDoEditPalette: (tag: ITag) => void;
+  onClickSelectColor: (colorId: number) => void;
 }
 
-const MemoPalette = ( { onClickDoEditPalette }: IMemoPalette ) => {
+const MemoPalette = ( { tag, seletedColor, onClickDoEditPalette, onClickSelectColor }: IMemoPalette ) => {
+
+  const { palette } = useStore();
+
 
   return (
     <MenuBox>
       <IconBox
         inline
-        onClick={onClickDoEditPalette}
+        onClick={ () => onClickDoEditPalette(tag) }
       >
         <Icon size='lg' icon={faCheck} />
       </IconBox>
-      { colors.map( v => {
-        return <PaletteBox
-        onClick={() => console.log("색상변경 이벤트")}
-         bgColor={v.code} 
-         /> 
-      })
-      }
+      { Object.values(palette.palette).slice(2, Object.values(palette.palette).length )
+          .map( color => { return (
+            <PaletteBox
+              onClick={() => onClickSelectColor(color.id)}
+              bgColor={color.code}
+              selectedColor={seletedColor === color.id ? true : false}
+            />
+          )})}
     </MenuBox>
   )
 }
@@ -59,11 +69,20 @@ export const MenuBox = styled.div`
 }
 `
 
-const PaletteBox = styled.span<{bgColor: string}>`
+const PaletteBox = styled.span<{bgColor: string, selectedColor?: boolean}>`
   display: inline-block;
   width: 2.5rem;
   height: 1.25rem;
   background: ${ ({bgColor}) => bgColor && bgColor};
   margin: 0 .375rem;
   vertical-align: middle;
+
+  ${ ({selectedColor}) => 
+      selectedColor && 
+      css`
+        transform: scale(1.1);
+        box-sizing: border-box;
+        border: 2px solid gray;
+        border-radius: 2px;
+    `};
 `

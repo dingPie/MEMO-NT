@@ -12,7 +12,7 @@ import {
   User, 
   Auth, 
   browserLocalPersistence} from "firebase/auth";
-import { collection, deleteDoc, doc, Firestore, getDoc, getDocs, setDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, Firestore, getDoc, getDocs, orderBy, query, setDoc } from "firebase/firestore";
 import { IPalette } from "../store/palette";
 import { IUser } from "../utils/interface/interface";
 
@@ -131,9 +131,11 @@ export class FbAuth {
 
   // 색상정보 가져오기 (따로 service 만들기 싫어서)
   async getPalette () : Promise<IPalette> {
-    const col = collection(this.fireStoreDB, "palette");
+    const col = collection(this.fireStoreDB, "palette") ;
+    const q = query(collection(this.fireStoreDB, "palette"), orderBy("id", "asc")) 
+
      return new Promise ( async (resolve, reject) => {
-      const querySnapshot  = await getDocs(col)
+      const querySnapshot  = await getDocs(q)
       const paletteArr = querySnapshot.docs.map(v => v.data())
       let obj = {}
       const result = Object.assign(obj, paletteArr)
