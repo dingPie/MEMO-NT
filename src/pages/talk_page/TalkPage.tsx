@@ -34,7 +34,7 @@ import { FbTag } from "../../firebase/firestore_tag_service";
 
 import { firebaseAuth, fireStoreDB } from "../../firebase/firebase_config";
 import { FbMemo } from "../../firebase/firestore_memo_service";
-import TalkInpuContainer from "./InputBox/TalkInpuContainer";
+import TalkInpuContainer from "./InputBox/TalkInputContainer";
 import { User } from "firebase/auth";
 import TalkListExpand from "./List/TalkListExpand";
 import { MainBtn } from "../../components/Buttons";
@@ -267,8 +267,8 @@ export default TalkPage;
 
 
 const TalkBox = styled(MobileBox)`
-  /* height: 86.5%; */
-  max-height: 86.6%;
+  height: 86.5%;
+  /* max-height: 86.6%; */
   overflow-y: scroll;
 
   &::-webkit-scrollbar {

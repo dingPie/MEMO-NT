@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { RowBox } from "../../components/FlexBox";
+import { RowBox } from "../../../components/FlexBox";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faPen, faTrashCan, faPalette, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { IconBox } from "../../components/IconBox";
+import { IconBox } from "../../../components/IconBox";
 
 
 interface IMemoMenu {

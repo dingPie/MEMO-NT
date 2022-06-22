@@ -31,6 +31,26 @@ export const fontSizeSet = css<{size?: string}>`
 
     return css`
       font-size: ${fontSize};
+    `
+  }}
+`
+export interface IJustfiy {
+  center?: boolean;
+  right?: boolean;
+  between?: boolean;
+  align?: string
+}
+
+export const setJustify = css<IJustfiy>`
+  ${({ center, right, between, align }) => {
+    let justify = "flex-start";
+    if (right) justify = "flex-end";
+    else if (center) justify = "center";
+    else if (between) justify ="space-between"
+
+    return css`
+      justify-content: ${ justify };
+      align-items: ${ align && align }
     `;
   }}
 `

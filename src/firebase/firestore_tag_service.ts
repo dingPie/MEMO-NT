@@ -52,27 +52,20 @@ export class FbTag {
   }
 
   // 태그 실시간 변화 감시
-  async onCheckTag (
-    update?: (tag: ITag[]) => void 
-  ) {
+  async onCheckTag (update?: (tags: ITag[]) => void): Promise<ITag[]> {
     const q = query(collection(this.fireStoreDB, this.doc), orderBy("lastUpdate", "desc")) // , where("name", "!=", false)
 
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const result = querySnapshot.docs.map(doc => {
-        return ({
-          id: doc.id,
-          ...doc.data()
-        })
-      })
+   return new Promise( (resolve, reject) =>
+    onSnapshot(q, (querySnapshot) => {
+      const result: ITag[] = querySnapshot.docs.map(doc => ({id: doc.id,...doc.data()} as ITag ) )
       console.log("태그 변화감시", result)
-      if (update) update(result as ITag[])
-    });
+      if (update) update(result)
+      resolve(result)
+    }))
   }
 
   // 첫 유저 기본태그 작성
-  async initTag (
-    uid?: string
-  ) {
+  async initTag (uid?: string) {
     const undefinedTag = {
       name: "undefined", 
       color: "0", 
@@ -170,7 +163,7 @@ export class FbTag {
   // 태그 이름 변경
   async editTagName (
     tagId: string,
-    changeName: string, // 추후 colorCode의 id 방식으로 변경 
+    changeName: string, 
     ) {
     const docRef = doc(this.fireStoreDB, this.doc, tagId);
 

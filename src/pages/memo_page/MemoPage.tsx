@@ -7,21 +7,22 @@ import { ColBox, RowBox } from "../../components/FlexBox";
 import Header from "../../components/Header";
 import { MobileBox } from "../../components/MobileBox";
 import { dummyMemos, dummyTags } from "../../utils/data/dummyData";
-import MemoName from "./MemoName";
-import MemoContent from "./MemoContent";
+import MemoName from "./memo_name/MemoName";
+import MemoContent from "./memo_content/MemoContent";
 import { InputText } from "../../components/InputText";
 import { CustomBtn } from "../../components/Buttons";
-import MemoMenu from "./MemoMenu";
-import EditMemoTag from "./EditMemoTag";
-import MemoDeletePopup from "./MemoDeletePopup";
-import MemoDeleteConfirmPopup from "./MemoDeleteConfirmPopup";
-import MemoPalette from "./MemoPalette";
+import MemoMenu from "./menu/MemoMenu";
+import EditMemoName from "./memo_name/EditMemoName";
+import MemoDeletePopup from "./popup/MemoDeletePopup";
+import MemoDeleteConfirmPopup from "./popup/MemoDeleteConfirmPopup";
+import MemoPalette from "./menu/MemoPalette";
 import TagService from "../../utils/data/tag_service";
-import MemoInputEdit from "./MemoInputEdit";
-import MemoInputAdd from "./MemoInputAdd";
+import MemoInputEdit from "./memo_content/MemoInputEdit";
+import MemoInputAdd from "./memo_content/MemoInputAdd";
 import { IMemo, ITag } from "../../utils/interface/interface";
 import { FbMemo } from "../../firebase/firestore_memo_service";
 import { FbTag } from "../../firebase/firestore_tag_service";
+import MemoContentContainer from "./memo_content/MemoContentContainer";
 
 export interface IEditMemo {
   memo: IMemo;
@@ -34,18 +35,18 @@ export interface IEditMemo {
 interface IMemoPage {
   fbMemo: FbMemo;
   fbTag: FbTag;
+  tags: ITag[];
   // tag: ITag;
 }
 
-const MemoPage = ( { fbMemo, fbTag }: IMemoPage ) => {
+const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
 
   const tagService = new TagService();
-  const { tagId } = useParams();
-  const tag = useLocation().state as ITag;
-  
-  // const tag = tagService.findTag(tagId!);
-
   const navigate = useNavigate();
+  const { tagId } = useParams();
+  // const tag = useLocation().state as ITag;
+
+  const [tag, setTag] = useState<ITag>(tags.filter(tag => tag.id === tagId )[0]);
   const [memoList, setMemoList] = useState<IMemo[]>([])
 
   const [isOpenMenu, setIsOpenMenu] = useState(false); // munue on /off
@@ -53,17 +54,13 @@ const MemoPage = ( { fbMemo, fbTag }: IMemoPage ) => {
   const [isOpenEditTag, setIsOpenEditTag] = useState(false); // edit 창 on/off
   const [isOpenPalette, setIsOpenPalette] = useState(false); // palette창 on/off
 
-  const [isOpenInputMemo, setIsOpenInputMemo] = useState(false);
-  const [inputMemo, setInputMemo] = useState("");
-
-  const [editMemo, setEditMemo] = useState<IEditMemo | null>(null)
-
   const [isOpenDeleteMemo, setIsOpenDeleteMemo] = useState(false);
   const [isOpenDeleteConfirm, setIsOpenDeleteConfirm] = useState(false);
 
 
   useEffect(() => {
-    console.log(tag)
+    console.log("태그확인", tag)
+    if(!tag) return
     getUsedMemo(tag)
   }, [])
   
@@ -77,49 +74,6 @@ const MemoPage = ( { fbMemo, fbTag }: IMemoPage ) => {
 
   const onClickOtherBtn = () => {
     navigate(-1)
-  }
-
-  /* Memo: 추가 관련 */
-  // 메모추가버튼 클릭
-  const onClickAddMemoBtn = () => {
-    setIsOpenInputMemo(true)
-  }
-  // 메모 추가 확인
-  const onClickAddConfirm = () => {
-    // 신규 메모 추가로직
-    setIsOpenInputMemo(false)
-    setInputMemo("")
-  }
-  // 메모 추가 취소
-  const onClickAddCancel = () => {
-    setIsOpenInputMemo(false)
-    setInputMemo("")
-  }
-
-  /* Memo: 수정 관련 */
-  // 메모 클릭 => 수정 input창 출력
-  const onClickMemo = (e: React.MouseEvent<HTMLDivElement>, memo: IMemo) => {
-    const { x, y, width, height } = e.currentTarget.getBoundingClientRect();
-    e.currentTarget.offsetTop
-    const newEditMemo = {
-      memo: memo,
-      x: x,
-      y: y,
-      width: width,
-      height: height
-    }
-    setInputMemo(memo.content )
-    setEditMemo(newEditMemo)
-  }
-  // 수정 종료
-  const onClickDoEdit = () => {
-    if (inputMemo === editMemo!.memo.content) {
-      console.log("내용 수정이 없습니다. 이대로 종료")
-    } else {
-      console.log("수정 로직을 실행합니다. 해당 메모 수정")
-    }
-    setInputMemo("")
-    setEditMemo(null)
   }
 
   
@@ -189,61 +143,31 @@ const MemoPage = ( { fbMemo, fbTag }: IMemoPage ) => {
       />
       <MobileBox height="93%">
         <MemoBox>
+
           {/* Tag name */}
-
-
-          <MemoName 
-            tag={tag}
-            isOpenMenu={isOpenMenu}
-            onClickTagName={onClickTagName}
-          />
+          { tag &&
+            <MemoName 
+              tag={tag}
+              isOpenMenu={isOpenMenu}
+              onClickTagName={onClickTagName}
+            />
+          }
           {/* Tag Name 수정 관련 */}
-          {/* { isOpenEditTag && 
-            <EditMemoTag 
+          { isOpenEditTag && 
+            <EditMemoName 
               tag={tag}
               onClickDoEditTag={onClickDoEditTag}
             />
-          } */}
-
+          }
           
-          {/* 메모 콘텐츠 */}
-          <ColBox gap={.25} padding="0" >
-            { memoList.map( memo => {
-              return(
-                <MemoContent
-                  memo={memo}
-                  onClickMemo={(e) => onClickMemo(e, memo)} 
-                />
-              )
-            })}
-          </ColBox>
-
-          {/* 메모 수정 */}
-          { editMemo &&
-            <MemoInputEdit 
-              editMemo={editMemo}
-              onClickDoEdit={onClickDoEdit}
-              inputMemo={inputMemo}
-              onChangeInputMemo={ (e) => setInputMemo(e.target.value) }
-            />
-          }
-
-          {/* 메모 추가 */}
-          { isOpenInputMemo ?
-            <MemoInputAdd 
-              inputMemo={inputMemo}
-              onChangeInputMemo={(e) => setInputMemo(e.target.value)}
-              onClickAddConfirm={onClickAddConfirm}
-              onClickAddCancel={onClickAddCancel}
-            /> :
-            <CustomBtn
-              size="s"
-              bgColor="#dddddd"
-              onClick={onClickAddMemoBtn}
-            >
-              메모 추가
-            </CustomBtn>
-          }
+          {/* 메모 컨텐츠, 추가, 수정관련  */}
+          <MemoContentContainer 
+            fbTag={fbTag}
+            fbMemo={fbMemo}
+            tag={tag}
+            memoList={memoList}
+            setMemoList={setMemoList}
+          />
 
           {/* 팔레트 */}
           { isOpenPalette &&
@@ -271,8 +195,8 @@ const MemoPage = ( { fbMemo, fbTag }: IMemoPage ) => {
       }
         { isOpenDeleteConfirm &&
         <MemoDeleteConfirmPopup
-          onClickCancel={onClickDoDeleteOnlyTag}
-          onClickDo={onClickDoDeleteAll}
+          onClickDoDeleteOnlyTag={onClickDoDeleteOnlyTag}
+          onClickDoDeleteAll={onClickDoDeleteAll}
         />
       }
 

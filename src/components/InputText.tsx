@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import styled, { css } from "styled-components";
+import { fontSizeSet } from "../styles/stylesCss";
 
 
 interface IInputText extends IInputTextEle {
@@ -11,7 +12,7 @@ interface IInputText extends IInputTextEle {
   onClick?: (e: React.MouseEvent<HTMLTextAreaElement>) => void;
 }
 
-export const InputText = ( { onClick, padding, lineHeight, value, defaultValue, onChange, noResize, placeholder, width, height, shadow, maxHeight, bold, bgColor }: IInputText) => {
+export const InputText = ( { onClick, padding, lineHeight, value, defaultValue, onChange, noResize, placeholder, width, height, shadow, maxHeight, bold, bgColor, size }: IInputText) => {
   
   const inputRef = useRef<HTMLTextAreaElement>(null)
 
@@ -19,6 +20,7 @@ export const InputText = ( { onClick, padding, lineHeight, value, defaultValue, 
     if (!ref.current || noResize) return
     ref.current.style.height = "auto" ; // 줄어들때 먼저 설정
     ref.current.style.height = ref.current.scrollHeight +"px";
+    console.log("높이설정", ref.current.scrollHeight)
   }
   
   
@@ -40,6 +42,7 @@ export const InputText = ( { onClick, padding, lineHeight, value, defaultValue, 
       bgColor={bgColor}
       padding={padding}
       lineHeight={lineHeight}
+      size={size}
     />
   )
 }
@@ -53,17 +56,20 @@ interface IInputTextEle {
   bgColor?: string;
   padding?: string;
   lineHeight?: number;
+  size?: string;
 }
 
 export const InputTextEle = styled.textarea<IInputTextEle>`  //["attrs"]
   width: ${({width}) => width ? width+"rem": "100%" };
   height: ${({height}) => height ? height+"rem": "auto" };
-  line-height: ${({lineHeight}) => lineHeight ? lineHeight+"rem": "1.25rem" };
   max-height: ${({maxHeight}) => maxHeight ? maxHeight+"rem": "auto" };
+  min-height: 2rem;
+  line-height: ${({lineHeight}) => lineHeight ? lineHeight+"rem": "1.25rem" };
   background: ${({bgColor}) => bgColor && bgColor };
   padding: ${({padding}) => padding && padding };
-  font-size: .875rem;
   font-weight: ${({bold}) => bold && "bold"};
+
+  ${fontSizeSet};
 
   border: none;
   outline: none;

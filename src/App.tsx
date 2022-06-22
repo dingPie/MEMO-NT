@@ -30,6 +30,7 @@ import { User } from 'firebase/auth';
 import { FbTag } from './firebase/firestore_tag_service';
 import { ITag } from './utils/interface/interface';
 import { IPalette } from './store/palette';
+import { toJS } from 'mobx';
 
 // const appStyle = {
 //   display: "flex",
@@ -43,24 +44,17 @@ interface IApp {
   fbMemo: FbMemo;
 }
 
-// export interface Props {
-//   user: User | null;
-//   setUser?: (v: User | null) => void;
-// }
 
 function App( {fbAuth, fbTag, fbMemo }: IApp ) {
 
-  // const fbAuth = new FbAuth(firebaseAuth, fireStoreDB);
-  // const fbTag = new FbTag(firebaseAuth, fireStoreDB);
-  // const fbMemo = new FbMemo(firebaseAuth, fireStoreDB);
-  const { palette } = useStore();
+  const { palette, tagStore } = useStore();
   const navitage = useNavigate();
   const [user, setUser] = useState<User|null>(null)
   const [tags, setTags] = useState<ITag[]>([])
   
 
   const CheckAndInitUser = async (user: User) => {
-    const joinedResult = await fbAuth.checkJoinedUser(user.uid);
+    const joinedResult = await fbAuth.getUserInfo(user.uid);
     if (joinedResult) return
 
     console.log("가입되지 않은 유저니까 init해줘야 해요!")
@@ -71,14 +65,19 @@ function App( {fbAuth, fbTag, fbMemo }: IApp ) {
     fbTag.addUsedMemo("toBeDeleted", initMemoId!.toBeDeletedMemoId)
     console.log("정상적으로 init 완료")
   }
-
+  
+  const setPalette = async () => {
+    const paletteObj = await fbAuth.getPalette()
+    palette.setPalette(paletteObj)
+    console.log( "팔레트 정보", palette.palette)
+  } 
   
   useEffect(() => {
     if (user) {
-      tet()
+      setPalette() // 색상설정 
       fbTag.setDoc(user) // uid 의존성 주입
-      fbMemo.setDoc(user)
-      CheckAndInitUser(user)
+      fbMemo.setDoc(user) // uid 의존성 주입
+      CheckAndInitUser(user) // 유저체크 및 생성
       navitage('/talk')
     }
     else if (user === null) {
@@ -92,14 +91,8 @@ function App( {fbAuth, fbTag, fbMemo }: IApp ) {
     else if (user) fbTag.onCheckTag(setTags);
   }, [user])
   
-  const tet = async () => {
-    const paletteObj = await fbAuth.getPalette() as IPalette
-    palette.setPalette(paletteObj)
-    console.log( "팔레트 정보", palette.palette)
-  } 
 
   
-
 
   return (
     <div className="App">
@@ -140,6 +133,7 @@ function App( {fbAuth, fbTag, fbMemo }: IApp ) {
           <MemoPage
             fbMemo={fbMemo}
             fbTag={fbTag}
+            tags={tags}
           />} 
         />
 
