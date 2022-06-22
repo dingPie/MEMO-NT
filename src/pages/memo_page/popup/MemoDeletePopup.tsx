@@ -1,6 +1,6 @@
 import React from "react";
-import Popup from "../../components/Popup";
-import Text from "../../components/Text";
+import Popup from "../../../components/Popup";
+import Text from "../../../components/Text";
 
 interface IMemoDeletePopup {
   onClickCancel?: () => void;
@@ -9,7 +9,6 @@ interface IMemoDeletePopup {
 
 const MemoDeletePopup = ( { onClickCancel, onClickDo }: IMemoDeletePopup ) => {
 
-  console.log("이거있음")
 
   return(
     <Popup

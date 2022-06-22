@@ -1,19 +1,19 @@
 import React from "react";
-import Popup from "../../components/Popup";
-import Text from "../../components/Text";
+import Popup from "../../../components/Popup";
+import Text from "../../../components/Text";
 
 interface IMemoDeleteConfirmPopup {
-  onClickCancel: () => void;
-  onClickDo: () => void;
+  onClickDoDeleteOnlyTag: () => void;
+  onClickDoDeleteAll: () => void;
 }
 
-const MemoDeleteConfirmPopup = ( { onClickCancel, onClickDo }: IMemoDeleteConfirmPopup ) => {
+const MemoDeleteConfirmPopup = ( { onClickDoDeleteOnlyTag, onClickDoDeleteAll }: IMemoDeleteConfirmPopup ) => {
 
   return(
     <Popup
       title="태그 삭제"
-      onClickCancel={onClickCancel}
-      onClickDo={onClickDo}
+      onClickCancel={onClickDoDeleteOnlyTag}
+      onClickDo={onClickDoDeleteAll}
       cancelBtnName="아니요"
       doBtnName="예"
     >

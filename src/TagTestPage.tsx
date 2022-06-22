@@ -61,7 +61,7 @@ const TagTestPage = ( {fbMemo}: ITest ) => {
   }
   // 실시간으로 유저 로그인상황 체크 하기 
   const checkJoinedUser = (uid: string) => {
-    fbAuth.checkJoinedUser(uid)
+    fbAuth.getUserInfo(uid)
   }
    // 유저DB에서 유저 정보 가져오기
   const getUserInfo = (uid: string) => {

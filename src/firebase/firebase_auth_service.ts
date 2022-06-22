@@ -1,3 +1,4 @@
+import { rejects } from "assert";
 import { 
   signInWithPopup, 
   signOut, 
@@ -77,32 +78,30 @@ export class FbAuth {
     })
   }
 
-  async setUserReatTime () {
-    onIdTokenChanged(this.firebaseAuth, (user) => {
-      this.user = user
-      console.log( "유저 지정됨", this.user)
-    })
-  }
+  // async setUserReatTime () {
+  //   onIdTokenChanged(this.firebaseAuth, (user) => {
+  //     this.user = user
+  //     console.log( "유저 지정됨", this.user)
+  //   })
+  // }
 
-  getUser () {
+  getLoginedUser () {
     return this.user
   }
   
+  // 유저 DB에서 값 가져오기
+  async getUserInfo (uid: string): Promise<IUser> {
+    const docRef = doc(this.fireStoreDB, this.doc, uid)
 
-  // 유저 있는지 확인
-  async checkJoinedUser (
-    uid: string
-  ): Promise<IUser | undefined> {
-    const docRef = doc(this.fireStoreDB, "user", uid); // , orderBy("createTime")
-    const result = await getDoc(docRef);
-    console.log( "현재 유저정보:", result.data())
-    return result.data() as IUser | undefined
+    return new Promise ( async (resolve, rejects) => {
+      const result = await getDoc(docRef)
+      resolve(result.data() as IUser)
+      console.log("유저정보 확인: ", result.data())
+    } )
   }
 
-  // 유저 DB 추가
-  async addUser (
-    user: User
-  ) {
+  // 유저 DB에 유저 추가
+  async addUser (user: User) {
     const newUser = {
       uid: user.uid,
       provider: user.providerId,
@@ -110,34 +109,17 @@ export class FbAuth {
       email: user.email
     }
     const docRef = doc(this.fireStoreDB, this.doc, user.uid)
-       try {
-        const result = await setDoc(docRef, newUser)
-        console.log("새 유저 등록 완료", newUser)
-        return newUser
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
-  }
-  
-  // 유저 DB에서 값 가져오기
-  async getUserInfo (
-    uid: string,
-    update?: (v: IUser | undefined) => void
-  ): Promise<IUser | undefined> {
-    const docRef = doc(this.fireStoreDB, this.doc, uid)
-    try {
-      const result = await getDoc(docRef)
-      console.log("유저정보 가져오기", result.data())
-      return result.data() as IUser | undefined // IUser or undefined
+      try {
+      const result = await setDoc(docRef, newUser)
+      console.log("새 유저 등록 완료", newUser)
+      return newUser
     } catch (e) {
       console.error("Error adding document: ", e);
     }
   }
-
+  
   // 회원 탈퇴
-  async withdrawUser (
-    uid: string,
-  ) {
+  async withdrawUser (uid: string) {
     const docRef = doc(this.fireStoreDB, this.doc, uid);
     try {
       await deleteDoc(docRef);
@@ -147,18 +129,16 @@ export class FbAuth {
     }
   }
 
-  async getPalette () : Promise<IPalette | undefined> {
+  // 색상정보 가져오기 (따로 service 만들기 싫어서)
+  async getPalette () : Promise<IPalette> {
     const col = collection(this.fireStoreDB, "palette");
-    try {
+     return new Promise ( async (resolve, reject) => {
       const querySnapshot  = await getDocs(col)
-      const test = querySnapshot.docs.map(v => v.data())
-      console.log("테스트", test)
-      let target = {}
-      const t = Object.assign(target, test)
-      return t as unknown as IPalette | undefined
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
+      const paletteArr = querySnapshot.docs.map(v => v.data())
+      let obj = {}
+      const result = Object.assign(obj, paletteArr)
+      resolve(result as unknown as IPalette) // 왜 이렇게하지...
+    })
   }
 
 }

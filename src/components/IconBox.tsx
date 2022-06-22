@@ -1,7 +1,7 @@
 import React from "react";
 import { darken } from "polished";
 import styled from "styled-components";
-import { fontSizeSet, polishedColor } from "../styles/stylesCss";
+import { fontSizeSet, IJustfiy, polishedColor, setJustify } from "../styles/stylesCss";
 
 interface IIconBox {
   shadow?: boolean;
@@ -11,6 +11,7 @@ interface IIconBox {
   inline?: boolean;
   fontSize?: number;
   size?: string;
+
 }
 
 
@@ -20,7 +21,7 @@ export const IconBox = styled.div<IIconBox>`
   align-items: center;
 
   /* font-size: ${({fontSize}) => fontSize ? fontSize+"rem": "1rem" }; */
-  ${fontSizeSet}
+  ${fontSizeSet};
   font-weight: bold;
   
   width: ${({width}) => width ? width+"rem": "1.75rem" };

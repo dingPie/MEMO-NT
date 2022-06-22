@@ -1,24 +1,30 @@
 import React, { forwardRef } from "react";
 import styled from "styled-components";
-import { InputText } from "../../components/InputText";
-import { IEditMemo } from "./MemoPage";
+import { InputText } from "../../../components/InputText";
+import { IEditMemo } from "./../MemoPage";
+
+import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
+import { faPen, faTrashCan, faPalette, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { IconBox } from "../../../components/IconBox";
+import { RowBox } from "../../../components/FlexBox";
 
 
 interface IMemoInputEdit {
   editMemo: IEditMemo;
-  onClickDoEdit: () => void;
   inputMemo: string
   onChangeInputMemo: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onClickDoEditMemo: (editMemo: IEditMemo, inputMemo: string) => void;
+  onClickDoDeleteMemo: (e: React.MouseEvent<HTMLDivElement>, editMemo: IEditMemo) => void;
 }
 
-const MemoInputEdit = forwardRef<HTMLDivElement ,IMemoInputEdit>(( { editMemo, onClickDoEdit, inputMemo, onChangeInputMemo }, ref ) => {
+const MemoInputEdit = forwardRef<HTMLDivElement ,IMemoInputEdit>(( { editMemo, onClickDoEditMemo, inputMemo, onChangeInputMemo, onClickDoDeleteMemo }, ref ) => {
 
   const stopPropagation = (e: React.MouseEvent<HTMLTextAreaElement>) => e.stopPropagation()
 
 
   return (
     <Outer
-      onClick={onClickDoEdit}
+      onClick={ () => onClickDoEditMemo(editMemo, inputMemo)}
     >
       <MemoInputEditBox
         x={editMemo.x}
@@ -26,15 +32,22 @@ const MemoInputEdit = forwardRef<HTMLDivElement ,IMemoInputEdit>(( { editMemo, o
         width={editMemo.width}
         height={editMemo.height}
       >
+        <RowBox padding=".125rem .5rem" right>
+          <IconBox
+            onClick={(e) => onClickDoDeleteMemo(e, editMemo)}
+          >
+            <Icon icon={faTrashCan} />
+          </IconBox>
+        </RowBox>
         <InputText
           shadow
           padding=".5rem"
           lineHeight={1.125}
           value={inputMemo}
-          onChange={onChangeInputMemo}
-          onClick={(e) => stopPropagation(e)}
           width={editMemo.width/16}
           height={editMemo.height/16}
+          onChange={onChangeInputMemo}
+          onClick={(e) => stopPropagation(e)}
         />
       </MemoInputEditBox>
     </Outer>
@@ -54,10 +67,12 @@ const MemoInputEditBox = styled.div<ITest>`
   position: absolute;
   top: ${({y}) => y && y+"px" };
   left: 50%;
+  margin: 0;
+
   width: ${({width}) => width && width+"px" };
   height: ${({height}) => height && height+"px" };
   transform: ${({width, height}) => height && `translate(-50%, 0)` };
-  margin: 0;
+
   // outer가 없을시...
   /* transform: ${({width, height}) => height && `translate(-50%, -${68}px)` };  */
 `
@@ -68,5 +83,5 @@ const Outer = styled.div`
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, .05);
-  transform: translate(0, -76px);
+  transform: translate(0, -108px); // -76px
 `

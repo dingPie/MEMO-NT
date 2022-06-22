@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { RowBox } from "../../components/FlexBox";
+import { RowBox } from "../../../components/FlexBox";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { IconBox } from "../../components/IconBox";
-import { colors } from "../../utils/data/dummyData";
+import { IconBox } from "../../../components/IconBox";
+import { colors } from "../../../utils/data/dummyData";
 
 interface IMemoPalette {
   onClickDoEditPalette: () => void;
@@ -27,7 +27,6 @@ const MemoPalette = ( { onClickDoEditPalette }: IMemoPalette ) => {
          bgColor={v.code} 
          /> 
       })
-
       }
     </MenuBox>
   )
