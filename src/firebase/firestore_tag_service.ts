@@ -118,7 +118,7 @@ export class FbTag {
   ) {
     const docRef = doc(this.fireStoreDB, this.doc, tagId)
     try {
-      await updateDoc( docRef, {
+        await updateDoc( docRef, {
         usedMemo: arrayUnion(memoId),
         lastUpdate: parseInt(memoId)
       }); 

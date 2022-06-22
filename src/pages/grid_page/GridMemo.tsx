@@ -33,7 +33,6 @@ const GridMemo = ( {fbMemo, fbTag, tag, onClickMemo }: IGridMemo ) => {
     // const promiseResult = await fbMemo.getUsedMemo(tag.usedMemo);
     const promiseResult = await fbMemo.getMemoWithTag(tag, "gridPage");
     const result = await Promise.all(promiseResult);
-    console.log( "getDoc 결과", result)
     setUsedMemo(result)
   }
   

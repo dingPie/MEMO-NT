@@ -42,6 +42,12 @@ interface IMemoPage {
   // tag: ITag;
 }
 
+export interface MemoProps {
+  fbMemo: FbMemo;
+  fbTag: FbTag;
+  tag: ITag;
+}
+
 const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
 
   const tagService = new TagService();
@@ -69,7 +75,6 @@ const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
   const getUsedMemo = async (tag: ITag) => {
     const promiseResult = await fbMemo.getMemoWithTag(tag);
     const result = await Promise.all(promiseResult);
-    console.log( "getDoc 결과", result)
     setMemoList(result)
   }
 
@@ -92,6 +97,7 @@ const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
       <MobileBox height="93%">
         <MemoBox>
           {tag &&
+          <>
             <MemoNameContainer
               fbTag={fbTag}
               fbMemo={fbMemo} 
@@ -101,25 +107,26 @@ const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
               setIsOpenEditTag={setIsOpenEditTag}
               onClickTagName={onClickTagName}
             />
-          }
         
-          {/* 메모 컨텐츠, 추가, 수정관련  */}
-          <MemoContentContainer 
-            fbTag={fbTag}
-            fbMemo={fbMemo}
-            tag={tag}
-            memoList={memoList}
-            setMemoList={setMemoList}
-          />
+            <MemoContentContainer 
+              fbTag={fbTag}
+              fbMemo={fbMemo}
+              tag={tag}
+              memoList={memoList}
+              setMemoList={setMemoList}
+            />
 
-          <MemoMenuContainer
-            fbTag={fbTag}
-            fbMemo={fbMemo}
-            isOpenMenu={isOpenMenu}
-            setIsOpenMenu={setIsOpenMenu}
-            setIsOpenDeleteMemo={setIsOpenDeleteMemo}
-            setIsOpenEditTag={setIsOpenEditTag}
-          />
+            <MemoMenuContainer
+              fbTag={fbTag}
+              fbMemo={fbMemo}
+              tag={tag}
+              isOpenMenu={isOpenMenu}
+              setIsOpenMenu={setIsOpenMenu}
+              setIsOpenDeleteMemo={setIsOpenDeleteMemo}
+              setIsOpenEditTag={setIsOpenEditTag}
+            />
+          </>
+          }
         </MemoBox>
       </MobileBox>
 

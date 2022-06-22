@@ -12,9 +12,9 @@ import useStore from "../../../store/useStore";
 
 interface IEditMemoName {
   tag: ITag;
-  onClickDoEditTag?: () => void;
   inputMemoName?: string;
-  onChangeMemoName?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onChangeMemoName: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onClickDoEditTag: (tag: ITag) => void;
 }
 
 const EditMemoName = ( { tag, onClickDoEditTag, inputMemoName, onChangeMemoName }: IEditMemoName ) => {
@@ -42,7 +42,7 @@ const EditMemoName = ( { tag, onClickDoEditTag, inputMemoName, onChangeMemoName 
       <IconBox
         size="l"
         bgColor={palette.getColor(tag)}
-        onClick={onClickDoEditTag}
+        onClick={() => onClickDoEditTag(tag)}
       >
         <Icon icon={faCheck} />
       </IconBox>

@@ -3,18 +3,18 @@ import Popup from "../../../components/Popup";
 import Text from "../../../components/Text";
 
 interface IMemoDeletePopup {
-  onClickCancel?: () => void;
-  onClickDo?: () => void;
+  onClickCancelDelete: () => void;
+  onClickDoDelete: () => void;
 }
 
-const MemoDeletePopup = ( { onClickCancel, onClickDo }: IMemoDeletePopup ) => {
+const MemoDeletePopup = ( { onClickCancelDelete, onClickDoDelete }: IMemoDeletePopup ) => {
 
 
   return(
     <Popup
       title="태그 삭제"
-      onClickCancel={onClickCancel}
-      onClickDo={onClickDo}
+      onClickCancel={onClickCancelDelete}
+      onClickDo={onClickDoDelete}
     >
       <Text>
         이 태그를 삭제할까요?
