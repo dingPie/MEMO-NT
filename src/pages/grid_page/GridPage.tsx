@@ -61,7 +61,10 @@ export default GridPage;
 const GridBox = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  /* max-width:50% ; */
   gap: .5rem;
   padding: 0 .25rem;
+
+
 `
 

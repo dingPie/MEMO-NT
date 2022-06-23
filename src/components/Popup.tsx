@@ -29,7 +29,6 @@ const Popup = ( { children, title, onClickCancel, onClickDo, cancelBtnName, doBt
             zIndex={zIndex}
             noBackground={noBackground}
           >
-    
           <Text bold center size='xl' padding="0" >
             {title}
           </Text>
@@ -37,11 +36,13 @@ const Popup = ( { children, title, onClickCancel, onClickDo, cancelBtnName, doBt
             <RowBox center padding="0" >
               <MainBtn
                 onClick={onClickCancel}
-              > { cancelBtnName ? cancelBtnName : "취소" }
+              > 
+                { cancelBtnName ? cancelBtnName : "취소" }
               </MainBtn>
               <MainBtn primary
                 onClick={onClickDo}
-              > { doBtnName ? doBtnName : "확인" }
+              > 
+                { doBtnName ? doBtnName : "확인" }
               </MainBtn>
             </RowBox>
           </Inner>
@@ -85,12 +86,13 @@ interface IInner {
 
 export const Inner = styled.div<IInner>`
   // 정렬
-  position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   gap: ${({gap}) => gap ? gap+"rem" : ".5rem"};
+
+  ${center}; // 중앙정렬
 
   // size
   width: 17.5rem;
@@ -101,11 +103,11 @@ export const Inner = styled.div<IInner>`
   z-index:${({zIndex}) => zIndex ? zIndex : 3 };
   background: white;
   border-radius: .25rem;
-  ${center} // 중앙정렬
 `
 
 const Outer = styled.div`
   position: fixed;
+  z-index: 2;
   left: 0;
   width: 100vw;
   height: 100vh;

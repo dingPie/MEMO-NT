@@ -20,14 +20,17 @@ interface ITalkInpuContainer extends TalkProps {
   setEditMemo: (v: IMemo | null) => void;
   viewMemo: IMemo[];
   setViewMemo: (v: IMemo[]) => void;
-  talkBoxRef: React.RefObject<HTMLDivElement>
+  talkBoxRef: React.RefObject<HTMLDivElement>;
+
+  bottomSpace: number;
+  setBottomSpace: (v: number) => void;
 }
 
-const TalkInpuContainer = ( { fbMemo, fbTag, tags, editMemo, setEditMemo, viewMemo, setViewMemo, talkBoxRef}: ITalkInpuContainer ) => {
+const TalkInpuContainer = ( { bottomSpace, setBottomSpace, fbMemo, fbTag, tags, editMemo, setEditMemo, viewMemo, setViewMemo, talkBoxRef}: ITalkInpuContainer ) => {
 
   const inputBoxRef = useRef<HTMLDivElement>(null)
   const [inputMemo, setInputMemo] = useState<string>('') // 입력중인 memo
-  const [bottomSpace, setBottomSpace] = useState(0); // option창 bottom 좌표 설정
+  // const [bottomSpace, setBottomSpace] = useState(0); // option창 bottom 좌표 설정
   const [editTagName, setEditTagName] = useState('')
   const [recommTag, setRecommTag] = useState<ITag>()
 

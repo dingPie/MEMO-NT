@@ -6,7 +6,7 @@ export const MobileBox = styled.div<{height?: string}>`
   height: ${({height}) => height && height };
   min-width: 20rem;
   max-width: 30rem;
-  margin: 0 auto;
-  padding: .75rem .5rem;
+  margin: 0;
+  padding: .5rem;
   background: ${({theme}) => theme.colors.light_gray};
 `
