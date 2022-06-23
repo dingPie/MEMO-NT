@@ -22,8 +22,8 @@ import { dummyMemos } from "../../utils/data/dummyData";
 import { MobileBox } from "../../components/MobileBox";
 
 import { IMemo, ITag } from "../../utils/interface/interface";
-import TalkMemu from "./menu_and_popup/TalkMenu";
-import TalkDeletePopup from "./menu_and_popup/TalkDeletePopup";
+import TalkMemu from "./menu/TalkMenu";
+import TalkDeletePopup from "./TalkDeletePopup";
 import TalkPinn from "./pinn/TalkPinn";
 import TalkPinnExpand from "./pinn/TalkPinnExpand";
 import TagOptions from "./InputBox/TagOptions";
@@ -38,7 +38,7 @@ import TalkInpuContainer from "./InputBox/TalkInputContainer";
 import { User } from "firebase/auth";
 import TalkListExpand from "./List/TalkListExpand";
 import { MainBtn } from "../../components/Buttons";
-import MunuAndPopupContainer from "./menu_and_popup/MunuAndPopupContainer";
+import MenuContainer from "./menu/MenuContainer";
 
 interface ITalkPage {
   user: User | null;
@@ -196,7 +196,7 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
     if (selectedMemo === pinnedMemo) setPinnedMemo(null)
     setSelectedMemo(null)
     setIsOpenDeletePopup(false)
-    alert("삭제되었습니다.");
+    // alert("삭제되었습니다.");
   }
   
   return(
@@ -240,7 +240,7 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
             />) 
         })}       
 
-        <MunuAndPopupContainer 
+        <MenuContainer 
           fbTag={fbTag} 
           fbMemo={fbMemo} 
           viewMemo={viewMemo} 
@@ -250,6 +250,8 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
           setEditMemo={setEditMemo} 
           setPinnedMemo={setPinnedMemo} 
           setViewMemo={setViewMemo}
+          isOpenDeletePopup={isOpenDeletePopup}
+          setIsOpenDeletePopup={setIsOpenDeletePopup}
         />
 
 
@@ -268,13 +270,13 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
         setBottomSpace={setBottomSpace}
       />
       {/*  삭제 팝업 */}
+    </TalkBox>
       { isOpenDeletePopup &&
         <TalkDeletePopup 
           onClickCancel={() => setIsOpenDeletePopup(false)}
           onClickDo={deleteMemo}
         />
       }
-    </TalkBox>
 
     </>
   )

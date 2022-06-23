@@ -107,7 +107,7 @@ export const Inner = styled.div<IInner>`
 
 const Outer = styled.div`
   position: fixed;
-  z-index: 2;
+  z-index: 8;
   left: 0;
   width: 100vw;
   height: 100vh;

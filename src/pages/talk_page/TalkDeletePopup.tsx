@@ -1,7 +1,7 @@
 import React from "react";
-import Popup from "../../../components/Popup";
-import Text from "../../../components/Text";
-import { IMemo } from "../../../utils/interface/interface";
+import Popup from "../../components/Popup";
+import Text from "../../components/Text";
+import { IMemo } from "../../utils/interface/interface";
 
 interface ITalkDeletePopup {
   onClickCancel: () => void;
@@ -16,7 +16,6 @@ const TalkDeletePopup = ( { onClickCancel, onClickDo }: ITalkDeletePopup ) => {
       title="메모 삭제"
       onClickCancel={onClickCancel}
       onClickDo={onClickDo}
-      zIndex={10}
     >
       <Text>
         이 메모를 삭제할까요?

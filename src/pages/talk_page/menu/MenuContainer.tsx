@@ -7,13 +7,13 @@ import { faPen, faTrashCan, faThumbTack, faExpand, faAlignLeft, faXmark } from "
 import { IconBox } from "../../../components/IconBox";
 import { IMemo } from "../../../utils/interface/interface";
 import TalkMemu from "./TalkMenu";
-import TalkDeletePopup from "./TalkDeletePopup";
+import TalkDeletePopup from "../TalkDeletePopup";
 import { FbTag } from "../../../firebase/firestore_tag_service";
 import { FbMemo } from "../../../firebase/firestore_memo_service";
 import { useNavigate } from "react-router";
 
 
-interface IMunuAndPopupContainer {
+interface IMenuContainer {
   fbTag: FbTag;
   fbMemo: FbMemo;
   viewMemo: IMemo[];
@@ -23,10 +23,12 @@ interface IMunuAndPopupContainer {
   setEditMemo: (v: IMemo | null) => void;
   setPinnedMemo: (v: IMemo | null) => void;
   setViewMemo: (viewMemo: IMemo[]) => void;
+  isOpenDeletePopup: boolean;
+  setIsOpenDeletePopup: (v:boolean) => void;
 }
 
 
-const MunuAndPopupContainer = ( {
+const MenuContainer = ( {
   fbTag, 
   fbMemo, 
   viewMemo, 
@@ -35,11 +37,13 @@ const MunuAndPopupContainer = ( {
   setSelectedMemo, 
   setEditMemo, 
   setPinnedMemo, 
-  setViewMemo 
-}: IMunuAndPopupContainer ) => {
+  setViewMemo,
+  isOpenDeletePopup,
+  setIsOpenDeletePopup
+}: IMenuContainer ) => {
 
   const navigate = useNavigate();
-  const [isOpenDeletePopup, setIsOpenDeletePopup] = useState(false);
+  // const [isOpenDeletePopup, setIsOpenDeletePopup] = useState(false);
 
   const onClickCloseMenuBtn = () => {
     setSelectedMemo(null)
@@ -59,21 +63,6 @@ const MunuAndPopupContainer = ( {
     setIsOpenDeletePopup(true)
   }
   
-  const deleteMemo = async () => {
-    // 메모 삭제 로직
-    await fbMemo.deleteMemo(selectedMemo!.id)
-    await fbTag.deleteUsedMemo(selectedMemo!)
-    // await fbTag.deleteTag(selectedMemo.tagId) // 태그 삭제 관련은 고민해야함
-
-    const newViewMemo = viewMemo.filter(v => v.id !== selectedMemo!.id);
-    setViewMemo(newViewMemo);
-
-    if (selectedMemo === pinnedMemo) setPinnedMemo(null)
-    setSelectedMemo(null)
-    setIsOpenDeletePopup(false)
-    alert("삭제되었습니다.");
-  }
-
   /* Menu: 상단 핀: 핀 버튼 클릭 */
    const onClickPinnBtn = () => {
     if (selectedMemo) setPinnedMemo(selectedMemo)
@@ -108,15 +97,8 @@ const MunuAndPopupContainer = ( {
           onClickCloseMenuBtn={onClickCloseMenuBtn}
         />
       }
-      {/*  삭제 팝업 */}
-      { isOpenDeletePopup &&
-        <TalkDeletePopup
-          onClickCancel={() => setIsOpenDeletePopup(false)}
-          onClickDo={deleteMemo}
-        />
-      }
     </>
   )
 }
 
-export default MunuAndPopupContainer;
+export default MenuContainer;
