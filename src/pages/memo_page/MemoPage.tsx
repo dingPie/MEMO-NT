@@ -94,7 +94,7 @@ const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
         page="memo"
         onClickOtherBtn={onClickOtherBtn}
       />
-      <MobileBox height="93%">
+      <MobileBox>
         <MemoBox>
           {tag &&
           <>
