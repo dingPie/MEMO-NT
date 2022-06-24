@@ -32,27 +32,25 @@ const GridPage = ( { tags, user, fbMemo, fbTag }: IGridPage ) => {
 
  
   return(
-    <>
+    <MobileBox>
       <Header 
         page='grid' 
         onClickOtherBtn={onClickOtherBtn}
       />
-      <MobileBox>
-        <GridBox>
-        { usedTag.map( tag => {
-          return (
-            <GridMemo
-              fbMemo={fbMemo}
-              fbTag={fbTag}
-              tag={tag}
-              onClickMemo={() => onClickTag(tag)}
-            />
-          )
-        })}
-        
-        </GridBox>
+      <GridBox>
+      { usedTag.map( (tag, id) => {
+        return (
+          <GridMemo
+            key={id}
+            fbMemo={fbMemo}
+            fbTag={fbTag}
+            tag={tag}
+            onClickMemo={() => onClickTag(tag)}
+          />
+        )
+      })}
+      </GridBox>
       </MobileBox>
-    </>
   )
 }
 
@@ -61,9 +59,8 @@ export default GridPage;
 const GridBox = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  /* max-width:50% ; */
   gap: .5rem;
-  padding: 0 .25rem;
+  padding: .5rem;
 
 
 `

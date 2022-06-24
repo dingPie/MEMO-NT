@@ -11,18 +11,21 @@ import MemoDeletePopup from "./MemoDeletePopup";
 interface IMemoDeletePopupContainer extends MemoProps {
   isOpenDeleteMemo: boolean;
   setIsOpenDeleteMemo: (v: boolean) => void;
+  isOpenDeleteConfirm: boolean;
+  setIsOpenDeleteConfirm: (v: boolean) => void;
 }
 
-const MemoDeletePopupContainer = ( { fbTag, fbMemo, tag, isOpenDeleteMemo, setIsOpenDeleteMemo }: IMemoDeletePopupContainer ) => {
+const MemoDeletePopupContainer = ( { fbTag, fbMemo, tag, isOpenDeleteMemo, setIsOpenDeleteMemo, isOpenDeleteConfirm, setIsOpenDeleteConfirm }: IMemoDeletePopupContainer ) => {
 
   const navigate = useNavigate();
-  const [isOpenDeleteConfirm, setIsOpenDeleteConfirm] = useState(false);
 
-  
+
+
   // 삭제 확인버튼 클릭
   const onClickDoDelete = () => {
     setIsOpenDeleteMemo(false)
     setIsOpenDeleteConfirm(true)
+    console.log("잘 되나 테스트 현재인풋값", isOpenDeleteConfirm)
   }
   // 삭제 취소버튼
   const onClickCancelDelete = () => {
@@ -31,6 +34,11 @@ const MemoDeletePopupContainer = ( { fbTag, fbMemo, tag, isOpenDeleteMemo, setIs
 
   // 삭제: 태그와 메모 전체삭제
   const onClickDoDeleteAll = async (tag: ITag) => {
+    if (tag.id !== "undefined" && tag.id !== "toBeDeleted") {
+      alert("해당 태그는 삭제가 불가능합니다. 내용만 삭제됩니다.")
+      onClickDoDeleteOnlyTag(tag)
+      return
+    }
     setIsOpenDeleteConfirm(false)
     navigate('/grid')
 
@@ -51,6 +59,11 @@ const MemoDeletePopupContainer = ( { fbTag, fbMemo, tag, isOpenDeleteMemo, setIs
       await fbMemo.editMemoUsedTag(memoId, "undefined")
     })
   }
+
+  React.useEffect(() => {
+    console.log( "삭제 확인창 테스트 ", isOpenDeleteConfirm)
+  }, [isOpenDeleteConfirm])
+  
 
 
   return(

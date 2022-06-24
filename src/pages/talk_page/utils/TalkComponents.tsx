@@ -13,3 +13,10 @@ export const TalkContent = styled(RowBox)<ITalkContent>`
   line-height: ${({lineHieght}) => lineHieght ? lineHieght + "rem" : "1.125rem" };
   ${setTextLine};
 `
+
+export const MenuBox = styled(RowBox)`
+  align-items: center;
+  padding: .25rem;
+  background: white;
+  // transition 적용 여부때문에 일단 보류
+`

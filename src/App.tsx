@@ -95,7 +95,7 @@ function App( {fbAuth, fbTag, fbMemo }: IApp ) {
   
 
   return (
-    <div className="App">
+    <>
       <GlobalStyle /> 
 
       <Routes>
@@ -140,7 +140,7 @@ function App( {fbAuth, fbTag, fbMemo }: IApp ) {
         <Route path="/test" element={<TestPage />} />
         <Route path="/tagtest" element={<TagTestPage fbMemo={fbMemo} />} />
       </Routes>
-    </div>
+    </>
   );
 }
 

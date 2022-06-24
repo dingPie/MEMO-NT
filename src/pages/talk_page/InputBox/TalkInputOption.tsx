@@ -14,21 +14,21 @@ import { ITag } from "../../../utils/interface/interface";
 import { IconBox } from "../../../components/IconBox";
 
 interface ITalkInputOption extends TalkProps {
-  bottomSpace: number;
   recommTag: ITag | undefined;
   onClickTagOption: (v?: string) => void;
 }
 
-const TalkInputOption = ( { tags, recommTag, bottomSpace, onClickTagOption }: ITalkInputOption ) => {
+const TalkInputOption = ( { tags, recommTag, onClickTagOption }: ITalkInputOption ) => {
   
   const { palette } = useStore();
   const recentTags = tags.filter( v => v.id !== "undefined" && v.id !== "toBeDeleted" ).slice(0, 3)
   // firebase에서 sort시, sort 된 옵션으로 불러와진다!
 
   return(
-    <MenuBox 
-      between gap={.1} 
-      bottomSpace={bottomSpace}
+    <RowBox
+      align="center"
+      padding=".5rem"
+      bgColor="white"
     >
       <RowBox gap={.25} padding="0" >
         { recentTags.map( tag =>
@@ -57,24 +57,8 @@ const TalkInputOption = ( { tags, recommTag, bottomSpace, onClickTagOption }: IT
       />
     </RowBox>
 
-    </MenuBox>
+    </RowBox>
   )
 }
 
 export default TalkInputOption;
-
-// 여기 이제 input 옵션창 해야함..
-
-const MenuBox = styled(RowBox)<{bottomSpace?: number}>`
-  display: flex;
-  position: fixed;
-  align-items: center;
-  bottom: ${({bottomSpace}) => bottomSpace ? (bottomSpace-4)+"px": "4rem" } ; // input Box 크기
-  left: 50%;
-  transform: translate(-50%, 0);
-  
-  
-  padding: .5rem .5rem;
-  max-width: 30rem;
-  background: white;
-`

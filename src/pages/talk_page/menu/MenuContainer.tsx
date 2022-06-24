@@ -6,7 +6,7 @@ import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faPen, faTrashCan, faThumbTack, faExpand, faAlignLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { IconBox } from "../../../components/IconBox";
 import { IMemo } from "../../../utils/interface/interface";
-import TalkMemu from "./TalkMenu";
+import TalkMemu from "../menu/TalkMenu";
 import TalkDeletePopup from "../TalkDeletePopup";
 import { FbTag } from "../../../firebase/firestore_tag_service";
 import { FbMemo } from "../../../firebase/firestore_memo_service";
@@ -69,19 +69,12 @@ const MenuContainer = ( {
     setSelectedMemo(null)
   }
 
-  /* Menu: 메모 확장 관련: 메모 확장클릭 */
-  const onClickExpandBtn = () => {
-    // 현재 사용 x
-  }
 
   /* Menu: 메모 이동 : 메모 이동 클릭*/
   const onClicGoMemoBtn = () => {
     navigate(`/memo/${selectedMemo!.tagId}`)
   }
 
-  React.useEffect(() => {
-    console.log(isOpenDeletePopup,"현재상태")
-  }, [isOpenDeletePopup])
   
 
   return(
@@ -92,7 +85,6 @@ const MenuContainer = ( {
           onClickEditBtn={onClickEditBtn}
           onClickDeleteBtn={onClickDeleteBtn}
           onClickPinnBtn={onClickPinnBtn}
-          onClickExpandBtn={onClickExpandBtn}
           onClicGoMemoBtn={onClicGoMemoBtn}
           onClickCloseMenuBtn={onClickCloseMenuBtn}
         />

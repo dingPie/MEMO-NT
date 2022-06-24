@@ -25,6 +25,7 @@ const TagOptions = ( { tagColor, tagName, maxWidth, onClick }: ITagOptions ) => 
         padding=".25rem .5rem"
         radius={1}
         maxWidth={maxWidth}
+        whiteSpace={"nowrap"}
       >
         {tagName}
       </RecomandTag>
@@ -36,16 +37,9 @@ export default TagOptions;
 
 // 여기 이제 input 옵션창 해야함..
 
-const RecomandTag = styled(CustomBtn)<{maxWidth?: number}>`
+const RecomandTag = styled(CustomBtn)<{maxWidth?: number, whiteSpace?: string}>`
   max-width: ${({maxWidth}) => maxWidth ? maxWidth +"rem" : "4.5rem" };
   min-width: 2rem;
 
   ${setTextLine}
-  white-space: nowrap;
-
-  // overflow속성, 숨김
-  /* display: -webkit-box;
-  overflow: hidden;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical; */
 `
