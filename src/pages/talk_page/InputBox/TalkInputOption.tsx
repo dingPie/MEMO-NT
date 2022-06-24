@@ -1,17 +1,11 @@
 import React from "react";
-import styled from "styled-components";
-import { RowBox } from "../../../components/FlexBox";
-import TagOptions from "./TagOptions";
-
-import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import {  faHashtag,  } from "@fortawesome/free-solid-svg-icons";
-
-import { CustomBtn } from "../../../components/Buttons";
-import { dummyTags } from "../../../utils/data/dummyData";
-import { TalkProps } from "../TalkPage";
 import useStore from "../../../store/useStore";
+
+import TagOptions from "./TagOptions";
+import { TalkProps } from "../TalkPage";
+
+import { RowBox } from "../../../components/FlexBox";
 import { ITag } from "../../../utils/interface/interface";
-import { IconBox } from "../../../components/IconBox";
 
 interface ITalkInputOption extends TalkProps {
   recommTag: ITag | undefined;

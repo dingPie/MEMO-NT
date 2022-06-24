@@ -59,7 +59,6 @@ const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isOpenEditTag, setIsOpenEditTag] = useState(false);
   const [isOpenDeleteMemo, setIsOpenDeleteMemo] = useState(false);
-  const [isOpenDeleteConfirm, setIsOpenDeleteConfirm] = useState(false);
 
   useLayoutEffect(() => {
     if(!tag) return
@@ -127,17 +126,13 @@ const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
         </MemoBox>
       </OuterBox>
 
-      { isOpenDeleteMemo &&
         <MemoDeletePopupContainer 
           fbTag={fbTag}
           fbMemo={fbMemo}
           tag={tag}
           isOpenDeleteMemo={isOpenDeleteMemo}
           setIsOpenDeleteMemo={setIsOpenDeleteMemo}
-          isOpenDeleteConfirm={isOpenDeleteConfirm}
-          setIsOpenDeleteConfirm={setIsOpenDeleteMemo}
         />
-      }
       </MobileBox>
   )
 }
