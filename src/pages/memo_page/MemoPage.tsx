@@ -92,11 +92,7 @@ const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
         page="memo"
         onClickOtherBtn={onClickOtherBtn}
       />
-<<<<<<< HEAD
-      <MobileBox>
-=======
       <OuterBox>
->>>>>>> cssSet
         <MemoBox>
           {tag &&
           <>
