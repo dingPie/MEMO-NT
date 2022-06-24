@@ -13,7 +13,7 @@ import { Time } from "../../../utils/service/time";
 import useStore from "../../../store/useStore";
 import { TalkProps } from "../TalkPage";
 import { getTagWithMemo, setTalkTag } from "../utils/talk_service";
-import { setTextLine } from "../../../styles/stylesCss";
+import { overFlowHidden, setTextLine } from "../../../styles/stylesCss";
 import { ColBox, RowBox } from "../../../components/FlexBox";
 import { TalkListBox } from "./TalkList";
 import { TalkContent } from "../utils/TalkComponents";
@@ -74,6 +74,8 @@ export default TalkListExpand;
 const IconBoxExpand = styled(IconBox)`
   justify-content: flex-start;
   width: fit-content;
+  max-width: 70%;
   height: 1.75rem;
   padding: 0 .5rem;
+  ${overFlowHidden};
 `

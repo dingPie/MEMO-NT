@@ -1,12 +1,12 @@
 import styled from "styled-components"
 
-export const MobileBox = styled.div<{height?: string}>`
-  display: relative;
+export const MobileBox = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  height: ${({height}) => height && height };
+  height: 100%;
   min-width: 20rem;
   max-width: 30rem;
   margin: 0 auto;
-  padding: .75rem .5rem;
   background: ${({theme}) => theme.colors.light_gray};
 `

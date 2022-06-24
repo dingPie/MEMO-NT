@@ -1,11 +1,13 @@
-import React, { forwardRef } from "react";
+import React from "react";
+import styled from "styled-components";
+
 import { InputText } from "../../../components/InputText"
+import { RowBox } from "../../../components/FlexBox";
+import { IconBox } from "../../../components/IconBox";
+
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faPlusSquare } from "@fortawesome/free-regular-svg-icons";
-import { RowBox } from "../../../components/FlexBox";
-import Header from "../../../components/Header";
-import styled from "styled-components";
-import { IconBox } from "../../../components/IconBox";
+
 
 interface ITaklInput {
   value: string;
@@ -13,13 +15,12 @@ interface ITaklInput {
   onClickInputBtn: () => void;
 }
 
-const TalkInput = forwardRef<HTMLDivElement, ITaklInput>(( { value, onChangeInputMemo, onClickInputBtn }, inputBoxRef ) => {
+const TalkInput = ( { value, onChangeInputMemo, onClickInputBtn }: ITaklInput ) => {
 
 
   return (        
   <InputBox 
     padding=".75rem" 
-    ref={inputBoxRef}
   >
     <InputText
       value={value}
@@ -36,17 +37,13 @@ const TalkInput = forwardRef<HTMLDivElement, ITaklInput>(( { value, onChangeInpu
     </IconBox>
   </InputBox>)
 
-})
+}
 
 export default TalkInput;
 
 const InputBox = styled(RowBox)`
-  position: fixed;
-  align-items: center;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, 0);
   max-width: 30rem;
+  align-items: center;
   background: white;
   justify-content: space-between;
 `

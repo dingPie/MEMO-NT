@@ -73,6 +73,7 @@ const MemoMenuContainer = ( { fbTag, fbMemo, tag, isOpenMenu, setIsOpenMenu, set
       {/* 메뉴 */}
       { isOpenMenu &&
         <MemoMenu
+          tag={tag}
           onClickEditBtn={onClickEditBtn}
           onClickDeleteBtn={onClickDeleteBtn}
           onClickPaletteBtn={onClickPaletteBtn}

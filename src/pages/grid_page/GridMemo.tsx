@@ -46,6 +46,7 @@ const GridMemo = ( {fbMemo, fbTag, tag, onClickMemo }: IGridMemo ) => {
       bgColor={"white"}
     >
       <TalkTagExpand
+        bold
         shadow
         height={2}
         bgColor={palette.getColor(tag)} // 테스트 컬러
@@ -77,19 +78,11 @@ const GridText = styled(Text)`
 
   ${setTextLine}
 `
-const TalkTagExpand = styled(IconBox)`
+const TalkTagExpand = styled(Text)`
   justify-content: flex-start;
   width: 100%;
   padding: 0 .5rem;
   border-radius: .25rem;
-`
 
-{/* <Text
-  bold
-  shadow
-  radius={.25}
-  padding=".375rem .5rem"
-  bgColor={palette.getColor(tag)}
->
-  # {tag.name}
-</Text> */}
+  ${setTextLine};
+`

@@ -2,42 +2,22 @@ import React, { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
 
+import { FbTag } from "../../firebase/firestore_tag_service";
+import { FbMemo } from "../../firebase/firestore_memo_service";
+import { User } from "firebase/auth";
 
-import { RowBox } from "../../components/FlexBox";
+import { MobileBox } from "../../components/MobileBox";
+import { ColBox } from "../../components/FlexBox";
 import Header from "../../components/Header";
 
-import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { faPen, faTrashCan, faThumbTack, faExpand, faAlignLeft } from "@fortawesome/free-solid-svg-icons";
-import {  } from "@fortawesome/free-regular-svg-icons";
-
-import { InputText } from "../../components/InputText";
-import Text from "../../components/Text"
-import TalkInput from "./InputBox/TalkInput";
-import { IconBox } from "../../components/IconBox";
 import TalkList from "./List/TalkList";
-import { Time } from "../../utils/service/time";
-
-// 더미데이터
-import { dummyMemos } from "../../utils/data/dummyData";
-import { MobileBox } from "../../components/MobileBox";
-
-import { IMemo, ITag } from "../../utils/interface/interface";
-import TalkMemu from "./TalkMenu";
 import TalkDeletePopup from "./TalkDeletePopup";
 import TalkPinn from "./pinn/TalkPinn";
-import TalkPinnExpand from "./pinn/TalkPinnExpand";
-import TagOptions from "./InputBox/TagOptions";
-import TalkInputOption from "./InputBox/TalkInputOption";
-import Tag from "../../utils/data/tag_service";
-import TalkEditOption from "./InputBox/TalkEditTagName";
-import { FbTag } from "../../firebase/firestore_tag_service";
-
-import { firebaseAuth, fireStoreDB } from "../../firebase/firebase_config";
-import { FbMemo } from "../../firebase/firestore_memo_service";
 import TalkInpuContainer from "./InputBox/TalkInputContainer";
-import { User } from "firebase/auth";
-import TalkListExpand from "./List/TalkListExpand";
-import { MainBtn } from "../../components/Buttons";
+import MenuContainer from "./menu/MenuContainer";
+
+import { IMemo, ITag } from "../../utils/interface/interface";
+
 
 interface ITalkPage {
   user: User | null;
@@ -102,55 +82,6 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
     if (editMemo) return
     (selectedMemo === memo) ? setSelectedMemo(null) : setSelectedMemo(memo)
   }
-  // 메뉴 off
-  const onClickCloseMenuBtn = () => {
-    setSelectedMemo(null)
-  }
-  
-  /* Menu: 수정관련 */ 
-  // 수정버튼 클릭
-  const onClickEditBtn = () => {
-    if (!selectedMemo) return
-    setEditMemo(selectedMemo)
-    setSelectedMemo(null)
-  }
-
-  /* Menu: 삭제관련 */
-  // 삭제버튼 클릭
-  const onClickDeleteBtn = () => {
-    setIsOpenDeletePopup(true)
-  }
-  // 삭제 실행 로직: 념겨줄 인자가 많아서 그대로 유지..
-  const deleteMemo = async () => {
-    // 메모 삭제 로직
-    await fbMemo.deleteMemo(selectedMemo!.id)
-    await fbTag.deleteUsedMemo(selectedMemo!)
-    // await fbTag.deleteTag(selectedMemo.tagId) // 태그 삭제 관련은 고민해야함
-
-    const newViewMemo = viewMemo.filter(v => v.id !== selectedMemo!.id);
-    setViewMemo(newViewMemo);
-
-    if (selectedMemo === pinnedMemo) setPinnedMemo(null)
-    setSelectedMemo(null)
-    setIsOpenDeletePopup(false)
-    alert("삭제되었습니다.");
-  }
-
-  /* Menu: 상단 핀: 핀 버튼 클릭 */
-   const onClickPinnBtn = () => {
-    if (selectedMemo) setPinnedMemo(selectedMemo)
-    setSelectedMemo(null)
-  }
-
-  /* Menu: 메모 확장 관련: 메모 확장클릭 */
-  const onClickExpandBtn = () => {
-    // 현재 사용 x
-  }
-
-  /* Menu: 메모 이동 : 메모 이동 클릭*/
-  const onClicGoMemoBtn = () => {
-    navigate(`/memo/${selectedMemo!.tagId}`)
-  }
 
   /* 무한스크롤  */
   const observerOpt = {
@@ -182,24 +113,38 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
     return () => observerRef.current && observerRef.current.disconnect(); // observerRef.current.unobserve()와 동일
   }, [viewMemo]); // viewMemo 변경되면 observer를 새로 지정
 
+  const deleteMemo = async () => {
+    // 메모 삭제 로직
+    await fbMemo.deleteMemo(selectedMemo!.id)
+    await fbTag.deleteUsedMemo(selectedMemo!)
+    // await fbTag.deleteTag(selectedMemo.tagId) // 태그 삭제 관련은 고민해야함
 
+    const newViewMemo = viewMemo.filter(v => v.id !== selectedMemo!.id);
+    setViewMemo(newViewMemo);
+
+    if (selectedMemo === pinnedMemo) setPinnedMemo(null)
+    setSelectedMemo(null)
+    setIsOpenDeletePopup(false)
+    // alert("삭제되었습니다.");
+  }
   
+
+
   return(
-    <>
+    <MobileBox>
+      
       <Header 
         page="talk"
         onClickOtherBtn={onClickOtherBtn}
       />
-
-      {/* 상단 pinn ui */}
-      { pinnedMemo &&
+      {/* 상단 pinn ui, absoulte로 적용되어있음 */}
+      { pinnedMemo && 
         <TalkPinn
           tags={tags}
           memo={pinnedMemo}
           setPinnedMemo={setPinnedMemo}
         />
       }
-
       <TalkBox
         ref={talkBoxRef}
       >
@@ -207,11 +152,6 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
           ref={topRef}
           style={{ height:"1px"}}
         />
-        {/* <MainBtn
-          onClick={() => getMemoWithPagination(viewMemo, setViewMemo)}
-        >
-          메모 불러오기
-        </MainBtn> */}
         {/* 메모 리스트 표시 */}
         { viewMemo.map((memo, i) => {
           return (
@@ -223,33 +163,35 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
               selectedMemo={selectedMemo}
             />) 
         })}       
-
-
-        {/* ... 클릭시 메뉴 */}
-        { selectedMemo && 
-          <TalkMemu 
-            onClickEditBtn={onClickEditBtn}
-            onClickDeleteBtn={onClickDeleteBtn}
-            onClickPinnBtn={onClickPinnBtn}
-            onClickExpandBtn={onClickExpandBtn}
-            onClicGoMemoBtn={onClicGoMemoBtn}
-            onClickCloseMenuBtn={onClickCloseMenuBtn}
-          />
-        }
-      {/* </TalkBox> */}
-
-      {/* Talk Input관련 Container */}
-      <TalkInpuContainer
-        fbMemo={fbMemo}
-        fbTag={fbTag}
-        tags={tags}
-        editMemo={editMemo}
-        setEditMemo={setEditMemo}
-        viewMemo={viewMemo}
-        setViewMemo={setViewMemo}
-        talkBoxRef={talkBoxRef}
-      />
-    </TalkBox>
+      </TalkBox>
+      
+      <InputOuterBox>
+        {/* Talk menu 관련  */}
+        <MenuContainer 
+          fbTag={fbTag} 
+          fbMemo={fbMemo} 
+          viewMemo={viewMemo} 
+          selectedMemo={selectedMemo} 
+          pinnedMemo={pinnedMemo} 
+          setSelectedMemo={setSelectedMemo} 
+          setEditMemo={setEditMemo} 
+          setPinnedMemo={setPinnedMemo} 
+          setViewMemo={setViewMemo}
+          isOpenDeletePopup={isOpenDeletePopup}
+          setIsOpenDeletePopup={setIsOpenDeletePopup}
+        />
+        {/* Talk Input관련 Container */}
+        <TalkInpuContainer
+          fbMemo={fbMemo}
+          fbTag={fbTag}
+          tags={tags}
+          editMemo={editMemo}
+          setEditMemo={setEditMemo}
+          viewMemo={viewMemo}
+          setViewMemo={setViewMemo}
+          talkBoxRef={talkBoxRef}
+        />
+      </InputOuterBox>
 
       {/*  삭제 팝업 */}
       { isOpenDeletePopup &&
@@ -258,20 +200,28 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
           onClickDo={deleteMemo}
         />
       }
-    </>
+    </MobileBox>
   )
 }
 
 export default TalkPage;
 
 
-
 const TalkBox = styled(MobileBox)`
-  height: 86.5%;
-  /* max-height: 86.6%; */
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  height: 100%;
+  padding: .5rem .5rem .25rem .5rem;
   overflow-y: scroll;
 
   &::-webkit-scrollbar {
     width: 0;
   }
+`
+
+const InputOuterBox = styled(ColBox)`
+  gap: 0;
+  padding: 0;
 `

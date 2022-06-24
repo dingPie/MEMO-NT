@@ -100,9 +100,10 @@ const MemoContentContainer = ( { fbTag, fbMemo, tag, memoList, setMemoList }: IM
   return(
       <>
         <ColBox gap={.25} padding="0" >
-          { memoList.map( memo => {
+          { memoList.map( (memo, id) => {
             return(
               <MemoContent
+                key={id}
                 memo={memo}
                 onClickMemo={(e) => onClickMemo(e, memo)} 
               />

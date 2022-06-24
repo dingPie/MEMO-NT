@@ -61,10 +61,10 @@ const TalkPinn = ( { tags, memo, setPinnedMemo }: ITalkPinn ) => {
 export default TalkPinn;
 
 export const PinnBox = styled.div<{expand?: boolean}>`
-  position: fixed;
+  /* position: fixed;
   top: 56px;
   left: 50%;
-  transform: translate(-50%, 0);
+  transform: translate(-50%, 0); */
 
   display: flex;
   gap: .5rem;

@@ -1,27 +1,29 @@
 import React from "react";
 import styled from "styled-components";
-import { RowBox } from "../../components/FlexBox";
+import { RowBox } from "../../../components/FlexBox";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { faPen, faTrashCan, faThumbTack, faExpand, faAlignLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { IconBox } from "../../components/IconBox";
+import { faPen, faTrashCan, faThumbTack, faAlignLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { IconBox } from "../../../components/IconBox";
 
 
 interface ITalkMenu {
   onClickEditBtn: () => void;
   onClickDeleteBtn: () => void;
   onClickPinnBtn: () => void;
-  onClickExpandBtn: () => void;
   onClicGoMemoBtn: () => void;
   onClickCloseMenuBtn: () => void;
 }
 
 
-const TalkMemu = ( { onClickEditBtn, onClickDeleteBtn, onClickPinnBtn, onClickExpandBtn, onClicGoMemoBtn, onClickCloseMenuBtn }: ITalkMenu ) => {
+const TalkMemu = ( { onClickEditBtn, onClickDeleteBtn, onClickPinnBtn, onClicGoMemoBtn, onClickCloseMenuBtn }: ITalkMenu ) => {
 
   return(
-    <MenuBox>
-
+    <RowBox
+      align="center"
+      padding=".25rem .5rem"
+      bgColor="white"
+    >
       <RowBox gap={.5} padding=".25rem">
         <IconBox
           onClick={onClickEditBtn}
@@ -41,12 +43,6 @@ const TalkMemu = ( { onClickEditBtn, onClickDeleteBtn, onClickPinnBtn, onClickEx
           <Icon icon={faThumbTack} />
         </IconBox>
 
-        {/* <IconBox
-          onClick={onClickExpandBtn}
-        >
-          <Icon icon={faExpand} />
-        </IconBox> */}
-
         <IconBox
           onClick={onClicGoMemoBtn}
         >
@@ -59,22 +55,15 @@ const TalkMemu = ( { onClickEditBtn, onClickDeleteBtn, onClickPinnBtn, onClickEx
       >
         <Icon icon={faXmark} />
       </IconBox>
-
-    </MenuBox>
+    </RowBox>
   )
 }
 
 export default TalkMemu;
 
 export const MenuBox = styled(RowBox)`
-  display: flex;
-  position: fixed;
   align-items: center;
-  bottom: 4rem; // input Box 크기
-  left: 50%;
-  transform: translate(-50%, 0);
-  
   padding: .25rem;
-  max-width: 30rem;
   background: white;
+  // transition 적용 여부때문에 일단 보류
 `
