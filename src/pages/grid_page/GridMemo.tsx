@@ -48,7 +48,6 @@ const GridMemo = ( {fbMemo, fbTag, tag, onClickMemo }: IGridMemo ) => {
       <TalkTagExpand
         bold
         shadow
-        size="l"
         height={2}
         bgColor={palette.getColor(tag)} // 테스트 컬러
       >

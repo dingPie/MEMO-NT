@@ -34,22 +34,45 @@ const MemoDeletePopupContainer = ( { fbTag, fbMemo, tag, isOpenDeleteMemo, setIs
     setIsOpenDeleteConfirm(false)
     navigate('/grid')
 
-    await fbTag.deleteTag(tag.id) // 태그 삭제
-    tag.usedMemo.map( async memoId => { // 비동기식으로 사용된 usedMemo를 undefined에 추가 및 각 메모의 태그이름 변경
-      await fbMemo.deleteMemo(memoId)
-    })
+    // 로직 손봐야 함 view Memo를 다 받아오거나...
+    if (tag.id === "undefined" || tag.id === "toBeDeleted") {
+      alert("해당 태그는 삭제가 불가능합니다. 내용만 삭제됩니다.")
+      tag.usedMemo.map( async memoId => {
+        await fbMemo.deleteMemo(memoId)
+        // await fbTag.deleteUsedMemo(memoId) // 현재 delteUsedMemo 파라미터를 다르게 받아, 이 로직으로 하면 안됨. 수정예정
+      })
+    } 
+    
+    else {
+      await fbTag.deleteTag(tag.id) // 태그 삭제
+      tag.usedMemo.map( async memoId => { // 비동기식으로 사용된 usedMemo를 undefined에 추가 및 각 메모의 태그이름 변경
+        await fbMemo.deleteMemo(memoId)
+      })
+    }
+
   }
   
   // 삭제: 태그만 삭제
   const onClickDoDeleteOnlyTag = async (tag: ITag) => {
     setIsOpenDeleteConfirm(false)
     navigate('/grid')
-    
-    await fbTag.deleteTag(tag.id) // 태그 삭제
-    tag.usedMemo.map( async memoId => {     // 비동기식으로 사용된 usedMemo를 undefined에 추가 및 각 메모의 태그이름 변경
-      await fbTag.addUsedMemo("undefined", memoId)
-      await fbMemo.editMemoUsedTag(memoId, "undefined")
-    })
+
+     // 로직 손봐야 함 view Memo를 다 받아오거나...
+    if (tag.id === "undefined" || tag.id === "toBeDeleted") {
+      alert("해당 태그는 삭제가 불가능합니다. 내용만 삭제됩니다.")
+      tag.usedMemo.map( async memoId => {
+        await fbMemo.deleteMemo(memoId)
+        // await fbTag.deleteUsedMemo(memoId) // 현재 delteUsedMemo 파라미터를 다르게 받아, 이 로직으로 하면 안됨. 수정예정
+      })
+    } 
+
+    else {
+      tag.usedMemo.map( async memoId => {  // 비동기식으로 사용된 usedMemo를 undefined에 추가 및 각 메모의 태그이름 변경
+        await fbTag.addUsedMemo("undefined", memoId)
+        await fbMemo.editMemoUsedTag(memoId, "undefined")
+      })
+      await fbTag.deleteTag(tag.id) // 태그 삭제
+    }
   }
 
 
@@ -73,3 +96,6 @@ const MemoDeletePopupContainer = ( { fbTag, fbMemo, tag, isOpenDeleteMemo, setIs
 }
 
 export default MemoDeletePopupContainer;
+
+
+

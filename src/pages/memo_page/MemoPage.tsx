@@ -50,7 +50,6 @@ export interface MemoProps {
 
 const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
 
-  const tagService = new TagService();
   const navigate = useNavigate();
   const { tagId } = useParams();
 
@@ -60,7 +59,6 @@ const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isOpenEditTag, setIsOpenEditTag] = useState(false);
   const [isOpenDeleteMemo, setIsOpenDeleteMemo] = useState(false);
-
 
   useLayoutEffect(() => {
     if(!tag) return
@@ -89,12 +87,16 @@ const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
   }
  
   return(
-    <>
+      <MobileBox>
       <Header 
         page="memo"
         onClickOtherBtn={onClickOtherBtn}
       />
+<<<<<<< HEAD
       <MobileBox>
+=======
+      <OuterBox>
+>>>>>>> cssSet
         <MemoBox>
           {tag &&
           <>
@@ -107,7 +109,6 @@ const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
               setIsOpenEditTag={setIsOpenEditTag}
               onClickTagName={onClickTagName}
             />
-        
             <MemoContentContainer 
               fbTag={fbTag}
               fbMemo={fbMemo}
@@ -115,7 +116,6 @@ const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
               memoList={memoList}
               setMemoList={setMemoList}
             />
-
             <MemoMenuContainer
               fbTag={fbTag}
               fbMemo={fbMemo}
@@ -128,34 +128,37 @@ const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
           </>
           }
         </MemoBox>
-      </MobileBox>
+      </OuterBox>
 
-      <MemoDeletePopupContainer 
-        fbTag={fbTag}
-        fbMemo={fbMemo}
-        tag={tag}
-        isOpenDeleteMemo={isOpenDeleteMemo}
-        setIsOpenDeleteMemo={setIsOpenDeleteMemo}
-      />
-    </>
+        <MemoDeletePopupContainer 
+          fbTag={fbTag}
+          fbMemo={fbMemo}
+          tag={tag}
+          isOpenDeleteMemo={isOpenDeleteMemo}
+          setIsOpenDeleteMemo={setIsOpenDeleteMemo}
+        />
+      </MobileBox>
   )
 }
 
 export default MemoPage;
 
 const MemoBox = styled(ColBox)`
-  position: relative;
   background: ${({theme}) => theme.colors.white};
-  height: 100%;
-  overflow-y: scroll;
-  padding: .5rem;
   gap: .375rem;
-
+  
+  height: 100%;
+  padding: .5rem;
+  overflow-y: scroll;
   border-radius: .5rem;
   box-shadow: ${({theme}) => theme.boxShadow.main };
 
-    // 스크롤바 설정
   &::-webkit-scrollbar {
     width: 0;
   }
+`
+
+const OuterBox = styled.div`
+  padding: .5rem;
+  overflow-y: scroll;
 `

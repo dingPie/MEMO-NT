@@ -1,16 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
-import { IMemo, ITag } from "../../../utils/interface/interface";
+import React, { useEffect, useState } from "react";
+import { FbMemo } from "../../../firebase/firestore_memo_service";
+import { FbTag } from "../../../firebase/firestore_tag_service";
+
 import TalkInput from "./TalkInput";
 import { TalkProps } from "../TalkPage";
 import TalkEditTagName from "./TalkEditTagName";
 import TalkInputOption from "./TalkInputOption";
-import { FbMemo } from "../../../firebase/firestore_memo_service";
-import { FbTag } from "../../../firebase/firestore_tag_service";
- 
-import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { faEllipsis, faHashtag, faTag } from "@fortawesome/free-solid-svg-icons";
+
+import { IMemo, ITag } from "../../../utils/interface/interface";
 import { getTagWithMemo, getTagWithTagName, focusLastMemo } from "../utils/talk_service";
-import { ColBox } from "../../../components/FlexBox";
 
 
 interface ITalkInpuContainer extends TalkProps {
@@ -21,16 +19,11 @@ interface ITalkInpuContainer extends TalkProps {
   viewMemo: IMemo[];
   setViewMemo: (v: IMemo[]) => void;
   talkBoxRef: React.RefObject<HTMLDivElement>;
-
-  bottomSpace: number;
-  setBottomSpace: (v: number) => void;
 }
 
-const TalkInpuContainer = ( { bottomSpace, setBottomSpace, fbMemo, fbTag, tags, editMemo, setEditMemo, viewMemo, setViewMemo, talkBoxRef}: ITalkInpuContainer ) => {
+const TalkInpuContainer = ( {  fbMemo, fbTag, tags, editMemo, setEditMemo, viewMemo, setViewMemo, talkBoxRef}: ITalkInpuContainer ) => {
 
-  const inputBoxRef = useRef<HTMLDivElement>(null)
   const [inputMemo, setInputMemo] = useState<string>('') // 입력중인 memo
-  // const [bottomSpace, setBottomSpace] = useState(0); // option창 bottom 좌표 설정
   const [editTagName, setEditTagName] = useState('')
   const [recommTag, setRecommTag] = useState<ITag>()
 
@@ -50,7 +43,7 @@ const TalkInpuContainer = ( { bottomSpace, setBottomSpace, fbMemo, fbTag, tags, 
   }
 
   // 수정할 tagName state 관리
-  const onChangeTagName = (e?: React.ChangeEvent<HTMLTextAreaElement> | null, tagName?: string) => {
+  const onChangeTagName = (e?: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement> | null, tagName?: string) => {
     if (e) setEditTagName(e.target.value)
     else if (tagName !== undefined) setEditTagName(tagName)
   }
@@ -70,8 +63,6 @@ const TalkInpuContainer = ( { bottomSpace, setBottomSpace, fbMemo, fbTag, tags, 
       setRecommTag(recommandTag[0])
     }
 
-    // input 사이즈에 따른 option 좌표 변경로직
-    if (inputBoxRef.current) setBottomSpace( inputBoxRef.current.clientHeight )
     setInputMemo(value)
   }
 
@@ -165,7 +156,6 @@ const TalkInpuContainer = ( { bottomSpace, setBottomSpace, fbMemo, fbTag, tags, 
       { inputMemo && !editMemo &&
         <TalkInputOption
           tags={tags}
-          bottomSpace={bottomSpace}
           recommTag={recommTag}
           onClickTagOption={onClickTagOption}
         />
@@ -174,7 +164,6 @@ const TalkInpuContainer = ( { bottomSpace, setBottomSpace, fbMemo, fbTag, tags, 
       { editMemo &&
         <TalkEditTagName
           tags={tags}
-          bottomSpace={bottomSpace}
           editMemo={editMemo}
           onClickCancelEditMemo={onClickCancelEditMemo}
           editTagName={editTagName}
@@ -183,7 +172,6 @@ const TalkInpuContainer = ( { bottomSpace, setBottomSpace, fbMemo, fbTag, tags, 
       }
       {/*  기본 인풋창  */}
       <TalkInput
-        ref={inputBoxRef}
         value={inputMemo}
         onChangeInputMemo={(e) => onChangeInputMemo(e)}
         onClickInputBtn={onClickInputBtn}

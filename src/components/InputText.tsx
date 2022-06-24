@@ -3,6 +3,17 @@ import styled, { css } from "styled-components";
 import { fontSizeSet } from "../styles/stylesCss";
 
 
+interface IInputTextEle {
+  width?: number;
+  height?: number;
+  shadow?: boolean;
+  maxHeight?: number;
+  bold?: boolean;
+  bgColor?: string;
+  padding?: string;
+  lineHeight?: number;
+  size?: string;
+}
 interface IInputText extends IInputTextEle {
   value?: string;
   defaultValue?: string;
@@ -10,9 +21,10 @@ interface IInputText extends IInputTextEle {
   placeholder?: string;
   noResize?: boolean;
   onClick?: (e: React.MouseEvent<HTMLTextAreaElement>) => void;
+  rows?: number;
 }
 
-export const InputText = ( { onClick, padding, lineHeight, value, defaultValue, onChange, noResize, placeholder, width, height, shadow, maxHeight, bold, bgColor, size }: IInputText) => {
+export const InputText = ( { rows, onClick, padding, lineHeight, value, defaultValue, onChange, noResize, placeholder, width, height, shadow, maxHeight, bold, bgColor, size }: IInputText) => {
   
   const inputRef = useRef<HTMLTextAreaElement>(null)
 
@@ -43,21 +55,11 @@ export const InputText = ( { onClick, padding, lineHeight, value, defaultValue, 
       padding={padding}
       lineHeight={lineHeight}
       size={size}
+      rows={rows}
     />
   )
 }
 
-interface IInputTextEle {
-  width?: number;
-  height?: number;
-  shadow?: boolean;
-  maxHeight?: number;
-  bold?: boolean;
-  bgColor?: string;
-  padding?: string;
-  lineHeight?: number;
-  size?: string;
-}
 
 export const InputTextEle = styled.textarea<IInputTextEle>`  //["attrs"]
   width: ${({width}) => width ? width+"rem": "100%" };
