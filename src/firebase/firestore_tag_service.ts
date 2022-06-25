@@ -128,6 +128,7 @@ export class FbTag {
     }
   }
 
+
   // 해당 태그에 사용한 메모 삭제
   async deleteUsedMemo (
     memo: IMemo,
@@ -142,6 +143,41 @@ export class FbTag {
       console.error("Error adding document: ", e);
     }
   }
+
+  // 해당 태그에 사용한 메모 전부 추가
+  async addUsedMemoAll (
+    tagId: string,
+    usedMemoArr: string[]
+  ) {
+    const docRef = doc(this.fireStoreDB, this.doc, tagId)
+
+    try {
+      await updateDoc( docRef, {
+        usedMemo: usedMemoArr,
+      }); 
+      console.log("사용된 메모id 추가완료")
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }
+
+  async deleteUsedMemoAll (
+    tagId: string,
+  ) {
+    const docRef = doc(this.fireStoreDB, this.doc, tagId)
+
+    try {
+      await updateDoc( docRef, {
+        usedMemo: [],
+      }); 
+      console.log("전체 삭제 완료")
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }
+
+
+
 
   // 태그 색상변경
   async editTagColor (
