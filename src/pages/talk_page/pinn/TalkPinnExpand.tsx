@@ -1,5 +1,5 @@
-import React from "react";
-import styled, { css } from "styled-components";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
+import styled, { css, keyframes } from "styled-components";
 import { RowBox } from "../../../components/FlexBox";
 // import { TalkContent } from "../List/TalkList";
 
@@ -11,24 +11,30 @@ import useStore from "../../../store/useStore";
 import { setTalkTag } from "../utils/talk_service";
 import { TalkContent } from "../utils/TalkComponents";
 import { PinnBox, PinnBtns } from "./TalkPinn";
+import { shrinkX, stretchX } from "../../../styles/stylesCss";
 
 interface ITalkPinnExpand {
   tag: ITag;
   memo: IMemo;
   onClickDeletePinn: () => void;
   onClickReducePinn: () => void;
+  onClicGoMemoBtn: () => void;
+  isExpand: boolean;
+  pinnHeight: number;
 }
 
-const TalkPinnExpand = ( { tag, memo, onClickDeletePinn, onClickReducePinn }: ITalkPinnExpand ) => {
+const TalkPinnExpand = forwardRef<HTMLDivElement, ITalkPinnExpand>(( { pinnHeight, tag, memo, isExpand, onClickDeletePinn, onClickReducePinn, onClicGoMemoBtn }, ref ) => {
 
   const { palette } = useStore();
+  
 
   return(
-    <PinnBox expand>
-      <RowBox padding="0" gap={.5}>
+    <PinnBox expand isExpand={isExpand} pinnHeight={pinnHeight} ref={ref}>
+      <RowBox padding="0" gap={.5} between >
         <TalkTagExpand
           height={2}
           bgColor={palette.getColor(tag)} // 테스트 컬러
+          isExpand={isExpand}
         >
           {setTalkTag(tag, "expand")}
         </TalkTagExpand>
@@ -37,6 +43,7 @@ const TalkPinnExpand = ( { tag, memo, onClickDeletePinn, onClickReducePinn }: IT
         >
           <IconBox 
             height={2}
+            onClick={onClicGoMemoBtn}
           >
             <Icon size="lg" icon={faAlignLeft} />
           </IconBox>
@@ -64,12 +71,33 @@ const TalkPinnExpand = ( { tag, memo, onClickDeletePinn, onClickReducePinn }: IT
 
     </PinnBox>
   )
-}
+})
 export default TalkPinnExpand;
 
-const TalkTagExpand = styled(IconBox)`
+const TalkTagExpand = styled(IconBox)<{isExpand: boolean}>`
   justify-content: flex-start;
   width: 100%;
   padding: 0 .5rem;
   border-radius: .25rem;
+
+  /* animation:  ${ ({isExpand}) => isExpand ? stretchX : shrinkX} .3s ease-in-out; */
+  animation:  ${ ({isExpand}) => isExpand ? expandPinnTag : reducePinnTag} .3s ease-in-out;
 `
+
+export const expandPinnTag = keyframes`
+  from {
+    width: 30px;
+  }
+  to {
+    width: 360px;
+  }
+`;
+
+export const reducePinnTag = keyframes`
+  from {
+    width: 360px;
+  }
+  to {
+    width: 30px;
+  }
+`;

@@ -82,7 +82,7 @@ export const setTextLine = css<{whiteSpace?: string, lineClamp?: number}>`
   키프레임 
 */
 
-const fadeIn = keyframes`
+export const fadeIn = keyframes`
   from {
     opacity: 0
   }
@@ -91,7 +91,7 @@ const fadeIn = keyframes`
   }
 `;
 
-const slideUp = keyframes`
+export const slideUp = keyframes`
   from {
     transform: translateY(200px);
   }
@@ -100,3 +100,47 @@ const slideUp = keyframes`
   }
 `;
 
+export const stretchY = keyframes`
+  from {
+    transform-origin: 100% 0;
+    transform: scaleY(.5);
+  }
+  to {
+    transform-origin: 100% 0;
+    transform: scaleY(1);
+  }
+`;
+
+export const shrinkY = keyframes`
+  from {
+    transform-origin: 100% 0;
+    transform: scaleY(1);
+  }
+  to {
+    transform-origin: 100% 0;
+    transform: scaleY(.5);
+  }
+`;
+
+
+  export const stretchX = keyframes`
+    from {
+      transform-origin: 0 100%;
+      transform: scaleX(.2);
+    }
+    to {
+      transform-origin: 0 100%;
+      transform: scaleX(1);
+    }
+  `;
+  
+  export const shrinkX = keyframes`
+  from {
+    transform-origin: 0 100%;
+    transform: scaleX(1);
+  }
+  to {
+    transform-origin: 0 100%;
+    transform: scaleX(.2);
+  }
+`;

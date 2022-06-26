@@ -13,7 +13,7 @@ import { Time } from "../../../utils/service/time";
 import useStore from "../../../store/useStore";
 import { TalkProps } from "../TalkPage";
 import { getTagWithMemo, setTalkTag } from "../utils/talk_service";
-import { overFlowHidden, setTextLine } from "../../../styles/stylesCss";
+import { overFlowHidden, setTextLine, stretchX } from "../../../styles/stylesCss";
 import { ColBox, RowBox } from "../../../components/FlexBox";
 import { TalkListBox } from "./TalkList";
 import { TalkContent } from "../utils/TalkComponents";
@@ -78,4 +78,6 @@ const IconBoxExpand = styled(IconBox)`
   height: 1.75rem;
   padding: 0 .5rem;
   ${overFlowHidden};
+
+  animation: ${stretchX} .2s ease-in-out;
 `

@@ -5,6 +5,7 @@ import { RowBox } from "../../../components/FlexBox";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faPen, faTrashCan, faThumbTack, faAlignLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { IconBox } from "../../../components/IconBox";
+import { slideUp } from "../../../styles/stylesCss";
 
 
 interface ITalkMenu {
@@ -19,10 +20,10 @@ interface ITalkMenu {
 const TalkMemu = ( { onClickEditBtn, onClickDeleteBtn, onClickPinnBtn, onClicGoMemoBtn, onClickCloseMenuBtn }: ITalkMenu ) => {
 
   return(
-    <RowBox
-      align="center"
-      padding=".25rem .5rem"
-      bgColor="white"
+    <MenuBox
+      // align="center"
+      // padding=".25rem .5rem"
+      // bgColor="white"
     >
       <RowBox gap={.5} padding=".25rem">
         <IconBox
@@ -55,7 +56,7 @@ const TalkMemu = ( { onClickEditBtn, onClickDeleteBtn, onClickPinnBtn, onClicGoM
       >
         <Icon icon={faXmark} />
       </IconBox>
-    </RowBox>
+    </MenuBox>
   )
 }
 
@@ -66,4 +67,6 @@ export const MenuBox = styled(RowBox)`
   padding: .25rem;
   background: white;
   // transition 적용 여부때문에 일단 보류
+
+  animation:  ${slideUp} .2s;
 `

@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Header from "../../../components/Header";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
@@ -12,7 +12,7 @@ import { Time } from "../../../utils/service/time";
 import useStore from "../../../store/useStore";
 import { TalkProps } from "../TalkPage";
 import { getTagWithMemo } from "../utils/talk_service";
-import { setTextLine } from "../../../styles/stylesCss";
+import { setTextLine, stretchY } from "../../../styles/stylesCss";
 import TalkListaDefault from "./TalkListaDefault";
 import TalkListExpand from "./TalkListExpand";
 import { RowBox } from "../../../components/FlexBox";
@@ -61,4 +61,10 @@ export const TalkListBox = styled.div<{expand?: boolean}>`
   width: 100%;
   padding: 0;
   margin-bottom: .5rem;
+
+  ${({expand}) => 
+    expand && css`
+      animation: ${stretchY} .2s ease-in-out;
+  `}
+  
 `

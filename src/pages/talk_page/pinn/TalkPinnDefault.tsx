@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import styled, { css } from "styled-components";
 import { RowBox } from "../../../components/FlexBox";
 
@@ -19,16 +19,17 @@ interface ITalkPinnDefault {
   memo: IMemo;
   onClickDeletePinn: () => void;
   onClickExpandPinn: () => void;
+  isExpand: boolean;
 }
 
 
-const TalkPinnDefault = ( { tag, memo, onClickDeletePinn, onClickExpandPinn }: ITalkPinnDefault ) => {
+const TalkPinnDefault = forwardRef<HTMLDivElement ,ITalkPinnDefault>(( { tag, memo, isExpand, onClickDeletePinn, onClickExpandPinn }, ref  ) => {
 
   const { palette } = useStore();
   
 
   return(
-    <PinnBox>
+    <PinnBox isExpand={isExpand} ref={ref} >
 
       <IconBox
         bgColor={palette.getColor(tag)} // 테스트 컬러
@@ -65,7 +66,7 @@ const TalkPinnDefault = ( { tag, memo, onClickDeletePinn, onClickExpandPinn }: I
 
     </PinnBox>
   )
-}
+})
 export default TalkPinnDefault;
 
 
