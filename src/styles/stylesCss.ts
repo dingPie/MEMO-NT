@@ -1,4 +1,4 @@
-import { css } from "styled-components";
+import { css, keyframes } from "styled-components";
 import { darken, lighten } from 'polished';
 
 
@@ -76,3 +76,27 @@ export const setTextLine = css<{whiteSpace?: string, lineClamp?: number}>`
   text-overflow: ellipsis;
   white-space: ${({whiteSpace}) => whiteSpace ? whiteSpace : 'pre-wrap'  };
 `
+
+
+/* 
+  키프레임 
+*/
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0
+  }
+  to {
+    opacity: 1
+  }
+`;
+
+const slideUp = keyframes`
+  from {
+    transform: translateY(200px);
+  }
+  to {
+    transform: translateY(0px);
+  }
+`;
+

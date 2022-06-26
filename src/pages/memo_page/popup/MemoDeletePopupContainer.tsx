@@ -63,7 +63,6 @@ const MemoDeletePopupContainer = ( { fbTag, fbMemo, tag, isOpenDeleteMemo, setIs
     } 
 
     else {
-      // 비동기식으로 사용된 usedMemo를 undefined에 추가 및 각 메모의 태그이름 변경
       tag.usedMemo.map( async memoId => await fbMemo.editMemoUsedTag(memoId, "undefined"))
       await fbTag.addUsedMemoAll("undefined", tag.usedMemo)
       await fbTag.deleteTag(tag.id) // 태그 삭제

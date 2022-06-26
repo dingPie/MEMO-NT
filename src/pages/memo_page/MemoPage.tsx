@@ -111,6 +111,7 @@ const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
               tag={tag}
               memoList={memoList}
               setMemoList={setMemoList}
+              isOpenMenu={isOpenMenu}
             />
             <MemoMenuContainer
               fbTag={fbTag}

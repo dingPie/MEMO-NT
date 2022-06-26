@@ -16,9 +16,10 @@ interface IMemoContentContainer extends MemoProps {
   // memo: IMemo;
   memoList: IMemo[];
   setMemoList: (memo: IMemo[]) => void;
+  isOpenMenu: boolean;
 }
 
-const MemoContentContainer = ( { fbTag, fbMemo, tag, memoList, setMemoList }: IMemoContentContainer ) => {
+const MemoContentContainer = ( {  fbTag, fbMemo, tag, memoList, setMemoList,  isOpenMenu }: IMemoContentContainer ) => {
 
   const [isOpenInputMemo, setIsOpenInputMemo] = useState(false);
   const [inputMemo, setInputMemo] = useState("");
@@ -53,6 +54,7 @@ const MemoContentContainer = ( { fbTag, fbMemo, tag, memoList, setMemoList }: IM
 
   // 메모 클릭 => 수정 input창 출력
   const onClickMemo = (e: React.MouseEvent<HTMLDivElement>, memo: IMemo) => {
+    if (isOpenMenu) return
     const { x, y, width, height } = e.currentTarget.getBoundingClientRect();
     e.currentTarget.offsetTop
     const newEditMemo = {

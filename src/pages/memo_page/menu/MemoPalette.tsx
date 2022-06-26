@@ -25,6 +25,8 @@ const MemoPalette = ( { tag, seletedColor, onClickDoEditPalette, onClickSelectCo
   return (
     <MenuBox>
       <IconBox
+        width={1.5} 
+        height={1.5}
         inline
         onClick={ () => onClickDoEditPalette(tag) }
       >
@@ -56,6 +58,7 @@ export const MenuBox = styled.div`
   overflow-x: scroll ;
   width: 100%;
   white-space: nowrap;
+  vertical-align: middle;
 
   &::-webkit-scrollbar {
     height: .5rem;
@@ -75,7 +78,6 @@ const PaletteBox = styled.span<{bgColor: string, selectedColor?: boolean}>`
   height: 1.25rem;
   background: ${ ({bgColor}) => bgColor && bgColor};
   margin: 0 .375rem;
-  vertical-align: middle;
 
   ${ ({selectedColor}) => 
       selectedColor && 
