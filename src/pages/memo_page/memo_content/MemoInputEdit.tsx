@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
 import styled from "styled-components";
-import { InputText } from "../../../components/InputText";
+import InputText from "../../../components/InputText";
 import { IEditMemo } from "./../MemoPage";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
@@ -81,7 +81,7 @@ const Outer = styled.div`
   position: fixed;
   left: 0;
   width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, .05);
+  height: 105vh;
+  background: rgba(0, 0, 0, .03);
   transform: translate(0, -108px); // -76px
 `

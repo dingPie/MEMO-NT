@@ -1,4 +1,4 @@
-import { css } from "styled-components";
+import { css, keyframes } from "styled-components";
 import { darken, lighten } from 'polished';
 
 
@@ -76,3 +76,97 @@ export const setTextLine = css<{whiteSpace?: string, lineClamp?: number}>`
   text-overflow: ellipsis;
   white-space: ${({whiteSpace}) => whiteSpace ? whiteSpace : 'pre-wrap'  };
 `
+
+
+/* 
+  키프레임 
+*/
+
+export const fadeIn = keyframes`
+  from {
+    opacity: 0
+  }
+  to {
+    opacity: 1
+  }
+`;
+export const fadeOut = keyframes`
+  from {
+    opacity: 1
+  }
+  to {
+    opacity: 0
+  }
+`;
+
+export const slideUp = keyframes`
+  from {
+    transform: translateY(200px);
+  }
+  to {
+    transform: translateY(0px);
+  }
+`;
+
+export const stretchY = keyframes`
+  from {
+    transform-origin: 100% 0;
+    transform: scaleY(.2);
+  }
+  to {
+    transform-origin: 100% 0;
+    transform: scaleY(1);
+  }
+`;
+
+export const shrinkY = keyframes`
+  from {
+    transform-origin: 100% 0;
+    transform: scaleY(1);
+  }
+  to {
+    transform-origin: 100% 0;
+    transform: scaleY(.5);
+  }
+`;
+
+
+  export const stretchX = keyframes`
+    from {
+      transform-origin: 0 100%;
+      transform: scaleX(.2);
+    }
+    to {
+      transform-origin: 0 100%;
+      transform: scaleX(1);
+    }
+  `;
+  
+  export const shrinkX = keyframes`
+  from {
+    transform-origin: 0 100%;
+    transform: scaleX(1);
+  }
+  to {
+    transform-origin: 0 100%;
+    transform: scaleX(.2);
+  }
+`;
+
+export const expandPinnBox = (height: number) => keyframes`
+  from {
+    height: 44px;
+  }
+  to {
+    height: ${height}px;
+  }
+`;
+
+export const reducePinnBox = (height: number) => keyframes`
+  from {
+    height: ${height}px;
+  }
+  to {
+    height: 44px;
+  }
+`;

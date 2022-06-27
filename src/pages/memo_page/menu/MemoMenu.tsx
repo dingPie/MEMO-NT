@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { RowBox } from "../../../components/FlexBox";
 
+import { RowBox } from "../../../components/FlexBox";
+import { IconBox } from "../../../components/IconBox";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faPen, faTrashCan, faPalette, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { IconBox } from "../../../components/IconBox";
+
 import { ITag } from "../../../utils/interface/interface";
 
 
@@ -19,11 +20,12 @@ interface IMemoMenu {
 
 const MemoMenu = ( { tag, onClickEditBtn, onClickDeleteBtn, onClickPaletteBtn, onClickCloseMenuBtn }: IMemoMenu ) => {
 
+  
   return(
     <MenuBox>
 
       <RowBox gap={.5} padding=".25rem">
-        { (tag.id !== "undefined" && tag.id !== "toBeDeleted") &&
+        {(tag.id !== "undefined" && tag.id !== "toBeDeleted") &&
           <IconBox
             onClick={onClickEditBtn}
           >
@@ -35,7 +37,7 @@ const MemoMenu = ( { tag, onClickEditBtn, onClickDeleteBtn, onClickPaletteBtn, o
         >
           <Icon icon={faTrashCan} />
         </IconBox>
-        { (tag.id !== "undefined" && tag.id !== "toBeDeleted") &&
+        {(tag.id !== "undefined" && tag.id !== "toBeDeleted") &&
           <IconBox
             onClick={onClickPaletteBtn}
           >

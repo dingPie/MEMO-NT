@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { memo, useRef } from "react";
 import styled, { css } from "styled-components";
 import { fontSizeSet } from "../styles/stylesCss";
 
@@ -24,7 +24,7 @@ interface IInputText extends IInputTextEle {
   rows?: number;
 }
 
-export const InputText = ( { rows, onClick, padding, lineHeight, value, defaultValue, onChange, noResize, placeholder, width, height, shadow, maxHeight, bold, bgColor, size }: IInputText) => {
+const InputText = ( { rows, onClick, padding, lineHeight, value, defaultValue, onChange, noResize, placeholder, width, height, shadow, maxHeight, bold, bgColor, size }: IInputText) => {
   
   const inputRef = useRef<HTMLTextAreaElement>(null)
 
@@ -59,6 +59,8 @@ export const InputText = ( { rows, onClick, padding, lineHeight, value, defaultV
     />
   )
 }
+
+export default memo(InputText);
 
 
 export const InputTextEle = styled.textarea<IInputTextEle>`  //["attrs"]

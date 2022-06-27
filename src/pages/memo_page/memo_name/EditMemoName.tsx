@@ -1,14 +1,16 @@
 import React from "react";
 import styled from "styled-components";
+import useStore from "../../../store/useStore";
+
 import Text from "../../../components/Text";
 import { RowBox } from "../../../components/FlexBox";
 import { IconBox } from "../../../components/IconBox";
-import { InputText } from "../../../components/InputText";
+import InputText from "../../../components/InputText";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
+
 import { ITag } from "../../../utils/interface/interface";
-import useStore from "../../../store/useStore";
 
 interface IEditMemoName {
   tag: ITag;

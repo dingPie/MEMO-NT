@@ -20,8 +20,6 @@ import {
   DocumentData, 
   Firestore,
   collectionGroup} from "firebase/firestore";
-import { resolve } from "path";
-import { INewTag } from "../TagTestPage";
 import { IMemo, ITag } from "../utils/interface/interface";
 
 

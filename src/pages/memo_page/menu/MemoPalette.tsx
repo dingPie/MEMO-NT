@@ -1,14 +1,13 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { RowBox } from "../../../components/FlexBox";
+import useStore from "../../../store/useStore";
 
+import { IconBox } from "../../../components/IconBox";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { IconBox } from "../../../components/IconBox";
-import { colors } from "../../../utils/data/dummyData";
+
 import { ITag } from "../../../utils/interface/interface";
-import useStore from "../../../store/useStore";
-import { toJS } from "mobx";
+
 
 interface IMemoPalette {
   tag: ITag;
@@ -25,6 +24,8 @@ const MemoPalette = ( { tag, seletedColor, onClickDoEditPalette, onClickSelectCo
   return (
     <MenuBox>
       <IconBox
+        width={1.5} 
+        height={1.5}
         inline
         onClick={ () => onClickDoEditPalette(tag) }
       >
@@ -56,6 +57,7 @@ export const MenuBox = styled.div`
   overflow-x: scroll ;
   width: 100%;
   white-space: nowrap;
+  vertical-align: middle;
 
   &::-webkit-scrollbar {
     height: .5rem;
@@ -75,7 +77,6 @@ const PaletteBox = styled.span<{bgColor: string, selectedColor?: boolean}>`
   height: 1.25rem;
   background: ${ ({bgColor}) => bgColor && bgColor};
   margin: 0 .375rem;
-  vertical-align: middle;
 
   ${ ({selectedColor}) => 
       selectedColor && 

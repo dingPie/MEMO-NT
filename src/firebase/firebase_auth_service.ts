@@ -11,8 +11,19 @@ import {
   browserSessionPersistence, 
   User, 
   Auth, 
-  browserLocalPersistence} from "firebase/auth";
-import { collection, deleteDoc, doc, Firestore, getDoc, getDocs, orderBy, query, setDoc } from "firebase/firestore";
+  browserLocalPersistence 
+} from "firebase/auth";
+import { 
+  doc, 
+  collection, 
+  deleteDoc, 
+  Firestore, 
+  getDoc, 
+  getDocs, 
+  orderBy, 
+  query, 
+  setDoc 
+} from "firebase/firestore";
 import { IPalette } from "../store/palette";
 import { IUser } from "../utils/interface/interface";
 

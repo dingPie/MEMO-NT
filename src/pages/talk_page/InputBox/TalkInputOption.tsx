@@ -1,16 +1,19 @@
-import React from "react";
+import React, { memo } from "react";
 import useStore from "../../../store/useStore";
+
+import { RowBox } from "../../../components/FlexBox";
+
+import { ITag } from "../../../utils/interface/interface";
 
 import TagOptions from "./TagOptions";
 import { TalkProps } from "../TalkPage";
 
-import { RowBox } from "../../../components/FlexBox";
-import { ITag } from "../../../utils/interface/interface";
 
 interface ITalkInputOption extends TalkProps {
   recommTag: ITag | undefined;
   onClickTagOption: (v?: string) => void;
 }
+
 
 const TalkInputOption = ( { tags, recommTag, onClickTagOption }: ITalkInputOption ) => {
   
@@ -55,4 +58,4 @@ const TalkInputOption = ( { tags, recommTag, onClickTagOption }: ITalkInputOptio
   )
 }
 
-export default TalkInputOption;
+export default (TalkInputOption);

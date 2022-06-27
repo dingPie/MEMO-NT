@@ -1,12 +1,12 @@
 import  React, { useState } from "react";
-import styled from "styled-components";
+import useStore from "../../../store/useStore";
+
 import { CustomBtn } from "../../../components/Buttons";
 import { ColBox } from "../../../components/FlexBox";
 
-import Text from "../../../components/Text";
-import { FbMemo } from "../../../firebase/firestore_memo_service";
-import { FbTag } from "../../../firebase/firestore_tag_service";
-import { IMemo, ITag } from "../../../utils/interface/interface";
+import { IMemo } from "../../../utils/interface/interface";
+
+// Memo Components
 import { IEditMemo, MemoProps } from "../MemoPage";
 import MemoContent from "./MemoContent";
 import MemoInputAdd from "./MemoInputAdd";
@@ -16,10 +16,12 @@ interface IMemoContentContainer extends MemoProps {
   // memo: IMemo;
   memoList: IMemo[];
   setMemoList: (memo: IMemo[]) => void;
+  isOpenMenu: boolean;
 }
 
-const MemoContentContainer = ( { fbTag, fbMemo, tag, memoList, setMemoList }: IMemoContentContainer ) => {
+const MemoContentContainer = ( {  fbTag, fbMemo, tag, memoList, setMemoList,  isOpenMenu }: IMemoContentContainer ) => {
 
+  const { loading } = useStore();
   const [isOpenInputMemo, setIsOpenInputMemo] = useState(false);
   const [inputMemo, setInputMemo] = useState("");
   const [editMemo, setEditMemo] = useState<IEditMemo | null>(null)
@@ -31,12 +33,14 @@ const MemoContentContainer = ( { fbTag, fbMemo, tag, memoList, setMemoList }: IM
 
   // 메모 추가 확인
   const onClickAddConfirm = async (tagId: string, inputMemo: string) => {
+    loading.start();
     const newMemo = await fbMemo.addMemo(tagId, inputMemo);
     fbTag.addUsedMemo(tagId, newMemo!.id)
 
     setMemoList([...memoList, newMemo!])
     setIsOpenInputMemo(false)
     setInputMemo("")
+    loading.finish();
   }
 
   // 메모 추가 취소
@@ -53,6 +57,8 @@ const MemoContentContainer = ( { fbTag, fbMemo, tag, memoList, setMemoList }: IM
 
   // 메모 클릭 => 수정 input창 출력
   const onClickMemo = (e: React.MouseEvent<HTMLDivElement>, memo: IMemo) => {
+    if (isOpenMenu) return
+    loading.start();
     const { x, y, width, height } = e.currentTarget.getBoundingClientRect();
     e.currentTarget.offsetTop
     const newEditMemo = {
@@ -64,6 +70,7 @@ const MemoContentContainer = ( { fbTag, fbMemo, tag, memoList, setMemoList }: IM
     }
     setInputMemo(memo.content )
     setEditMemo(newEditMemo)
+    loading.finish();
   }
 
   // 수정 실행 (종료)
@@ -71,7 +78,7 @@ const MemoContentContainer = ( { fbTag, fbMemo, tag, memoList, setMemoList }: IM
     setInputMemo("")
     setEditMemo(null)
     if (inputMemo === editMemo!.memo.content) return
-     
+    loading.start();
     await fbMemo.editMemoContent(editMemo.memo.id, inputMemo);
 
     const editedMemo: IMemo = {  // 메모(태그) state 수정
@@ -80,6 +87,7 @@ const MemoContentContainer = ( { fbTag, fbMemo, tag, memoList, setMemoList }: IM
     }
     const newMemoList = memoList.map(memo => (memo.id === editMemo.memo.id) ? editedMemo : memo)
     setMemoList(newMemoList);
+    loading.finish();
   }
 
   // 메모 삭제 로직
@@ -87,12 +95,14 @@ const MemoContentContainer = ( { fbTag, fbMemo, tag, memoList, setMemoList }: IM
     const confirm = window.confirm("이 메모를 삭제할까요?")
     setEditMemo(null)
     if (!confirm) return
+    loading.start();
     await fbMemo.deleteMemo(editMemo.memo!.id)
     await fbTag.deleteUsedMemo(editMemo.memo!)
     // await fbTag.deleteTag(selectedMemo.tagId) // 태그 삭제 관련은 고민해야함
 
     const newViewMemo = memoList.filter(memo => memo.id !== editMemo.memo.id );
     setMemoList(newViewMemo);
+    loading.finish();
   }
 
 

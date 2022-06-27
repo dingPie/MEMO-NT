@@ -3,25 +3,31 @@ import { ColBox, RowBox } from "../../components/FlexBox";
 import Select from "../../components/Select";
 import Text from "../../components/Text";
 
-const SetBombTime = () => {
+const SetToBeDeletedTime = () => {
 
   return(
-    <ColBox padding="1rem .5rem" gap={.5}>
+    <ColBox 
+      padding="1rem .5rem" 
+      gap={.5}
+    >
       <Text bold size='xl'>
         자동삭제 시간설정
       </Text>
-        <RowBox align="center" gap={.125} padding=" 0" >
-          <Text padding=".25rem">
-            매일
-          </Text>
-          <Select
-            options={timeOption}
-          />
-          <Text padding=".25rem">
-            삭제예정 메모가 제거됩니다.
-          </Text>
-        </RowBox>
-
+      <RowBox 
+        align="center" 
+        gap={.125} 
+        padding=" 0" 
+      >
+        <Text padding=".25rem">
+          매일
+        </Text>
+        <Select
+          options={timeOption}
+        />
+        <Text padding=".25rem">
+          삭제예정 메모가 제거됩니다.
+        </Text>
+      </RowBox>
       <Text bold size="s">
         삭제 처리동안 메모 이용이 불가능 합니다. <br />
         이용이 적은 시간대로 설정해 주세요.
@@ -31,7 +37,7 @@ const SetBombTime = () => {
   )
 }
 
-export default SetBombTime;
+export default SetToBeDeletedTime;
 
 const timeOption = [
   {

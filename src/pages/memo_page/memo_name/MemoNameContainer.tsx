@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import { IconBox } from "../../../components/IconBox";
-
-import Text from "../../../components/Text";
-import { FbMemo } from "../../../firebase/firestore_memo_service";
-import { FbTag } from "../../../firebase/firestore_tag_service";
 import useStore from "../../../store/useStore";
+
 import { ITag } from "../../../utils/interface/interface";
-import { setTalkTag } from "../../talk_page/utils/talk_service";
+
+// Memo Components
 import { MemoProps } from "../MemoPage";
 import EditMemoName from "./EditMemoName";
 import MemoName from "./MemoName";
@@ -22,6 +18,7 @@ interface IMemoNameContainer extends MemoProps {
 
 const MemoNameContainer = ( { fbTag, fbMemo, tag, isOpenMenu, isOpenEditTag, setIsOpenEditTag, onClickTagName }: IMemoNameContainer ) => {
 
+  const { loading } = useStore()
   const [inputMemoName, setinputMemoName] = useState("");
 
   // 메모 네임 변경이벤트
@@ -31,9 +28,11 @@ const MemoNameContainer = ( { fbTag, fbMemo, tag, isOpenMenu, isOpenEditTag, set
 
   // 메모  태그네임 변경
   const onClickDoEditTag = (tag: ITag) => {
-    setIsOpenEditTag(false)
+    loading.start();
+    setIsOpenEditTag(false);
     if (inputMemoName === tag.name) return
     fbTag.editTagName(tag.id, inputMemoName)
+    loading.finish();
   }
 
   useEffect(() => {

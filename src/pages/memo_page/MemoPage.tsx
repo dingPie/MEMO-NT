@@ -1,27 +1,20 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
+import useStore from "../../store/useStore";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
 
-import Text from "../../components/Text";
-import { ColBox, RowBox } from "../../components/FlexBox";
+// components
 import Header from "../../components/Header";
 import { MobileBox } from "../../components/MobileBox";
-import { dummyMemos, dummyTags } from "../../utils/data/dummyData";
-import MemoName from "./memo_name/MemoName";
-import MemoContent from "./memo_content/MemoContent";
-import { InputText } from "../../components/InputText";
-import { CustomBtn } from "../../components/Buttons";
-import MemoMenu from "./menu/MemoMenu";
-import EditMemoName from "./memo_name/EditMemoName";
-import MemoDeletePopup from "./popup/MemoDeletePopup";
-import MemoDeleteConfirmPopup from "./popup/MemoDeleteConfirmPopup";
-import MemoPalette from "./menu/MemoPalette";
-import TagService from "../../utils/data/tag_service";
-import MemoInputEdit from "./memo_content/MemoInputEdit";
-import MemoInputAdd from "./memo_content/MemoInputAdd";
+import { ColBox, RowBox } from "../../components/FlexBox";
+import Loading from "../../components/Loading";
+
+// utils
 import { IMemo, ITag } from "../../utils/interface/interface";
 import { FbMemo } from "../../firebase/firestore_memo_service";
 import { FbTag } from "../../firebase/firestore_tag_service";
+
+// Memo Conponents
 import MemoContentContainer from "./memo_content/MemoContentContainer";
 import MemoNameContainer from "./memo_name/MemoNameContainer";
 import MemoMenuContainer from "./menu/MemoMenuContainer";
@@ -52,6 +45,7 @@ const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
 
   const navigate = useNavigate();
   const { tagId } = useParams();
+  const { loading } = useStore();
 
   const [tag, setTag] = useState<ITag>(tags.filter(tag => tag.id === tagId )[0]);
   const [memoList, setMemoList] = useState<IMemo[]>([])
@@ -93,7 +87,7 @@ const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
         onClickOtherBtn={onClickOtherBtn}
       />
       <OuterBox>
-        <MemoBox>
+        <MemoBox className="test">
           {tag &&
           <>
             <MemoNameContainer
@@ -111,6 +105,7 @@ const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
               tag={tag}
               memoList={memoList}
               setMemoList={setMemoList}
+              isOpenMenu={isOpenMenu}
             />
             <MemoMenuContainer
               fbTag={fbTag}
@@ -133,6 +128,9 @@ const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
           isOpenDeleteMemo={isOpenDeleteMemo}
           setIsOpenDeleteMemo={setIsOpenDeleteMemo}
         />
+        { loading.isLoading &&
+          <Loading />
+        }
       </MobileBox>
   )
 }
@@ -157,4 +155,7 @@ const MemoBox = styled(ColBox)`
 const OuterBox = styled.div`
   padding: .5rem;
   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 0;
+  }
 `

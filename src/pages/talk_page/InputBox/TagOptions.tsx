@@ -1,11 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import Text from '../../../components/Text'
 
 import { CustomBtn } from "../../../components/Buttons";
-import { FontAwesomeIconProps } from "@fortawesome/react-fontawesome";
+
 import { setTextLine } from "../../../styles/stylesCss";
-import { ITag } from "../../../utils/interface/interface";
 
 interface ITagOptions {
   tagColor: string;

@@ -1,20 +1,22 @@
-import React from "react";
+import React, { forwardRef, memo, useMemo } from "react";
 import styled from "styled-components";
+import useStore from "../../../store/useStore";
+
 import Header from "../../../components/Header";
 import Text from "../../../components/Text";
+import { IconBox } from "../../../components/IconBox";
+import { ColBox, RowBox } from "../../../components/FlexBox";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faEllipsis, faHashtag } from "@fortawesome/free-solid-svg-icons";
 import { faClockFour } from "@fortawesome/free-regular-svg-icons";
-import { IconBox } from "../../../components/IconBox";
+
 import { IMemo, ITag } from "../../../utils/interface/interface";
 import { Time } from "../../../utils/service/time";
-
-import useStore from "../../../store/useStore";
-import { TalkProps } from "../TalkPage";
 import { getTagWithMemo, setTalkTag } from "../utils/talk_service";
-import { overFlowHidden, setTextLine } from "../../../styles/stylesCss";
-import { ColBox, RowBox } from "../../../components/FlexBox";
+import { overFlowHidden, setTextLine, stretchX } from "../../../styles/stylesCss";
+
+import { TalkProps } from "../TalkPage";
 import { TalkListBox } from "./TalkList";
 import { TalkContent } from "../utils/TalkComponents";
 
@@ -24,7 +26,7 @@ interface ITalkListExpand {
   tag: ITag;
 }
 
-const TalkListExpand = ( { tag, memo, onClickMenuBtn }: ITalkListExpand ) => {
+const TalkListExpand = ( { tag, memo, onClickMenuBtn }: ITalkListExpand  ) => {
 
   const { palette } = useStore();
   const time = new Time();
@@ -41,7 +43,10 @@ const TalkListExpand = ( { tag, memo, onClickMenuBtn }: ITalkListExpand ) => {
       >
         {setTalkTag(tag, "expand")}
       </IconBoxExpand>
-      <TalkListBox expand>
+
+      <TalkListBox 
+        expand
+      >
         <TalkContent
           shadow
           lineClamp={20}
@@ -69,7 +74,7 @@ const TalkListExpand = ( { tag, memo, onClickMenuBtn }: ITalkListExpand ) => {
   )
 }
 
-export default TalkListExpand;
+export default memo(TalkListExpand);
 
 const IconBoxExpand = styled(IconBox)`
   justify-content: flex-start;
@@ -78,4 +83,6 @@ const IconBoxExpand = styled(IconBox)`
   height: 1.75rem;
   padding: 0 .5rem;
   ${overFlowHidden};
+
+  /* animation: ${stretchX} .2s ease-in-out; */
 `

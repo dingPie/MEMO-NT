@@ -1,42 +1,38 @@
-import React, { forwardRef } from "react";
-import styled from "styled-components";
-import Header from "../../../components/Header";
+import React, {  memo, useCallback } from "react";
+import styled, { css } from "styled-components";
 
-import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { faEllipsis, faHashtag } from "@fortawesome/free-solid-svg-icons";
-import { faClockFour } from "@fortawesome/free-regular-svg-icons";
-import { IconBox } from "../../../components/IconBox";
-import { IMemo, ITag } from "../../../utils/interface/interface";
-import { Time } from "../../../utils/service/time";
-
-import useStore from "../../../store/useStore";
-import { TalkProps } from "../TalkPage";
+import { IMemo } from "../../../utils/interface/interface";
 import { getTagWithMemo } from "../utils/talk_service";
-import { setTextLine } from "../../../styles/stylesCss";
+import { expandPinnBox, reducePinnBox, stretchY } from "../../../styles/stylesCss";
+
+
+import { TalkProps } from "../TalkPage";
 import TalkListaDefault from "./TalkListaDefault";
 import TalkListExpand from "./TalkListExpand";
-import { RowBox } from "../../../components/FlexBox";
+
 
 interface ITalkList extends TalkProps {
   memo: IMemo;
-  onClickMenuBtn: (memo: IMemo) => void;
+  editMemo: IMemo | null;
   selectedMemo: IMemo | null;
+  setSelectedMemo: (memo: IMemo | null) => void;
 }
 
-const TalkList = ( { tags, memo, selectedMemo,  onClickMenuBtn }: ITalkList ) => {
+
+const TalkList = ( { tags, memo, editMemo, selectedMemo, setSelectedMemo }: ITalkList ) => {
 
   const tag = getTagWithMemo(tags, memo);
 
+  const onClickMenuBtn = useCallback((memo: IMemo) => {
+    if (editMemo) return
+    (selectedMemo === memo) ? setSelectedMemo(null) : setSelectedMemo(memo)
+  }, [selectedMemo, editMemo])
 
-
-  React.useEffect(() => {
-    if (selectedMemo === memo) console.log("이 메모가 선택된 메모입니다.", memo)
-  }, [selectedMemo])
   
 
   return(
     <>
-      { selectedMemo !== memo ? 
+      { (selectedMemo !== memo) ? 
         <TalkListaDefault 
           tag={tag}
           memo={memo}
@@ -52,13 +48,21 @@ const TalkList = ( { tags, memo, selectedMemo,  onClickMenuBtn }: ITalkList ) =>
   )
 }
 
-export default TalkList;
+export default memo(TalkList);
 
-export const TalkListBox = styled.div<{expand?: boolean}>`
+export const TalkListBox = styled.div<{expand?: boolean, listHeight?: number}>`
   display: grid;
   grid-template-columns: ${({expand}) => expand ? "1fr 3rem 1.75rem" : "1.75rem 1fr 3rem 1.75rem" };
   gap: .5rem;
   width: 100%;
   padding: 0;
   margin-bottom: .5rem;
+
+  ${({expand, listHeight}) => 
+    expand && css`
+      /* animation: ${stretchY} .2s ease-in-out; */
+      /* animation-delay: .01s ;
+      animation: ${!expand ? reducePinnBox(listHeight!) : expandPinnBox(listHeight!)} .3s ; */
+  `}
+  
 `

@@ -21,7 +21,7 @@ import {
   FieldValue,
   arrayUnion,
   arrayRemove} from "firebase/firestore";
-import { INewTag } from "../TagTestPage";
+
 import { IMemo, ITag } from "../utils/interface/interface";
 
 interface Test {

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { IconBox } from "../../../components/IconBox";
-
-import Text from "../../../components/Text";
 import useStore from "../../../store/useStore";
+
+import { IconBox } from "../../../components/IconBox";
+import Text from "../../../components/Text";
+
 import { ITag } from "../../../utils/interface/interface";
 import { setTalkTag } from "../../talk_page/utils/talk_service";
 

@@ -1,7 +1,7 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 
-import { InputText } from "../../../components/InputText"
+import  InputText  from "../../../components/InputText"
 import { RowBox } from "../../../components/FlexBox";
 import { IconBox } from "../../../components/IconBox";
 
@@ -39,7 +39,7 @@ const TalkInput = ( { value, onChangeInputMemo, onClickInputBtn }: ITaklInput ) 
 
 }
 
-export default TalkInput;
+export default memo(TalkInput);
 
 const InputBox = styled(RowBox)`
   max-width: 30rem;
