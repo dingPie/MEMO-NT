@@ -90,6 +90,14 @@ export const fadeIn = keyframes`
     opacity: 1
   }
 `;
+export const fadeOut = keyframes`
+  from {
+    opacity: 1
+  }
+  to {
+    opacity: 0
+  }
+`;
 
 export const slideUp = keyframes`
   from {
@@ -103,7 +111,7 @@ export const slideUp = keyframes`
 export const stretchY = keyframes`
   from {
     transform-origin: 100% 0;
-    transform: scaleY(.5);
+    transform: scaleY(.2);
   }
   to {
     transform-origin: 100% 0;
@@ -142,5 +150,23 @@ export const shrinkY = keyframes`
   to {
     transform-origin: 0 100%;
     transform: scaleX(.2);
+  }
+`;
+
+export const expandPinnBox = (height: number) => keyframes`
+  from {
+    height: 44px;
+  }
+  to {
+    height: ${height}px;
+  }
+`;
+
+export const reducePinnBox = (height: number) => keyframes`
+  from {
+    height: ${height}px;
+  }
+  to {
+    height: 44px;
   }
 `;

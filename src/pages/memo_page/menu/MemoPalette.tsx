@@ -1,14 +1,13 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { RowBox } from "../../../components/FlexBox";
+import useStore from "../../../store/useStore";
 
+import { IconBox } from "../../../components/IconBox";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { IconBox } from "../../../components/IconBox";
-import { colors } from "../../../utils/data/dummyData";
+
 import { ITag } from "../../../utils/interface/interface";
-import useStore from "../../../store/useStore";
-import { toJS } from "mobx";
+
 
 interface IMemoPalette {
   tag: ITag;

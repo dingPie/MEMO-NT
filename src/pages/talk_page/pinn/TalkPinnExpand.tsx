@@ -1,17 +1,18 @@
 import React, { forwardRef, useEffect, useRef, useState } from "react";
 import styled, { css, keyframes } from "styled-components";
+import useStore from "../../../store/useStore";
+
 import { RowBox } from "../../../components/FlexBox";
-// import { TalkContent } from "../List/TalkList";
+import { IconBox } from "../../../components/IconBox";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faChevronUp, faTrashCan, faAlignLeft } from "@fortawesome/free-solid-svg-icons";
-import { IconBox } from "../../../components/IconBox";
+import { shrinkX, stretchX } from "../../../styles/stylesCss";
+
 import { IMemo, ITag } from "../../../utils/interface/interface";
-import useStore from "../../../store/useStore";
 import { setTalkTag } from "../utils/talk_service";
 import { TalkContent } from "../utils/TalkComponents";
 import { PinnBox, PinnBtns } from "./TalkPinn";
-import { shrinkX, stretchX } from "../../../styles/stylesCss";
 
 interface ITalkPinnExpand {
   tag: ITag;
@@ -29,7 +30,12 @@ const TalkPinnExpand = forwardRef<HTMLDivElement, ITalkPinnExpand>(( { pinnHeigh
   
 
   return(
-    <PinnBox expand isExpand={isExpand} pinnHeight={pinnHeight} ref={ref}>
+    <PinnBox 
+      ref={ref}
+      expand 
+      isExpand={isExpand} 
+      pinnHeight={pinnHeight} 
+    >
       <RowBox padding="0" gap={.5} between >
         <TalkTagExpand
           height={2}
@@ -80,7 +86,6 @@ const TalkTagExpand = styled(IconBox)<{isExpand: boolean}>`
   padding: 0 .5rem;
   border-radius: .25rem;
 
-  /* animation:  ${ ({isExpand}) => isExpand ? stretchX : shrinkX} .3s ease-in-out; */
   animation:  ${ ({isExpand}) => isExpand ? expandPinnTag : reducePinnTag} .3s ease-in-out;
 `
 

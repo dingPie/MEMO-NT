@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import useStore from "../../store/useStore";
 
 import Text from "../../components/Text";
 import { ColBox } from "../../components/FlexBox";
-import { setTextLine } from "../../styles/stylesCss";
-import { IMemo, ITag } from "../../utils/interface/interface";
-import { dummyMemos, LegacyTag } from '../../utils/data/dummyData'
-import useStore from "../../store/useStore";
-import { IconBox } from "../../components/IconBox";
-import { setTalkTag } from "../talk_page/utils/talk_service";
+
 import { FbMemo } from "../../firebase/firestore_memo_service";
 import { FbTag } from "../../firebase/firestore_tag_service";
+
+import { setTextLine } from "../../styles/stylesCss";
+import { IMemo, ITag } from "../../utils/interface/interface";
+import { setTalkTag } from "../talk_page/utils/talk_service";
+
 
 interface IGridMemo {
   fbMemo: FbMemo;
@@ -18,6 +19,7 @@ interface IGridMemo {
   tag: ITag;
   onClickMemo: () => void;
 }
+
 
 const GridMemo = ( {fbMemo, fbTag, tag, onClickMemo }: IGridMemo ) => {
 

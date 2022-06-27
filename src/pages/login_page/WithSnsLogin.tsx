@@ -16,7 +16,7 @@ const WithSnsLogin = ( { onClickGoogleLlogin, onClickGithubLogin }: IWithSnsLogi
   return(
     <ColBox>
       <Text bold size="xl" >
-        로그인하여 이용하기
+        소셜 로그인으로 이용하기
       </Text>
 
       <ColBox gap={.75}>

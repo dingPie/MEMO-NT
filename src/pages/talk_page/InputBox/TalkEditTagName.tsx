@@ -1,17 +1,18 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 import useStore from "../../../store/useStore";
-import { TalkProps } from "../TalkPage";
 
 import Text from "../../../components/Text"
 import { RowBox } from "../../../components/FlexBox";
 import { IconBox } from "../../../components/IconBox";
-import { IMemo } from "../../../utils/interface/interface"
-;
+
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faHashtag, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faClockFour } from "@fortawesome/free-regular-svg-icons";
 
+import { IMemo } from "../../../utils/interface/interface";
+
+import { TalkProps } from "../TalkPage";
 
 interface ITalkEditTagName extends TalkProps {
   editMemo: IMemo;
@@ -80,7 +81,7 @@ const TalkEditTagName = ( {
   )
 }
 
-export default TalkEditTagName;
+export default memo(TalkEditTagName);
 
 // 여기 이제 input 옵션창 해야함..
 
@@ -92,9 +93,6 @@ const MenuBox = styled(RowBox)`
   max-width: 30rem;
   background: white;
 `
-  
-
-
 
 const TagInput = styled.input<{bgColor?: string}>`
   font-weight: bold;

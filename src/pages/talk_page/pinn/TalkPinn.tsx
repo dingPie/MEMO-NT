@@ -1,19 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled, { css, keyframes } from "styled-components";
+import { useNavigate } from "react-router";
+
 import { RowBox } from "../../../components/FlexBox";
 
-import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { IconBox } from "../../../components/IconBox";
-import { setTextLine, shrinkY, slideUp, stretchY } from "../../../styles/stylesCss";
-import { IMemo, ITag } from "../../../utils/interface/interface";
-import { dummyTags } from "../../../utils/data/dummyData";
-import useStore from "../../../store/useStore";
-import { getTagWithMemo, setTalkTag } from "../utils/talk_service";
+import { IMemo } from "../../../utils/interface/interface";
+import { getTagWithMemo } from "../utils/talk_service";
+
 import { TalkProps } from "../TalkPage";
 import TalkPinnExpand from "./TalkPinnExpand";
 import TalkPinnDefault from "./TalkPinnDefault";
-import { useNavigate } from "react-router";
 
 
 interface ITalkPinn extends TalkProps {
@@ -23,20 +19,22 @@ interface ITalkPinn extends TalkProps {
 
 
 const TalkPinn = ( { tags, memo, setPinnedMemo }: ITalkPinn ) => {
-
+  
   const navigate = useNavigate();
   const tag = getTagWithMemo(tags, memo);
   const [isExpand, setIsExpand] = useState(false);
-
+  // keyFrame 관련
+  const pinnBoxRef = useRef<HTMLDivElement>(null);
+  const [animate, setAnimate] = useState(false);
+  const [pinnHeight, setPinnHeight] = useState(0);
+  
   // 확장버튼 클릭
   const onClickExpandPinn = () => {
-    setTimeout(() => setIsExpand(true), 10);
-    //  setIsExpand(true)
+     setIsExpand(true)
   }
   // 줄이기버튼 클릭
   const onClickReducePinn = () => {
-    setTimeout(() => setIsExpand(false), 10);
-    // setIsExpand(false)
+    setIsExpand(false)
   }
   // 핀 삭제 버튼 클릭
   const onClickDeletePinn = () => {
@@ -48,24 +46,18 @@ const TalkPinn = ( { tags, memo, setPinnedMemo }: ITalkPinn ) => {
   }
   
 
-  const [animate, setAnimate] = useState(false);
-  const testRef = useRef<HTMLDivElement>(null)
-  const [pinnHeight, setPinnHeight] = useState(0)
+
 
   useEffect(() => {
     if (!isExpand) {
       setAnimate(true);
-      setTimeout(() => setAnimate(false), 290);
+      setTimeout(() => setAnimate(false), 300);
     } else {
-      if (!testRef.current) return
-      console.log("이번엔 높이를 구해보자", testRef.current.clientHeight)
-      setPinnHeight(testRef.current.clientHeight)
-      // setTimeout(() => {
-      //   if (!testRef.current) return
-      //   console.log("이번엔 높이를 구해보자", testRef.current.clientHeight)
-      //   setPinnHeight(testRef.current.clientHeight)
-      // }, 10);
-    }
+      if (!pinnBoxRef.current) return
+      console.log("이번엔 높이를 구해보자", pinnBoxRef.current.clientHeight)
+      setPinnHeight(pinnBoxRef.current.clientHeight)
+
+      }
   }, [isExpand]);
 
 
@@ -75,7 +67,7 @@ const TalkPinn = ( { tags, memo, setPinnedMemo }: ITalkPinn ) => {
     <>
       { (!isExpand && !animate) ?
         <TalkPinnDefault
-          ref={testRef}
+          ref={pinnBoxRef}
           tag={tag}
           memo={memo}
           onClickDeletePinn={onClickDeletePinn}
@@ -83,7 +75,7 @@ const TalkPinn = ( { tags, memo, setPinnedMemo }: ITalkPinn ) => {
           isExpand={isExpand}
         /> :
         <TalkPinnExpand
-          ref={testRef}
+          ref={pinnBoxRef}
           tag={tag}
           memo={memo}
           onClickDeletePinn={onClickDeletePinn}
@@ -112,10 +104,8 @@ export const PinnBox = styled.div<{expand?: boolean, isExpand?: boolean, pinnHei
     expand && css`
       flex-direction: column ;
       height: auto; 
-      // 아니 왜 이거만 붙이면 이래;;;;
-      animation: ${ !isExpand ? reducePinnBox(pinnHeight!) : expandPinnBox(pinnHeight!)} .29s ;
-      animation-delay: .01s;
-      /* animation: ${ !isExpand ? shrinkY : stretchY} .3s; */ 
+      animation: ${!isExpand ? reducePinnBox(pinnHeight!) : expandPinnBox(pinnHeight!)} .3s ;
+      animation-delay: .01s; 
   `}
 `
 
@@ -125,23 +115,22 @@ export const PinnBtns = styled(RowBox)`
   gap: .5rem;
   
   height: 2rem;
-
   background: ${({theme}) => theme.colors.white };
   border-radius: .25rem;
 `
 
-export const expandPinnBox = (pinnHeight: number) => keyframes`
+ const expandPinnBox = (height: number) => keyframes`
   from {
     height: 44px;
   }
   to {
-    height: ${pinnHeight}px;
+    height: ${height}px;
   }
-`;
+  `;
 
-export const reducePinnBox = (pinnHeight: number) => keyframes`
+ const reducePinnBox = (height: number) => keyframes`
   from {
-    height: ${pinnHeight}px;
+    height: ${height}px;
   }
   to {
     height: 44px;

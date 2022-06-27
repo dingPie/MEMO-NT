@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
 import styled from "styled-components";
-import { InputText } from "../../../components/InputText";
+import InputText from "../../../components/InputText";
 import { IEditMemo } from "./../MemoPage";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";

@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import useStore from "../../../store/useStore";
+
 import { RowBox } from "../../../components/FlexBox";
 
-import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { faPen, faTrashCan, faPalette, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { IconBox } from "../../../components/IconBox";
-import MemoPalette from "./MemoPalette";
-import MemoMenu from "./MemoMenu";
 import { FbMemo } from "../../../firebase/firestore_memo_service";
 import { FbTag } from "../../../firebase/firestore_tag_service";
 import { ITag } from "../../../utils/interface/interface";
+
+// Memo Components
 import { MemoProps } from "../MemoPage";
+import MemoPalette from "./MemoPalette";
+import MemoMenu from "./MemoMenu";
+
 
 
 interface IMemoMenuContainer extends MemoProps {
@@ -23,6 +25,7 @@ interface IMemoMenuContainer extends MemoProps {
 
 const MemoMenuContainer = ( { fbTag, fbMemo, tag, isOpenMenu, setIsOpenMenu, setIsOpenDeleteMemo, setIsOpenEditTag }: IMemoMenuContainer ) => {
 
+  const { loading } = useStore();
   const [isOpenPalette, setIsOpenPalette] = useState(false); // palette창 on/off
   const [seletedColor, setSeletedColor] = useState(parseInt(tag.color))
 
@@ -49,8 +52,10 @@ const MemoMenuContainer = ( { fbTag, fbMemo, tag, isOpenMenu, setIsOpenMenu, set
   }
   // 팔레트 색변경
   const onClickDoEditPalette = (tag: ITag) => {
+    loading.start();
     fbTag.editTagColor(tag.id, seletedColor.toString())
     setIsOpenPalette(false)
+    loading.finish();
   }
   // 각 팔레트 클릭시 색상선택값 변경
   const onClickSelectColor = (colorId: number) => {

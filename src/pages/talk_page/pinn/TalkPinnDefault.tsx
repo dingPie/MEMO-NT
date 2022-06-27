@@ -1,18 +1,22 @@
 import React, { forwardRef } from "react";
 import styled, { css } from "styled-components";
-import { RowBox } from "../../../components/FlexBox";
+import useStore from "../../../store/useStore";
 
+import { RowBox } from "../../../components/FlexBox";
+import { IconBox } from "../../../components/IconBox";
+
+import { setTextLine } from "../../../styles/stylesCss";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { IconBox } from "../../../components/IconBox";
-import { setTextLine } from "../../../styles/stylesCss";
+
 import { IMemo, ITag } from "../../../utils/interface/interface";
 import { dummyTags } from "../../../utils/data/dummyData";
-import useStore from "../../../store/useStore";
 import { setTalkTag } from "../utils/talk_service";
-import { TalkProps } from "../TalkPage";
 import { TalkContent } from "../utils/TalkComponents";
+
+import { TalkProps } from "../TalkPage";
 import { PinnBox, PinnBtns } from "./TalkPinn";
+
 
 interface ITalkPinnDefault {
   tag: ITag;

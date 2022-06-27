@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+
 import { RowBox } from "../../../components/FlexBox";
+import { IconBox } from "../../../components/IconBox";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faPen, faTrashCan, faThumbTack, faAlignLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { IconBox } from "../../../components/IconBox";
 import { slideUp } from "../../../styles/stylesCss";
 
 

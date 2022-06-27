@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
 
@@ -17,6 +17,8 @@ import TalkInpuContainer from "./InputBox/TalkInputContainer";
 import MenuContainer from "./menu/MenuContainer";
 
 import { IMemo, ITag } from "../../utils/interface/interface";
+import Loading from "../../components/Loading";
+import useStore from "../../store/useStore";
 
 
 interface ITalkPage {
@@ -35,6 +37,7 @@ export interface TalkProps {
 const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
 
   const navigate = useNavigate();
+  const { loading } = useStore();
 
   const talkBoxRef = useRef<HTMLDivElement>(null)
   const topRef = useRef<HTMLDivElement>(null);
@@ -52,36 +55,22 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
 
   // 메모 불러오기
   const getMemoWithPagination = async (viewMemo: IMemo[], setViewMemo?: (v: IMemo[]) => void) => {
+    loading.start();
     await fbMemo.getMemo(viewMemo, setViewMemo)
+    loading.finish();
   }
   // 메모 init 
   useEffect(() => {
     if (!user) return
     if (!viewMemo.length) fbMemo.initLastMemo()
-    // getMemoWithPagination(viewMemo, setViewMemo)
   }, [])
-  // init 후 맨 아래메모 focus
-  // useEffect(() => {
-  //   if (viewMemo) focusLastMemo(talkBoxRef)
-  // }, [talkBoxRef.current])
-  
-  /*
-    처음실행시 아무것도 없는 빈 화면에서 최상단을 인식하여
-    무한스크롤 구현 + 현재의 길이만큼 scroll이동 부분이 자
-  */
 
 
   // Header 버튼: grid 이동
-  const onClickOtherBtn = () => {
+  const onClickOtherBtn = useCallback(() => {
     navigate('/grid')
-  }
+  },[])
 
-  /*메뉴창 관련*/ 
-  // 메뉴 on
-  const onClickMemuBtn = (memo: IMemo) => {
-    if (editMemo) return
-    (selectedMemo === memo) ? setSelectedMemo(null) : setSelectedMemo(memo)
-  }
 
   /* 무한스크롤  */
   const observerOpt = {
@@ -89,6 +78,7 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
     rootMargin: "0px",
     threshold: 1.0,
   }
+  
   const checkIntersect = (entries: any) => { // 객체목록과 관찰자를 파라메터로 받는다.
     entries.forEach( async (entry: any) => {
       if (entry.isIntersecting) { // isIntersecting 은 t/f로 반환됨. 교차되면 true
@@ -96,6 +86,7 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
       }
     });
   }
+
   useEffect(() => {
     if (!topRef.current || !talkBoxRef.current) return
     // isLoading true
@@ -110,11 +101,16 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
     setPrevScrollHeight(currScrollHieght)
     setPrevMemoCount(viewMemo.length)
 
-    return () => observerRef.current && observerRef.current.disconnect(); // observerRef.current.unobserve()와 동일
+    return () => {
+      observerRef.current && observerRef.current.disconnect(); // observerRef.current.unobserve()와 동일
+    } 
   }, [viewMemo]); // viewMemo 변경되면 observer를 새로 지정
 
+
+
+  // 메모 삭제
   const deleteMemo = async () => {
-    // 메모 삭제 로직
+    loading.start();
     await fbMemo.deleteMemo(selectedMemo!.id)
     await fbTag.deleteUsedMemo(selectedMemo!)
     // await fbTag.deleteTag(selectedMemo.tagId) // 태그 삭제 관련은 고민해야함
@@ -126,6 +122,7 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
     setSelectedMemo(null)
     setIsOpenDeletePopup(false)
     // alert("삭제되었습니다.");
+    loading.finish();
   }
   
 
@@ -159,8 +156,9 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
               key={memo.id}
               tags={tags}
               memo={memo}
-              onClickMenuBtn={onClickMemuBtn}
+              editMemo={editMemo}
               selectedMemo={selectedMemo}
+              setSelectedMemo={setSelectedMemo}
             />) 
         })}       
       </TalkBox>
@@ -199,6 +197,9 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
           onClickCancel={() => setIsOpenDeletePopup(false)}
           onClickDo={deleteMemo}
         />
+      }
+      { loading.isLoading &&
+        <Loading />
       }
     </MobileBox>
   )

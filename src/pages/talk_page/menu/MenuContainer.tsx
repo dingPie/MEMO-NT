@@ -1,16 +1,12 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { RowBox } from "../../../components/FlexBox";
-
-import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { faPen, faTrashCan, faThumbTack, faExpand, faAlignLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { IconBox } from "../../../components/IconBox";
-import { IMemo } from "../../../utils/interface/interface";
-import TalkMemu from "../menu/TalkMenu";
-import TalkDeletePopup from "../TalkDeletePopup";
-import { FbTag } from "../../../firebase/firestore_tag_service";
-import { FbMemo } from "../../../firebase/firestore_memo_service";
+import React from "react";
 import { useNavigate } from "react-router";
+
+import { IMemo } from "../../../utils/interface/interface";
+
+import { FbMemo } from "../../../firebase/firestore_memo_service";
+import { FbTag } from "../../../firebase/firestore_tag_service";
+
+import TalkMemu from "../menu/TalkMenu";
 
 
 interface IMenuContainer {

@@ -45,13 +45,17 @@ const SetUser = ( { user, onClickLogout }: ISetUser ) => {
           </RowBox>
 
           <UserBox>
-            <Icon icon={faUserCircle} size='2x' color="#505050" />
+            <Icon 
+              icon={faUserCircle} 
+              size='2x' 
+              color="#505050" 
+            />
             <ColBox gap={.1} padding="0">
               <Text color="#505050" padding="0">
                 { user.displayName ? user.displayName : "사용자" }
               </Text>
               <Text padding="0">
-              {presentEmail(user)}
+                {presentEmail(user)}
               </Text>
             </ColBox>
           </UserBox>

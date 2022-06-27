@@ -15,64 +15,61 @@ import WithSnsLogin from "./WithSnsLogin";
 
 // firebase
 import { FbAuth } from "../../firebase/firebase_auth_service";
-import { firebaseAuth, fireStoreDB } from "../../firebase/firebase_config";
 import { User } from "firebase/auth";
 
 interface ILoginPage {
+  fbAuth: FbAuth;
   user: User | null;
   setUser: (v: User | null) => void;
 }
 
-const LoginPage = ( { user, setUser }: ILoginPage ) => {
+const LoginPage = ( { fbAuth, user, setUser }: ILoginPage ) => {
 
-
-  // 인스턴스 생성을... app이나 index에서 해주고 user정보를 하위에서 받아올까?
-  const fbAuth = new FbAuth(firebaseAuth, fireStoreDB);
   const navigate = useNavigate();
 
 
-
   const onClickWithoutLogin = () => {
-    console.log("localStorage로 로그인...")
     alert("작동안함")
     // navigate(`/talk`)
   }
   
   const onClickGoogleLlogin = async () => {
-    console.log("firebase google로 로그인...")
     await fbAuth.loginWithGoogle(setUser)
     navigate(`/talk`)
   }
   
   const onClickGithubLogin = async () => {
-    console.log("firebase github으로 로그인...")
     await fbAuth.loginWithGithub(setUser)
     navigate(`/talk`)
   }
  
   return(
-    <>
-    <Header
-      page="login"
-    />
     <MobileBox>
-      <ColBox gap={3.5} padding="4rem 1.5rem">
-        <Text center bold size="3x" >
+      <Header
+        page="login"
+      />
+      <ColBox 
+        gap={3.5} 
+        padding="4rem 1.5rem"
+      >
+        <Text 
+          center 
+          bold 
+          size="3x" 
+        >
           LOGIN
         </Text>
       
-        <WithoutLogin 
+        {/* <WithoutLogin 
           onClickWithoutLogin={onClickWithoutLogin}
-        />
+        /> */}
  
         <WithSnsLogin
           onClickGoogleLlogin={onClickGoogleLlogin}
           onClickGithubLogin={onClickGithubLogin}
         />
-
       </ColBox>
     </MobileBox>
-    </>
   )
 }
 

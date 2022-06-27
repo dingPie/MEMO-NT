@@ -1,7 +1,9 @@
 import React from "react";
+
 import { CustomBtn } from "../../../components/Buttons";
 import { ColBox, RowBox } from "../../../components/FlexBox";
-import { InputText } from "../../../components/InputText";
+import InputText from "../../../components/InputText";
+
 import { ITag } from "../../../utils/interface/interface";
 
 interface IMemoInputAdd {

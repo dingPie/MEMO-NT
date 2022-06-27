@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 
 import { FbMemo } from "../../../firebase/firestore_memo_service";
 import { FbTag } from "../../../firebase/firestore_tag_service";
+import useStore from "../../../store/useStore";
 import { ITag } from "../../../utils/interface/interface";
 import { MemoProps } from "../MemoPage";
 import MemoDeleteConfirmPopup from "./MemoDeleteConfirmPopup";
@@ -16,6 +17,7 @@ interface IMemoDeletePopupContainer extends MemoProps {
 const MemoDeletePopupContainer = ( { fbTag, fbMemo, tag, isOpenDeleteMemo, setIsOpenDeleteMemo }: IMemoDeletePopupContainer ) => {
 
   const navigate = useNavigate();
+  const { loading } = useStore();
   const [isOpenDeleteConfirm, setIsOpenDeleteConfirm] = useState(false);
 
   
@@ -33,6 +35,7 @@ const MemoDeletePopupContainer = ( { fbTag, fbMemo, tag, isOpenDeleteMemo, setIs
   const onClickDoDeleteAll = async (tag: ITag) => {
     setIsOpenDeleteConfirm(false)
     navigate('/grid')
+    loading.start();
 
     if (tag.id === "undefined" || tag.id === "toBeDeleted") {
       alert("해당 태그는 삭제가 불가능합니다. 내용만 삭제됩니다.")
@@ -41,18 +44,18 @@ const MemoDeletePopupContainer = ( { fbTag, fbMemo, tag, isOpenDeleteMemo, setIs
       })
       await fbTag.deleteUsedMemoAll(tag.id)
     } 
-    
     else {
       await fbTag.deleteTag(tag.id) // 태그 삭제
       tag.usedMemo.map( async memoId =>  await fbMemo.deleteMemo(memoId))
     }
-
+    loading.finish();
   }
   
   // 삭제: 태그만 삭제
   const onClickDoDeleteOnlyTag = async (tag: ITag) => {
     setIsOpenDeleteConfirm(false)
     navigate('/grid')
+    loading.start();
 
     if (tag.id === "undefined" || tag.id === "toBeDeleted") {
       alert("해당 태그는 삭제가 불가능합니다. 내용만 삭제됩니다.")
@@ -61,12 +64,12 @@ const MemoDeletePopupContainer = ( { fbTag, fbMemo, tag, isOpenDeleteMemo, setIs
       })
       await fbTag.deleteUsedMemoAll(tag.id)
     } 
-
     else {
       tag.usedMemo.map( async memoId => await fbMemo.editMemoUsedTag(memoId, "undefined"))
       await fbTag.addUsedMemoAll("undefined", tag.usedMemo)
       await fbTag.deleteTag(tag.id) // 태그 삭제
     }
+    loading.finish();
   }
 
 

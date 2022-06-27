@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 import { RowBox } from "./FlexBox";
 
@@ -110,7 +110,7 @@ const Header = ( { page, onClickGear, onClickOtherBtn }: IHeader ) => {
   )
 }
 
-export default Header;
+export default memo(Header);
 
 const HeaderEle = styled.div`
   display: flex;

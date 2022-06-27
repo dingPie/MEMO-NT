@@ -1,22 +1,24 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, memo } from "react";
 import styled from "styled-components";
+import useStore from "../../../store/useStore";
+
 import Header from "../../../components/Header";
 import Text from "../../../components/Text";
+import { RowBox } from "../../../components/FlexBox";
+import { IconBox } from "../../../components/IconBox";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faEllipsis, faHashtag } from "@fortawesome/free-solid-svg-icons";
 import { faClockFour } from "@fortawesome/free-regular-svg-icons";
-import { IconBox } from "../../../components/IconBox";
+
 import { IMemo, ITag } from "../../../utils/interface/interface";
 import { Time } from "../../../utils/service/time";
-
-import useStore from "../../../store/useStore";
-import { TalkProps } from "../TalkPage";
+import { TalkContent } from "../utils/TalkComponents";
 import { getTagWithMemo, setTalkTag } from "../utils/talk_service";
 import { setTextLine } from "../../../styles/stylesCss";
-import { RowBox } from "../../../components/FlexBox";
+
 import { TalkListBox } from "./TalkList";
-import { TalkContent } from "../utils/TalkComponents";
+import { TalkProps } from "../TalkPage";
 
 interface ITalkListaDefault {
   tag: ITag;
@@ -69,4 +71,4 @@ const TalkListaDefault = ( {tag, memo, onClickMenuBtn }: ITalkListaDefault  ) =>
   )
 }
 
-export default TalkListaDefault;
+export default memo(TalkListaDefault);
