@@ -55,9 +55,9 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
 
   // 메모 불러오기
   const getMemoWithPagination = async (viewMemo: IMemo[], setViewMemo?: (v: IMemo[]) => void) => {
-    loading.start();
+    // loading.start();
     await fbMemo.getMemo(viewMemo, setViewMemo)
-    loading.finish();
+    // loading.finish();
   }
   // 메모 init 
   useEffect(() => {
@@ -198,9 +198,7 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
           onClickDo={deleteMemo}
         />
       }
-      { loading.isLoading &&
-        <Loading />
-      }
+
     </MobileBox>
   )
 }

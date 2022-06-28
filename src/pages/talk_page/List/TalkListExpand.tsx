@@ -57,7 +57,7 @@ const TalkListExpand = ( { tag, memo, onClickMenuBtn }: ITalkListExpand  ) => {
           bold
           center
           padding="0"
-          size="xs"
+          fontSize="s"
         >
           {time.toTalk(memo.createTime)}
         </Text>

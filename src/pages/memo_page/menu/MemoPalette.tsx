@@ -7,6 +7,7 @@ import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 import { ITag } from "../../../utils/interface/interface";
+import { slideUp } from "../../../styles/stylesCss";
 
 
 interface IMemoPalette {
@@ -22,12 +23,13 @@ const MemoPalette = ( { tag, seletedColor, onClickDoEditPalette, onClickSelectCo
 
 
   return (
-    <MenuBox>
+    <PaletteMenuBox>
       <IconBox
-        width={1.5} 
-        height={1.5}
+        width={2.5} 
+        height={1.25}
         inline
         onClick={ () => onClickDoEditPalette(tag) }
+        fontSize='l'
       >
         <Icon size='lg' icon={faCheck} />
       </IconBox>
@@ -39,25 +41,19 @@ const MemoPalette = ( { tag, seletedColor, onClickDoEditPalette, onClickSelectCo
               selectedColor={seletedColor === color.id ? true : false}
             />
           )})}
-    </MenuBox>
+    </PaletteMenuBox>
   )
 }
 
 export default MemoPalette;
 
-export const MenuBox = styled.div`
-  position: fixed;
-  bottom: 0; // input Box 크기
-  left: 50%;
-  transform: translate(-50%, 0);
-
-  padding: .5rem .5rem 0 ;
-  max-width: 30rem;
+const PaletteMenuBox = styled.div`
+  padding: .5rem .5rem 0;
   background: white;
   overflow-x: scroll ;
   width: 100%;
+  height: 3rem;
   white-space: nowrap;
-  vertical-align: middle;
 
   &::-webkit-scrollbar {
     height: .5rem;
@@ -69,6 +65,8 @@ export const MenuBox = styled.div`
   background-clip: padding-box;
   border: 2px solid transparent;
 }
+
+animation: ${slideUp} .2s;
 `
 
 const PaletteBox = styled.span<{bgColor: string, selectedColor?: boolean}>`

@@ -7,6 +7,8 @@ import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faPen, faTrashCan, faPalette, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 import { ITag } from "../../../utils/interface/interface";
+import { slideUp } from "../../../styles/stylesCss";
+import { MenuBox } from "./MemoMenuContainer";
 
 
 interface IMemoMenu {
@@ -57,18 +59,3 @@ const MemoMenu = ( { tag, onClickEditBtn, onClickDeleteBtn, onClickPaletteBtn, o
 }
 
 export default MemoMenu;
-
-// 나중에 Buttom 부분 빼서 동기화
-
-export const MenuBox = styled(RowBox)`
-  display: flex;
-  position: fixed;
-  align-items: center;
-  bottom: 0; // input Box 크기
-  left: 50%;
-  transform: translate(-50%, 0);
-  
-  padding: .25rem;
-  max-width: 30rem;
-  background: white;
-`

@@ -27,7 +27,7 @@ const MemoInputAdd = ( { tag, inputMemo, onChangeInputMemo, onClickAddConfirm, o
       />
       <RowBox center gap={.5} padding="0" >
         <CustomBtn
-          size="s"
+          fontSize="s"
           width={15}
           bgColor="#F5F5F5"
           onClick={onClickAddCancel}
@@ -35,7 +35,7 @@ const MemoInputAdd = ( { tag, inputMemo, onChangeInputMemo, onClickAddConfirm, o
           취소
         </CustomBtn>
         <CustomBtn
-          size="s"
+          fontSize="s"
           width={15}
           bgColor="#dddddd"
           onClick={() => onClickAddConfirm(tag.id, inputMemo)}

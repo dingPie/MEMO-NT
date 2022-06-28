@@ -133,7 +133,7 @@ const MemoContentContainer = ( {  fbTag, fbMemo, tag, memoList, setMemoList,  is
         }
         { !isOpenInputMemo &&
           <CustomBtn
-            size="s"
+            fontSize="s"
             bgColor="#dddddd"
             onClick={onClickAddMemoBtn}
           >

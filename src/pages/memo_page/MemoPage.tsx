@@ -81,7 +81,7 @@ const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
   }
  
   return(
-      <MobileBox>
+      <>
       <Header 
         page="memo"
         onClickOtherBtn={onClickOtherBtn}
@@ -107,20 +107,21 @@ const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
               setMemoList={setMemoList}
               isOpenMenu={isOpenMenu}
             />
-            <MemoMenuContainer
-              fbTag={fbTag}
-              fbMemo={fbMemo}
-              tag={tag}
-              isOpenMenu={isOpenMenu}
-              setIsOpenMenu={setIsOpenMenu}
-              setIsOpenDeleteMemo={setIsOpenDeleteMemo}
-              setIsOpenEditTag={setIsOpenEditTag}
-            />
           </>
           }
         </MemoBox>
       </OuterBox>
-
+      {tag &&
+          <MemoMenuContainer
+            fbTag={fbTag}
+            fbMemo={fbMemo}
+            tag={tag}
+            isOpenMenu={isOpenMenu}
+            setIsOpenMenu={setIsOpenMenu}
+            setIsOpenDeleteMemo={setIsOpenDeleteMemo}
+            setIsOpenEditTag={setIsOpenEditTag}
+          />
+      }
         <MemoDeletePopupContainer 
           fbTag={fbTag}
           fbMemo={fbMemo}
@@ -128,10 +129,7 @@ const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
           isOpenDeleteMemo={isOpenDeleteMemo}
           setIsOpenDeleteMemo={setIsOpenDeleteMemo}
         />
-        { loading.isLoading &&
-          <Loading />
-        }
-      </MobileBox>
+      </>
   )
 }
 
@@ -140,6 +138,7 @@ export default MemoPage;
 const MemoBox = styled(ColBox)`
   background: ${({theme}) => theme.colors.white};
   gap: .375rem;
+  
   
   height: 100%;
   padding: .5rem;
@@ -155,6 +154,7 @@ const MemoBox = styled(ColBox)`
 const OuterBox = styled.div`
   padding: .5rem;
   overflow-y: scroll;
+  height: 100%;
   &::-webkit-scrollbar {
     width: 0;
   }

@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import { fontSizeSet } from "../styles/stylesCss";
 
 interface Itext {
-  size?: string;
+  fontSize?: string;
   bold?: boolean;
   width?: number;
   height?: number;

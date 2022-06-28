@@ -9,8 +9,7 @@ interface IIconBox {
   height?: number;
   bgColor?: string;
   inline?: boolean;
-  fontSize?: number;
-  size?: string;
+  fontSize?: string;
 
 }
 
@@ -20,7 +19,6 @@ export const IconBox = styled.div<IIconBox>`
   justify-content: center;
   align-items: center;
 
-  /* font-size: ${({fontSize}) => fontSize ? fontSize+"rem": "1rem" }; */
   ${fontSizeSet}
   font-weight: bold;
   

@@ -36,7 +36,7 @@ const GridPage = ( { tags, user, fbMemo, fbTag }: IGridPage ) => {
 
  
   return(
-    <MobileBox>
+    <>
       <Header 
         page='grid' 
         onClickOtherBtn={onClickOtherBtn}
@@ -54,7 +54,7 @@ const GridPage = ( { tags, user, fbMemo, fbTag }: IGridPage ) => {
         )
       })}
       </GridBox>
-      </MobileBox>
+    </>
   )
 }
 

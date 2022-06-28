@@ -31,6 +31,7 @@ import { ITag } from './utils/interface/interface';
 import { IPalette } from './store/palette';
 import { toJS } from 'mobx';
 import Loading from './components/Loading';
+import { MobileBox } from './components/MobileBox';
 
 // const appStyle = {
 //   display: "flex",
@@ -94,7 +95,7 @@ function App( {fbAuth, fbTag, fbMemo }: IApp ) {
 
 
   return (
-    <>
+    <MobileBox>
       <GlobalStyle /> 
 
       <Routes>
@@ -137,7 +138,11 @@ function App( {fbAuth, fbTag, fbMemo }: IApp ) {
           />} 
         />
       </Routes>
-    </>
+
+      { loading.isLoading &&
+        <Loading />
+      }
+    </MobileBox>
   );
 }
 

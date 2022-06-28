@@ -30,7 +30,7 @@ const SetUser = ( { user, onClickLogout }: ISetUser ) => {
             between align="center" 
             padding="0"
           >
-            <Text bold size='xl' width={10}>
+            <Text bold fontSize='xl' width={10}>
               연결된 계정
             </Text>
             <CustomBtn
@@ -47,7 +47,7 @@ const SetUser = ( { user, onClickLogout }: ISetUser ) => {
           <UserBox>
             <Icon 
               icon={faUserCircle} 
-              size='2x' 
+              fontSize='2x' 
               color="#505050" 
             />
             <ColBox gap={.1} padding="0">
@@ -74,7 +74,7 @@ const SetUser = ( { user, onClickLogout }: ISetUser ) => {
             between align="center" 
             padding="0"
           >
-            <Text bold size='xl'>
+            <Text bold fontSize='xl'>
               연결된 계정
             </Text>
             <CustomBtn

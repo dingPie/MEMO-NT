@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import useStore from "../../../store/useStore";
 
+// utils
 import { FbMemo } from "../../../firebase/firestore_memo_service";
 import { FbTag } from "../../../firebase/firestore_tag_service";
-import useStore from "../../../store/useStore";
 import { ITag } from "../../../utils/interface/interface";
+
+// Memo Components
 import { MemoProps } from "../MemoPage";
 import MemoDeleteConfirmPopup from "./MemoDeleteConfirmPopup";
 import MemoDeletePopup from "./MemoDeletePopup";

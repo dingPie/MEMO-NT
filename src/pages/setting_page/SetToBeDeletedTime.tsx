@@ -10,7 +10,7 @@ const SetToBeDeletedTime = () => {
       padding="1rem .5rem" 
       gap={.5}
     >
-      <Text bold size='xl'>
+      <Text bold fontSize='xl'>
         자동삭제 시간설정
       </Text>
       <RowBox 
@@ -28,7 +28,7 @@ const SetToBeDeletedTime = () => {
           삭제예정 메모가 제거됩니다.
         </Text>
       </RowBox>
-      <Text bold size="s">
+      <Text bold fontSize="s">
         삭제 처리동안 메모 이용이 불가능 합니다. <br />
         이용이 적은 시간대로 설정해 주세요.
       </Text>

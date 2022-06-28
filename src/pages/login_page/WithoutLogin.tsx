@@ -18,7 +18,7 @@ const WithoutLogin = ( { onClickWithoutLogin }: IWithoutLogin ) => {
     <ColBox
 
     >
-      <Text bold size="xl" >
+      <Text bold fontSize="xl" >
         로그인 없이 이용하기
       </Text>
 
@@ -32,7 +32,7 @@ const WithoutLogin = ( { onClickWithoutLogin }: IWithoutLogin ) => {
             Without Login
           </Text>
         </LoginBtn>
-        <Text size="s">
+        <Text fontSize="s">
           로컬 스토리지에 메모가 저장됩니다. <br/>
           사용 브라우저를 변경하거나 <br/>
           캐시 삭제시 기록된 메모가 삭제될 수 있습니다. <br/>
