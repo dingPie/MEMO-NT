@@ -32,7 +32,7 @@ const EditMemoName = ( { tag, onClickDoEditTag, inputMemoName, onChangeMemoName 
       <InputText
         bold
         noResize
-        size="l"
+        fontSize="l"
         height={1.25}
         padding="0"
         lineHeight={1.875}
@@ -42,7 +42,7 @@ const EditMemoName = ( { tag, onClickDoEditTag, inputMemoName, onChangeMemoName 
       />
 
       <IconBox
-        size="l"
+        fontSize="l"
         bgColor={palette.getColor(tag)}
         onClick={() => onClickDoEditTag(tag)}
       >

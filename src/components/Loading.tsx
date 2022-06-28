@@ -14,16 +14,16 @@ const Loading = () => {
 
   return (
       <Outer>
-          <Inner
-          >
-            <Text bold center size='xl' padding="0" color="#679BFF" >
-              Loading...
-            </Text>
-              <ReactLoading
-                type={"cylon"} color={"#679BFF"} height={'40%'} width={'40%'}
-              />
-          </Inner>
-        </Outer>
+        <Inner
+        >
+          <Text bold center fontSize='xl' padding="0" color="#679BFF" >
+            Loading...
+          </Text>
+            <ReactLoading
+              type={"cylon"} color={"#679BFF"} height={'40%'} width={'40%'}
+            />
+        </Inner>
+      </Outer>
   )
 }
 

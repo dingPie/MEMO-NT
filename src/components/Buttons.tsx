@@ -55,7 +55,7 @@ interface ICustomBtn {
   padding?: string;
   whiteSpace?: string;
 
-  size?: string;
+  fontSize?: string;
   bold?: boolean;
   center?: boolean;
   height?: number;

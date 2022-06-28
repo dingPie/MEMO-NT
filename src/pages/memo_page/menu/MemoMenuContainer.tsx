@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import useStore from "../../../store/useStore";
 
@@ -12,6 +12,7 @@ import { ITag } from "../../../utils/interface/interface";
 import { MemoProps } from "../MemoPage";
 import MemoPalette from "./MemoPalette";
 import MemoMenu from "./MemoMenu";
+import { slideUp } from "../../../styles/stylesCss";
 
 
 
@@ -62,6 +63,9 @@ const MemoMenuContainer = ( { fbTag, fbMemo, tag, isOpenMenu, setIsOpenMenu, set
     setSeletedColor(colorId)
   }
  
+  useEffect(() => {
+    if (isOpenMenu && isOpenPalette) setIsOpenPalette(false)
+  }, [isOpenMenu])
 
 
   return(
@@ -94,14 +98,11 @@ export default MemoMenuContainer;
 // 나중에 Buttom 부분 빼서 동기화
 
 export const MenuBox = styled(RowBox)`
-  display: flex;
-  position: fixed;
   align-items: center;
-  bottom: 0; // input Box 크기
-  left: 50%;
-  transform: translate(-50%, 0);
-  
+  gap: 0;
   padding: .25rem;
   max-width: 30rem;
   background: white;
+
+  animation: ${slideUp} .2s;
 `

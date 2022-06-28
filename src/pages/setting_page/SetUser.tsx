@@ -22,6 +22,12 @@ const SetUser = ( { user, onClickLogout }: ISetUser ) => {
     else if (user.email) return user.email
   }
 
+  React.useEffect(() => {
+    if (!user) return
+    console.log("사진정보 확인", user, user.photoURL)
+  }, [])
+  
+
   const setUserComponent = () => {
     if (user) {
       return  (
@@ -30,7 +36,7 @@ const SetUser = ( { user, onClickLogout }: ISetUser ) => {
             between align="center" 
             padding="0"
           >
-            <Text bold size='xl' width={10}>
+            <Text bold fontSize='xl' width={10}>
               연결된 계정
             </Text>
             <CustomBtn
@@ -45,16 +51,26 @@ const SetUser = ( { user, onClickLogout }: ISetUser ) => {
           </RowBox>
 
           <UserBox>
-            <Icon 
-              icon={faUserCircle} 
-              size='2x' 
-              color="#505050" 
-            />
+            { user.photoURL ? 
+              <ProfileImg src={user.photoURL} alt="" /> :
+              <Icon 
+                icon={faUserCircle} 
+                size='3x' 
+                color="#505050" 
+              /> 
+            }
             <ColBox gap={.1} padding="0">
-              <Text color="#505050" padding="0">
+              <Text
+                bold
+                fontSize="l"
+                padding="0"
+              >
                 { user.displayName ? user.displayName : "사용자" }
               </Text>
-              <Text padding="0">
+              <Text 
+                color="#505050" 
+                padding="0"
+              >
                 {presentEmail(user)}
               </Text>
             </ColBox>
@@ -74,7 +90,7 @@ const SetUser = ( { user, onClickLogout }: ISetUser ) => {
             between align="center" 
             padding="0"
           >
-            <Text bold size='xl'>
+            <Text bold fontSize='xl'>
               연결된 계정
             </Text>
             <CustomBtn
@@ -110,9 +126,19 @@ export default SetUser;
 const UserBox = styled.div`
   display: flex;
   align-items: center;
-  padding: .5rem .75rem;
   gap: 1.5rem;
+  
+  padding: .5rem .75rem;
+  height: 4rem;
+
   background: #FFFFFF;
   box-shadow: ${({theme}) => theme.boxShadow.main};
   border-radius: 2rem;
+`
+
+const ProfileImg = styled.img`
+  width: 3rem;
+  height: 3rem;
+  border-radius: 2.5rem;
+  box-shadow: ${({theme}) => theme.boxShadow.main};
 `

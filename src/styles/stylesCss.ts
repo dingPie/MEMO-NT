@@ -18,19 +18,19 @@ export const polishedColor = css<{bgColor: string}>`
   }}
 `
 
-export const fontSizeSet = css<{size?: string}>`
-  ${({ size }) => {
-    let fontSize = "";
-    if (size === "3x") fontSize = "2rem";
-    else if (size === '2x') fontSize = "1.5rem";
-    else if (size === 'xl') fontSize = "1.25rem";
-    else if (size === 'l') fontSize = "1rem";
-    else if (size === 's') fontSize = ".75rem";
-    else if (size === 'xs') fontSize = ".625rem";
-    else if (size === 'm' || !size) fontSize = ".875rem";
+export const fontSizeSet = css<{fontSize?: string}>`
+  ${({ fontSize }) => {
+    let result = "";
+    if (fontSize === "3x") result = "2rem";
+    else if (fontSize === '2x') result = "1.5rem";
+    else if (fontSize === 'xl') result = "1.25rem";
+    else if (fontSize === 'l') result = "1rem";
+    else if (fontSize === 's') result = ".75rem";
+    else if (fontSize === 'xs') result = ".625rem";
+    else if (fontSize === 'm' || !fontSize) result = ".875rem";
 
     return css`
-      font-size: ${fontSize};
+      font-size: ${result};
     `
   }}
 `
@@ -101,9 +101,11 @@ export const fadeOut = keyframes`
 
 export const slideUp = keyframes`
   from {
+    transform-origin: 100% 0;
     transform: translateY(200px);
   }
   to {
+    transform-origin: 100% 0;
     transform: translateY(0px);
   }
 `;

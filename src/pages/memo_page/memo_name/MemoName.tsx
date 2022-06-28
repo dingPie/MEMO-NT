@@ -31,7 +31,7 @@ const MemoName = ( { tag, isOpenMenu, onClickTagName }: IMemoName ) => {
     <TalkTagExpand
       shadow
       height={2.75}
-      size="l"
+      fontSize="l"
       bgColor={palette.getColor(tag)}
       onClick={onClickTagName}
     >

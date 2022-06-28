@@ -85,7 +85,7 @@ export class FbAuth {
   ) {
     onIdTokenChanged(this.firebaseAuth, (user) => {
       if(update) update(user)
-      // console.log("유저정보 감지", user)
+      console.log("유저정보 감지", user)
     })
   }
 
@@ -107,21 +107,24 @@ export class FbAuth {
     return new Promise ( async (resolve, rejects) => {
       const result = await getDoc(docRef)
       resolve(result.data() as IUser)
-      console.log("유저정보 확인: ", result.data())
     } )
   }
 
   // 유저 DB에 유저 추가
   async addUser (user: User) {
     const newUser = {
-      uid: user.uid,
-      provider: user.providerId,
-      name: user.displayName,
-      email: user.email
+      toBeDeletedTime: 3, // number 삭제 예정시간
+      pinndMemo: "", // pinnedMemo Id
+      
+      // uid: user.uid,
+      // provider: user.providerData[0].providerId,
+      // name: user.displayName,
+      // email: user.email,
+      // photoURL: user.photoURL,
     }
     const docRef = doc(this.fireStoreDB, this.doc, user.uid)
       try {
-      const result = await setDoc(docRef, newUser)
+      await setDoc(docRef, newUser)
       console.log("새 유저 등록 완료", newUser)
       return newUser
     } catch (e) {

@@ -52,16 +52,15 @@ const TalkListaDefault = ( {tag, memo, onClickMenuBtn }: ITalkListaDefault  ) =>
             bold
             center
             padding="0"
-            size="xs"
+            fontSize="xs"
           >
             {time.toTalk(memo.createTime)}
           </Text>
-          <IconBox 
+          <IconBox
             onClick={() => onClickMenuBtn(memo)}
             shadow 
             width={1.75} 
             height={1.75}
-            fontSize={.875}
           >
             <Icon size="lg" color="#505050" 
               icon={faEllipsis}

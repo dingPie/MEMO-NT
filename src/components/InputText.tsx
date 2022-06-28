@@ -12,7 +12,7 @@ interface IInputTextEle {
   bgColor?: string;
   padding?: string;
   lineHeight?: number;
-  size?: string;
+  fontSize?: string;
 }
 interface IInputText extends IInputTextEle {
   value?: string;
@@ -24,7 +24,7 @@ interface IInputText extends IInputTextEle {
   rows?: number;
 }
 
-const InputText = ( { rows, onClick, padding, lineHeight, value, defaultValue, onChange, noResize, placeholder, width, height, shadow, maxHeight, bold, bgColor, size }: IInputText) => {
+const InputText = ( { rows, onClick, padding, lineHeight, value, defaultValue, onChange, noResize, placeholder, width, height, shadow, maxHeight, bold, bgColor, fontSize }: IInputText) => {
   
   const inputRef = useRef<HTMLTextAreaElement>(null)
 
@@ -54,7 +54,7 @@ const InputText = ( { rows, onClick, padding, lineHeight, value, defaultValue, o
       bgColor={bgColor}
       padding={padding}
       lineHeight={lineHeight}
-      size={size}
+      fontSize={fontSize}
       rows={rows}
     />
   )

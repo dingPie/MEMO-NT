@@ -29,7 +29,7 @@ const Popup = ( { children, title, onClickCancel, onClickDo, cancelBtnName, doBt
             zIndex={zIndex}
             noBackground={noBackground}
           >
-          <Text bold center size='xl' padding="0" >
+          <Text bold center fontSize='xl' padding="0" >
             {title}
           </Text>
             {children}
@@ -54,7 +54,7 @@ const Popup = ( { children, title, onClickCancel, onClickDo, cancelBtnName, doBt
             noBackground={noBackground}
           >
 
-          <Text bold center size='xl' padding="0" >
+          <Text bold center fontSize='xl' padding="0" >
             {title}
           </Text>
             {children}
@@ -94,7 +94,7 @@ export const Inner = styled.div<IInner>`
 
   ${center}; // 중앙정렬
 
-  // size
+  // fontSize
   width: 17.5rem;
   min-height: 10rem;
   padding: 1rem;

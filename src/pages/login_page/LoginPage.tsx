@@ -44,7 +44,7 @@ const LoginPage = ( { fbAuth, user, setUser }: ILoginPage ) => {
   }
  
   return(
-    <MobileBox>
+    <>
       <Header
         page="login"
       />
@@ -55,7 +55,7 @@ const LoginPage = ( { fbAuth, user, setUser }: ILoginPage ) => {
         <Text 
           center 
           bold 
-          size="3x" 
+          fontSize="3x" 
         >
           LOGIN
         </Text>
@@ -69,7 +69,7 @@ const LoginPage = ( { fbAuth, user, setUser }: ILoginPage ) => {
           onClickGithubLogin={onClickGithubLogin}
         />
       </ColBox>
-    </MobileBox>
+    </>
   )
 }
 

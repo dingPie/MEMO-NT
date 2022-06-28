@@ -15,7 +15,7 @@ const WithSnsLogin = ( { onClickGoogleLlogin, onClickGithubLogin }: IWithSnsLogi
 
   return(
     <ColBox>
-      <Text bold size="xl" >
+      <Text bold fontSize="xl" >
         소셜 로그인으로 이용하기
       </Text>
 
@@ -40,7 +40,7 @@ const WithSnsLogin = ( { onClickGoogleLlogin, onClickGithubLogin }: IWithSnsLogi
           </Text>
         </LoginBtn>
 
-        <Text size="s">
+        <Text fontSize="s">
           메모 정보는Google의 Firebase에 저장됩니다. <br/>
           유저 정보 또한 Firebase에 암호화되어 저장됩니다.
         </Text>

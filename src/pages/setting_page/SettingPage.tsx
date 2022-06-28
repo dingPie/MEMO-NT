@@ -36,7 +36,7 @@ const SettingPage = ( { user, setUser, fbAuth }: ISettingPage ) => {
 
  
   return(
-      <MobileBox>
+      <>
         <Header page="setting" 
           onClickOtherBtn={onClickOtherBtn}
         />
@@ -47,7 +47,7 @@ const SettingPage = ( { user, setUser, fbAuth }: ISettingPage ) => {
         />
         {/* 삭제예약 설정 */}
         {/* <SetToBeDeletedTime /> */}
-      </MobileBox>
+      </>
   )
 }
 

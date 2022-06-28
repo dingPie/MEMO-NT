@@ -47,7 +47,7 @@ const TalkEditTagName = ( {
       <Text 
         bold 
         padding="0" 
-        size='l' 
+        fontSize='l' 
         width={1}
       >
        #
