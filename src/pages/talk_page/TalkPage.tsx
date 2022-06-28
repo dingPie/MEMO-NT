@@ -55,15 +55,18 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
 
   // 메모 불러오기
   const getMemoWithPagination = async (viewMemo: IMemo[], setViewMemo?: (v: IMemo[]) => void) => {
-    // loading.start();
-    await fbMemo.getMemo(viewMemo, setViewMemo)
-    // loading.finish();
+    loading.start();
+    const result = await fbMemo.getMemo(viewMemo, setViewMemo);
+    loading.finish();
+    console.log("불러오기 결과 확인", result)
   }
   // 메모 init 
   useEffect(() => {
-    if (!user) return
-    if (!viewMemo.length) fbMemo.initLastMemo()
-  }, [])
+    if (!viewMemo.length && tags.length >= 2) {
+      fbMemo.initLastMemo();
+      getMemoWithPagination(viewMemo, setViewMemo);
+    } 
+  }, [tags])
 
 
   // Header 버튼: grid 이동

@@ -53,45 +53,41 @@ function App( {fbAuth, fbTag, fbMemo }: IApp ) {
   const [user, setUser] = useState<User|null>(null)
   const [tags, setTags] = useState<ITag[]>([])
   
-
+  // 유저 가입여부 체크
   const CheckAndInitUser = async (user: User) => {
     const joinedResult = await fbAuth.getUserInfo(user.uid);
-    if (joinedResult) return
 
-    console.log("가입되지 않은 유저니까 init해줘야 해요!")
-    await fbAuth.addUser(user)
-    await fbTag.initTag(user.uid)
-    const initMemoId = await fbMemo.initMemo(user.uid)
-    fbTag.addUsedMemo("undefined", initMemoId!.undefinedMemoId)
-    fbTag.addUsedMemo("toBeDeleted", initMemoId!.toBeDeletedMemoId)
-    console.log("정상적으로 init 완료")
+    if (!joinedResult) {
+      loading.start();
+      console.log("새로 가입을 진행합니다");
+      await fbAuth.addUser(user);
+      await fbTag.initTag(user.uid);
+      const initMemoId = await fbMemo.initMemo(user.uid);
+      await fbTag.addUsedMemo("undefined", initMemoId!.undefinedMemoId);
+      await fbTag.addUsedMemo("toBeDeleted", initMemoId!.toBeDeletedMemoId);
+      loading.finish();
+      window.location.reload(); // 첫 유저의 경우, user 정보를 받아오는 것 보다 메모 init이 느린 관계로, 새로고침 작업
+    }
+    navitage('/talk', {replace: true})
   }
-  
+
+  // 팔레트 정보 세팅
   const setPalette = async () => {
     const paletteObj = await fbAuth.getPalette()
     palette.setPalette(paletteObj)
-    console.log( "팔레트 정보", palette.palette)
   } 
   
   useEffect(() => {
+    fbAuth.onCheckUser(setUser);
     if (user) {
       setPalette() // 색상설정 
       fbTag.setDoc(user) // uid 의존성 주입
       fbMemo.setDoc(user) // uid 의존성 주입
+      fbTag.onCheckTag(setTags);
       CheckAndInitUser(user) // 유저체크 및 생성
-      navitage('/talk')
     }
-    else if (user === null) {
-      navitage('/login')
-    }
+    navitage('/login')
   }, [user])
-
-  // 가장 처음: user 및 tag 정보를 실시간으로 받아와, state에 저장
-  useEffect(() => {
-    if (!user) fbAuth.onCheckUser(setUser);
-    else if (user) fbTag.onCheckTag(setTags);
-  }, [user])
-  
 
 
   return (
