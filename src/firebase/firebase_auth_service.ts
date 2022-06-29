@@ -22,10 +22,12 @@ import {
   getDocs, 
   orderBy, 
   query, 
-  setDoc 
+  setDoc, 
+  where,
+  updateDoc
 } from "firebase/firestore";
 import { IPalette } from "../store/palette";
-import { IUser } from "../utils/interface/interface";
+import { ITag, IUser } from "../utils/interface/interface";
 
 
 
@@ -89,13 +91,6 @@ export class FbAuth {
     })
   }
 
-  // async setUserReatTime () {
-  //   onIdTokenChanged(this.firebaseAuth, (user) => {
-  //     this.user = user
-  //     console.log( "유저 지정됨", this.user)
-  //   })
-  // }
-
   getLoginedUser () {
     return this.user
   }
@@ -157,4 +152,41 @@ export class FbAuth {
     })
   }
 
+  // 현재 시간을 삭제시간으로 정해놓은 유저 db 받아옴
+  async getUidToDeleteNow (hour: number)  {
+    const col = collection(this.fireStoreDB, this.doc)
+    const q = query(col, where("toBeDeletedTime", "==", hour))
+
+    const querySnapshot = await getDocs(q);
+    const testResult = querySnapshot.docs.map(data => data.id );
+    return testResult
+  }
+
+  // uid로 해당 유저의 toBeDeleted 태그정보 받아옴
+  async getToBeDeleted (uid: string): Promise<ITag> {
+    const docRef = doc(this.fireStoreDB, uid+"_tag", "toBeDeleted")
+    const result = await getDoc(docRef);
+    console.log(result.data())
+    return result.data() as ITag
+  }
+
+  // uid와 memoId를 인자로 받아 메모 삭제
+  async toBeDeleteMemo (uid: string, memoId: string) {
+    const docRef = doc(this.fireStoreDB, uid+"_memo", memoId)
+    await deleteDoc(docRef)
+  }
+
+  // toBeDeleted 태그의 usedMemo 초기화
+  async toResetToBeDeleted (uid: string) {
+    const docRef = doc(this.fireStoreDB,  uid+"_tag", "toBeDeleted")
+    await updateDoc(docRef, { usedMemo: [] } );
+  }
+
+  // 1. getCurrentUserToDelete() 으로 현재 시간에 toBeDeleted 메모를 삭제할 유저 목록을 가져온다.
+  // 2.  const toBeDeleted = getDoc(this.fireStoreDB, uid+"_tag", "toBeDeleted"); // 유저Id를 통해 해당 유저의 usedMemo값을 확인한다.
+  // 3. 만약 toBeDeleted.usedMemo.length === 0 이면 넘긴다.
+  // 4. toBeDeleted.usedMemo.map( async memoId => await deleteDoc(doc(this.fireStoreDB, uid+"_memo", memoId))); 로 비동기 반복문으로 하나씩 삭제해준다.
+  // 5. const result = await updateDoc(doc(this.fireStoreDB,  uid+"_tag", "toBeDeleted"), {usedMemo: []} ); 사용된 메모를 빈 값으로 만들어 준다.
+  // 6. 빈 태그를 삭제할까? 관련 로직 고민.
+  // map을 두번 사용해야 될 듯 하다...
 }

@@ -58,7 +58,6 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
     loading.start();
     const result = await fbMemo.getMemo(viewMemo, setViewMemo);
     loading.finish();
-    console.log("불러오기 결과 확인", result)
   }
   // 메모 init 
   useEffect(() => {
