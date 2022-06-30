@@ -14,6 +14,8 @@ import SetToBeDeletedTime from "./SetToBeDeletedTime";
 import { useNavigate } from "react-router";
 import { User } from "firebase/auth";
 import { FbAuth } from "../../firebase/firebase_auth_service";
+import Loading from "react-loading";
+import useStore from "../../store/useStore";
 
 
 interface ISettingPage {
@@ -25,6 +27,7 @@ interface ISettingPage {
 const SettingPage = ( { user, setUser, fbAuth }: ISettingPage ) => {
   
   const navigate = useNavigate();
+  const { loading } = useStore();
 
   const onClickOtherBtn = () => {
     navigate(-1)
@@ -47,6 +50,9 @@ const SettingPage = ( { user, setUser, fbAuth }: ISettingPage ) => {
         />
         {/* 삭제예약 설정 */}
         {/* <SetToBeDeletedTime /> */}
+        { loading.isLoading &&
+        <Loading />
+      }
       </>
   )
 }

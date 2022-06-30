@@ -63,8 +63,7 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
 
 
   useEffect(() => {
-    console.log("몇번실행?")
-    const job = schedule.scheduleJob({hour: [new schedule.Range(0, 7)] }, async () => { // [new schedule.Range(2, 7)]
+    const job = schedule.scheduleJob({hour: [new schedule.Range(2, 7)] }, async () => { // [new schedule.Range(2, 7)]
       const nowHour = new Date().getHours();
       const uidDeleteNowArr = await fbAuth.getUidToDeleteNow(nowHour) // 현재 시간의 삭제할 메모 불러오기
       console.log("현재 시간", nowHour, "삭제할 uid 목록", uidDeleteNowArr)
@@ -75,10 +74,10 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
         toBeDeleted.usedMemo.map( async (memoId) => fbAuth.toBeDeleteMemo(uid, memoId))  // 있으면 async 반복문으로 하나씩 삭제 해 줌 
         fbAuth.toResetToBeDeleted(uid)
 
-        console.log("빈태그 삭제 or 종료")
+        console.log("빈태그 삭제 관련 로직 or 종료")
       })
     })
-    // job.cancel()
+    job.cancel()
     }, [])
     
 
@@ -118,10 +117,16 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
       fbMemo.setDoc(user) // uid 의존성 주입
       fbTag.onCheckTag(setTags);
       CheckAndInitUser(user) // 유저체크 및 생성
+      console.log("여기 함수부분이 실행됩니다.")
     }
     navitage('/login')
   }, [user])
 
+
+  useEffect(() => {
+    console.log("로딩상태 확인", loading.isLoading)
+  }, [loading.isLoading])
+  
 
   return (
     <MobileBox>
@@ -168,9 +173,7 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
         />
       </Routes>
 
-      { loading.isLoading &&
-        <Loading />
-      }
+
     </MobileBox>
   );
 }

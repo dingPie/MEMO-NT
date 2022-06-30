@@ -113,6 +113,7 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
   // 메모 삭제
   const deleteMemo = async () => {
     loading.start();
+    console.log("로당상태 확인", loading.isLoading)
     await fbMemo.deleteMemo(selectedMemo!.id)
     await fbTag.deleteUsedMemo(selectedMemo!)
     // await fbTag.deleteTag(selectedMemo.tagId) // 태그 삭제 관련은 고민해야함
@@ -125,12 +126,13 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
     setIsOpenDeletePopup(false)
     // alert("삭제되었습니다.");
     loading.finish();
+    console.log("로당상태 확인", loading.isLoading)
   }
   
 
 
   return(
-    <MobileBox>
+    <>
       
       <Header 
         page="talk"
@@ -200,8 +202,10 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
           onClickDo={deleteMemo}
         />
       }
-
-    </MobileBox>
+      { loading.isLoading &&
+        <Loading />
+      }
+    </>
   )
 }
 

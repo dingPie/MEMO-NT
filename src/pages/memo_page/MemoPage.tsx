@@ -129,6 +129,10 @@ const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
           isOpenDeleteMemo={isOpenDeleteMemo}
           setIsOpenDeleteMemo={setIsOpenDeleteMemo}
         />
+
+      { loading.isLoading &&
+        <Loading />
+      }
       </>
   )
 }
