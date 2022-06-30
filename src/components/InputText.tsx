@@ -32,7 +32,6 @@ const InputText = ( { rows, onClick, padding, lineHeight, value, defaultValue, o
     if (!ref.current || noResize) return
     ref.current.style.height = "auto" ; // 줄어들때 먼저 설정
     ref.current.style.height = ref.current.scrollHeight +"px";
-    console.log("높이설정", ref.current.scrollHeight)
   }
   
   

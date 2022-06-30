@@ -16,6 +16,8 @@ import WithSnsLogin from "./WithSnsLogin";
 // firebase
 import { FbAuth } from "../../firebase/firebase_auth_service";
 import { User } from "firebase/auth";
+import useStore from "../../store/useStore";
+import Loading from "react-loading";
 
 interface ILoginPage {
   fbAuth: FbAuth;
@@ -26,7 +28,7 @@ interface ILoginPage {
 const LoginPage = ( { fbAuth, user, setUser }: ILoginPage ) => {
 
   const navigate = useNavigate();
-
+  const { loading } = useStore();
 
   const onClickWithoutLogin = () => {
     alert("작동안함")
@@ -69,6 +71,9 @@ const LoginPage = ( { fbAuth, user, setUser }: ILoginPage ) => {
           onClickGithubLogin={onClickGithubLogin}
         />
       </ColBox>
+      { loading.isLoading &&
+        <Loading />
+      }
     </>
   )
 }

@@ -70,6 +70,7 @@ const TalkInpuContainer = ( {  fbMemo, fbTag, tags, editMemo, setEditMemo, viewM
     if (!inputMemo) return
     // 메모 수정
     loading.start();
+    console.log("로딩상태", loading.isLoading)
     if (editMemo) {
       const newTag = await onClickEditTag(editMemo) // 태그 데이터 수정 (수정할 메모와 관련된 태그데이터 수정)
       onClickEditMemo(editMemo, inputMemo) // 메모 데이터 수정
@@ -79,6 +80,7 @@ const TalkInpuContainer = ( {  fbMemo, fbTag, tags, editMemo, setEditMemo, viewM
         tagId: newTag.id,
         content: inputMemo
       }
+      console.log(newTag, "결과는 잘 나오나")
       const newArr = viewMemo.map(v => v.id === editMemo.id ? editedMemo : v)
       setViewMemo(newArr)
       setEditMemo(null)
@@ -90,15 +92,17 @@ const TalkInpuContainer = ( {  fbMemo, fbTag, tags, editMemo, setEditMemo, viewM
       focusLastMemo(talkBoxRef) // 추가한 메모 보기
     }
     loading.finish();
+    console.log("로딩상태", loading.isLoading)
     setInputMemo("") // 이건 둘 다 실행되어야 함.
   }
 
   // 메모 수정시 태그 수정 
   const onClickEditTag = async (editMemo: IMemo) => {
-    loading.start();
     const targetTag = getTagWithMemo(tags, editMemo) // 현재 메모의 태그 정보
     if (targetTag.name === editTagName) return targetTag // 태그이름이 수정되지 않았으면 리턴
-
+    // console.log("로딩상태", loading.isLoading)
+    // loading.start();
+    // console.log("로딩상태", loading.isLoading)
     let newTag = getTagWithTagName(tags, editTagName); // 이름이 같은 태그가 존재하는지 검사
     if (!newTag) newTag = await fbTag.addTag(editTagName) as ITag; // 현재 태그가 태그목록에서 없으면 새 태그 생성 
     
@@ -106,7 +110,8 @@ const TalkInpuContainer = ( {  fbMemo, fbTag, tags, editMemo, setEditMemo, viewM
     await fbTag.addUsedMemo(newTag.id, editMemo.id)  // 존재하던 태그에 수정한 메모 id 넣어주고
     await fbTag.deleteUsedMemo(editMemo) // 현재 태그에서 editMemo에서 현재 메모 아이디 빼주고
     
-    loading.finish();
+    // loading.finish();
+    // console.log("로딩상태", loading.isLoading)
     return newTag; // 새 태그 반환
     // if (getTagWithMemo(editMemo).usedMemo.length === 0 ) {
     //   await fbTag.deleteTag(editMemo.tagId)
@@ -119,13 +124,16 @@ const TalkInpuContainer = ( {  fbMemo, fbTag, tags, editMemo, setEditMemo, viewM
   const onClickEditMemo = async (editMemo: IMemo, inputMemo: string) => {
     if (editMemo.content === inputMemo) return
     loading.start();
+    console.log("로딩상태", loading.isLoading)
     fbMemo.editMemoContent(editMemo.id, inputMemo)
     loading.finish();
+    console.log("로딩상태", loading.isLoading)
   }
 
   // 메모 추가시
   const onClickAddMemo = async (inputMemo: string) => {
     loading.start();
+    console.log("로딩상태", loading.isLoading)
     const target = inputMemo.split("#")
     let content = target[0]
     let tagName = target[1]
@@ -138,6 +146,7 @@ const TalkInpuContainer = ( {  fbMemo, fbTag, tags, editMemo, setEditMemo, viewM
     const newMemo = await fbMemo.addMemo(newTag.id, content) // 메모 추가하고
     fbTag.addUsedMemo(newTag.id, newMemo!.id) // 사용한 태그에 현재 메모 로그를 추가해준다.
     loading.finish();
+    console.log("로딩상태", loading.isLoading)
     return newMemo 
   }
 
