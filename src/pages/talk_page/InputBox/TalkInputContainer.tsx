@@ -31,6 +31,7 @@ const TalkInpuContainer = ( {  fbMemo, fbTag, tags, editMemo, setEditMemo, viewM
 
   const [toBeDeleteTag, setToBeDeleteTag] = useState<string>('') // 빈태그 체그 및 삭제
 
+
   // editmemo 설정시 tagName , content input state 설정
   useEffect(() => {
     if (!editMemo) return
@@ -38,6 +39,7 @@ const TalkInpuContainer = ( {  fbMemo, fbTag, tags, editMemo, setEditMemo, viewM
     const tagName = editMemo.tagId === "undefined" ? "" : getTagWithMemo(tags, editMemo).name
     onChangeTagName(null, tagName)
   }, [editMemo])
+
 
   useEffect(() => {
     if (!toBeDeleteTag) return
@@ -66,9 +68,8 @@ const TalkInpuContainer = ( {  fbMemo, fbTag, tags, editMemo, setEditMemo, viewM
     else if (tagName !== undefined) setEditTagName(tagName)
   }
 
-  /*
-    input memo가 바뀔때마다 실행되는 로직 -> input창 크기감지 / 추천 검색어 표시
-  */ 
+  
+  //input memo가 바뀔때마다 실행되는 로직 -> input창 크기감지 / 추천 검색어 표시 
   const onChangeInputMemo = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     let { value } = e.target
     const tagName = value.split("#")[1];
@@ -79,9 +80,8 @@ const TalkInpuContainer = ( {  fbMemo, fbTag, tags, editMemo, setEditMemo, viewM
     setInputMemo(value)
   }
 
-  /*
-    태그 input 버튼 클릭 => editMemo 유무에 따라 edit or add 로직 발생
-  */ 
+  
+  // 태그 input 버튼 클릭 => editMemo 유무에 따라 edit or add 로직 발생
   const onClickInputBtn = async () => {
     if (!inputMemo) return
     loading.start();
@@ -166,6 +166,8 @@ const TalkInpuContainer = ( {  fbMemo, fbTag, tags, editMemo, setEditMemo, viewM
     // inputText도 focus 하고싶은데, 하위에 어려개 ref를 어떻게 설정하는지 몰라서 잠시 멈춤.
     // 또한, TextArea는 Resize때문에 Ref 또한 적용되어 있어서...애매함.
   }
+
+
 
   return (
     <>

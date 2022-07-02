@@ -34,14 +34,14 @@ const SetUser = ( { user, onClickLogout }: ISetUser ) => {
         <>
           <RowBox 
             between align="center" 
-            padding="0"
+            padding="0 .5rem"
           >
             <Text bold fontSize='xl' width={10}>
               연결된 계정
             </Text>
             <CustomBtn
               color="white"
-              bgColor="#505050"
+              bgColor="#679BFF"
               padding=".25rem 1rem"
               height={2}
               onClick={onClickLogout}
@@ -125,10 +125,12 @@ export default SetUser;
 
 const UserBox = styled.div`
   display: flex;
+  justify-content:center;
   align-items: center;
   gap: 1.5rem;
   
   padding: .5rem .75rem;
+  margin: 0 .5rem;
   height: 4rem;
 
   background: #FFFFFF;

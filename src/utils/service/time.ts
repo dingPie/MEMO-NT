@@ -13,4 +13,21 @@ export class Time {
     
     return result
   }
+
+   KorDate()  {
+    const now = new Date();
+    const utcNow = now.getTime() + (now.getTimezoneOffset() * 60 * 1000);
+    const koreaTimeDiff = 9 * 60 * 60 * 1000;
+    const koreaNow = new Date(utcNow + koreaTimeDiff);
+    return koreaNow
+  }
+
+  getDateOfDeletion () {
+    var date = this.KorDate();
+    var year = date.getFullYear();
+    var month = ("0" + (1 + date.getMonth())).slice(-2);
+    var day = ("0" + date.getDate()).slice(-2);
+  
+    return parseInt(year + month + day);
+  }
 }

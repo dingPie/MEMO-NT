@@ -28,8 +28,10 @@ import {
 } from "firebase/firestore";
 import { IPalette } from "../store/palette";
 import { IMemo, ITag, IUser } from "../utils/interface/interface";
+import { Time } from "../utils/service/time";
 
 
+const time = new Time();
 
 export class FbAuth {
   private firebaseAuth: Auth // auth 의존성주입
@@ -43,7 +45,6 @@ export class FbAuth {
     this.doc = "user"
     this.user = null
   }
-
 
 
   // 구글로 로그인
@@ -108,10 +109,10 @@ export class FbAuth {
   // 유저 DB에 유저 추가
   async addUser (user: User) {
     const newUser = {
-      toBeDeletedTime: 3, // number 삭제 예정시간
+      uid: user.uid,
       pinndMemo: "", // pinnedMemo Id
-      
-      // uid: user.uid,
+      toBeDeletedTime: 3, // number 삭제 예정시간
+      dateOfDeletion: time.getDateOfDeletion()
       // provider: user.providerData[0].providerId,
       // name: user.displayName,
       // email: user.email,
@@ -151,6 +152,13 @@ export class FbAuth {
       resolve(result as unknown as IPalette) // 왜 이렇게하지...
     })
   }
+
+  async updatetoBeDeletedTime (uid: string, newTime: number ) {
+    const docRef = doc(this.fireStoreDB, this.doc, uid)
+    updateDoc(docRef, { toBeDeletedTime: newTime })
+    console.log("삭제시간 변경완료",newTime )
+  }
+
 
 
 }
