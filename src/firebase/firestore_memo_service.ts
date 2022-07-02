@@ -19,7 +19,8 @@ import {
   QueryDocumentSnapshot, 
   DocumentData, 
   Firestore,
-  collectionGroup} from "firebase/firestore";
+  collectionGroup 
+} from "firebase/firestore";
 import { IMemo, ITag } from "../utils/interface/interface";
 
 
@@ -57,9 +58,7 @@ export class FbMemo {
   }
 
   /* 메모 이니셜라이즈 (set) */
-  async initMemo (
-    uid?: string
-  ) {
+  async initMemo ( uid?: string ) {
     const undefinedTime = Date.now();
     const docId = uid ? uid+"_memo" : this.doc // init 절차 및 인스턴스 생성 범위 때문에 외부 주입도 고려
     const undefinedMemo = {
@@ -115,10 +114,7 @@ export class FbMemo {
   }
 
   // 새 메모 추가
-  async addMemo (
-    tagId: string,
-    newContent: string
-  ) {
+  async addMemo ( tagId: string, newContent: string ) {
     const nowTime = Date.now()
     const newMemo = {
       id: nowTime.toString(),
@@ -137,10 +133,7 @@ export class FbMemo {
   }
 
   // 메모 내용 변경
-  async editMemoContent (
-    memoId: string,
-    editContent: string
-  ) {
+  async editMemoContent (memoId: string, editContent: string) {
 
     const docRef = doc(this.fireStoreDB, this.doc, memoId)
     try {
@@ -154,10 +147,7 @@ export class FbMemo {
   }
 
   // 메모 태그 변경
-  async editMemoUsedTag (
-    memoId: string,
-    newTagId: string
-  ) {
+  async editMemoUsedTag ( memoId: string, newTagId: string ) {
 
     const docRef = doc(this.fireStoreDB, this.doc, memoId)
     try {
@@ -171,9 +161,7 @@ export class FbMemo {
   }
 
   // 메모 삭제
-  async deleteMemo (
-    memoId: string,
-    ) {
+  async deleteMemo ( memoId: string ) {
     const docRef = doc(this.fireStoreDB, this.doc, memoId);
 
     try {
@@ -186,14 +174,19 @@ export class FbMemo {
 
   // tagId와 같은 메모를 전부 가져온다.
   async getMemoWithTag (tag: ITag, gridPage?: "gridPage" ): Promise<IMemo[]> {
-    let q = query(collection(this.fireStoreDB, this.doc), where("tagId", "==", tag.id)); 
-    if (gridPage) q = query(collection(this.fireStoreDB, this.doc), where("tagId", "==", tag.id), limit(3));
+    const col = collection(this.fireStoreDB, this.doc)
+    let q = query(col, where("tagId", "==", tag.id)); 
+    if (gridPage) q = query(col, where("tagId", "==", tag.id), limit(3));
 
     return new Promise( async(resolve, rejects) => {
       const querySnapshot = await getDocs(q);
       const result = querySnapshot.docs.map(doc => doc.data() as IMemo)
       resolve(result)
     })
+  }
+
+  async 핀저장 () {
+    // const 
   }
 
   
