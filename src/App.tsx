@@ -112,11 +112,12 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
         />
         <Route path="/talk" element={
           <TalkPage
+            fbAuth={fbAuth}
+            fbTag={fbTag}
+            fbMemo={fbMemo}
             user={user}
             tags={tags}
             setTags={setTags}
-            fbMemo={fbMemo}
-            fbTag={fbTag}
           />} 
         />
         <Route path="/grid" element={

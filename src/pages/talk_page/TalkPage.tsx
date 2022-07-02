@@ -1,7 +1,8 @@
-import React, { useRef, useState, useEffect, useCallback } from "react";
+import React, { useRef, useState, useEffect, useCallback, useMemo } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
 
+import { FbAuth } from "../../firebase/firebase_auth_service";
 import { FbTag } from "../../firebase/firestore_tag_service";
 import { FbMemo } from "../../firebase/firestore_memo_service";
 import { User } from "firebase/auth";
@@ -22,11 +23,12 @@ import useStore from "../../store/useStore";
 
 
 interface ITalkPage {
+  fbMemo: FbMemo;
+  fbTag: FbTag;
+  fbAuth: FbAuth;
   user: User | null;
   tags: ITag[];
   setTags: (v: ITag[]) => void;
-  fbMemo: FbMemo;
-  fbTag: FbTag;
 }
 
 export interface TalkProps {
@@ -34,7 +36,7 @@ export interface TalkProps {
 }
 
 
-const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
+const TalkPage = ( { fbMemo, fbTag, fbAuth, user, tags, setTags }: ITalkPage ) => {
 
   const navigate = useNavigate();
   const { loading } = useStore();
@@ -61,11 +63,30 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
   }
   // 메모 init 
   useEffect(() => {
-    if (!viewMemo.length && tags.length >= 2) {
+    if (!viewMemo.length && tags.length >= 2) { // 오류를 막기 위한 조건문
       fbMemo.initLastMemo();
       getMemoWithPagination(viewMemo, setViewMemo);
     } 
   }, [tags])
+
+  // useEffect(() => {
+  //   if (user && viewMemo) {
+  //     initPinnedMemo(user)
+  //   } 
+  // }, [viewMemo])
+  
+  // const initPinnedMemo = async (user: User) => {
+  //   const userInfo = await fbAuth.getUserInfo(user.uid)
+  // }
+
+  
+  // 이걸로 핀 메모 대체하자.
+  const testSelectMemo = useMemo( async () => {
+    if (!user) return ""
+    const userInfo = await fbAuth.getUserInfo(user.uid)
+    const result = await fbMemo.getPinnedMemo(userInfo.pinnedMemo)
+    return result
+  }, [])
 
 
   // Header 버튼: grid 이동
@@ -113,20 +134,23 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
   // 메모 삭제
   const deleteMemo = async () => {
     loading.start();
-    console.log("로당상태 확인", loading.isLoading)
     await fbMemo.deleteMemo(selectedMemo!.id)
     await fbTag.deleteUsedMemo(selectedMemo!)
     // await fbTag.deleteTag(selectedMemo.tagId) // 태그 삭제 관련은 고민해야함
 
     const newViewMemo = viewMemo.filter(v => v.id !== selectedMemo!.id);
     setViewMemo(newViewMemo);
-
-    if (selectedMemo === pinnedMemo) setPinnedMemo(null)
-    setSelectedMemo(null)
-    setIsOpenDeletePopup(false)
-    // alert("삭제되었습니다.");
+    if (selectedMemo === pinnedMemo) {
+      setPinnedMemo(null);
+    } 
+    setSelectedMemo(null);
+    setIsOpenDeletePopup(false);
+    
+    // 태그 삭제로직
+    const test = await fbTag.checkUsedMemoLength(selectedMemo!.tagId)
+    if (!test) await fbTag.deleteTag(selectedMemo!.tagId)
+    
     loading.finish();
-    console.log("로당상태 확인", loading.isLoading)
   }
   
 
@@ -169,9 +193,11 @@ const TalkPage = ( { user, tags, setTags, fbMemo, fbTag, }: ITalkPage ) => {
       
       <InputOuterBox>
         {/* Talk menu 관련  */}
-        <MenuContainer 
+        <MenuContainer
+          fbAuth={fbAuth}
           fbTag={fbTag} 
-          fbMemo={fbMemo} 
+          fbMemo={fbMemo}
+          user={user}
           viewMemo={viewMemo} 
           selectedMemo={selectedMemo} 
           pinnedMemo={pinnedMemo} 

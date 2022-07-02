@@ -1,4 +1,4 @@
-import  React, { useState } from "react";
+import  React, { useEffect, useState } from "react";
 import useStore from "../../../store/useStore";
 
 import { CustomBtn } from "../../../components/Buttons";
@@ -11,6 +11,7 @@ import { IEditMemo, MemoProps } from "../MemoPage";
 import MemoContent from "./MemoContent";
 import MemoInputAdd from "./MemoInputAdd";
 import MemoInputEdit from "./MemoInputEdit";
+import { useNavigate } from "react-router";
 
 interface IMemoContentContainer extends MemoProps {
   // memo: IMemo;
@@ -22,6 +23,7 @@ interface IMemoContentContainer extends MemoProps {
 const MemoContentContainer = ( {  fbTag, fbMemo, tag, memoList, setMemoList,  isOpenMenu }: IMemoContentContainer ) => {
 
   const { loading } = useStore();
+  const navigate = useNavigate();
   const [isOpenInputMemo, setIsOpenInputMemo] = useState(false);
   const [inputMemo, setInputMemo] = useState("");
   const [editMemo, setEditMemo] = useState<IEditMemo | null>(null)
@@ -92,17 +94,22 @@ const MemoContentContainer = ( {  fbTag, fbMemo, tag, memoList, setMemoList,  is
 
   // 메모 삭제 로직
   const onClickDoDeleteMemo = async (e: React.MouseEvent<HTMLDivElement>, editMemo: IEditMemo) => {
-    const confirm = window.confirm("이 메모를 삭제할까요?")
     setEditMemo(null)
+    const confirm = window.confirm("이 메모를 삭제할까요?")
     if (!confirm) return
+
     loading.start();
     await fbMemo.deleteMemo(editMemo.memo!.id)
     await fbTag.deleteUsedMemo(editMemo.memo!)
-    // await fbTag.deleteTag(selectedMemo.tagId) // 태그 삭제 관련은 고민해야함
-
     const newViewMemo = memoList.filter(memo => memo.id !== editMemo.memo.id );
     setMemoList(newViewMemo);
     loading.finish();
+
+    // 해당 태그의 메모가 비었을 떄 삭제
+    if (newViewMemo.length === 0) { 
+      fbTag.deleteTag(editMemo.memo!.tagId)
+      navigate('/grid')
+    }
   }
 
 

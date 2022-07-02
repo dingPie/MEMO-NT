@@ -1,4 +1,3 @@
-import { rejects } from "assert";
 import { Auth, User } from "firebase/auth";
 import { 
   collection,
@@ -166,7 +165,7 @@ export class FbMemo {
 
     try {
       await deleteDoc(docRef);
-      console.log( memoId, "태그 삭제완료")
+      console.log( memoId, "메모 삭제완료")
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -185,9 +184,18 @@ export class FbMemo {
     })
   }
 
-  async 핀저장 () {
-    // const 
+  async getPinnedMemo (memoId: string) {
+    const docRef = doc(this.fireStoreDB, this.doc, memoId);
+
+    try {
+      const docSnap = await getDoc(docRef);
+      console.log(docSnap.data())
+      return docSnap.data() as IMemo;
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
   }
+  
 
   
   // 딱 세개만 가져오는걸 해야되는데..

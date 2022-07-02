@@ -153,14 +153,18 @@ export class FbAuth {
     })
   }
 
+  // 삭제예정시간 업데이트
   async updatetoBeDeletedTime (uid: string, newTime: number ) {
     const docRef = doc(this.fireStoreDB, this.doc, uid)
     updateDoc(docRef, { toBeDeletedTime: newTime })
     console.log("삭제시간 변경완료",newTime )
   }
 
-
-
+  // 핀 설정
+  async setPinnedMemo (uid: string, memoId: string) {
+    const docRef = doc(this.fireStoreDB, this.doc, uid)
+    await updateDoc(docRef, { pinndedMemo: memoId })
+  }
 }
 
 
