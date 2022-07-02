@@ -24,11 +24,6 @@ import {
 
 import { IMemo, ITag } from "../utils/interface/interface";
 
-interface Test {
-  name: string,
-  color: string | number,
-  usedMemo: []
-}
 
 export class FbTag {
   private firebaseAuth: Auth // auth 의존성주입
@@ -40,7 +35,7 @@ export class FbTag {
     this.firebaseAuth = firebaseAuth
     this.fireStoreDB = fireStoreDB
     this.doc = "default"
-    this.paletteLength = 10 // 0, 1번을 제외한 팔레트 수
+    this.paletteLength = 9 // 0, 1번을 제외한 팔레트 수
   }
 
   setDoc (user: User) {
@@ -91,9 +86,7 @@ export class FbTag {
   }
 
   // 새 태그 추가
-  async addTag (
-    tagName: string
-    ) {
+  async addTag (tagName: string ) {
     const newTag: any = {
       name: tagName,
       color: (Date.now()%this.paletteLength + 2).toString() , // 기본 색상
@@ -112,10 +105,7 @@ export class FbTag {
   }
 
   // 해당 태그에 사용한 메모 추가
-  async addUsedMemo (
-    tagId: string,
-    memoId: string,
-  ) {
+  async addUsedMemo ( tagId: string, memoId: string ) {
     const docRef = doc(this.fireStoreDB, this.doc, tagId)
     try {
         await updateDoc( docRef, {
@@ -130,9 +120,7 @@ export class FbTag {
 
 
   // 해당 태그에 사용한 메모 삭제
-  async deleteUsedMemo (
-    memo: IMemo,
-  ) {
+  async deleteUsedMemo ( memo: IMemo ) {
     const docRef = doc(this.fireStoreDB, this.doc, memo.tagId)
     try {
       await updateDoc( docRef, {
@@ -145,10 +133,7 @@ export class FbTag {
   }
 
   // 해당 태그에 사용한 메모 전부 추가
-  async addUsedMemoAll (
-    tagId: string,
-    usedMemoArr: string[]
-  ) {
+  async addUsedMemoAll ( tagId: string,  usedMemoArr: string[] ) {
     const docRef = doc(this.fireStoreDB, this.doc, tagId)
 
     try {
@@ -180,9 +165,7 @@ export class FbTag {
 
 
   // 태그 색상변경
-  async editTagColor (
-    tagId: string,
-    changeColor: string, // 추후 colorCode의 id 방식으로 변경 
+  async editTagColor ( tagId: string, changeColor: string, // 추후 colorCode의 id 방식으로 변경 
     ) {
     const docRef = doc(this.fireStoreDB, this.doc, tagId);
     
@@ -197,10 +180,7 @@ export class FbTag {
   }
 
   // 태그 이름 변경
-  async editTagName (
-    tagId: string,
-    changeName: string, 
-    ) {
+  async editTagName (tagId: string, changeName: string ) {
     const docRef = doc(this.fireStoreDB, this.doc, tagId);
 
     try {
@@ -214,9 +194,7 @@ export class FbTag {
   }
 
   // 태그 삭제
-  async deleteTag (
-    tagId: string,
-    ) {
+  async deleteTag (tagId: string) {
     const docRef = doc(this.fireStoreDB, this.doc, tagId);
 
     try {
@@ -226,5 +204,12 @@ export class FbTag {
       console.error("Error adding document: ", e);
     }
   }
-  
+
+  // 현재 태그의 (태그명 변경하고 난 후 태그의) 길이 확인
+  async checkUsedMemoLength (tagId: string) {
+    const docRef = doc(this.fireStoreDB, this.doc, tagId);
+    const docSnap = await getDoc(docRef);
+    const data = docSnap.data() as ITag
+    return data.usedMemo.length
+  }
 }

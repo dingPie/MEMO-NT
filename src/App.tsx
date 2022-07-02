@@ -27,7 +27,7 @@ import useStore from './store/useStore';
 import { MainBtn } from './components/Buttons';
 import { User } from 'firebase/auth';
 import { FbTag } from './firebase/firestore_tag_service';
-import { ITag } from './utils/interface/interface';
+import { IMemo, ITag } from './utils/interface/interface';
 import { IPalette } from './store/palette';
 import { toJS } from 'mobx';
 import Loading from './components/Loading';
@@ -45,44 +45,10 @@ interface IApp {
 
 const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
 
-  // const job = schedule.scheduleJob({hour: 23, second: [0, 30]}, async () => { //new schedule.Range(50, 55)
-  //   if (!user) return
-  //   console.log('11시 매 분 실행됩니다.');
-  //   // const newMemo = await fbMemo.addMemo("toBeDeleted", `${new Date().getMinutes()}분에 자동으로 추가 된 데이터입니다`)
-  //   // fbTag.addUsedMemo("toBeDeleted", newMemo!.id)
-  // })
-
-
-
   const { palette, loading } = useStore();
   const navitage = useNavigate();
   const [user, setUser] = useState<User|null>(null)
   const [tags, setTags] = useState<ITag[]>([])
-
-
-
-
-  useEffect(() => {
-    const job = schedule.scheduleJob({hour: [new schedule.Range(2, 7)] }, async () => { // [new schedule.Range(2, 7)]
-      const nowHour = new Date().getHours();
-      const uidDeleteNowArr = await fbAuth.getUidToDeleteNow(nowHour) // 현재 시간의 삭제할 메모 불러오기
-      console.log("현재 시간", nowHour, "삭제할 uid 목록", uidDeleteNowArr)
-
-      uidDeleteNowArr.map( async uid => {
-        const toBeDeleted: ITag = await fbAuth.getToBeDeleted(uid) // 현재 시간대에 삭제할 유저들 id 
-        if (!toBeDeleted || !toBeDeleted.usedMemo.length) return; // toBeDeleted 메모가 없으면 넘어감
-        toBeDeleted.usedMemo.map( async (memoId) => fbAuth.toBeDeleteMemo(uid, memoId))  // 있으면 async 반복문으로 하나씩 삭제 해 줌 
-        fbAuth.toResetToBeDeleted(uid)
-
-        console.log("빈태그 삭제 관련 로직 or 종료")
-      })
-    })
-    job.cancel()
-    }, [])
-    
-
-
-
 
   
   // 유저 가입여부 체크
@@ -107,6 +73,7 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
   const setPalette = async () => {
     const paletteObj = await fbAuth.getPalette()
     palette.setPalette(paletteObj)
+    console.log(paletteObj)
   } 
   
   useEffect(() => {
@@ -122,10 +89,6 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
     navitage('/login')
   }, [user])
 
-
-  useEffect(() => {
-    console.log("로딩상태 확인", loading.isLoading)
-  }, [loading.isLoading])
   
 
   return (

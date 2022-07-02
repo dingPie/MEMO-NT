@@ -1,54 +1,9 @@
-# runtime: nodejs
-# env: flex
+runtime: nodejs
+env: flex
 
-# manual_scaling:
-#   instances: 1
-# resources:
-#   cpu: 1
-#   memory_gb: 0.5
-#   disk_size_gb: 10
-
-
-#!/usr/bin/env bash
-
-# enable GCP apis
-gcloud services enable appengine.googleapis.com
-
-export APP_NAME="memont"
-export PROJECT_ID="memont-51c30"
-
-# bootstrap app using create-react-app
-npx create-react-app memont
-cd memont
-
-# install app
-npm install
-npm audit fix # just in case vulnerabilities
-
-# test it works, view in browser, then CTRL+C
-npm start
-
-# build app for production (creates build/ folder)
-npm build
-
-# create app engine config file (app.yaml)
-cat > app.yaml << EOF
-env: standard
-runtime: nodejs16
-service: app-engine-react-demo
-handlers:
-  - url: /static
-    static_dir: build/static
-  - url: /(.*\.(json|ico|js))$
-    static_files: build/\1
-    upload: build/.*\.(json|ico|js)$
-  - url: .*
-    static_files: build/index.html
-    upload: build/index.html
-EOF
-
-# deploy app to app engine (if first deploy potentially select region)
-gcloud app deploy --project=memont-51c30 --quiet
-
-# wait several minutes then visit the URL provided in output
-gcloud app browse -s memont
+manual_scaling:
+  instances: 1
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10
