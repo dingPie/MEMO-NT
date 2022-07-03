@@ -8,11 +8,13 @@ import Text from "../../../components/Text";
 import { ITag } from "../../../utils/interface/interface";
 import { setTalkTag } from "../../talk_page/utils/talk_service";
 
+
 interface IMemoName {
   tag: ITag;
   isOpenMenu?: boolean;
   onClickTagName?: () => void;
 }
+
 
 const MemoName = ( { tag, isOpenMenu, onClickTagName }: IMemoName ) => {
 

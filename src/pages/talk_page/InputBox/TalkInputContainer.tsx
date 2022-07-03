@@ -8,11 +8,11 @@ import { getTagWithMemo, getTagWithTagName, focusLastMemo } from "../utils/talk_
 import useStore from "../../../store/useStore";
 
 import TalkInput from "./TalkInput";
-import { TalkProps } from "../TalkPage";
 import TalkEditTagName from "./TalkEditTagName";
 import TalkInputOption from "./TalkInputOption";
 
-interface ITalkInpuContainer extends TalkProps {
+interface ITalkInpuContainer {
+  tags: ITag[];
   fbMemo: FbMemo;
   fbTag: FbTag;
   editMemo: IMemo | null;

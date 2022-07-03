@@ -1,19 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
-import { CustomBtn } from "../../components/Buttons";
-import { ColBox, RowBox } from "../../components/FlexBox";
+import React, { useEffect, useRef, useState } from "react";;
+import { useNavigate } from "react-router";
+import useStore from "../../store/useStore";
+import Loading from "react-loading";
 import Header from "../../components/Header";
-import { MobileBox } from "../../components/MobileBox";
-import Text from "../../components/Text";
 
+import { User } from "firebase/auth";
+import { FbAuth } from "../../firebase/firebase_auth_service";
 
 import SetUser from "./SetUser";
 import SetToBeDeletedTime from "./SetToBeDeletedTime";
-import { useNavigate } from "react-router";
-import { User } from "firebase/auth";
-import { FbAuth } from "../../firebase/firebase_auth_service";
-import Loading from "react-loading";
-import useStore from "../../store/useStore";
+
 
 
 interface ISettingPage {

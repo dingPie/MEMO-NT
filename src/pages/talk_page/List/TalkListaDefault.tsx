@@ -17,14 +17,15 @@ import { TalkContent } from "../utils/TalkComponents";
 import { getTagWithMemo, setTalkTag } from "../utils/talk_service";
 import { setTextLine } from "../../../styles/stylesCss";
 
-import { TalkListBox } from "./TalkList";
-import { TalkProps } from "../TalkPage";
+import { TalkListBox } from "./TalkListContainer";
+
 
 interface ITalkListaDefault {
   tag: ITag;
   memo: IMemo;
   onClickMenuBtn: (memo: IMemo) => void;
 }
+
 
 const TalkListaDefault = ( {tag, memo, onClickMenuBtn }: ITalkListaDefault  ) => {
 

@@ -4,7 +4,6 @@ import { useNavigate } from "react-router";
 
 // Components
 import Header from "../../components/Header";
-import { MobileBox } from "../../components/MobileBox";
 import { ColBox } from "../../components/FlexBox";
 import { CustomBtn } from "../../components/Buttons";
 import Text from "../../components/Text";
@@ -19,11 +18,13 @@ import { User } from "firebase/auth";
 import useStore from "../../store/useStore";
 import Loading from "react-loading";
 
+
 interface ILoginPage {
   fbAuth: FbAuth;
   user: User | null;
   setUser: (v: User | null) => void;
 }
+
 
 const LoginPage = ( { fbAuth, user, setUser }: ILoginPage ) => {
 

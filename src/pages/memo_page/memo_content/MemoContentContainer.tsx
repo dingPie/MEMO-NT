@@ -1,9 +1,11 @@
 import  React, { useEffect, useState } from "react";
 import useStore from "../../../store/useStore";
+import { useNavigate } from "react-router";
 
 import { CustomBtn } from "../../../components/Buttons";
 import { ColBox } from "../../../components/FlexBox";
 
+import { FbAuth } from "../../../firebase/firebase_auth_service";
 import { IMemo, IUserInfo } from "../../../utils/interface/interface";
 
 // Memo Components
@@ -11,8 +13,6 @@ import { IEditMemo, MemoProps } from "../MemoPage";
 import MemoContent from "./MemoContent";
 import MemoInputAdd from "./MemoInputAdd";
 import MemoInputEdit from "./MemoInputEdit";
-import { useNavigate } from "react-router";
-import { FbAuth } from "../../../firebase/firebase_auth_service";
 
 interface IMemoContentContainer extends MemoProps {
   // memo: IMemo;

@@ -7,10 +7,11 @@ import { RowBox } from "../../../components/FlexBox";
 import { IconBox } from "../../../components/IconBox";
 import InputText from "../../../components/InputText";
 
+import { ITag } from "../../../utils/interface/interface";
+
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
-import { ITag } from "../../../utils/interface/interface";
 
 interface IEditMemoName {
   tag: ITag;
@@ -18,6 +19,7 @@ interface IEditMemoName {
   onChangeMemoName: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onClickDoEditTag: (tag: ITag) => void;
 }
+
 
 const EditMemoName = ( { tag, onClickDoEditTag, inputMemoName, onChangeMemoName }: IEditMemoName ) => {
 

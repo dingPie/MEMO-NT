@@ -1,17 +1,16 @@
 import React, {  memo, useCallback } from "react";
 import styled, { css } from "styled-components";
 
-import { IMemo } from "../../../utils/interface/interface";
-import { getTagWithMemo } from "../utils/talk_service";
 import { expandPinnBox, reducePinnBox, stretchY } from "../../../styles/stylesCss";
+import { IMemo, ITag } from "../../../utils/interface/interface";
+import { getTagWithMemo } from "../utils/talk_service";
 
-
-import { TalkProps } from "../TalkPage";
 import TalkListaDefault from "./TalkListaDefault";
 import TalkListExpand from "./TalkListExpand";
 
 
-interface ITalkList extends TalkProps {
+interface ITalkListContainer {
+  tags: ITag[];
   memo: IMemo;
   editMemo: IMemo | null;
   selectedMemo: IMemo | null;
@@ -19,7 +18,7 @@ interface ITalkList extends TalkProps {
 }
 
 
-const TalkList = ( { tags, memo, editMemo, selectedMemo, setSelectedMemo }: ITalkList ) => {
+const TalkListContainer = ( { tags, memo, editMemo, selectedMemo, setSelectedMemo }: ITalkListContainer ) => {
 
   const tag = getTagWithMemo(tags, memo);
 
@@ -48,7 +47,7 @@ const TalkList = ( { tags, memo, editMemo, selectedMemo, setSelectedMemo }: ITal
   )
 }
 
-export default memo(TalkList);
+export default memo(TalkListContainer);
 
 export const TalkListBox = styled.div<{expand?: boolean, listHeight?: number}>`
   display: grid;

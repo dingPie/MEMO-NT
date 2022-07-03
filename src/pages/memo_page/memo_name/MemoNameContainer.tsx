@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { FbAuth } from "../../../firebase/firebase_auth_service";
 import useStore from "../../../store/useStore";
 
 import { ITag } from "../../../utils/interface/interface";
@@ -9,12 +8,14 @@ import { MemoProps } from "../MemoPage";
 import EditMemoName from "./EditMemoName";
 import MemoName from "./MemoName";
 
+
 interface IMemoNameContainer extends MemoProps {
   isOpenMenu: boolean;
   isOpenEditTag: boolean;
   setIsOpenEditTag: (v: boolean) => void; 
   onClickTagName: () => void;
 }
+
 
 const MemoNameContainer = ( { fbTag, fbMemo, tag, isOpenMenu, isOpenEditTag, setIsOpenEditTag, onClickTagName }: IMemoNameContainer ) => {
 

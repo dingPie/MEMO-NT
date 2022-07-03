@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router";
 
-import { User } from "firebase/auth";
 import { IMemo } from "../../../utils/interface/interface";
 
 import { FbMemo } from "../../../firebase/firestore_memo_service";
