@@ -10,7 +10,6 @@ import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 import { IMemo, ITag } from "../../../utils/interface/interface";
-import { dummyTags } from "../../../utils/data/dummyData";
 import { setTalkTag } from "../utils/talk_service";
 import { TalkContent } from "../utils/TalkComponents";
 

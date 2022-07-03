@@ -4,7 +4,7 @@ import useStore from "../../../store/useStore";
 import { CustomBtn } from "../../../components/Buttons";
 import { ColBox } from "../../../components/FlexBox";
 
-import { IMemo } from "../../../utils/interface/interface";
+import { IMemo, IUserInfo } from "../../../utils/interface/interface";
 
 // Memo Components
 import { IEditMemo, MemoProps } from "../MemoPage";
@@ -12,15 +12,19 @@ import MemoContent from "./MemoContent";
 import MemoInputAdd from "./MemoInputAdd";
 import MemoInputEdit from "./MemoInputEdit";
 import { useNavigate } from "react-router";
+import { FbAuth } from "../../../firebase/firebase_auth_service";
 
 interface IMemoContentContainer extends MemoProps {
   // memo: IMemo;
   memoList: IMemo[];
   setMemoList: (memo: IMemo[]) => void;
   isOpenMenu: boolean;
+  userInfo: IUserInfo | null;
+
+  fbAuth: FbAuth;
 }
 
-const MemoContentContainer = ( {  fbTag, fbMemo, tag, memoList, setMemoList,  isOpenMenu }: IMemoContentContainer ) => {
+const MemoContentContainer = ( { userInfo, fbAuth, fbTag, fbMemo, tag, memoList, setMemoList, isOpenMenu }: IMemoContentContainer ) => {
 
   const { loading } = useStore();
   const navigate = useNavigate();
@@ -105,6 +109,10 @@ const MemoContentContainer = ( {  fbTag, fbMemo, tag, memoList, setMemoList,  is
     setMemoList(newViewMemo);
     loading.finish();
 
+    // pinnedMemo같이 삭제
+    if (userInfo!.pinnedMemo === editMemo.memo!.id) {
+      await fbAuth.setPinnedMemo('')
+    }
     // 해당 태그의 메모가 비었을 떄 삭제
     if (newViewMemo.length === 0) { 
       fbTag.deleteTag(editMemo.memo!.tagId)

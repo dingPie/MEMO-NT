@@ -1,6 +1,6 @@
 import { User } from 'firebase/auth';
 import { observable } from 'mobx';
-import { ITag, IUser } from '../utils/interface/interface';
+import { ITag, IUserInfo } from '../utils/interface/interface';
 
 
 export interface ITagStore {

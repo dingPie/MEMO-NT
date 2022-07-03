@@ -13,11 +13,11 @@ export interface IMemo {
 	createTime: number; // Date.now()
 }
 
-export interface IUser {
+export interface IUserInfo {
 	uid: string;
 	pinnedMemo: string;
 	toBeDeletedTime: number;
-	dateOfDeletion: number;
+	toBeDeletedDate: number;
 	// provider: string; // 유저의 로그인한 아이디. cpie1216
 	// name: string | null // google, github 등 로그인 소스 (표시용)
 	// email: string | null; // 유저의 로그인 한 이메일, github는 null cpie1216@gmail.com

@@ -92,4 +92,11 @@ const timeOption = [
     name: "AM 7:00",
     state: 7
   }
+
+
+  ,
+  {
+    name: "PM 12:00",
+    state: 12
+  }
 ]

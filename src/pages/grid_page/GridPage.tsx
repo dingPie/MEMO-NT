@@ -9,7 +9,6 @@ import { User } from "firebase/auth";
 import { FbMemo } from "../../firebase/firestore_memo_service";
 import { FbTag } from "../../firebase/firestore_tag_service";
 
-import { dummyTags, LegacyTag } from "../../utils/data/dummyData";
 import { ITag } from "../../utils/interface/interface";
 
 import GridMemo from "./GridMemo";
@@ -25,7 +24,7 @@ const GridPage = ( { tags, user, fbMemo, fbTag }: IGridPage ) => {
 
   const navigate = useNavigate();
 
-  const onClickTag = (tag: LegacyTag)  => {
+  const onClickTag = (tag: ITag)  => {
     navigate(`/memo/${tag.id}`, { state: tag })
   }
   const onClickOtherBtn = ()  => {

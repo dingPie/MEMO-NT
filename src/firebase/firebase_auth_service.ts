@@ -24,10 +24,11 @@ import {
   query, 
   setDoc, 
   where,
-  updateDoc
+  updateDoc,
+  onSnapshot
 } from "firebase/firestore";
 import { IPalette } from "../store/palette";
-import { IMemo, ITag, IUser } from "../utils/interface/interface";
+import { IMemo, ITag, IUserInfo } from "../utils/interface/interface";
 import { Time } from "../utils/service/time";
 
 
@@ -38,12 +39,22 @@ export class FbAuth {
   private fireStoreDB: Firestore
   private doc: string
   private user: User | null
+  private uid: string;
 
   constructor(firebaseAuth: Auth, fireStoreDB: Firestore) {
     this.firebaseAuth = firebaseAuth
     this.fireStoreDB = fireStoreDB
     this.doc = "user"
     this.user = null
+    this.uid = ""
+  }
+
+  setUid (user: User) {
+    this.uid = user.uid
+  }
+
+  getUid () {
+    return this.uid
   }
 
 
@@ -82,6 +93,7 @@ export class FbAuth {
     console.log(result)
   }
 
+
   // 유저정보 변화 감지
   async onCheckUser (
     update?: (user: User | null) => void 
@@ -95,14 +107,30 @@ export class FbAuth {
   getLoginedUser () {
     return this.user
   }
+
+
+  // userDB의 user정보 확인
+  async onCheckUserInfo (update?: (tags: IUserInfo) => void): Promise<IUserInfo> {
+    const q = query(collection(this.fireStoreDB, this.doc))
+    const docRef = doc(this.fireStoreDB, this.doc, this.uid)
+    return new Promise( (resolve, reject) =>
+    onSnapshot(docRef, (doc) => {
+      const result = doc.data() as IUserInfo
+      // const result: ITag[] = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()} as ITag ) )
+      console.log("유저정보 변화 감지", result)
+      if (update) update(result)
+      resolve(result)
+    }))
+  }
+
   
   // 유저 DB에서 값 가져오기
-  async getUserInfo (uid: string): Promise<IUser> {
-    const docRef = doc(this.fireStoreDB, this.doc, uid)
+  async getUserInfo (): Promise<IUserInfo> {
+    const docRef = doc(this.fireStoreDB, this.doc, this.uid)
 
     return new Promise ( async (resolve, rejects) => {
       const result = await getDoc(docRef)
-      resolve(result.data() as IUser)
+      resolve(result.data() as IUserInfo)
     } )
   }
 
@@ -112,11 +140,7 @@ export class FbAuth {
       uid: user.uid,
       pinndMemo: "", // pinnedMemo Id
       toBeDeletedTime: 3, // number 삭제 예정시간
-      dateOfDeletion: time.getDateOfDeletion()
-      // provider: user.providerData[0].providerId,
-      // name: user.displayName,
-      // email: user.email,
-      // photoURL: user.photoURL,
+      toBeDeletedDate: time.getToBeDeletedDate()
     }
     const docRef = doc(this.fireStoreDB, this.doc, user.uid)
       try {
@@ -129,16 +153,18 @@ export class FbAuth {
   }
   
   // 회원 탈퇴
-  async withdrawUser (uid: string) {
-    const docRef = doc(this.fireStoreDB, this.doc, uid);
+  async withdrawUser () {
+    const docRef = doc(this.fireStoreDB, this.doc, this.uid);
     try {
       await deleteDoc(docRef);
-      console.log( uid, "유저 정보 삭제완료")
+      console.log( this.uid, "유저 정보 삭제완료")
     } catch (e) {
       console.error("Error adding document: ", e);
     }
   }
 
+
+  
   // 색상정보 가져오기 (따로 service 만들기 싫어서)
   async getPalette () : Promise<IPalette> {
     const col = collection(this.fireStoreDB, "palette") ;
@@ -154,47 +180,18 @@ export class FbAuth {
   }
 
   // 삭제예정시간 업데이트
-  async updatetoBeDeletedTime (uid: string, newTime: number ) {
-    const docRef = doc(this.fireStoreDB, this.doc, uid)
+  async updatetoBeDeletedTime (newTime: number ) {
+    const docRef = doc(this.fireStoreDB, this.doc, this.uid)
     updateDoc(docRef, { toBeDeletedTime: newTime })
     console.log("삭제시간 변경완료",newTime )
   }
 
   // 핀 설정
-  async setPinnedMemo (uid: string, memoId: string) {
-    const docRef = doc(this.fireStoreDB, this.doc, uid)
-    await updateDoc(docRef, { pinndedMemo: memoId })
+  async setPinnedMemo (memoId: string) {
+    console.log("현재 uid", this.uid)
+    const docRef = doc(this.fireStoreDB, this.doc, this.uid)
+    await updateDoc(docRef, { pinnedMemo: memoId })
   }
+
+
 }
-
-
-
-  // // 현재 시간을 삭제시간으로 정해놓은 유저 db 받아옴
-  // async getUidToDeleteNow (hour: number)  {
-  //   const col = collection(this.fireStoreDB, this.doc)
-  //   const q = query(col, where("toBeDeletedTime", "==", hour))
-
-  //   const querySnapshot = await getDocs(q);
-  //   const testResult = querySnapshot.docs.map(data => data.id );
-  //   return testResult
-  // }
-
-  // // uid로 해당 유저의 toBeDeleted 태그정보 받아옴
-  // async getToBeDeleted (uid: string): Promise<ITag> {
-  //   const docRef = doc(this.fireStoreDB, uid+"_tag", "toBeDeleted")
-  //   const result = await getDoc(docRef);
-  //   console.log(result.data())
-  //   return result.data() as ITag
-  // }
-
-  // // uid와 memoId를 인자로 받아 메모 삭제
-  // async toBeDeleteMemo (uid: string, memoId: string) {
-  //   const docRef = doc(this.fireStoreDB, uid+"_memo", memoId)
-  //   await deleteDoc(docRef)
-  // }
-
-  // // toBeDeleted 태그의 usedMemo 초기화
-  // async toResetToBeDeleted (uid: string) {
-  //   const docRef = doc(this.fireStoreDB,  uid+"_tag", "toBeDeleted")
-  //   await updateDoc(docRef, { usedMemo: [] } );
-  // }

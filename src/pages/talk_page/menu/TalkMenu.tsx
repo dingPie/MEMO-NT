@@ -7,9 +7,11 @@ import { IconBox } from "../../../components/IconBox";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faPen, faTrashCan, faThumbTack, faAlignLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { slideUp } from "../../../styles/stylesCss";
+import { IMemo } from "../../../utils/interface/interface";
 
 
 interface ITalkMenu {
+  selectedMemo: IMemo;
   onClickEditBtn: () => void;
   onClickDeleteBtn: () => void;
   onClickPinnBtn: () => void;
@@ -18,7 +20,7 @@ interface ITalkMenu {
 }
 
 
-const TalkMemu = ( { onClickEditBtn, onClickDeleteBtn, onClickPinnBtn, onClicGoMemoBtn, onClickCloseMenuBtn }: ITalkMenu ) => {
+const TalkMemu = ( { selectedMemo, onClickEditBtn, onClickDeleteBtn, onClickPinnBtn, onClicGoMemoBtn, onClickCloseMenuBtn }: ITalkMenu ) => {
 
   return(
     <MenuBox
@@ -39,11 +41,13 @@ const TalkMemu = ( { onClickEditBtn, onClickDeleteBtn, onClickPinnBtn, onClicGoM
           <Icon icon={faTrashCan} />
         </IconBox>
 
-        <IconBox
+        { selectedMemo.tagId !== "toBeDeleted" &&
+          <IconBox
           onClick={onClickPinnBtn}
-        >
-          <Icon icon={faThumbTack} />
-        </IconBox>
+          >
+            <Icon icon={faThumbTack} />
+          </IconBox>
+        }
 
         <IconBox
           onClick={onClicGoMemoBtn}
@@ -69,5 +73,5 @@ export const MenuBox = styled(RowBox)`
   background: white;
   // transition 적용 여부때문에 일단 보류
 
-  animation:  ${slideUp} .2s;
+  animation: ${slideUp} .2s;
 `

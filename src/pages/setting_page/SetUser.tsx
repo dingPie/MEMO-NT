@@ -21,11 +21,6 @@ const SetUser = ( { user, onClickLogout }: ISetUser ) => {
     if (user.providerData[0].email) return user.providerData[0].email
     else if (user.email) return user.email
   }
-
-  React.useEffect(() => {
-    if (!user) return
-    console.log("사진정보 확인", user, user.photoURL)
-  }, [])
   
 
   const setUserComponent = () => {
