@@ -4,15 +4,13 @@ import useStore from "../../../store/useStore";
 
 import { RowBox } from "../../../components/FlexBox";
 
-import { FbMemo } from "../../../firebase/firestore_memo_service";
-import { FbTag } from "../../../firebase/firestore_tag_service";
+import { slideUp } from "../../../styles/stylesCss";
 import { ITag } from "../../../utils/interface/interface";
 
 // Memo Components
 import { MemoProps } from "../MemoPage";
 import MemoPalette from "./MemoPalette";
 import MemoMenu from "./MemoMenu";
-import { slideUp } from "../../../styles/stylesCss";
 
 
 

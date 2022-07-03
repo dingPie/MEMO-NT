@@ -1,12 +1,14 @@
 import React, { forwardRef } from "react";
 import styled from "styled-components";
-import InputText from "../../../components/InputText";
-import { IEditMemo } from "./../MemoPage";
 
-import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { faPen, faTrashCan, faPalette, faXmark } from "@fortawesome/free-solid-svg-icons";
+import InputText from "../../../components/InputText";
 import { IconBox } from "../../../components/IconBox";
 import { RowBox } from "../../../components/FlexBox";
+
+import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+
+import { IEditMemo } from "./../MemoPage";
 
 
 interface IMemoInputEdit {
@@ -16,6 +18,7 @@ interface IMemoInputEdit {
   onClickDoEditMemo: (editMemo: IEditMemo, inputMemo: string) => void;
   onClickDoDeleteMemo: (e: React.MouseEvent<HTMLDivElement>, editMemo: IEditMemo) => void;
 }
+
 
 const MemoInputEdit = forwardRef<HTMLDivElement ,IMemoInputEdit>(( { editMemo, onClickDoEditMemo, inputMemo, onChangeInputMemo, onClickDoDeleteMemo }, ref ) => {
 

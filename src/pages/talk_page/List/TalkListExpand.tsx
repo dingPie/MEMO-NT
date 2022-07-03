@@ -16,8 +16,7 @@ import { Time } from "../../../utils/service/time";
 import { getTagWithMemo, setTalkTag } from "../utils/talk_service";
 import { overFlowHidden, setTextLine, stretchX } from "../../../styles/stylesCss";
 
-import { TalkProps } from "../TalkPage";
-import { TalkListBox } from "./TalkList";
+import { TalkListBox } from "./TalkListContainer";
 import { TalkContent } from "../utils/TalkComponents";
 
 interface ITalkListExpand {

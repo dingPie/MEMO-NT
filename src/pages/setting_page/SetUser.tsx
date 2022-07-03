@@ -1,19 +1,20 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
+import { User } from "firebase/auth";
 import Text from "../../components/Text";
 import { ColBox, RowBox } from "../../components/FlexBox";
 import { CustomBtn } from "../../components/Buttons";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
-import { User } from "firebase/auth";
-import { FbAuth } from "../../firebase/firebase_auth_service";
+
 
 interface ISetUser {
   user: User | null;
   onClickLogout: () => void;
 }
+
 
 const SetUser = ( { user, onClickLogout }: ISetUser ) => {
 

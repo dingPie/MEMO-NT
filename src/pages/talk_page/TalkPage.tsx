@@ -11,31 +11,25 @@ import { MobileBox } from "../../components/MobileBox";
 import { ColBox } from "../../components/FlexBox";
 import Header from "../../components/Header";
 
-import TalkList from "./List/TalkList";
-import TalkDeletePopup from "./TalkDeletePopup";
-import TalkPinn from "./pinn/TalkPinn";
+import TalkListContainer from "./List/TalkListContainer";
 import TalkInpuContainer from "./InputBox/TalkInputContainer";
 import MenuContainer from "./menu/MenuContainer";
+import TalkPinnContainer from "./pinn/TalkPinnContainer";
+import TalkDeletePopup from "./TalkDeletePopup";
 
 import { IMemo, ITag, IUserInfo } from "../../utils/interface/interface";
 import Loading from "../../components/Loading";
 import useStore from "../../store/useStore";
+import { IApp } from "../../App";
 
 
-interface ITalkPage {
-  fbMemo: FbMemo;
-  fbTag: FbTag;
-  fbAuth: FbAuth;
+interface ITalkPage extends IApp {
   tags: ITag[];
   userInfo: IUserInfo | null;
 }
 
-export interface TalkProps {
-  tags: ITag[];
-}
 
-
-const TalkPage = ( { userInfo, fbMemo, fbTag, fbAuth, tags }: ITalkPage ) => {
+const TalkPage = ( {  fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage ) => {
 
   const navigate = useNavigate();
   const { loading } = useStore();
@@ -131,7 +125,7 @@ const TalkPage = ( { userInfo, fbMemo, fbTag, fbAuth, tags }: ITalkPage ) => {
       {/* 상단 pinn ui, absoulte로 적용되어있음 */}
 
       { pinnedMemo && 
-        <TalkPinn
+        <TalkPinnContainer
           tags={tags}
           memo={pinnedMemo}
           userInfo={userInfo}
@@ -149,7 +143,7 @@ const TalkPage = ( { userInfo, fbMemo, fbTag, fbAuth, tags }: ITalkPage ) => {
         {/* 메모 리스트 표시 */}
         { viewMemo.map((memo, i) => {
           return (
-            <TalkList
+            <TalkListContainer
               key={memo.id}
               tags={tags}
               memo={memo}

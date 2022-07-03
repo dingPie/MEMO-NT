@@ -6,10 +6,10 @@ import { RowBox } from "../../../components/FlexBox";
 import { ITag } from "../../../utils/interface/interface";
 
 import TagOptions from "./TagOptions";
-import { TalkProps } from "../TalkPage";
 
 
-interface ITalkInputOption extends TalkProps {
+interface ITalkInputOption  {
+  tags: ITag[];
   recommTag: ITag | undefined;
   onClickTagOption: (v?: string) => void;
 }

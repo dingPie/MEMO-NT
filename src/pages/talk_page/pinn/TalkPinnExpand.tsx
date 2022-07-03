@@ -12,7 +12,7 @@ import { shrinkX, stretchX } from "../../../styles/stylesCss";
 import { IMemo, ITag } from "../../../utils/interface/interface";
 import { setTalkTag } from "../utils/talk_service";
 import { TalkContent } from "../utils/TalkComponents";
-import { PinnBox, PinnBtns } from "./TalkPinn";
+import { PinnBox, PinnBtns } from "./TalkPinnContainer";
 
 interface ITalkPinnExpand {
   tag: ITag;

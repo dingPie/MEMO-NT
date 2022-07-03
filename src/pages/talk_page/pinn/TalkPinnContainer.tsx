@@ -4,28 +4,28 @@ import { useNavigate } from "react-router";
 
 import { RowBox } from "../../../components/FlexBox";
 
-import { IMemo, IUserInfo } from "../../../utils/interface/interface";
+import { FbAuth } from "../../../firebase/firebase_auth_service";
+import { IMemo, ITag, IUserInfo } from "../../../utils/interface/interface";
 import { getTagWithMemo } from "../utils/talk_service";
 
-import { TalkProps } from "../TalkPage";
 import TalkPinnExpand from "./TalkPinnExpand";
 import TalkPinnDefault from "./TalkPinnDefault";
-import { FbAuth } from "../../../firebase/firebase_auth_service";
-import { User } from "firebase/auth";
 
 
-interface ITalkPinn extends TalkProps {
+interface ITalkPinnContainer {
+  tags: ITag[];
   memo: IMemo | null;
   userInfo: IUserInfo | null;
   fbAuth: FbAuth;
 }
 
 
-const TalkPinn = ( {tags, fbAuth, memo, userInfo }: ITalkPinn ) => {
+const TalkPinnContainer = ( {tags, fbAuth, memo }: ITalkPinnContainer ) => {
   
   const navigate = useNavigate();
   const tag = getTagWithMemo(tags, memo!);
   const [isExpand, setIsExpand] = useState(false);
+
   // keyFrame 관련
   const pinnBoxRef = useRef<HTMLDivElement>(null);
   const [animate, setAnimate] = useState(false);
@@ -35,23 +35,25 @@ const TalkPinn = ( {tags, fbAuth, memo, userInfo }: ITalkPinn ) => {
   const onClickExpandPinn = () => {
      setIsExpand(true)
   }
+
   // 줄이기버튼 클릭
   const onClickReducePinn = () => {
     setIsExpand(false)
   }
+
   // 핀 삭제 버튼 클릭
   const onClickDeletePinn =  async () => {
     await fbAuth.setPinnedMemo('')
     // setPinnedMemo(null)
   }
+
   // 메모 이동버튼 클릭
   const onClicGoMemoBtn = () => {
     navigate(`/memo/${memo!.tagId}`)
   }
-  
 
-
-
+  // 애니메이션 관련, 잠시 사용 X
+   
   // useEffect(() => {
   //   if (!isExpand) {
   //     setAnimate(true);
@@ -63,8 +65,6 @@ const TalkPinn = ( {tags, fbAuth, memo, userInfo }: ITalkPinn ) => {
 
   //     }
   // }, [isExpand]);
-
-
 
 
   return(
@@ -92,7 +92,8 @@ const TalkPinn = ( {tags, fbAuth, memo, userInfo }: ITalkPinn ) => {
     </>
   )
 }
-export default TalkPinn;
+export default TalkPinnContainer;
+
 
 export const PinnBox = styled.div<{expand?: boolean, isExpand?: boolean, pinnHeight?: number}>`
   display: flex;

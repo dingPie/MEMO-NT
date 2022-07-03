@@ -5,8 +5,7 @@ import styled from "styled-components";
 
 // components
 import Header from "../../components/Header";
-import { MobileBox } from "../../components/MobileBox";
-import { ColBox, RowBox } from "../../components/FlexBox";
+import { ColBox } from "../../components/FlexBox";
 import Loading from "../../components/Loading";
 
 // utils
@@ -40,7 +39,7 @@ interface IMemoPage {
   fbMemo: FbMemo;
   fbTag: FbTag;
   tags: ITag[];
-  // tag: ITag;
+
   userInfo: IUserInfo | null;
 }
 

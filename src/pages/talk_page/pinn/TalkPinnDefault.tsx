@@ -13,8 +13,7 @@ import { IMemo, ITag } from "../../../utils/interface/interface";
 import { setTalkTag } from "../utils/talk_service";
 import { TalkContent } from "../utils/TalkComponents";
 
-import { TalkProps } from "../TalkPage";
-import { PinnBox, PinnBtns } from "./TalkPinn";
+import { PinnBox, PinnBtns } from "./TalkPinnContainer";
 
 
 interface ITalkPinnDefault {

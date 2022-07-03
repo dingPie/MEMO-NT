@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Routes, Route, useNavigate, } from 'react-router-dom';
 import GlobalStyle from './styles/GlobalStyle';
+import useStore from './store/useStore';
 
 // Page
 import LoginPage from './pages/login_page/LoginPage';
@@ -9,19 +10,19 @@ import TalkPage from './pages/talk_page/TalkPage';
 import GridPage from './pages/grid_page/GridPage';
 import MemoPage from './pages/memo_page/MemoPage';
 
-//테스트 페이지
+// firebase
 import { FbMemo } from './firebase/firestore_memo_service';
 import { FbAuth } from './firebase/firebase_auth_service';
-import useStore from './store/useStore';
 import { User } from 'firebase/auth';
 import { FbTag } from './firebase/firestore_tag_service';
-import {  ITag, IUserInfo } from './utils/interface/interface';
 
+import { ITag, IUserInfo } from './utils/interface/interface';
 import { MobileBox } from './components/MobileBox';
 
 
 
-interface IApp {
+
+export interface IApp {
   fbAuth: FbAuth;
   fbTag: FbTag;
   fbMemo: FbMemo;
@@ -108,10 +109,10 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
         />
         <Route path="/grid" element={
           <GridPage 
-            user={user}
-            tags={tags}
             fbMemo={fbMemo}
             fbTag={fbTag}
+            user={user}
+            tags={tags}
           />} 
           />
         <Route path="/memo/:tagId" element={

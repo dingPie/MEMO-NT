@@ -10,16 +10,17 @@ import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faHashtag, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faClockFour } from "@fortawesome/free-regular-svg-icons";
 
-import { IMemo } from "../../../utils/interface/interface";
+import { IMemo, ITag } from "../../../utils/interface/interface";
 
-import { TalkProps } from "../TalkPage";
 
-interface ITalkEditTagName extends TalkProps {
+interface ITalkEditTagName {
+  tags: ITag[];
   editMemo: IMemo;
   onClickCancelEditMemo: () => void;
   editTagName: string;
   onChangeTagName: (e?: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement> | null, tagName?: string) => void;
 }
+
 
 const TalkEditTagName = ( { 
   tags, 
