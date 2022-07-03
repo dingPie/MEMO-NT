@@ -31,9 +31,9 @@ export class FbAuth {
 
 
 
-  async 삭제유저가져오기 (hour, dateOfDeletion) {
+  async 삭제유저가져오기 (hour, toBeDeletedDate) {
     const col = collection(this.fireStoreDB, "user")
-    const q = query(col, where("toBeDeletedTime", "==", hour), where("dateOfDeletion", "==", dateOfDeletion))
+    const q = query(col, where("toBeDeletedTime", "==", hour), where("toBeDeletedDate", "==", toBeDeletedDate))
 
     const querySnapshot = await getDocs(q);
     const testResult = querySnapshot.docs.map(data => data.id );
@@ -44,7 +44,7 @@ export class FbAuth {
     const 내일삭제예정일 = new Date(new Date().setDate(new Date().getDate()+1)).toLocaleDateString();
     const docRef = doc(this.fireStoreDB, "user", uid)
     await updateDoc(docRef, {
-      dateOfDeletion: 내일삭제예정일
+      toBeDeletedDate: 내일삭제예정일
     })
     console.log(uid, "의 삭제일 예정 업데이트 완료")
   }

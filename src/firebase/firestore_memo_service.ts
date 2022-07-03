@@ -1,4 +1,3 @@
-import { rejects } from "assert";
 import { Auth, User } from "firebase/auth";
 import { 
   collection,
@@ -166,7 +165,7 @@ export class FbMemo {
 
     try {
       await deleteDoc(docRef);
-      console.log( memoId, "태그 삭제완료")
+      console.log( memoId, "메모 삭제완료")
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -185,22 +184,13 @@ export class FbMemo {
     })
   }
 
-  async 핀저장 () {
-    // const 
+  // pinnedMemo 찾아서 가져오기
+  async getPinnedMemo (memoId: string, update?: (v: IMemo) => void): Promise<IMemo> {
+    const docRef = doc(this.fireStoreDB, this.doc, memoId);
+    const result = await getDoc(docRef);
+    console.log(memoId, result.data(), "삭제된 태그 결과비교")
+    if (update) update(result.data() as IMemo)
+    return result.data() as IMemo;
   }
-
   
-  // 딱 세개만 가져오는걸 해야되는데..
-  // async getUsedMemo (usedMemo: string[], update?: (v: IMemo[]) => void ): Promise<IMemo[]> {
-  //   const col = collection(this.fireStoreDB, this.doc)
-  //   const q = query(col, where("id", "in", usedMemo.slice(0,3) )); // where 조건문 in은 array 10개까지만 지원하므로 limit(3) 대신 slice를 사용하였다.
-
-  //   return new Promise( async(resolve, rejects) => {
-  //     const querySnapshot = await getDocs(q);
-  //     const result = querySnapshot.docs.map(doc => doc.data() as IMemo)
-  //     if (update) update(result)
-  //     resolve(result)
-  //   })
-  // }
-
 }

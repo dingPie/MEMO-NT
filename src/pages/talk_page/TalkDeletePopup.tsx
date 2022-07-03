@@ -1,21 +1,55 @@
+import { User } from "firebase/auth";
 import React from "react";
 
 import Popup from "../../components/Popup";
 import Text from "../../components/Text";
+import { FbAuth } from "../../firebase/firebase_auth_service";
+import { FbMemo } from "../../firebase/firestore_memo_service";
+import { FbTag } from "../../firebase/firestore_tag_service";
+import useStore from "../../store/useStore";
+import { IMemo } from "../../utils/interface/interface";
 
 interface ITalkDeletePopup {
-  onClickCancel: () => void;
-  onClickDo: () => void;
+  fbAuth: FbAuth
+  fbMemo: FbMemo;
+  fbTag: FbTag;
+  viewMemo: IMemo[];
+  setViewMemo: (memoArr: IMemo[]) => void;
+  selectedMemo: IMemo | null;
+  setSelectedMemo:(memo: IMemo | null) => void;
+  pinnedMemo: IMemo | null;
+  setIsOpenDeletePopup: (v: boolean) => void;
 }
 
-const TalkDeletePopup = ( { onClickCancel, onClickDo }: ITalkDeletePopup ) => {
+const TalkDeletePopup = ( {fbAuth, fbMemo, fbTag,  viewMemo, setViewMemo , selectedMemo, setSelectedMemo, pinnedMemo, setIsOpenDeletePopup }: ITalkDeletePopup ) => {
 
+  const { loading } = useStore();
+
+  const deleteMemo = async () => {
+    loading.start();
+    await fbMemo.deleteMemo(selectedMemo!.id)
+    await fbTag.deleteUsedMemo(selectedMemo!)
+    const newViewMemo = viewMemo.filter(v => v.id !== selectedMemo!.id);
+    setViewMemo(newViewMemo);
+    
+    // 핀 삭제
+    if (selectedMemo!.id === pinnedMemo!.id) await fbAuth.setPinnedMemo('')
+    // 태그 삭제
+    const usedMemoLength = await fbTag.checkUsedMemoLength(selectedMemo!.tagId)
+    if (!usedMemoLength) await fbTag.deleteTag(selectedMemo!.tagId)
+    
+    setSelectedMemo(null);
+    setIsOpenDeletePopup(false);
+    loading.finish();
+  }
+
+  const onClickCanlcelBtn = () => setIsOpenDeletePopup(false)
 
   return(
     <Popup
       title="메모 삭제"
-      onClickCancel={onClickCancel}
-      onClickDo={onClickDo}
+      onClickCancel={onClickCanlcelBtn}
+      onClickDo={deleteMemo}
     >
       <Text>
         이 메모를 삭제할까요?

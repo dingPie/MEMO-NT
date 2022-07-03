@@ -35,7 +35,7 @@ const SettingPage = ( { user, setUser, fbAuth }: ISettingPage ) => {
    // 삭제시간 초기설정 (데이터받아옴)
     const setInitToBeDeleteTime = async () => {
       if (!user) return
-      const nowUser = await fbAuth.getUserInfo(user.uid)
+      const nowUser = await fbAuth.getUserInfo()
       setToBeDeleteTime(nowUser.toBeDeletedTime)
     }
     setInitToBeDeleteTime()
@@ -54,7 +54,7 @@ const SettingPage = ( { user, setUser, fbAuth }: ISettingPage ) => {
 
   // 삭제시간 설정로직
   const onClickSetDeleteTimeBtn = async () => {
-    await fbAuth.updatetoBeDeletedTime(user!.uid, toBeDeleteTime)
+    await fbAuth.updatetoBeDeletedTime(toBeDeleteTime)
   }
 
 

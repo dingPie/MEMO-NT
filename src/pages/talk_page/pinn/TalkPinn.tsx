@@ -4,24 +4,27 @@ import { useNavigate } from "react-router";
 
 import { RowBox } from "../../../components/FlexBox";
 
-import { IMemo } from "../../../utils/interface/interface";
+import { IMemo, IUserInfo } from "../../../utils/interface/interface";
 import { getTagWithMemo } from "../utils/talk_service";
 
 import { TalkProps } from "../TalkPage";
 import TalkPinnExpand from "./TalkPinnExpand";
 import TalkPinnDefault from "./TalkPinnDefault";
+import { FbAuth } from "../../../firebase/firebase_auth_service";
+import { User } from "firebase/auth";
 
 
 interface ITalkPinn extends TalkProps {
-  memo: IMemo;
-  setPinnedMemo: (v: IMemo|null) => void;
+  memo: IMemo | null;
+  userInfo: IUserInfo | null;
+  fbAuth: FbAuth;
 }
 
 
-const TalkPinn = ( { tags, memo, setPinnedMemo }: ITalkPinn ) => {
+const TalkPinn = ( {tags, fbAuth, memo, userInfo }: ITalkPinn ) => {
   
   const navigate = useNavigate();
-  const tag = getTagWithMemo(tags, memo);
+  const tag = getTagWithMemo(tags, memo!);
   const [isExpand, setIsExpand] = useState(false);
   // keyFrame 관련
   const pinnBoxRef = useRef<HTMLDivElement>(null);
@@ -37,8 +40,9 @@ const TalkPinn = ( { tags, memo, setPinnedMemo }: ITalkPinn ) => {
     setIsExpand(false)
   }
   // 핀 삭제 버튼 클릭
-  const onClickDeletePinn = () => {
-    setPinnedMemo(null)
+  const onClickDeletePinn =  async () => {
+    await fbAuth.setPinnedMemo('')
+    // setPinnedMemo(null)
   }
   // 메모 이동버튼 클릭
   const onClicGoMemoBtn = () => {
@@ -48,17 +52,17 @@ const TalkPinn = ( { tags, memo, setPinnedMemo }: ITalkPinn ) => {
 
 
 
-  useEffect(() => {
-    if (!isExpand) {
-      setAnimate(true);
-      setTimeout(() => setAnimate(false), 300);
-    } else {
-      if (!pinnBoxRef.current) return
-      console.log("이번엔 높이를 구해보자", pinnBoxRef.current.clientHeight)
-      setPinnHeight(pinnBoxRef.current.clientHeight)
+  // useEffect(() => {
+  //   if (!isExpand) {
+  //     setAnimate(true);
+  //     setTimeout(() => setAnimate(false), 300);
+  //   } else {
+  //     if (!pinnBoxRef.current) return
+  //     console.log("이번엔 높이를 구해보자", pinnBoxRef.current.clientHeight)
+  //     setPinnHeight(pinnBoxRef.current.clientHeight)
 
-      }
-  }, [isExpand]);
+  //     }
+  // }, [isExpand]);
 
 
 
@@ -69,7 +73,7 @@ const TalkPinn = ( { tags, memo, setPinnedMemo }: ITalkPinn ) => {
         <TalkPinnDefault
           ref={pinnBoxRef}
           tag={tag}
-          memo={memo}
+          memo={memo!}
           onClickDeletePinn={onClickDeletePinn}
           onClickExpandPinn={onClickExpandPinn}
           isExpand={isExpand}
@@ -77,7 +81,7 @@ const TalkPinn = ( { tags, memo, setPinnedMemo }: ITalkPinn ) => {
         <TalkPinnExpand
           ref={pinnBoxRef}
           tag={tag}
-          memo={memo}
+          memo={memo!}
           onClickDeletePinn={onClickDeletePinn}
           onClickReducePinn={onClickReducePinn}
           onClicGoMemoBtn={onClicGoMemoBtn}
@@ -104,8 +108,8 @@ export const PinnBox = styled.div<{expand?: boolean, isExpand?: boolean, pinnHei
     expand && css`
       flex-direction: column ;
       height: auto; 
-      animation: ${!isExpand ? reducePinnBox(pinnHeight!) : expandPinnBox(pinnHeight!)} .3s ;
-      animation-delay: .01s; 
+      /* animation: ${!isExpand ? reducePinnBox(pinnHeight!) : expandPinnBox(pinnHeight!)} .3s ;
+      animation-delay: .01s;  */
   `}
 `
 

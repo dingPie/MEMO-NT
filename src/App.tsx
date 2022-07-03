@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Routes, Route, useNavigate, } from 'react-router-dom';
-import styled from 'styled-components';
 import GlobalStyle from './styles/GlobalStyle';
-import ReactLoading from 'react-loading';
 
 // Page
 import LoginPage from './pages/login_page/LoginPage';
@@ -11,29 +9,16 @@ import TalkPage from './pages/talk_page/TalkPage';
 import GridPage from './pages/grid_page/GridPage';
 import MemoPage from './pages/memo_page/MemoPage';
 
-// Components
-import Header from './components/Header';
-import Popup from './components/Popup';
-import Text from './components/Text';
-import InputText from './components/InputText';
-
-import "./App.css"
-
 //테스트 페이지
-import { firebaseAuth, fireStoreDB } from './firebase/firebase_config';
 import { FbMemo } from './firebase/firestore_memo_service';
 import { FbAuth } from './firebase/firebase_auth_service';
 import useStore from './store/useStore';
-import { MainBtn } from './components/Buttons';
 import { User } from 'firebase/auth';
 import { FbTag } from './firebase/firestore_tag_service';
-import { IMemo, ITag } from './utils/interface/interface';
-import { IPalette } from './store/palette';
-import { toJS } from 'mobx';
-import Loading from './components/Loading';
+import {  ITag, IUserInfo } from './utils/interface/interface';
+
 import { MobileBox } from './components/MobileBox';
 
-import schedule from 'node-schedule';
 
 
 interface IApp {
@@ -48,13 +33,13 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
   const { palette, loading } = useStore();
   const navitage = useNavigate();
   const [user, setUser] = useState<User|null>(null)
+  const [userInfo, setUserInfo] = useState<IUserInfo|null>(null)
   const [tags, setTags] = useState<ITag[]>([])
 
   
   // 유저 가입여부 체크
   const CheckAndInitUser = async (user: User) => {
-    const joinedResult = await fbAuth.getUserInfo(user.uid);
-
+    const joinedResult = await fbAuth.getUserInfo();
     if (!joinedResult) {
       loading.start();
       console.log("새로 가입을 진행합니다");
@@ -69,25 +54,27 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
     navitage('/talk', {replace: true})
   }
 
-  // 팔레트 정보 세팅
-  const setPalette = async () => {
-    const paletteObj = await fbAuth.getPalette()
+  // 메모 설정 초기화
+  const initApp = async (user: User) => {
+    const paletteObj = await fbAuth.getPalette() // 팔레트 설정
     palette.setPalette(paletteObj)
-    console.log(paletteObj)
-  } 
+
+    fbAuth.setUid(user) // uid 의존성 주입
+    fbTag.setDoc(user) // uid 의존성 주입
+    fbMemo.setDoc(user) // uid 의존성 주입
+
+    fbTag.onCheckTag(setTags); // 태그정보 실시간체크
+    fbAuth.onCheckUserInfo(setUserInfo) // UserDB 정보 실시간체크
+
+    CheckAndInitUser(user) // 유저체크 및 생성
+  }
   
   useEffect(() => {
     fbAuth.onCheckUser(setUser);
-    if (user) {
-      setPalette() // 색상설정 
-      fbTag.setDoc(user) // uid 의존성 주입
-      fbMemo.setDoc(user) // uid 의존성 주입
-      fbTag.onCheckTag(setTags);
-      CheckAndInitUser(user) // 유저체크 및 생성
-      console.log("여기 함수부분이 실행됩니다.")
-    }
+    if (user) initApp(user)
     navitage('/login')
   }, [user])
+
 
   
 
@@ -112,11 +99,11 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
         />
         <Route path="/talk" element={
           <TalkPage
-            user={user}
-            tags={tags}
-            setTags={setTags}
-            fbMemo={fbMemo}
+            fbAuth={fbAuth}
             fbTag={fbTag}
+            fbMemo={fbMemo}
+            tags={tags}
+            userInfo={userInfo}
           />} 
         />
         <Route path="/grid" element={
@@ -129,9 +116,11 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
           />
         <Route path="/memo/:tagId" element={
           <MemoPage
+            fbAuth={fbAuth}
             fbMemo={fbMemo}
             fbTag={fbTag}
             tags={tags}
+            userInfo={userInfo}
           />} 
         />
       </Routes>

@@ -1,6 +1,5 @@
 import { User } from 'firebase/auth';
 import { observable } from 'mobx';
-import { IUser } from '../utils/interface/interface';
 
 
 export interface IUserStore {

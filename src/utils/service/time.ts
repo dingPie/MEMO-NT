@@ -22,7 +22,7 @@ export class Time {
     return koreaNow
   }
 
-  getDateOfDeletion () {
+  getToBeDeletedDate () {
     var date = this.KorDate();
     var year = date.getFullYear();
     var month = ("0" + (1 + date.getMonth())).slice(-2);

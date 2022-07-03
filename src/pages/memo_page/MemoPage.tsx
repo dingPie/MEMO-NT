@@ -10,9 +10,10 @@ import { ColBox, RowBox } from "../../components/FlexBox";
 import Loading from "../../components/Loading";
 
 // utils
-import { IMemo, ITag } from "../../utils/interface/interface";
+import { IMemo, ITag, IUserInfo } from "../../utils/interface/interface";
 import { FbMemo } from "../../firebase/firestore_memo_service";
 import { FbTag } from "../../firebase/firestore_tag_service";
+import { FbAuth } from "../../firebase/firebase_auth_service";
 
 // Memo Conponents
 import MemoContentContainer from "./memo_content/MemoContentContainer";
@@ -28,20 +29,22 @@ export interface IEditMemo {
   height: number;
 }
 
-interface IMemoPage {
-  fbMemo: FbMemo;
-  fbTag: FbTag;
-  tags: ITag[];
-  // tag: ITag;
-}
-
 export interface MemoProps {
   fbMemo: FbMemo;
   fbTag: FbTag;
   tag: ITag;
 }
 
-const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
+interface IMemoPage {
+  fbAuth: FbAuth;
+  fbMemo: FbMemo;
+  fbTag: FbTag;
+  tags: ITag[];
+  // tag: ITag;
+  userInfo: IUserInfo | null;
+}
+
+const MemoPage = ( { fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage ) => {
 
   const navigate = useNavigate();
   const { tagId } = useParams();
@@ -100,12 +103,14 @@ const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
               onClickTagName={onClickTagName}
             />
             <MemoContentContainer 
+              fbAuth={fbAuth}
               fbTag={fbTag}
               fbMemo={fbMemo}
               tag={tag}
               memoList={memoList}
               setMemoList={setMemoList}
               isOpenMenu={isOpenMenu}
+              userInfo={userInfo}
             />
           </>
           }
@@ -122,9 +127,11 @@ const MemoPage = ( { fbMemo, fbTag, tags }: IMemoPage ) => {
             setIsOpenEditTag={setIsOpenEditTag}
           />
       }
-        <MemoDeletePopupContainer 
+        <MemoDeletePopupContainer
+          fbAuth={fbAuth} 
           fbTag={fbTag}
           fbMemo={fbMemo}
+          userInfo={userInfo}
           tag={tag}
           isOpenDeleteMemo={isOpenDeleteMemo}
           setIsOpenDeleteMemo={setIsOpenDeleteMemo}
