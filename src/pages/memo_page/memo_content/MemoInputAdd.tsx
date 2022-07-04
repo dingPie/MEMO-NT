@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 import { CustomBtn } from "../../../components/Buttons";
 import { ColBox, RowBox } from "../../../components/FlexBox";
@@ -14,11 +14,18 @@ interface IMemoInputAdd {
   onClickAddCancel: () => void;
 }
 
-const MemoInputAdd = ( { tag, inputMemo, onChangeInputMemo, onClickAddConfirm, onClickAddCancel }: IMemoInputAdd ) => {
+const MemoInputAdd = ( {  tag, inputMemo, onChangeInputMemo, onClickAddConfirm, onClickAddCancel }: IMemoInputAdd ) => {
+  
+  const inputRef = useRef<HTMLTextAreaElement>(null)
+  useEffect(() => {
+    if (inputRef.current) inputRef.current.focus();
+  }, [])
+  
 
   return(
     <ColBox padding="0 0 .5rem">
       <InputText
+        ref={inputRef}
         shadow
         height={1.5}
         padding=".5rem"

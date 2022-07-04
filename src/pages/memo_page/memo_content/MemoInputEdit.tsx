@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 
 import InputText from "../../../components/InputText";
@@ -13,17 +13,21 @@ import { IEditMemo } from "./../MemoPage";
 
 interface IMemoInputEdit {
   editMemo: IEditMemo;
-  inputMemo: string
+  inputMemo: string;
   onChangeInputMemo: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onClickDoEditMemo: (editMemo: IEditMemo, inputMemo: string) => void;
   onClickDoDeleteMemo: (e: React.MouseEvent<HTMLDivElement>, editMemo: IEditMemo) => void;
 }
 
 
-const MemoInputEdit = forwardRef<HTMLDivElement ,IMemoInputEdit>(( { editMemo, onClickDoEditMemo, inputMemo, onChangeInputMemo, onClickDoDeleteMemo }, ref ) => {
+const MemoInputEdit = ( { editMemo, inputMemo, onClickDoEditMemo, onChangeInputMemo, onClickDoDeleteMemo }: IMemoInputEdit ) => {
 
   const stopPropagation = (e: React.MouseEvent<HTMLTextAreaElement>) => e.stopPropagation()
 
+  const inputRef = useRef<HTMLTextAreaElement>(null)
+  useEffect(() => {
+    if (inputRef.current) inputRef.current.focus();
+  }, [])
 
   return (
     <Outer
@@ -43,6 +47,7 @@ const MemoInputEdit = forwardRef<HTMLDivElement ,IMemoInputEdit>(( { editMemo, o
           </IconBox>
         </RowBox>
         <InputText
+          ref={inputRef}
           shadow
           padding=".5rem"
           lineHeight={1.125}
@@ -55,7 +60,7 @@ const MemoInputEdit = forwardRef<HTMLDivElement ,IMemoInputEdit>(( { editMemo, o
       </MemoInputEditBox>
     </Outer>
   )
-})
+}
 export default MemoInputEdit;
 
 interface ITest  {

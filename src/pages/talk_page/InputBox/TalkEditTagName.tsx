@@ -39,7 +39,6 @@ const TalkEditTagName = ( {
       between gap={.1} 
     >
     <RowBox 
-      right
       gap={.25} 
       radius={1}
       padding=".25rem .5rem"

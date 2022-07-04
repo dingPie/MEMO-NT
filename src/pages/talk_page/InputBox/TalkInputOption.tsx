@@ -10,7 +10,7 @@ import TagOptions from "./TagOptions";
 
 interface ITalkInputOption  {
   tags: ITag[];
-  recommTag: ITag | undefined;
+  recommTag: ITag | null;
   onClickTagOption: (v?: string) => void;
 }
 

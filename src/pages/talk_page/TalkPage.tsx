@@ -76,7 +76,7 @@ const TalkPage = ( {  fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage ) => {
   useEffect(() => {
     if (!userInfo) return
     doGetPinnedMemo(userInfo)
-  }, [userInfo, editMemo])
+  }, [userInfo])
 
 
   /* 무한스크롤 메모불러오기 */

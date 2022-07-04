@@ -1,4 +1,4 @@
-import React, { memo, useRef } from "react";
+import React, { forwardRef, memo, useRef } from "react";
 import styled, { css } from "styled-components";
 import { fontSizeSet } from "../styles/stylesCss";
 
@@ -17,28 +17,49 @@ interface IInputTextEle {
 interface IInputText extends IInputTextEle {
   value?: string;
   defaultValue?: string;
-  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   placeholder?: string;
   noResize?: boolean;
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onClick?: (e: React.MouseEvent<HTMLTextAreaElement>) => void;
-  rows?: number;
 }
 
-const InputText = ( { rows, onClick, padding, lineHeight, value, defaultValue, onChange, noResize, placeholder, width, height, shadow, maxHeight, bold, bgColor, fontSize }: IInputText) => {
-  
-  const inputRef = useRef<HTMLTextAreaElement>(null)
+const InputText = forwardRef< HTMLTextAreaElement, IInputText>((
+  {
+    value, 
+    defaultValue, 
+    noResize, 
+    placeholder, 
+    onClick, 
+    onChange, 
+    width, 
+    height, 
+    padding, 
+    lineHeight, 
+    shadow, 
+    maxHeight, 
+    bold, 
+    bgColor, 
+    fontSize }, externalRef ) => {
+
+  // forwardRef로 넘겨준 externalRef 가 있으면, externalRef로 Ref값을 지정해준다. (focus 처리하기 위함.)
+  const inputRef = externalRef ? externalRef as React.RefObject<HTMLTextAreaElement> : useRef<HTMLTextAreaElement>(null)
 
   const resize = (ref: React.RefObject<HTMLTextAreaElement>) => {
     if (!ref.current || noResize) return
     ref.current.style.height = "auto" ; // 줄어들때 먼저 설정
     ref.current.style.height = ref.current.scrollHeight +"px";
   }
+
+  React.useEffect(() => {
+    resize(inputRef)
+  }, [defaultValue])
   
+
   
   return(
     <InputTextEle
-      onKeyDown={() => resize(inputRef)}
       ref={inputRef}
+      onKeyDown={() => resize(inputRef)}
       value={value}
       defaultValue={defaultValue}
       onChange={onChange}
@@ -54,10 +75,9 @@ const InputText = ( { rows, onClick, padding, lineHeight, value, defaultValue, o
       padding={padding}
       lineHeight={lineHeight}
       fontSize={fontSize}
-      rows={rows}
     />
   )
-}
+})
 
 export default memo(InputText);
 
@@ -67,10 +87,11 @@ export const InputTextEle = styled.textarea<IInputTextEle>`  //["attrs"]
   height: ${({height}) => height ? height+"rem": "auto" };
   max-height: ${({maxHeight}) => maxHeight ? maxHeight+"rem": "auto" };
   min-height: 1.75rem;
+
+  font-weight: ${({bold}) => bold && "bold"};
+  padding: ${({padding}) => padding && padding };
   line-height: ${({lineHeight}) => lineHeight ? lineHeight+"rem": "1.25rem" };
   background: ${({bgColor}) => bgColor && bgColor };
-  padding: ${({padding}) => padding && padding };
-  font-weight: ${({bold}) => bold && "bold"};
 
   ${fontSizeSet};
 
@@ -86,12 +107,6 @@ export const InputTextEle = styled.textarea<IInputTextEle>`  //["attrs"]
   &::-webkit-scrollbar {
     width: 0;
   }
-  /* &::-webkit-scrollbar-thumb {
-    background-color: gray;
-    border-radius: .375rem;
-    background-clip: padding-box;
-    border: 2px solid transparent;
-  } */
 
 `
 
