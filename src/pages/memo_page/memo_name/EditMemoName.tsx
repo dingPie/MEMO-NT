@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import useStore from "../../../store/useStore";
 
@@ -24,7 +24,12 @@ interface IEditMemoName {
 const EditMemoName = ( { tag, onClickDoEditTag, inputMemoName, onChangeMemoName }: IEditMemoName ) => {
 
   const { palette } = useStore();
+  const inputRef = useRef<HTMLTextAreaElement>(null)
 
+  useEffect(() => {
+    if (inputRef.current) inputRef.current.focus()
+  }, [])
+  
 
   return (
     <EditTagBox
@@ -32,6 +37,7 @@ const EditMemoName = ( { tag, onClickDoEditTag, inputMemoName, onChangeMemoName 
       bgColor={palette.getColor(tag)}
     >
       <InputText
+        ref={inputRef}
         bold
         noResize
         fontSize="l"

@@ -77,11 +77,8 @@ const MemoPage = ( { fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage ) => {
     navigate(-1)
   }
 
-  // 태그네임 클릭: Menu Open
-  const onClickTagName = () => {
-    setIsOpenMenu(true)
-  }
- 
+
+  
   return(
       <>
       <Header 
@@ -95,11 +92,13 @@ const MemoPage = ( { fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage ) => {
             <MemoNameContainer
               fbTag={fbTag}
               fbMemo={fbMemo} 
+              tags={tags}
               tag={tag}
+              memoList={memoList}
               isOpenMenu={isOpenMenu}
               isOpenEditTag={isOpenEditTag}
+              setIsOpenMenu={setIsOpenMenu}
               setIsOpenEditTag={setIsOpenEditTag}
-              onClickTagName={onClickTagName}
             />
             <MemoContentContainer 
               fbAuth={fbAuth}

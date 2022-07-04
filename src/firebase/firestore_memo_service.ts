@@ -188,7 +188,6 @@ export class FbMemo {
   async getPinnedMemo (memoId: string, update?: (v: IMemo) => void): Promise<IMemo> {
     const docRef = doc(this.fireStoreDB, this.doc, memoId);
     const result = await getDoc(docRef);
-    console.log(memoId, result.data(), "삭제된 태그 결과비교")
     if (update) update(result.data() as IMemo)
     return result.data() as IMemo;
   }

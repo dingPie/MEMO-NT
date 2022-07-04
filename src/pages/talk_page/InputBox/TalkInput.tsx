@@ -13,9 +13,10 @@ interface ITaklInput {
   value: string;
   onChangeInputMemo: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onClickInputBtn: () => void;
+  inputRef: React.RefObject<HTMLTextAreaElement>;
 }
 
-const TalkInput = ( { value, onChangeInputMemo, onClickInputBtn }: ITaklInput ) => {
+const TalkInput = ( { inputRef, value, onChangeInputMemo, onClickInputBtn }: ITaklInput ) => {
 
 
   return (        
@@ -23,6 +24,7 @@ const TalkInput = ( { value, onChangeInputMemo, onClickInputBtn }: ITaklInput ) 
     padding=".75rem" 
   >
     <InputText
+      ref={inputRef}
       value={value}
       onChange={onChangeInputMemo}
       maxHeight={5}

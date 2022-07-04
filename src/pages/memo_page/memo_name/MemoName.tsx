@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import useStore from "../../../store/useStore";
 
@@ -21,8 +21,7 @@ const MemoName = ( { tag, isOpenMenu, onClickTagName }: IMemoName ) => {
   const { palette } = useStore();
   const [memoName, setMemoName] = useState(setTalkTag(tag, "expand"))
 
-  React.useEffect(() => {
-    console.log("태그이름바뀜")
+  useEffect(() => {
     setMemoName(setTalkTag(tag, "expand"))
   }, [tag])
   

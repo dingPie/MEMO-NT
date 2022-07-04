@@ -1,4 +1,4 @@
-import  React, { useEffect, useState } from "react";
+import  React, { useEffect, useRef, useState } from "react";
 import useStore from "../../../store/useStore";
 import { useNavigate } from "react-router";
 
@@ -28,6 +28,7 @@ const MemoContentContainer = ( { userInfo, fbAuth, fbTag, fbMemo, tag, memoList,
 
   const { loading } = useStore();
   const navigate = useNavigate();
+  const inputRef = useRef<HTMLTextAreaElement>(null)
   const [isOpenInputMemo, setIsOpenInputMemo] = useState(false);
   const [inputMemo, setInputMemo] = useState("");
   const [editMemo, setEditMemo] = useState<IEditMemo | null>(null)
@@ -65,6 +66,7 @@ const MemoContentContainer = ( { userInfo, fbAuth, fbTag, fbMemo, tag, memoList,
   const onClickMemo = (e: React.MouseEvent<HTMLDivElement>, memo: IMemo) => {
     if (isOpenMenu) return
     loading.start();
+
     const { x, y, width, height } = e.currentTarget.getBoundingClientRect();
     e.currentTarget.offsetTop
     const newEditMemo = {
@@ -157,7 +159,7 @@ const MemoContentContainer = ( { userInfo, fbAuth, fbTag, fbMemo, tag, memoList,
         }
 
         { editMemo &&
-          <MemoInputEdit 
+          <MemoInputEdit
             editMemo={editMemo}
             inputMemo={inputMemo}
             onChangeInputMemo={onChangeInputMemo}

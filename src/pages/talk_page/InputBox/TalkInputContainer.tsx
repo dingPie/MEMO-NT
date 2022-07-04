@@ -27,10 +27,11 @@ const TalkInpuContainer = ( {  fbMemo, fbTag, tags, editMemo, setEditMemo, viewM
   const { loading } = useStore();
   const [inputMemo, setInputMemo] = useState<string>(''); // 입력중인 memo
   const [editTagName, setEditTagName] = useState('');
-  const [recommTag, setRecommTag] = useState<ITag>();
+  const [recommTag, setRecommTag] = useState<ITag | null>(null); // 첫 state를 빈 undefined 값이 아닌 null 설정하여 매번 초기화
 
   const [toBeDeleteTag, setToBeDeleteTag] = useState<string>('') // 빈태그 체그 및 삭제
 
+  const inputRef = React.useRef<HTMLTextAreaElement>(null);
 
   // editmemo 설정시 tagName , content input state 설정
   useEffect(() => {
@@ -38,13 +39,13 @@ const TalkInpuContainer = ( {  fbMemo, fbTag, tags, editMemo, setEditMemo, viewM
     setInputMemo(editMemo.content)
     const tagName = editMemo.tagId === "undefined" ? "" : getTagWithMemo(tags, editMemo).name
     onChangeTagName(null, tagName)
+    if (inputRef.current) inputRef.current.focus() 
   }, [editMemo])
 
-
+  
+  // 빈태그 삭제
   useEffect(() => {
     if (!toBeDeleteTag) return
-
-    // 빈태그 삭제
     const deleteEmptyTag = async (toBeDeleteTag: string) => {
       const usedMemoLength = await fbTag.checkUsedMemoLength(toBeDeleteTag)
       console.log("결과확인", usedMemoLength)
@@ -126,7 +127,7 @@ const TalkInpuContainer = ( {  fbMemo, fbTag, tags, editMemo, setEditMemo, viewM
     await fbTag.deleteUsedMemo(editMemo) // 현재 태그에서 editMemo에서 현재 메모 아이디 빼주고
   
     if (editMemo.tagId === "toBeDeleted" || editMemo.tagId === "undefined") {
-    } else  setToBeDeleteTag(editMemo.tagId)
+    } else setToBeDeleteTag(editMemo.tagId) // 빈 태그 삭제 검사 (undefined / toBeDeleted는 검사하지 않는다.)
     
     return newTag; 
   }
@@ -162,11 +163,9 @@ const TalkInpuContainer = ( {  fbMemo, fbTag, tags, editMemo, setEditMemo, viewM
     if (inputMemo.includes("#")) result = inputMemo.split('#')[0] + "#" + tagName
     else result = inputMemo + " #" + tagName
     setInputMemo(result)
-
-    // inputText도 focus 하고싶은데, 하위에 어려개 ref를 어떻게 설정하는지 몰라서 잠시 멈춤.
-    // 또한, TextArea는 Resize때문에 Ref 또한 적용되어 있어서...애매함.
+    if (inputRef.current) inputRef.current.focus() // 옵션 클릭시 input창 focus()
   }
-
+  
 
 
   return (
@@ -191,6 +190,7 @@ const TalkInpuContainer = ( {  fbMemo, fbTag, tags, editMemo, setEditMemo, viewM
       }
       {/*  기본 인풋창  */}
       <TalkInput
+        inputRef={inputRef}
         value={inputMemo}
         onChangeInputMemo={(e) => onChangeInputMemo(e)}
         onClickInputBtn={onClickInputBtn}

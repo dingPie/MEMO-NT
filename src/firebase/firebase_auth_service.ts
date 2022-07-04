@@ -67,8 +67,8 @@ export class FbAuth {
     await setPersistence(this.firebaseAuth, browserLocalPersistence );
     const googleProvider = new GoogleAuthProvider();
 
-    // const result = await signInWithPopup(this.firebaseAuth, googleProvider);
-    const result: UserCredential = await signInWithRedirect(this.firebaseAuth, googleProvider);
+    const result = await signInWithPopup(this.firebaseAuth, googleProvider);
+    // const result: UserCredential = await signInWithRedirect(this.firebaseAuth, googleProvider);
 
     const credential = GoogleAuthProvider.credentialFromResult(result);
     const token = credential!.accessToken;
@@ -83,9 +83,9 @@ export class FbAuth {
   ) {
     await setPersistence(this.firebaseAuth, browserSessionPersistence ); // 세션 스토리지 저장. 
     const githubProvider = new GithubAuthProvider();
-    
-    // const result = await signInWithPopup(this.firebaseAuth, githubProvider);
-    const result: UserCredential = await signInWithRedirect(this.firebaseAuth, githubProvider);
+
+    const result = await signInWithPopup(this.firebaseAuth, githubProvider);
+    // const result: UserCredential = await signInWithRedirect(this.firebaseAuth, githubProvider);
 
     const credential = GithubAuthProvider.credentialFromResult(result);
     const token = credential!.accessToken;
