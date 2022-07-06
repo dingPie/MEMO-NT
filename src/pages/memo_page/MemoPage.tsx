@@ -17,15 +17,16 @@ import { FbAuth } from "../../firebase/firebase_auth_service";
 // Memo Conponents
 import MemoContentContainer from "./memo_content/MemoContentContainer";
 import MemoNameContainer from "./memo_name/MemoNameContainer";
-import MemoMenuContainer from "./menu/MemoMenuContainer";
-import MemoDeletePopupContainer from "./popup/MemoDeletePopupContainer";
+import MemoMenuContainer from "./memo_menu/MemoMenuContainer";
+import MemoDeletePopupContainer from "./memo_popup/MemoDeletePopupContainer";
+import MemoAddContainer from "./memo_add/MemoAddContainer";
 
 export interface IEditMemo {
   memo: IMemo;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
+  // x: number;
+  // y: number;
+  // width: number;
+  // height: number;
 }
 
 export interface MemoProps {
@@ -107,10 +108,21 @@ const MemoPage = ( { fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage ) => {
               fbTag={fbTag}
               fbMemo={fbMemo}
               tag={tag}
+              userInfo={userInfo}
               memoList={memoList}
               setMemoList={setMemoList}
               isOpenMenu={isOpenMenu}
-              userInfo={userInfo}
+              isOpenEditTag={isOpenEditTag}
+              isOpenInputMemo={isOpenInputMemo}
+              setIsOpenInputMemo={setIsOpenInputMemo}
+            />
+            <MemoAddContainer 
+              fbTag={fbTag}
+              fbMemo={fbMemo}
+              tag={tag}
+              memoList={memoList}
+              setMemoList={setMemoList}
+              isOpenMenu={isOpenMenu}
               isOpenEditTag={isOpenEditTag}
               isOpenInputMemo={isOpenInputMemo}
               setIsOpenInputMemo={setIsOpenInputMemo}
