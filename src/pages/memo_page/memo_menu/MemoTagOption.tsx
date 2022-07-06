@@ -3,58 +3,65 @@ import useStore from "../../../store/useStore";
 
 import { RowBox } from "../../../components/FlexBox";
 
-import { ITag } from "../../../utils/interface/interface";
+import { IMemo, ITag } from "../../../utils/interface/interface";
 
-import TagOptions from "./TagOptions";
+import TagOptions from "../../talk_page/InputBox/TagOptions"
 import styled from "styled-components";
 
+import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
+import {  faHashtag } from "@fortawesome/free-solid-svg-icons";
+import { faClockFour } from "@fortawesome/free-regular-svg-icons";
+import { IconBox } from "../../../components/IconBox";
 
-interface ITalkInputOption  {
+interface IMemoTagOption  {
   tags: ITag[];
-  recommTag: ITag | null;
-  onClickTagOption: (v?: string) => void;
+  editMemo: IMemo;
+  onClickTagOption: (tagName: string, editMemo: IMemo) => void;
 }
 
 
-const TalkInputOption = ( { tags, recommTag, onClickTagOption }: ITalkInputOption ) => {
+const MemoTagOption = ( { tags, editMemo, onClickTagOption }: IMemoTagOption ) => {
   
   const { palette } = useStore();
   const recentTags = tags.filter( v => v.id !== "undefined" && v.id !== "toBeDeleted" ) // .slice(0, 3)
-  // firebase에서 sort시, sort 된 옵션으로 불러와진다!
+
 
   return(
     <InputOptionBox>
       <TagScrollBox>
         { recentTags.map( tag =>
           <TagOptions
-            key={tag.id}
-            onClick={ () => onClickTagOption(tag.name)}
+            key={tag.name}
+            onClick={ () => onClickTagOption(tag.id, editMemo)}
             tagColor={palette.getColor(tag)} 
             tagName={tag.name} 
           />
         )}
       </TagScrollBox>
-      <RowBox gap={.25} padding="0" right>
-        { recommTag &&
-          <TagOptions 
-            onClick={() => onClickTagOption(recommTag.name)}
-            tagColor={palette.getColor(recommTag)} 
-            tagName={recommTag.name}  // 태그 추천 관련 로직 적용
-          /> 
-        }
 
-        <TagOptions
-          onClick={ () => onClickTagOption("")}
-          end
-          tagColor="#F5F5F5"
-          tagName="#"
-        />
+      <RowBox gap={.25} padding="0" right>
+        <TagIcon
+          bgColor="#505050"
+          onClick={ () => onClickTagOption("toBeDeleted", editMemo)}
+        >
+          <Icon icon={faClockFour} color="#FFFFFF" />
+        </TagIcon>
+        <TagIcon
+          bgColor="#F5F5F5"
+          onClick={ () => onClickTagOption("undefined", editMemo)}
+        >
+          <Icon icon={faHashtag} />
+        </TagIcon>
       </RowBox>
     </InputOptionBox>
   )
 }
 
-export default (TalkInputOption);
+export default (MemoTagOption);
+
+const TagIcon = styled(IconBox)`
+  align-self: center;
+`
 
 const TagScrollBox = styled(RowBox)`
   flex-wrap: nowrap;
@@ -79,7 +86,7 @@ const TagScrollBox = styled(RowBox)`
 
  const InputOptionBox = styled.div`
   display: grid;
-  grid-template-columns: 1fr 8rem;
+  grid-template-columns: 1fr 5rem;
   align-items: stretch;
   gap: .5rem;
   

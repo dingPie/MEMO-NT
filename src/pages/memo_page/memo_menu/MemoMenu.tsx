@@ -29,6 +29,7 @@ const MemoMenu = ( { tag, onClickEditBtn, onClickDeleteBtn, onClickPaletteBtn, o
       <RowBox gap={.5} padding=".25rem">
         {(tag.id !== "undefined" && tag.id !== "toBeDeleted") &&
           <IconBox
+            fontSize="l"
             onClick={onClickEditBtn}
           >
             <Icon icon={faPen} />
@@ -41,6 +42,7 @@ const MemoMenu = ( { tag, onClickEditBtn, onClickDeleteBtn, onClickPaletteBtn, o
         </IconBox>
         {(tag.id !== "undefined" && tag.id !== "toBeDeleted") &&
           <IconBox
+          fontSize="l"
             onClick={onClickPaletteBtn}
           >
             <Icon icon={faPalette} />
@@ -49,6 +51,7 @@ const MemoMenu = ( { tag, onClickEditBtn, onClickDeleteBtn, onClickPaletteBtn, o
       </RowBox>
 
       <IconBox
+      fontSize="l"
         onClick={onClickCloseMenuBtn}
       >
         <Icon icon={faXmark} />

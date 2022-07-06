@@ -60,7 +60,7 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
   const initApp = async (user: User) => {
     const paletteObj = await fbAuth.getPalette() // 팔레트 설정
     palette.setPalette(paletteObj)
-
+    console.log(paletteObj, "색상정보 확인")
     fbAuth.setUid(user) // uid 의존성 주입
     fbTag.setDoc(user) // uid 의존성 주입
     fbMemo.setDoc(user) // uid 의존성 주입
@@ -74,7 +74,7 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
   useEffect(() => {
     fbAuth.onCheckUser(setUser);
     if (user) initApp(user)
-    navitage('/login')
+    else navitage('/login')
   }, [user])
 
 

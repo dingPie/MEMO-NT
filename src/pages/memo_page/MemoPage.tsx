@@ -46,6 +46,8 @@ const MemoPage = ( { fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage ) => {
   const [tag, setTag] = useState<ITag>(tags.filter(tag => tag.id === tagId )[0]);
   const [memoList, setMemoList] = useState<IMemo[]>([])
 
+  const [editMemo, setEditMemo] = useState<IMemo | null>(null);
+
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isOpenEditTag, setIsOpenEditTag] = useState(false);
   const [isOpenDeleteMemo, setIsOpenDeleteMemo] = useState(false);
@@ -108,6 +110,9 @@ const MemoPage = ( { fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage ) => {
               isOpenEditTag={isOpenEditTag}
               isOpenInputMemo={isOpenInputMemo}
               setIsOpenInputMemo={setIsOpenInputMemo}
+
+              editMemo={editMemo}
+              setEditMemo={setEditMemo}
             />
             <MemoAddContainer 
               fbTag={fbTag}
@@ -125,15 +130,21 @@ const MemoPage = ( { fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage ) => {
         </MemoBox>
       </OuterBox>
       {tag &&
-          <MemoMenuContainer
-            fbTag={fbTag}
-            fbMemo={fbMemo}
-            tag={tag}
-            isOpenMenu={isOpenMenu}
-            setIsOpenMenu={setIsOpenMenu}
-            setIsOpenDeleteMemo={setIsOpenDeleteMemo}
-            setIsOpenEditTag={setIsOpenEditTag}
-          />
+        <MemoMenuContainer
+          fbTag={fbTag}
+          fbMemo={fbMemo}
+          tag={tag}
+          isOpenMenu={isOpenMenu}
+          setIsOpenMenu={setIsOpenMenu}
+          setIsOpenDeleteMemo={setIsOpenDeleteMemo}
+          setIsOpenEditTag={setIsOpenEditTag}
+
+          memoList={memoList}
+          setMemoList={setMemoList}
+          tags={tags}
+          editMemo={editMemo}
+          setEditMemo={setEditMemo}
+        />
       }
         <MemoDeletePopupContainer
           fbAuth={fbAuth} 

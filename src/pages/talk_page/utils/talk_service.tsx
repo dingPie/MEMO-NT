@@ -1,7 +1,7 @@
 import React from "react";
 import { IMemo, ITag } from "../../../utils/interface/interface"
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { faEllipsis, faHashtag } from "@fortawesome/free-solid-svg-icons";
+import {  faHashtag } from "@fortawesome/free-solid-svg-icons";
 import { faClockFour } from "@fortawesome/free-regular-svg-icons";
 
 // 태그 이름 설정 (확장시, 비확장시)

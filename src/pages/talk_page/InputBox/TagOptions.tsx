@@ -17,8 +17,7 @@ const TagOptions = ( { end, tagColor, tagName, onClick }: ITagOptions ) => {
 
 
   return(
-    <>
-      <RecomandTag
+      <TagOptionBox
         onClick={onClick}
         bgColor={tagColor}
         padding=".25rem .5rem"
@@ -27,8 +26,7 @@ const TagOptions = ( { end, tagColor, tagName, onClick }: ITagOptions ) => {
         end={end}
       >
         {tagName}
-      </RecomandTag>
-    </>
+      </TagOptionBox>
   )
 }
 
@@ -36,7 +34,7 @@ export default TagOptions;
 
 // 여기 이제 input 옵션창 해야함..
 
-const RecomandTag = styled(CustomBtn)<{whiteSpace?: string, end?:boolean}>`
+const TagOptionBox = styled(CustomBtn)<{whiteSpace?: string, end?:boolean}>`
   flex: 0 0 auto;
   justify-self: ${({end}) => end && "end" };
   align-self: center;
