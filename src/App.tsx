@@ -18,6 +18,7 @@ import { FbTag } from './firebase/firestore_tag_service';
 
 import { ITag, IUserInfo } from './utils/interface/interface';
 import { MobileBox } from './components/MobileBox';
+import NotFoundPage from './pages/NotFoundPage';
 
 
 
@@ -124,6 +125,9 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
             userInfo={userInfo}
           />} 
         />
+
+      {/* redirect 설정 떄문에 현재 쓰이지 않을 듯 하다. */}
+      {/* <Route path='/test' element={<NotFoundPage />} /> */}
       </Routes>
 
 

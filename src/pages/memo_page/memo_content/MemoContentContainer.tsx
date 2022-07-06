@@ -1,175 +1,121 @@
-import  React, { useEffect, useRef, useState } from "react";
+import  React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import useStore from "../../../store/useStore";
 import { useNavigate } from "react-router";
 
-import { CustomBtn } from "../../../components/Buttons";
 import { ColBox } from "../../../components/FlexBox";
 
 import { FbAuth } from "../../../firebase/firebase_auth_service";
 import { IMemo, IUserInfo } from "../../../utils/interface/interface";
 
 // Memo Components
-import { IEditMemo, MemoProps } from "../MemoPage";
+import { MemoProps } from "../MemoPage";
 import MemoContent from "./MemoContent";
-import MemoInputAdd from "./MemoInputAdd";
-import MemoInputEdit from "./MemoInputEdit";
+import MemoEditContent from "./MemoEditContent";
 
 interface IMemoContentContainer extends MemoProps {
-  // memo: IMemo;
+  fbAuth: FbAuth;
+  userInfo: IUserInfo | null;
   memoList: IMemo[];
   setMemoList: (memo: IMemo[]) => void;
   isOpenMenu: boolean;
-  userInfo: IUserInfo | null;
-
-  fbAuth: FbAuth;
+  isOpenInputMemo: boolean;
+  isOpenEditTag: boolean;
+  setIsOpenInputMemo: (v: boolean) => void;
 }
 
-const MemoContentContainer = ( { userInfo, fbAuth, fbTag, fbMemo, tag, memoList, setMemoList, isOpenMenu }: IMemoContentContainer ) => {
+const MemoContentContainer = ( { fbAuth, fbTag, fbMemo, tag, userInfo, memoList, setMemoList, isOpenMenu, isOpenEditTag, isOpenInputMemo, setIsOpenInputMemo }: IMemoContentContainer ) => {
 
   const { loading } = useStore();
   const navigate = useNavigate();
-  const inputRef = useRef<HTMLTextAreaElement>(null)
-  const [isOpenInputMemo, setIsOpenInputMemo] = useState(false);
   const [inputMemo, setInputMemo] = useState("");
-  const [editMemo, setEditMemo] = useState<IEditMemo | null>(null)
-
-  //버튼 클릭
-  const onClickAddMemoBtn = () => {
-    setIsOpenInputMemo(true)
-  }
-
-  // 메모 추가 확인
-  const onClickAddConfirm = async (tagId: string, inputMemo: string) => {
-    loading.start();
-    const newMemo = await fbMemo.addMemo(tagId, inputMemo);
-    fbTag.addUsedMemo(tagId, newMemo!.id)
-
-    setMemoList([...memoList, newMemo!])
-    setIsOpenInputMemo(false)
-    setInputMemo("")
-    loading.finish();
-  }
-
-  // 메모 추가 취소
-  const onClickAddCancel = () => {
-    setIsOpenInputMemo(false)
-    setInputMemo("")
-  }
-
+  const [editMemo, setEditMemo] = useState<IMemo | null>(null)
+  
 
   //내용 수정
-  const onChangeInputMemo = (e: React.ChangeEvent<HTMLTextAreaElement> ) => {
+  const onChangeInputMemo = useCallback((e: React.ChangeEvent<HTMLTextAreaElement> ) => {
     setInputMemo(e.target.value)
-  }
+  }, [inputMemo])
+
 
   // 메모 클릭 => 수정 input창 출력
-  const onClickMemo = (e: React.MouseEvent<HTMLDivElement>, memo: IMemo) => {
-    if (isOpenMenu) return
-    loading.start();
+  const onClickMemo = useCallback((e: React.MouseEvent<HTMLDivElement>, memo: IMemo) => {
+    if (isOpenMenu || isOpenInputMemo || isOpenEditTag) return
+    setInputMemo(memo.content)
+    setEditMemo(memo)
+  }, [isOpenMenu, isOpenInputMemo])
 
-    const { x, y, width, height } = e.currentTarget.getBoundingClientRect();
-    e.currentTarget.offsetTop
-    const newEditMemo = {
-      memo: memo,
-      x: x,
-      y: y,
-      width: width,
-      height: height
-    }
-    setInputMemo(memo.content )
-    setEditMemo(newEditMemo)
-    loading.finish();
-  }
 
-  // 수정 실행 (종료)
-  const onClickDoEditMemo = async (editMemo: IEditMemo, inputMemo: string) => {
+  // 수정 처리
+  const onClickDoEditMemo = useCallback( async (editMemo: IMemo, inputMemo: string) => {
     setInputMemo("")
     setEditMemo(null)
-    if (inputMemo === editMemo!.memo.content) return
+    if (inputMemo === editMemo.content) return
     loading.start();
-    await fbMemo.editMemoContent(editMemo.memo.id, inputMemo);
 
+    await fbMemo.editMemoContent(editMemo.id, inputMemo);
     const editedMemo: IMemo = {  // 메모(태그) state 수정
-      ...editMemo.memo,
+      ...editMemo,
       content: inputMemo
     }
-    const newMemoList = memoList.map(memo => (memo.id === editMemo.memo.id) ? editedMemo : memo)
+    const newMemoList = memoList.map(memo => (memo.id === editMemo.id) ? editedMemo : memo)
     setMemoList(newMemoList);
     loading.finish();
-  }
+  }, [memoList] )
+
 
   // 메모 삭제 로직
-  const onClickDoDeleteMemo = async (e: React.MouseEvent<HTMLDivElement>, editMemo: IEditMemo) => {
+  const onClickDoDeleteMemo = useCallback( async (e: React.MouseEvent<HTMLDivElement>, editMemo: IMemo) => {
     setEditMemo(null)
     const confirm = window.confirm("이 메모를 삭제할까요?")
     if (!confirm) return
 
     loading.start();
-    await fbMemo.deleteMemo(editMemo.memo!.id)
-    await fbTag.deleteUsedMemo(editMemo.memo!)
-    const newViewMemo = memoList.filter(memo => memo.id !== editMemo.memo.id );
+    await fbMemo.deleteMemo(editMemo.id)
+    await fbTag.deleteUsedMemo(editMemo)
+    const newViewMemo = memoList.filter(memo => memo.id !== editMemo.id );
     setMemoList(newViewMemo);
-    loading.finish();
-
+    
     // pinnedMemo같이 삭제
-    if (userInfo!.pinnedMemo === editMemo.memo!.id) {
+    if (userInfo!.pinnedMemo === editMemo.id) {
       await fbAuth.setPinnedMemo('')
     }
     // 해당 태그의 메모가 비었을 떄 삭제
     if (newViewMemo.length === 0) { 
-      fbTag.deleteTag(editMemo.memo!.tagId)
+      fbTag.deleteTag(editMemo.tagId)
       navigate('/grid')
     }
-  }
+    loading.finish();
+  }, [memoList, userInfo])
 
 
 
   return(
       <>
-        <ColBox gap={.25} padding="0" >
+        <ColBox 
+          gap={.25} 
+          padding="0" 
+        >
           { memoList.map( (memo, id) => {
             return(
+              (editMemo !== memo ) ?
               <MemoContent
                 key={id}
                 memo={memo}
                 onClickMemo={(e) => onClickMemo(e, memo)} 
+              /> :
+              <MemoEditContent
+                editMemo={editMemo}
+                inputMemo={inputMemo}
+                onChangeInputMemo={onChangeInputMemo}
+                onClickDoEditMemo={onClickDoEditMemo}
+                onClickDoDeleteMemo={onClickDoDeleteMemo}
               />
             )
           })}
         </ColBox>
 
-        {/* 메모 추가 */}
-        { isOpenInputMemo &&
-          <MemoInputAdd
-            tag={tag}
-            inputMemo={inputMemo}
-            onChangeInputMemo={onChangeInputMemo}
-            onClickAddConfirm={onClickAddConfirm}
-            onClickAddCancel={onClickAddCancel}
-          /> 
-        }
-        { !isOpenInputMemo &&
-          <CustomBtn
-            fontSize="s"
-            bgColor="#dddddd"
-            onClick={onClickAddMemoBtn}
-          >
-            메모 추가
-          </CustomBtn>
-        }
-
-        { editMemo &&
-          <MemoInputEdit
-            editMemo={editMemo}
-            inputMemo={inputMemo}
-            onChangeInputMemo={onChangeInputMemo}
-            onClickDoEditMemo={onClickDoEditMemo}
-            onClickDoDeleteMemo={onClickDoDeleteMemo}
-          />
-        }
-
       </>
   )
 }
 
-export default MemoContentContainer;
+export default memo(MemoContentContainer);

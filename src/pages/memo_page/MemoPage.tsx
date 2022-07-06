@@ -17,16 +17,10 @@ import { FbAuth } from "../../firebase/firebase_auth_service";
 // Memo Conponents
 import MemoContentContainer from "./memo_content/MemoContentContainer";
 import MemoNameContainer from "./memo_name/MemoNameContainer";
-import MemoMenuContainer from "./menu/MemoMenuContainer";
-import MemoDeletePopupContainer from "./popup/MemoDeletePopupContainer";
+import MemoMenuContainer from "./memo_menu/MemoMenuContainer";
+import MemoDeletePopupContainer from "./memo_popup/MemoDeletePopupContainer";
+import MemoAddContainer from "./memo_add/MemoAddContainer";
 
-export interface IEditMemo {
-  memo: IMemo;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
 
 export interface MemoProps {
   fbMemo: FbMemo;
@@ -55,6 +49,7 @@ const MemoPage = ( { fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage ) => {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isOpenEditTag, setIsOpenEditTag] = useState(false);
   const [isOpenDeleteMemo, setIsOpenDeleteMemo] = useState(false);
+  const [isOpenInputMemo, setIsOpenInputMemo] = useState(false);
 
   useLayoutEffect(() => {
     if(!tag) return
@@ -97,6 +92,7 @@ const MemoPage = ( { fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage ) => {
               memoList={memoList}
               isOpenMenu={isOpenMenu}
               isOpenEditTag={isOpenEditTag}
+              isOpenInputMemo={isOpenInputMemo}
               setIsOpenMenu={setIsOpenMenu}
               setIsOpenEditTag={setIsOpenEditTag}
             />
@@ -105,10 +101,24 @@ const MemoPage = ( { fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage ) => {
               fbTag={fbTag}
               fbMemo={fbMemo}
               tag={tag}
+              userInfo={userInfo}
               memoList={memoList}
               setMemoList={setMemoList}
               isOpenMenu={isOpenMenu}
-              userInfo={userInfo}
+              isOpenEditTag={isOpenEditTag}
+              isOpenInputMemo={isOpenInputMemo}
+              setIsOpenInputMemo={setIsOpenInputMemo}
+            />
+            <MemoAddContainer 
+              fbTag={fbTag}
+              fbMemo={fbMemo}
+              tag={tag}
+              memoList={memoList}
+              setMemoList={setMemoList}
+              isOpenMenu={isOpenMenu}
+              isOpenEditTag={isOpenEditTag}
+              isOpenInputMemo={isOpenInputMemo}
+              setIsOpenInputMemo={setIsOpenInputMemo}
             />
           </>
           }

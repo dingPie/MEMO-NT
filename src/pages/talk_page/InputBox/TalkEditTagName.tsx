@@ -52,7 +52,8 @@ const TalkEditTagName = ( {
       >
        #
       </Text>
-      <TagInput 
+      <TagInput
+        placeholder="태그 없음"
         bgColor={palette.getColor(tag)}
         value={editTagName}
         onChange={(e) => onChangeTagName(e)}

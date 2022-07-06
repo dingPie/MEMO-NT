@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 
 import Text from "../../../components/Text";
@@ -11,14 +11,6 @@ interface IMemoContent {
 
 const MemoContent = ( { memo, onClickMemo }: IMemoContent ) => {
 
-  // const inputRef = useRef<HTMLDivElement>(null)
-
-  // const resize = (ref: React.RefObject<HTMLDivElement>) => {
-  //   if (!ref.current || noResize) return
-  //   ref.current.style.height = "auto" ; // 줄어들때 먼저 설정
-  //   ref.current.style.height = ref.current.scrollHeight +"px";
-  //   console.log("높이설정", ref.current.scrollHeight)
-  // }
 
   return(
     <MemoText
@@ -29,7 +21,7 @@ const MemoContent = ( { memo, onClickMemo }: IMemoContent ) => {
   )
 }
 
-export default MemoContent;
+export default memo(MemoContent);
 
 const MemoText = styled(Text)`
   padding: .5rem;

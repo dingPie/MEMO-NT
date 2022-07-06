@@ -49,7 +49,6 @@ const Text = styled.div<Itext>`
   ${({cursor}) => {
     return cursor ? `cursor: pointer` : `cursor: auto`
   }}
-
 `
 
 export default Text;

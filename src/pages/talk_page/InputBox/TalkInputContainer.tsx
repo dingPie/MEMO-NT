@@ -22,7 +22,7 @@ interface ITalkInpuContainer {
   talkBoxRef: React.RefObject<HTMLDivElement>;
 }
 
-const TalkInpuContainer = ( {  fbMemo, fbTag, tags, editMemo, setEditMemo, viewMemo, setViewMemo, talkBoxRef}: ITalkInpuContainer ) => {
+const TalkInpuContainer = ( { fbMemo, fbTag, tags, editMemo, setEditMemo, viewMemo, setViewMemo, talkBoxRef }: ITalkInpuContainer ) => {
 
   const { loading } = useStore();
   const [inputMemo, setInputMemo] = useState<string>(''); // 입력중인 memo

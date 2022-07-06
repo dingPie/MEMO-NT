@@ -22,7 +22,3 @@ export interface IUserInfo {
 	// name: string | null // google, github 등 로그인 소스 (표시용)
 	// email: string | null; // 유저의 로그인 한 이메일, github는 null cpie1216@gmail.com
 }
-
-export interface IDeleteTime {
-	time: number; // Date().getTime()
-}

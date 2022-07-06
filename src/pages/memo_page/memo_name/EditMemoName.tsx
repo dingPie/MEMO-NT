@@ -10,7 +10,7 @@ import InputText from "../../../components/InputText";
 import { ITag } from "../../../utils/interface/interface";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 
 
 interface IEditMemoName {
@@ -54,7 +54,7 @@ const EditMemoName = ( { tag, onClickDoEditTag, inputMemoName, onChangeMemoName 
         bgColor={palette.getColor(tag)}
         onClick={() => onClickDoEditTag(tag)}
       >
-        <Icon icon={faCheck} />
+        <Icon icon={faCheckCircle} />
       </IconBox>
     </EditTagBox>
   )

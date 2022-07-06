@@ -6,6 +6,7 @@ import { RowBox } from "../../../components/FlexBox";
 import { ITag } from "../../../utils/interface/interface";
 
 import TagOptions from "./TagOptions";
+import styled from "styled-components";
 
 
 interface ITalkInputOption  {
@@ -18,16 +19,12 @@ interface ITalkInputOption  {
 const TalkInputOption = ( { tags, recommTag, onClickTagOption }: ITalkInputOption ) => {
   
   const { palette } = useStore();
-  const recentTags = tags.filter( v => v.id !== "undefined" && v.id !== "toBeDeleted" ).slice(0, 3)
+  const recentTags = tags.filter( v => v.id !== "undefined" && v.id !== "toBeDeleted" ) // .slice(0, 3)
   // firebase에서 sort시, sort 된 옵션으로 불러와진다!
 
   return(
-    <RowBox
-      align="center"
-      padding=".5rem"
-      bgColor="white"
-    >
-      <RowBox gap={.25} padding="0" >
+    <InputOptionBox>
+      <TagScrollBox>
         { recentTags.map( tag =>
           <TagOptions
             key={tag.id}
@@ -36,26 +33,57 @@ const TalkInputOption = ( { tags, recommTag, onClickTagOption }: ITalkInputOptio
             tagName={tag.name} 
           />
         )}
+      </TagScrollBox>
+      <RowBox gap={.25} padding="0" right>
+        { recommTag &&
+          <TagOptions 
+            onClick={() => onClickTagOption(recommTag.name)}
+            tagColor={palette.getColor(recommTag)} 
+            tagName={recommTag.name}  // 태그 추천 관련 로직 적용
+          /> 
+        }
+
+        <TagOptions
+          onClick={ () => onClickTagOption("")}
+          end
+          tagColor="#F5F5F5"
+          tagName="#"
+        />
       </RowBox>
-
-    <RowBox gap={.25} padding="0" right>
-      { recommTag &&
-        <TagOptions 
-          onClick={() => onClickTagOption(recommTag.name)}
-          tagColor={palette.getColor(recommTag)} 
-          tagName={recommTag.name}  // 태그 추천 관련 로직 적용
-        /> 
-      }
-
-      <TagOptions
-        onClick={ () => onClickTagOption("")}
-        tagColor="#F5F5F5"
-        tagName="#"  
-      />
-    </RowBox>
-
-    </RowBox>
+    </InputOptionBox>
   )
 }
 
 export default (TalkInputOption);
+
+const TagScrollBox = styled(RowBox)`
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: .25rem;
+  
+  background: white;
+  padding: .5rem .25rem 0; 
+  border-radius: 1.25rem ;
+
+  &::-webkit-scrollbar {
+    height: .5rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #d3d3d3;
+    border-radius: .25rem;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+    align-items: center;
+  }
+`
+
+ const InputOptionBox = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 8rem;
+  align-items: stretch;
+  gap: .5rem;
+  
+  width: 100%;
+  padding: .25rem .5rem;
+  background: white;
+`

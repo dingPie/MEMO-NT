@@ -10,9 +10,10 @@ interface ITagOptions {
   tagName: string;
   maxWidth?: number;
   onClick?: (v: any) => void;
+  end?: boolean;
 }
 
-const TagOptions = ( { tagColor, tagName, maxWidth, onClick }: ITagOptions ) => {
+const TagOptions = ( { end, tagColor, tagName, onClick }: ITagOptions ) => {
 
 
   return(
@@ -22,8 +23,8 @@ const TagOptions = ( { tagColor, tagName, maxWidth, onClick }: ITagOptions ) => 
         bgColor={tagColor}
         padding=".25rem .5rem"
         radius={1}
-        maxWidth={maxWidth}
         whiteSpace={"nowrap"}
+        end={end}
       >
         {tagName}
       </RecomandTag>
@@ -35,9 +36,14 @@ export default TagOptions;
 
 // 여기 이제 input 옵션창 해야함..
 
-const RecomandTag = styled(CustomBtn)<{maxWidth?: number, whiteSpace?: string}>`
-  max-width: ${({maxWidth}) => maxWidth ? maxWidth +"rem" : "4.5rem" };
-  min-width: 2rem;
+const RecomandTag = styled(CustomBtn)<{whiteSpace?: string, end?:boolean}>`
+  flex: 0 0 auto;
+  justify-self: ${({end}) => end && "end" };
+  align-self: center;
 
-  ${setTextLine}
+  min-width: 2rem;
+  max-width: 5.5rem;
+  height: 1.75rem;
+
+  ${setTextLine};
 `
