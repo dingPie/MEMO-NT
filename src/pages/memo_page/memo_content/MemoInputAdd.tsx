@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { memo, useEffect, useRef } from "react";
 
 import { CustomBtn } from "../../../components/Buttons";
 import { ColBox, RowBox } from "../../../components/FlexBox";
@@ -54,4 +54,4 @@ const MemoInputAdd = ( {  tag, inputMemo, onChangeInputMemo, onClickAddConfirm, 
   )
 }
 
-export default MemoInputAdd;
+export default memo(MemoInputAdd);

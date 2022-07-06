@@ -55,6 +55,7 @@ const MemoPage = ( { fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage ) => {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isOpenEditTag, setIsOpenEditTag] = useState(false);
   const [isOpenDeleteMemo, setIsOpenDeleteMemo] = useState(false);
+  const [isOpenInputMemo, setIsOpenInputMemo] = useState(false);
 
   useLayoutEffect(() => {
     if(!tag) return
@@ -97,6 +98,7 @@ const MemoPage = ( { fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage ) => {
               memoList={memoList}
               isOpenMenu={isOpenMenu}
               isOpenEditTag={isOpenEditTag}
+              isOpenInputMemo={isOpenInputMemo}
               setIsOpenMenu={setIsOpenMenu}
               setIsOpenEditTag={setIsOpenEditTag}
             />
@@ -109,6 +111,9 @@ const MemoPage = ( { fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage ) => {
               setMemoList={setMemoList}
               isOpenMenu={isOpenMenu}
               userInfo={userInfo}
+              isOpenEditTag={isOpenEditTag}
+              isOpenInputMemo={isOpenInputMemo}
+              setIsOpenInputMemo={setIsOpenInputMemo}
             />
           </>
           }

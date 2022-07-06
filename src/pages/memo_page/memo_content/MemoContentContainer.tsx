@@ -1,4 +1,4 @@
-import  React, { useEffect, useRef, useState } from "react";
+import  React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import useStore from "../../../store/useStore";
 import { useNavigate } from "react-router";
 
@@ -15,31 +15,33 @@ import MemoInputAdd from "./MemoInputAdd";
 import MemoInputEdit from "./MemoInputEdit";
 
 interface IMemoContentContainer extends MemoProps {
-  // memo: IMemo;
+  fbAuth: FbAuth;
   memoList: IMemo[];
   setMemoList: (memo: IMemo[]) => void;
   isOpenMenu: boolean;
   userInfo: IUserInfo | null;
-
-  fbAuth: FbAuth;
+  isOpenInputMemo: boolean;
+  isOpenEditTag: boolean;
+  setIsOpenInputMemo: (v: boolean) => void;
 }
 
-const MemoContentContainer = ( { userInfo, fbAuth, fbTag, fbMemo, tag, memoList, setMemoList, isOpenMenu }: IMemoContentContainer ) => {
+const MemoContentContainer = ( { userInfo, fbAuth, fbTag, fbMemo, tag, memoList, setMemoList, isOpenMenu, isOpenEditTag, isOpenInputMemo, setIsOpenInputMemo }: IMemoContentContainer ) => {
 
   const { loading } = useStore();
   const navigate = useNavigate();
-  const inputRef = useRef<HTMLTextAreaElement>(null)
-  const [isOpenInputMemo, setIsOpenInputMemo] = useState(false);
   const [inputMemo, setInputMemo] = useState("");
   const [editMemo, setEditMemo] = useState<IEditMemo | null>(null)
 
+
   //버튼 클릭
-  const onClickAddMemoBtn = () => {
+  const onClickAddMemoBtn = useCallback(() => {
+    if (isOpenMenu || isOpenEditTag) return
     setIsOpenInputMemo(true)
-  }
+  },[isOpenMenu, isOpenInputMemo])
+
 
   // 메모 추가 확인
-  const onClickAddConfirm = async (tagId: string, inputMemo: string) => {
+  const onClickAddConfirm = useCallback( async (tagId: string, inputMemo: string) => {
     loading.start();
     const newMemo = await fbMemo.addMemo(tagId, inputMemo);
     fbTag.addUsedMemo(tagId, newMemo!.id)
@@ -48,23 +50,25 @@ const MemoContentContainer = ( { userInfo, fbAuth, fbTag, fbMemo, tag, memoList,
     setIsOpenInputMemo(false)
     setInputMemo("")
     loading.finish();
-  }
+  }, [memoList, loading])
+
 
   // 메모 추가 취소
-  const onClickAddCancel = () => {
+  const onClickAddCancel = useCallback(() => {
     setIsOpenInputMemo(false)
     setInputMemo("")
-  }
+  }, [isOpenInputMemo, inputMemo])
 
 
   //내용 수정
-  const onChangeInputMemo = (e: React.ChangeEvent<HTMLTextAreaElement> ) => {
+  const onChangeInputMemo = useCallback((e: React.ChangeEvent<HTMLTextAreaElement> ) => {
     setInputMemo(e.target.value)
-  }
+  }, [inputMemo])
+
 
   // 메모 클릭 => 수정 input창 출력
-  const onClickMemo = (e: React.MouseEvent<HTMLDivElement>, memo: IMemo) => {
-    if (isOpenMenu) return
+  const onClickMemo = useCallback((e: React.MouseEvent<HTMLDivElement>, memo: IMemo) => {
+    if (isOpenMenu || isOpenInputMemo || isOpenEditTag) return
     loading.start();
 
     const { x, y, width, height } = e.currentTarget.getBoundingClientRect();
@@ -76,13 +80,14 @@ const MemoContentContainer = ( { userInfo, fbAuth, fbTag, fbMemo, tag, memoList,
       width: width,
       height: height
     }
-    setInputMemo(memo.content )
+    setInputMemo(memo.content)
     setEditMemo(newEditMemo)
     loading.finish();
-  }
+  }, [isOpenMenu, isOpenInputMemo])
+
 
   // 수정 실행 (종료)
-  const onClickDoEditMemo = async (editMemo: IEditMemo, inputMemo: string) => {
+  const onClickDoEditMemo = useCallback( async (editMemo: IEditMemo, inputMemo: string) => {
     setInputMemo("")
     setEditMemo(null)
     if (inputMemo === editMemo!.memo.content) return
@@ -96,10 +101,11 @@ const MemoContentContainer = ( { userInfo, fbAuth, fbTag, fbMemo, tag, memoList,
     const newMemoList = memoList.map(memo => (memo.id === editMemo.memo.id) ? editedMemo : memo)
     setMemoList(newMemoList);
     loading.finish();
-  }
+  }, [memoList] )
+
 
   // 메모 삭제 로직
-  const onClickDoDeleteMemo = async (e: React.MouseEvent<HTMLDivElement>, editMemo: IEditMemo) => {
+  const onClickDoDeleteMemo = useCallback( async (e: React.MouseEvent<HTMLDivElement>, editMemo: IEditMemo) => {
     setEditMemo(null)
     const confirm = window.confirm("이 메모를 삭제할까요?")
     if (!confirm) return
@@ -120,7 +126,7 @@ const MemoContentContainer = ( { userInfo, fbAuth, fbTag, fbMemo, tag, memoList,
       fbTag.deleteTag(editMemo.memo!.tagId)
       navigate('/grid')
     }
-  }
+  }, [memoList, userInfo])
 
 
 
@@ -172,4 +178,4 @@ const MemoContentContainer = ( { userInfo, fbAuth, fbTag, fbMemo, tag, memoList,
   )
 }
 
-export default MemoContentContainer;
+export default memo(MemoContentContainer);

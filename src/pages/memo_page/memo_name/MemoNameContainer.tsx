@@ -16,12 +16,13 @@ interface IMemoNameContainer extends MemoProps {
   isOpenMenu: boolean;
   isOpenEditTag: boolean;
   memoList: IMemo[];
+  isOpenInputMemo: boolean;
   setIsOpenEditTag: (v: boolean) => void; 
   setIsOpenMenu: (v: boolean) => void; 
 }
 
 
-const MemoNameContainer = ( { fbTag, fbMemo, memoList, tag, tags, isOpenMenu, setIsOpenMenu, isOpenEditTag, setIsOpenEditTag }: IMemoNameContainer ) => {
+const MemoNameContainer = ( { fbTag, fbMemo, memoList, tag, tags, isOpenMenu, setIsOpenMenu, isOpenEditTag, setIsOpenEditTag, isOpenInputMemo }: IMemoNameContainer ) => {
 
   const { loading } = useStore()
   const [inputMemoName, setinputMemoName] = useState("");
@@ -29,6 +30,7 @@ const MemoNameContainer = ( { fbTag, fbMemo, memoList, tag, tags, isOpenMenu, se
 
   // 태그네임 클릭: Menu Open
   const onClickTagName = () => {
+    if (isOpenInputMemo) return
     setIsOpenMenu(!isOpenMenu)
   }
 

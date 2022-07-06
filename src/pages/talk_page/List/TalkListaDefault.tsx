@@ -1,21 +1,16 @@
 import React, { forwardRef, memo } from "react";
-import styled from "styled-components";
 import useStore from "../../../store/useStore";
 
-import Header from "../../../components/Header";
 import Text from "../../../components/Text";
-import { RowBox } from "../../../components/FlexBox";
 import { IconBox } from "../../../components/IconBox";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { faEllipsis, faHashtag } from "@fortawesome/free-solid-svg-icons";
-import { faClockFour } from "@fortawesome/free-regular-svg-icons";
+import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
 import { IMemo, ITag } from "../../../utils/interface/interface";
 import { Time } from "../../../utils/service/time";
 import { TalkContent } from "../utils/TalkComponents";
-import { getTagWithMemo, setTalkTag } from "../utils/talk_service";
-import { setTextLine } from "../../../styles/stylesCss";
+import { setTalkTag } from "../utils/talk_service";
 
 import { TalkListBox } from "./TalkListContainer";
 
