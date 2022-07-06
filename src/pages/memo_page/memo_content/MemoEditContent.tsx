@@ -8,11 +8,10 @@ import { RowBox } from "../../../components/FlexBox";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faTrashCan, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 
-import { IEditMemo } from "../MemoPage";
 import { IMemo } from "../../../utils/interface/interface";
 
 
-interface IMemoInputEdit {
+interface IMemoEditContent {
   editMemo: IMemo | null;
   inputMemo: string;
   onChangeInputMemo: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
@@ -21,16 +20,17 @@ interface IMemoInputEdit {
 }
 
 
-const MemoInputEdit = ( {editMemo, inputMemo, onClickDoEditMemo, onChangeInputMemo, onClickDoDeleteMemo }: IMemoInputEdit ) => {
+const MemoEditContent = ( { editMemo, inputMemo, onClickDoEditMemo, onChangeInputMemo, onClickDoDeleteMemo }: IMemoEditContent ) => {
 
 
-  const inputRef = useRef<HTMLTextAreaElement>(null)
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+
   useEffect(() => {
     if (inputRef.current) inputRef.current.focus();
   }, [])
 
   return (
-      <>
+      <EditBox>
         <InputText
           ref={inputRef}
           shadow
@@ -41,23 +41,29 @@ const MemoInputEdit = ( {editMemo, inputMemo, onClickDoEditMemo, onChangeInputMe
         />
         <RowBox 
           right
-          padding=".125rem .5rem" 
-          gap={.25} 
+          padding=" .25rem .5rem .5rem" 
+          gap={.5} 
         >
           <IconBox
+            shadow
             fontSize="l"
             onClick={(e) => onClickDoDeleteMemo(e, editMemo!)}
           >
             <Icon icon={faTrashCan} />
           </IconBox>
           <IconBox
+            shadow
             fontSize="l"
             onClick={ () => onClickDoEditMemo(editMemo!, inputMemo)}
           >
             <Icon icon={faCheckCircle} />
           </IconBox>
         </RowBox>
-      </>
+      </EditBox>
   )
 }
-export default MemoInputEdit;
+export default MemoEditContent;
+
+const EditBox = styled.div`
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
+`

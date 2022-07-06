@@ -21,13 +21,6 @@ import MemoMenuContainer from "./memo_menu/MemoMenuContainer";
 import MemoDeletePopupContainer from "./memo_popup/MemoDeletePopupContainer";
 import MemoAddContainer from "./memo_add/MemoAddContainer";
 
-export interface IEditMemo {
-  memo: IMemo;
-  // x: number;
-  // y: number;
-  // width: number;
-  // height: number;
-}
 
 export interface MemoProps {
   fbMemo: FbMemo;

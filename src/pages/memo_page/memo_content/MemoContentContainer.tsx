@@ -2,7 +2,6 @@ import  React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import useStore from "../../../store/useStore";
 import { useNavigate } from "react-router";
 
-import { CustomBtn } from "../../../components/Buttons";
 import { ColBox } from "../../../components/FlexBox";
 
 import { FbAuth } from "../../../firebase/firebase_auth_service";
@@ -11,8 +10,7 @@ import { IMemo, IUserInfo } from "../../../utils/interface/interface";
 // Memo Components
 import { MemoProps } from "../MemoPage";
 import MemoContent from "./MemoContent";
-import MemoInputAdd from "../memo_add/MemoInputAdd";
-import MemoInputEdit from "./MemoInputEdit";
+import MemoEditContent from "./MemoEditContent";
 
 interface IMemoContentContainer extends MemoProps {
   fbAuth: FbAuth;
@@ -105,7 +103,7 @@ const MemoContentContainer = ( { fbAuth, fbTag, fbMemo, tag, userInfo, memoList,
                 memo={memo}
                 onClickMemo={(e) => onClickMemo(e, memo)} 
               /> :
-              <MemoInputEdit
+              <MemoEditContent
                 editMemo={editMemo}
                 inputMemo={inputMemo}
                 onChangeInputMemo={onChangeInputMemo}
