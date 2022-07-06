@@ -134,16 +134,16 @@ const MemoPage = ( { fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage ) => {
           fbTag={fbTag}
           fbMemo={fbMemo}
           tag={tag}
+          tags={tags}
+          memoList={memoList}
+          setMemoList={setMemoList}
+          editMemo={editMemo}
+          setEditMemo={setEditMemo}
           isOpenMenu={isOpenMenu}
           setIsOpenMenu={setIsOpenMenu}
           setIsOpenDeleteMemo={setIsOpenDeleteMemo}
           setIsOpenEditTag={setIsOpenEditTag}
 
-          memoList={memoList}
-          setMemoList={setMemoList}
-          tags={tags}
-          editMemo={editMemo}
-          setEditMemo={setEditMemo}
         />
       }
         <MemoDeletePopupContainer

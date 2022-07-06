@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import useStore from "../../../store/useStore";
 
 import { RowBox } from "../../../components/FlexBox";
@@ -12,7 +13,7 @@ import { MemoProps } from "../MemoPage";
 import MemoPalette from "./MemoPalette";
 import MemoMenu from "./MemoMenu";
 import MemoTagOption from "./MemoTagOption";
-import { getTagWithMemo, getTagWithTagName } from "../../talk_page/utils/talk_service";
+
 
 
 
@@ -34,6 +35,7 @@ interface IMemoMenuContainer extends MemoProps {
 const MemoMenuContainer = ( { memoList, setMemoList, editMemo, setEditMemo, tags, fbTag, fbMemo, tag, isOpenMenu, setIsOpenMenu, setIsOpenDeleteMemo, setIsOpenEditTag }: IMemoMenuContainer ) => {
 
   const { loading } = useStore();
+  const navigate = useNavigate();
   const [isOpenPalette, setIsOpenPalette] = useState(false); // palette창 on/off
   const [seletedColor, setSeletedColor] = useState(parseInt(tag.color))
 
@@ -85,17 +87,26 @@ const MemoMenuContainer = ( { memoList, setMemoList, editMemo, setEditMemo, tags
   }, [isOpenMenu])
 
 
-  // 태그 옵션버튼 클릭 => 태그 input창에 바로 추가
+  // 태그 옵션버튼 클릭 => 현재 메모의 태그 변겨으 태그만 변경됨.
   const onClickTagOption = async (tagId: string, editMemo: IMemo) => {
     setEditMemo(null)
     const confirm = window.confirm("이 메모의 태그를 변경할까요?")
     if (!confirm) return
+    loading.start();
+
     await fbMemo.editMemoUsedTag(editMemo.id, tagId) // 현재 메모의 태그 아이디를 수정해주고
     await fbTag.addUsedMemo(tagId, editMemo.id)  // 존재하던 태그에 수정한 메모 id 넣어주고
     await fbTag.deleteUsedMemo(editMemo) // 현재 태그에서 editMemo에서 현재 메모 아이디 빼주고
   
     const newViewMemo = memoList.filter(memo => memo.id !== editMemo.id );
     setMemoList(newViewMemo);
+
+    if (newViewMemo.length === 0) { 
+    if (editMemo.tagId === "undefined" || editMemo.tagId === "toBeDeleted") {} 
+    else fbTag.deleteTag(editMemo.tagId)
+    navigate('/grid')
+    }
+    loading.finish();
   }
 
 

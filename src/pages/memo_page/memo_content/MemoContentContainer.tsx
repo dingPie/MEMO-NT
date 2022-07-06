@@ -90,8 +90,11 @@ const MemoContentContainer = ( { editMemo, setEditMemo, fbAuth, fbTag, fbMemo, u
     }
     // 해당 태그의 메모가 비었을 떄 삭제
     if (newViewMemo.length === 0) { 
-      fbTag.deleteTag(editMemo.tagId)
+      if (editMemo.tagId === "undefined" || editMemo.tagId === "toBeDeleted") {}
+      else fbTag.deleteTag(editMemo.tagId)
       navigate('/grid')
+      
+
     }
     loading.finish();
   }, [memoList, userInfo])
@@ -108,7 +111,7 @@ const MemoContentContainer = ( { editMemo, setEditMemo, fbAuth, fbTag, fbMemo, u
             return(
               (editMemo !== memo ) ?
               <MemoContent
-                key={memo.id}
+                key={id}
                 memo={memo}
                 onClickMemo={(e) => onClickMemo(e, memo)} 
               /> :
