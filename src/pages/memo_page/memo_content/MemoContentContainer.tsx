@@ -21,14 +21,17 @@ interface IMemoContentContainer extends MemoProps {
   isOpenInputMemo: boolean;
   isOpenEditTag: boolean;
   setIsOpenInputMemo: (v: boolean) => void;
+
+  editMemo: IMemo | null;
+  setEditMemo: (memo: IMemo| null) => void;
 }
 
-const MemoContentContainer = ( { fbAuth, fbTag, fbMemo, tag, userInfo, memoList, setMemoList, isOpenMenu, isOpenEditTag, isOpenInputMemo, setIsOpenInputMemo }: IMemoContentContainer ) => {
+const MemoContentContainer = ( { editMemo, setEditMemo, fbAuth, fbTag, fbMemo, userInfo, memoList, setMemoList, isOpenMenu, isOpenEditTag, isOpenInputMemo, setIsOpenInputMemo }: IMemoContentContainer ) => {
 
   const { loading } = useStore();
   const navigate = useNavigate();
   const [inputMemo, setInputMemo] = useState("");
-  const [editMemo, setEditMemo] = useState<IMemo | null>(null)
+  // const [editMemo, setEditMemo] = useState<IMemo | null>(null)
   
 
   //내용 수정
@@ -40,9 +43,15 @@ const MemoContentContainer = ( { fbAuth, fbTag, fbMemo, tag, userInfo, memoList,
   // 메모 클릭 => 수정 input창 출력
   const onClickMemo = useCallback((e: React.MouseEvent<HTMLDivElement>, memo: IMemo) => {
     if (isOpenMenu || isOpenInputMemo || isOpenEditTag) return
-    setInputMemo(memo.content)
-    setEditMemo(memo)
-  }, [isOpenMenu, isOpenInputMemo])
+    console.log("현재 에딧 메모", editMemo)
+    if (editMemo) {
+      setEditMemo(null)
+      setInputMemo("")
+    } else {
+      setInputMemo(memo.content)
+      setEditMemo(memo)
+    }
+  }, [isOpenMenu, isOpenInputMemo, editMemo])
 
 
   // 수정 처리
@@ -81,8 +90,11 @@ const MemoContentContainer = ( { fbAuth, fbTag, fbMemo, tag, userInfo, memoList,
     }
     // 해당 태그의 메모가 비었을 떄 삭제
     if (newViewMemo.length === 0) { 
-      fbTag.deleteTag(editMemo.tagId)
+      if (editMemo.tagId === "undefined" || editMemo.tagId === "toBeDeleted") {}
+      else fbTag.deleteTag(editMemo.tagId)
       navigate('/grid')
+      
+
     }
     loading.finish();
   }, [memoList, userInfo])
@@ -104,6 +116,7 @@ const MemoContentContainer = ( { fbAuth, fbTag, fbMemo, tag, userInfo, memoList,
                 onClickMemo={(e) => onClickMemo(e, memo)} 
               /> :
               <MemoEditContent
+                key={memo.id}
                 editMemo={editMemo}
                 inputMemo={inputMemo}
                 onChangeInputMemo={onChangeInputMemo}

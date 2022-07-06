@@ -36,6 +36,7 @@ const MemoPalette = ( { tag, seletedColor, onClickDoEditPalette, onClickSelectCo
       { Object.values(palette.palette).slice(2, Object.values(palette.palette).length )
           .map( color => { return (
             <PaletteBox
+              key={color.name}
               onClick={() => onClickSelectColor(color.id)}
               bgColor={color.code}
               selectedColor={seletedColor === color.id ? true : false}
