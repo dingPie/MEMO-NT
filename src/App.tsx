@@ -19,6 +19,7 @@ import { FbTag } from './firebase/firestore_tag_service';
 import { ITag, IUserInfo } from './utils/interface/interface';
 import { MobileBox } from './components/MobileBox';
 import NotFoundPage from './pages/NotFoundPage';
+import Loading from 'react-loading';
 
 
 
@@ -58,6 +59,7 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
 
   // 메모 설정 초기화
   const initApp = async (user: User) => {
+    loading.start()
     const paletteObj = await fbAuth.getPalette() // 팔레트 설정
     palette.setPalette(paletteObj)
     console.log(paletteObj, "색상정보 확인")
@@ -69,6 +71,7 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
     fbAuth.onCheckUserInfo(setUserInfo) // UserDB 정보 실시간체크
 
     CheckAndInitUser(user) // 유저체크 및 생성
+    loading.finish()
   }
   
   useEffect(() => {
@@ -130,7 +133,9 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
       {/* <Route path='/test' element={<NotFoundPage />} /> */}
       </Routes>
 
-
+      { loading.isLoading &&
+        <Loading />
+      }
     </MobileBox>
   );
 }
