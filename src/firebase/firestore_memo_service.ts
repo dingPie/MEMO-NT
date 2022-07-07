@@ -33,12 +33,9 @@ export class FbMemo {
   constructor(
     firebaseAuth: Auth, 
     fireStoreDB: Firestore, 
-    // uid: string | null, 
-    // lastMemo: QueryDocumentSnapshot<DocumentData> | null
     ) {
     this.firebaseAuth = firebaseAuth
     this.fireStoreDB = fireStoreDB
-    // this.doc = !uid ? "test" : uid+"_memo"
     this.doc = "default"
     this.lastMemo = null
     this.loadSize = 50

@@ -35,7 +35,7 @@ export class FbTag {
     this.firebaseAuth = firebaseAuth
     this.fireStoreDB = fireStoreDB
     this.doc = "default"
-    this.paletteLength = 9 // 0, 1번을 제외한 팔레트 수
+    this.paletteLength = 9 // 0, 1번을 제외한 팔레트 수, color code를 위함.
   }
 
   setDoc (user: User) {
