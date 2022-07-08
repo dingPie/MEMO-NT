@@ -86,7 +86,7 @@ const TalkTagExpand = styled(IconBox)<{isExpand: boolean}>`
   padding: 0 .5rem;
   border-radius: .25rem;
 
-  animation:  ${ ({isExpand}) => isExpand ? expandPinnTag : reducePinnTag} .3s ease-in-out;
+  /* animation:  ${ ({isExpand}) => isExpand ? expandPinnTag : reducePinnTag} .3s ease-in-out; */
 `
 
 export const expandPinnTag = keyframes`

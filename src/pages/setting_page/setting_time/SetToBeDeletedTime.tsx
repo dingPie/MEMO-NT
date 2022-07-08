@@ -1,9 +1,9 @@
 import React from "react";
 
-import { CustomBtn } from "../../components/Buttons";
-import { ColBox, RowBox } from "../../components/FlexBox";
-import Select from "../../components/Select";
-import Text from "../../components/Text";
+import { CustomBtn } from "../../../components/Buttons";
+import { ColBox, RowBox } from "../../../components/FlexBox";
+import Select from "../../../components/Select";
+import Text from "../../../components/Text";
 
 interface ISetToBeDeletedTime {
   onClickSetDeleteTimeBtn: () => void;
@@ -18,7 +18,7 @@ const SetToBeDeletedTime = ( { onClickSetDeleteTimeBtn, toBeDeleteTime, onChange
 
   return(
     <ColBox 
-      padding="1rem .5rem" 
+      padding="1rem .5rem"
       gap={.5}
     >
       <RowBox 

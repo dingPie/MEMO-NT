@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 import { User } from "firebase/auth";
-import Text from "../../components/Text";
-import { ColBox, RowBox } from "../../components/FlexBox";
-import { CustomBtn } from "../../components/Buttons";
+import Text from "../../../components/Text";
+import { ColBox, RowBox } from "../../../components/FlexBox";
+import { CustomBtn } from "../../../components/Buttons";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
@@ -13,10 +13,11 @@ import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 interface ISetUser {
   user: User | null;
   onClickLogout: () => void;
+  onClickWithdrawBtn: () => void;
 }
 
 
-const SetUser = ( { user, onClickLogout }: ISetUser ) => {
+const SetUser = ( { user, onClickLogout, onClickWithdrawBtn }: ISetUser ) => {
 
   const presentEmail = (user: User) => {
     if (user.providerData[0].email) return user.providerData[0].email
@@ -29,7 +30,8 @@ const SetUser = ( { user, onClickLogout }: ISetUser ) => {
       return  (
         <>
           <RowBox 
-            between align="center" 
+            between 
+            align="center" 
             padding="0 .5rem"
           >
             <Text bold fontSize='xl' width={10}>
@@ -75,6 +77,22 @@ const SetUser = ( { user, onClickLogout }: ISetUser ) => {
           <Text color="#505050">
             {user.providerData[0].providerId} 로 연결됨
           </Text>
+
+          <RowBox 
+            right 
+            padding="0 .5rem"
+          >
+            <CustomBtn
+              color="white"
+              bgColor="#505050"
+              padding=".25rem 1rem"
+              height={2}
+              onClick={onClickWithdrawBtn}
+            >
+              탈퇴하기
+            </CustomBtn>
+          </RowBox>
+          
         </>
       )
     } 
