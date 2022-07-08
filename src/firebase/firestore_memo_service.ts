@@ -85,7 +85,7 @@ export class FbMemo {
 
   // 메모 불러오기
   async getMemo (
-    memo?: IMemo[],
+    memo: IMemo[],
     update?: (memo: IMemo[]) => void
   ) {
     if (this.lastMemo === undefined) return // undefined (으로 지정되었으면) 더이상 실행하지 않는다
@@ -101,8 +101,8 @@ export class FbMemo {
       if (result === []) this.lastMemo = undefined; // 결과지정. 더 불러올 메모가 없으면 undefined로 변경
       else this.lastMemo = querySnapshot.docs[querySnapshot.docs.length-1]
 
-      if (update) update([...result.reverse(), ...memo!])
-      return [...result.reverse(), ...memo!] as IMemo[]
+      if (update) update([...result.reverse(), ...memo])
+      return [...result.reverse(), ...memo] as IMemo[]
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -168,7 +168,7 @@ export class FbMemo {
     }
   }
 
-  // tagId와 같은 메모를 전부 가져온다.
+  // tagId와 같은 메모를 가져온다.
   async getMemoWithTag (tag: ITag, gridPage?: "gridPage" ): Promise<IMemo[]> {
     const col = collection(this.fireStoreDB, this.doc)
     let q = query(col, where("tagId", "==", tag.id)); 

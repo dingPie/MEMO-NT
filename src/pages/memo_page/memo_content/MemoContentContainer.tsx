@@ -51,7 +51,7 @@ const MemoContentContainer = ( { editMemo, setEditMemo, fbAuth, fbTag, fbMemo, u
       setInputMemo(memo.content)
       setEditMemo(memo)
     }
-  }, [isOpenMenu, isOpenInputMemo, editMemo])
+  }, [isOpenMenu, isOpenInputMemo, isOpenEditTag, editMemo])
 
 
   // 수정 처리
@@ -93,9 +93,8 @@ const MemoContentContainer = ( { editMemo, setEditMemo, fbAuth, fbTag, fbMemo, u
       if (editMemo.tagId === "undefined" || editMemo.tagId === "toBeDeleted") {}
       else fbTag.deleteTag(editMemo.tagId)
       navigate('/grid')
-      
-
     }
+
     loading.finish();
   }, [memoList, userInfo])
 

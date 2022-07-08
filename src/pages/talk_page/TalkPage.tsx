@@ -40,6 +40,7 @@ const TalkPage = ( {  fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage ) => {
   const [prevScrollHeight, setPrevScrollHeight] = useState(0);
   const [prevMemoCount, setPrevMemoCount] = useState(0)
 
+  // view Memo caching 필요. memopage 왔다갔다 할 때마다 매번 실행됨.
   const [viewMemo, setViewMemo] = useState<IMemo[]>([]) // 데이터를 load해와서 보여지는 메모
   const [selectedMemo, setSelectedMemo] = useState<IMemo | null>(null); // 선택한 메모(메뉴)
   const [pinnedMemo, setPinnedMemo] = useState<IMemo | null>(null); // 상단 pinn메모
@@ -58,10 +59,12 @@ const TalkPage = ( {  fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage ) => {
     await fbMemo.getMemo(viewMemo, setViewMemo);
     loading.finish();
   }
+
+
   // 메모 init 
   useEffect(() => {
     if (!viewMemo.length && tags.length >= 2) { // 오류를 막기 위한 조건문
-      fbMemo.initLastMemo();
+      fbMemo.initLastMemo(); // 불러왔던 마지막 메모 초기화
       doGetMemo(viewMemo, setViewMemo);
     } 
   }, [tags])
@@ -72,6 +75,7 @@ const TalkPage = ( {  fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage ) => {
     if (!userInfo.pinnedMemo) setPinnedMemo(null)
     else await fbMemo.getPinnedMemo(userInfo.pinnedMemo, setPinnedMemo)
   }, [pinnedMemo])
+
   // pinnedMemo 세팅
   useEffect(() => {
     if (!userInfo) return
@@ -96,7 +100,6 @@ const TalkPage = ( {  fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage ) => {
 
   useEffect(() => {
     if (!topRef.current || !talkBoxRef.current) return
-    // isLoading true
     observerRef.current = new IntersectionObserver(checkIntersect, observerOpt); // observe 할 요소를 current로 지정,
     observerRef.current.observe(topRef.current);
 
@@ -122,7 +125,6 @@ const TalkPage = ( {  fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage ) => {
         page="talk"
         onClickOtherBtn={onClickOtherBtn}
       />
-      {/* 상단 pinn ui, absoulte로 적용되어있음 */}
 
       { pinnedMemo && 
         <TalkPinnContainer

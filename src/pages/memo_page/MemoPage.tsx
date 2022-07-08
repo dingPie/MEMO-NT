@@ -47,7 +47,6 @@ const MemoPage = ( { fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage ) => {
   const [memoList, setMemoList] = useState<IMemo[]>([])
 
   const [editMemo, setEditMemo] = useState<IMemo | null>(null);
-
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isOpenEditTag, setIsOpenEditTag] = useState(false);
   const [isOpenDeleteMemo, setIsOpenDeleteMemo] = useState(false);
@@ -91,6 +90,7 @@ const MemoPage = ( { fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage ) => {
               fbMemo={fbMemo} 
               tags={tags}
               tag={tag}
+              editMemo={editMemo}
               memoList={memoList}
               isOpenMenu={isOpenMenu}
               isOpenEditTag={isOpenEditTag}
