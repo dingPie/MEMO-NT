@@ -205,8 +205,8 @@ export class FbTag {
   }
 
 
-  // 현재 태그의 (태그명 변경하고 난 후 태그의) 길이 확인
   async checkUsedMemoLength (tagId: string): Promise<number> {
+  // 현재 태그의 (태그명 변경하고 난 후 태그의) 길이 확인
     const docRef = doc(this.fireStoreDB, this.doc, tagId);
     const docSnap = await getDoc(docRef);
     const data = docSnap.data() as ITag

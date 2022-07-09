@@ -29,18 +29,19 @@ const TalkDeletePopup = ( {fbAuth, fbMemo, fbTag,  viewMemo, setViewMemo , selec
     loading.start();
     await fbMemo.deleteMemo(selectedMemo!.id)
     await fbTag.deleteUsedMemo(selectedMemo!)
-    const newViewMemo = viewMemo.filter(v => v.id !== selectedMemo!.id);
-    setViewMemo(newViewMemo);
+    const newViewMemo = viewMemo.filter(memo => memo.id !== selectedMemo!.id);
     
     // 핀 삭제
-    if (selectedMemo!.id === pinnedMemo!.id) await fbAuth.setPinnedMemo('')
-    // 태그 삭제
-    const usedMemoLength = await fbTag.checkUsedMemoLength(selectedMemo!.tagId)
-    if (!usedMemoLength) await fbTag.deleteTag(selectedMemo!.tagId)
+    if ( pinnedMemo && selectedMemo!.id === pinnedMemo!.id) await fbAuth.setPinnedMemo('')
+    loading.finish();
     
+    setViewMemo(newViewMemo);
     setSelectedMemo(null);
     setIsOpenDeletePopup(false);
-    loading.finish();
+    
+    // 태그 삭제
+    const usedMemoLength = await fbTag.checkUsedMemoLength(selectedMemo!.tagId);
+    if (!usedMemoLength) await fbTag.deleteTag(selectedMemo!.tagId);
   }
 
   const onClickCanlcelBtn = () => setIsOpenDeletePopup(false)
