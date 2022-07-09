@@ -10,6 +10,7 @@ import useStore from "../../../store/useStore";
 import TalkInput from "./TalkInput";
 import TalkEditTagName from "./TalkEditTagName";
 import TalkInputOption from "./TalkInputOption";
+import MemoTagOption from "../../memo_page/memo_menu/MemoTagOption";
 
 interface ITalkInpuContainer {
   tags: ITag[];
@@ -25,13 +26,13 @@ interface ITalkInpuContainer {
 const TalkInpuContainer = ( { fbMemo, fbTag, tags, editMemo, setEditMemo, viewMemo, setViewMemo, talkBoxRef }: ITalkInpuContainer ) => {
 
   const { loading } = useStore();
+  const inputRef = React.useRef<HTMLTextAreaElement>(null);
   const [inputMemo, setInputMemo] = useState<string>(''); // 입력중인 memo
-  const [editTagName, setEditTagName] = useState('');
+  const [editTagName, setEditTagName] = useState<string>('');
   const [recommTag, setRecommTag] = useState<ITag | null>(null); // 첫 state를 빈 undefined 값이 아닌 null 설정하여 매번 초기화
 
   const [toBeDeleteTag, setToBeDeleteTag] = useState<string>('') // 빈태그 체그 및 삭제
 
-  const inputRef = React.useRef<HTMLTextAreaElement>(null);
 
   // editmemo 설정시 tagName , content input state 설정
   useEffect(() => {
@@ -86,7 +87,6 @@ const TalkInpuContainer = ( { fbMemo, fbTag, tags, editMemo, setEditMemo, viewMe
   const onClickInputBtn = async () => {
     if (!inputMemo) return
     loading.start();
-    
     // 메모 수정
     if (editMemo) {
       const newTag = await doEditTag(editMemo) // 태그 데이터 수정 (수정할 메모와 관련된 태그데이터 수정)
@@ -101,14 +101,12 @@ const TalkInpuContainer = ( { fbMemo, fbTag, tags, editMemo, setEditMemo, viewMe
       setViewMemo(newViewMemo)
       setEditMemo(null)
     } 
-
     // 메모 추가
     else { 
       const newMemo = await doAddMemo(inputMemo) as IMemo ; // 메모 데이터 추가
       setViewMemo([...viewMemo, newMemo]) // 메모 state 추가
       focusLastMemo(talkBoxRef) // 추가한 메모 보기
     }
-
     loading.finish();
     setInputMemo("") // 이건 둘 다 실행되어야 함.
   }
@@ -132,11 +130,13 @@ const TalkInpuContainer = ( { fbMemo, fbTag, tags, editMemo, setEditMemo, viewMe
     return newTag; 
   }
 
+
   // 메모 수정시 메모 수정
   const doEditMemo = async (editMemo: IMemo, inputMemo: string) => {
     if (editMemo.content === inputMemo) return
     fbMemo.editMemoContent(editMemo.id, inputMemo)
   }
+
 
   // 메모 추가시
   const doAddMemo = async (inputMemo: string) => {
@@ -165,7 +165,7 @@ const TalkInpuContainer = ( { fbMemo, fbTag, tags, editMemo, setEditMemo, viewMe
     setInputMemo(result)
     if (inputRef.current) inputRef.current.focus() // 옵션 클릭시 input창 focus()
   }
-  
+
 
 
   return (
@@ -178,15 +178,17 @@ const TalkInpuContainer = ( { fbMemo, fbTag, tags, editMemo, setEditMemo, viewMe
           onClickTagOption={onClickTagOption}
         />
       }
-      {/* 메모 수정시 나오는.. */}
+      {/* 메모 수정시 나오는 옵션 */}
       { editMemo &&
-        <TalkEditTagName
-          tags={tags}
-          editMemo={editMemo}
-          onClickCancelEditMemo={onClickCancelEditMemo}
-          editTagName={editTagName}
-          onChangeTagName={onChangeTagName}
-        />
+        <>
+          <TalkEditTagName
+            tags={tags}
+            editMemo={editMemo}
+            onClickCancelEditMemo={onClickCancelEditMemo}
+            editTagName={editTagName}
+            onChangeTagName={onChangeTagName}
+          />
+        </>
       }
       {/*  기본 인풋창  */}
       <TalkInput

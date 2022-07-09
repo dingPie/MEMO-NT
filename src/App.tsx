@@ -49,14 +49,9 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
       await fbTag.initTag(); // user.uid
 
       const initMemoId = await fbMemo.initMemo(); // user.uid
-
-
       await fbTag.addUsedMemo("undefined", initMemoId!.undefinedMemoId);
       await fbTag.addUsedMemo("toBeDeleted", initMemoId!.toBeDeletedMemoId);
-      console.log("매뉴얼 아이디 태스트", initMemoId!.initMenualMemoId)
       await fbTag.addUsedMemoAll("initMenual", initMemoId!.initMenualMemoId)
-      // initMemoId!.initMenualMemoId.map( async memoId => await fbTag.addUsedMemo("initMemual", memoId) )
-      // await fbTag.addUsedMemo("menual", initMemoId!.toBeDeletedMemoId);
 
       loading.finish();
       window.location.reload(); // 첫 유저의 경우, user 정보를 받아오는 것 보다 메모 init이 느린 관계로, 새로고침 작업
@@ -136,10 +131,10 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
           />} 
         />
       </Routes>
-
+{/* 
       { loading.isLoading &&
         <Loading />
-      }
+      } */}
     </MobileBox>
   );
 }

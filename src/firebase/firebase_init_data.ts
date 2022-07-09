@@ -1,4 +1,23 @@
+export const undefinedTag = {
+  name: "undefined", 
+  color: "0", 
+  usedMemo: [],
+  lastUpdate: 0
+}
 
+export const tobeDeletedTag = {
+  name: "toBeDeleted", 
+  color: "1", 
+  usedMemo: [],
+  lastUpdate: 0
+}
+
+export const initMenualTag = {
+  name: "매뉴얼", 
+  color: "2", 
+  usedMemo: [],
+  lastUpdate: 0
+}
 
 export const getUndefinedMemo = (time: number) =>  {
   return {

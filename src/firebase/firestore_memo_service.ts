@@ -50,7 +50,6 @@ export class FbMemo {
     this.doc = user.uid+"_memo"
   }
 
-
   getDoc () {
     return this.doc
   }
@@ -62,17 +61,14 @@ export class FbMemo {
     const undefinedTime = Date.now();
     const undefinedMemo = getUndefinedMemo(undefinedTime)
     const undefinedRef = doc(this.fireStoreDB, this.doc, undefinedTime.toString());
-
     // 삭제예정 관련
     const toBeDeletedTime = undefinedTime+1;
     const toBeDeletedMemo =  getToBeDeletedMemo(toBeDeletedTime)
     const toBeDeletedRef = doc(this.fireStoreDB, this.doc, toBeDeletedTime.toString());
-
     // 매뉴얼 관련
     const initMenualTime = toBeDeletedTime + 1;
     const initMenualMemoArr = getInitMenualMemo(initMenualTime);
 
-    
     try {
       await setDoc(undefinedRef, undefinedMemo);
       await setDoc(toBeDeletedRef, toBeDeletedMemo);
@@ -90,6 +86,7 @@ export class FbMemo {
       console.error("Error adding document: ", e);
     }
   }
+
 
   // 메모 불러오기
   async getMemo (
@@ -114,8 +111,8 @@ export class FbMemo {
     } catch (e) {
       console.error("Error adding document: ", e);
     }
-    
   }
+
 
   // 새 메모 추가
   async addMemo ( tagId: string, newContent: string ) {
@@ -136,6 +133,7 @@ export class FbMemo {
     }
   }
 
+
   // 메모 내용 변경
   async editMemoContent (memoId: string, editContent: string) {
 
@@ -149,6 +147,7 @@ export class FbMemo {
       console.error("Error adding document: ", e);
     }
   }
+
 
   // 메모 태그 변경
   async editMemoUsedTag ( memoId: string, newTagId: string ) {
@@ -164,6 +163,7 @@ export class FbMemo {
     }
   }
 
+
   // 메모 삭제
   async deleteMemo ( memoId: string ) {
     const docRef = doc(this.fireStoreDB, this.doc, memoId);
@@ -175,6 +175,7 @@ export class FbMemo {
       console.error("Error adding document: ", e);
     }
   }
+
 
   // tagId와 같은 메모를 가져온다.
   async getMemoWithTag (tag: ITag, gridPage?: "gridPage" ): Promise<IMemo[]> {
@@ -189,6 +190,7 @@ export class FbMemo {
     })
   }
 
+  
   // pinnedMemo 찾아서 가져오기
   async getPinnedMemo (memoId: string, update?: (v: IMemo) => void): Promise<IMemo> {
     const docRef = doc(this.fireStoreDB, this.doc, memoId);
