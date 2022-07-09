@@ -60,7 +60,7 @@ export class FbTag {
   }
 
   // 첫 유저 기본태그 작성
-  async initTag (uid?: string) {
+  async initTag () {
     const undefinedTag = {
       name: "undefined", 
       color: "0", 
@@ -73,13 +73,21 @@ export class FbTag {
       usedMemo: [],
       lastUpdate: 0
     }
+    const initMenualTag = {
+      name: "매뉴얼", 
+      color: "2", 
+      usedMemo: [],
+      lastUpdate: 0
+    }
     // const docId = uid ? uid+"_tag" : this.doc // init 절차 및 인스턴스 생성 범위 때문에 외부 주입도 고려
     
     const undefinedRef = doc(this.fireStoreDB, this.doc, "undefined");
     const toBeDeletedRef = doc(this.fireStoreDB, this.doc, "toBeDeleted");
+    const initMenualRef = doc(this.fireStoreDB, this.doc, "initMenual");
     try {
       await setDoc(undefinedRef, undefinedTag); 
       await setDoc(toBeDeletedRef, tobeDeletedTag);
+      await setDoc(initMenualRef, initMenualTag);
       console.log( this.doc, "기본 태그 생성완료")
     } catch (e) {
       console.error("Error adding document: ", e);
@@ -140,6 +148,7 @@ export class FbTag {
     try {
       await updateDoc( docRef, {
         usedMemo: usedMemoArr,
+        lastUpdate: parseInt(usedMemoArr[usedMemoArr.length - 1])
       }); 
       console.log("사용된 메모id 추가완료")
     } catch (e) {

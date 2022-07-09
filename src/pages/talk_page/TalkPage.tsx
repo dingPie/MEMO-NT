@@ -66,7 +66,9 @@ const TalkPage = ( {  fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage ) => {
     if (!viewMemo.length && tags.length >= 2) { // 오류를 막기 위한 조건문
       fbMemo.initLastMemo(); // 불러왔던 마지막 메모 초기화
       doGetMemo(viewMemo, setViewMemo);
-    } 
+    }
+
+
   }, [tags])
 
   
@@ -142,6 +144,7 @@ const TalkPage = ( {  fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage ) => {
           ref={topRef}
           style={{ height:"1px"}}
         />
+
         {/* 메모 리스트 표시 */}
         { viewMemo.map((memo, i) => {
           return (
@@ -167,6 +170,7 @@ const TalkPage = ( {  fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage ) => {
           setEditMemo={setEditMemo} 
           setIsOpenDeletePopup={setIsOpenDeletePopup}
         />
+
         {/* Talk Input관련 Container */}
         <TalkInpuContainer
           fbMemo={fbMemo}
@@ -194,6 +198,7 @@ const TalkPage = ( {  fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage ) => {
           setIsOpenDeletePopup={setIsOpenDeletePopup} 
         />
       }
+
       { loading.isLoading &&
         <Loading />
       }

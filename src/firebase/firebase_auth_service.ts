@@ -169,7 +169,7 @@ export class FbAuth {
     }
   }
 
-  // 임시. 메모 전체 삭제하기.
+  // 메모 전체 삭제하기.
   async deleteAllMemo () {
     const col = collection(this.fireStoreDB, this.uid + "_memo")
     try {
@@ -183,7 +183,7 @@ export class FbAuth {
   }
 
 
-  // 임시. 태그 전체 삭제하기.
+  // 태그 전체 삭제하기.
   async deleteAllTag () {
     const col = collection(this.fireStoreDB, this.uid + "_tag")
     try {

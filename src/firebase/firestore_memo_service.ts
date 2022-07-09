@@ -21,6 +21,7 @@ import {
   collectionGroup 
 } from "firebase/firestore";
 import { IMemo, ITag } from "../utils/interface/interface";
+import { getUndefinedMemo, getToBeDeletedMemo, getInitMenualMemo } from "./firebase_init_data";
 
 
 export class FbMemo {
@@ -49,35 +50,42 @@ export class FbMemo {
     this.doc = user.uid+"_memo"
   }
 
+
   getDoc () {
     return this.doc
   }
 
-  /* 메모 이니셜라이즈 (set) */
-  async initMemo ( uid?: string ) {
-    const undefinedTime = Date.now();
-    const docId = uid ? uid+"_memo" : this.doc // init 절차 및 인스턴스 생성 범위 때문에 외부 주입도 고려
-    const undefinedMemo = {
-      id: undefinedTime.toString(),
-      tagId: "undefined",
-      content: "태그 없는 메모 내용입니다", 
-      createTime: undefinedTime
-    }
-    const undefinedRef = doc(this.fireStoreDB, docId, undefinedTime.toString());
 
+  /* 메모 이니셜라이즈 (set) */
+  async initMemo () {
+    // 태그없음 관련
+    const undefinedTime = Date.now();
+    const undefinedMemo = getUndefinedMemo(undefinedTime)
+    const undefinedRef = doc(this.fireStoreDB, this.doc, undefinedTime.toString());
+
+    // 삭제예정 관련
     const toBeDeletedTime = undefinedTime+1;
-    const toBeDeletedMemo =  {
-        id: toBeDeletedTime.toString(),
-        tagId: "toBeDeleted",
-        content: "삭제될 메모 내용입니다", 
-        createTime: toBeDeletedTime
-      }
-    const toBeDeletedRef = doc(this.fireStoreDB, docId, toBeDeletedTime.toString());
+    const toBeDeletedMemo =  getToBeDeletedMemo(toBeDeletedTime)
+    const toBeDeletedRef = doc(this.fireStoreDB, this.doc, toBeDeletedTime.toString());
+
+    // 매뉴얼 관련
+    const initMenualTime = toBeDeletedTime + 1;
+    const initMenualMemoArr = getInitMenualMemo(initMenualTime);
+
     
     try {
       await setDoc(undefinedRef, undefinedMemo);
       await setDoc(toBeDeletedRef, toBeDeletedMemo);
-      return { undefinedMemoId: undefinedTime.toString(), toBeDeletedMemoId: toBeDeletedTime.toString() }
+      initMenualMemoArr.map( async (memo, id) => {
+        const initMenualRef = doc(this.fireStoreDB, this.doc, (initMenualTime + id).toString());
+        await setDoc(initMenualRef, memo);
+      })
+
+      return { 
+        undefinedMemoId: undefinedTime.toString(), 
+        toBeDeletedMemoId: toBeDeletedTime.toString(),
+        initMenualMemoId: initMenualMemoArr.map((memo, id) => memo.id )
+      }
     } catch (e) {
       console.error("Error adding document: ", e);
     }
