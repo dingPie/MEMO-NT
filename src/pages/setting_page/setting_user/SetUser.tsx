@@ -74,14 +74,13 @@ const SetUser = ( { user, onClickLogout, onClickWithdrawBtn }: ISetUser ) => {
             </ColBox>
           </UserBox>
 
-          <Text color="#505050">
-            {user.providerData[0].providerId} 로 연결됨
-          </Text>
-
           <RowBox 
-            right 
-            padding="0 .5rem"
+            between
+            padding=".5rem"
           >
+            <Text color="#505050">
+              {user.providerData[0].providerId} 로 연결됨
+            </Text>
             <CustomBtn
               color="white"
               bgColor="#505050"
@@ -101,7 +100,8 @@ const SetUser = ( { user, onClickLogout, onClickWithdrawBtn }: ISetUser ) => {
       return (
         <>
           <RowBox 
-            between align="center" 
+            between 
+            align="center" 
             padding="0"
           >
             <Text bold fontSize='xl'>

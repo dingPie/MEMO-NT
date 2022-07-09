@@ -2,7 +2,9 @@ import React, { useEffect, useRef, useState } from "react";;
 import { useNavigate } from "react-router";
 import useStore from "../../store/useStore";
 import Loading from "react-loading";
+
 import Header from "../../components/Header";
+import Text from "../../components/Text";
 
 import { User } from "firebase/auth";
 import { FbAuth } from "../../firebase/firebase_auth_service";
@@ -60,6 +62,14 @@ const SettingPage = ( { user, setUser, fbAuth }: ISettingPage ) => {
           setIsOpenWithdrawPopup={setIsOpenWithdrawPopup}
           />
         }
+        <Text
+          fontSize="s"
+          padding="1rem"
+        >
+          오류 및 개선사항은<br />
+          cpie1216@gmail.com 으로 문의 부탁드립니다. <br />
+          감사합니다.
+        </Text>
         { loading.isLoading &&
           <Loading />
         }
