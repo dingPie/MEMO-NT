@@ -64,6 +64,7 @@ export default (TalkInputOption);
   gap: .5rem;
   
   width: 100%;
+  min-height: 2.5rem;
   padding: 0 .5rem;
   background: white;
 `
