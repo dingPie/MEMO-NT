@@ -21,17 +21,16 @@ interface ITalkInpuContainer {
   viewMemo: IMemo[];
   setViewMemo: (v: IMemo[]) => void;
   talkBoxRef: React.RefObject<HTMLDivElement>;
+  setToBeDeleteTag: (tagId: string) => void;
 }
 
-const TalkInpuContainer = ( { fbMemo, fbTag, tags, editMemo, setEditMemo, viewMemo, setViewMemo, talkBoxRef }: ITalkInpuContainer ) => {
+const TalkInpuContainer = ( { fbMemo, fbTag, tags, editMemo, setEditMemo, viewMemo, setViewMemo, talkBoxRef, setToBeDeleteTag }: ITalkInpuContainer ) => {
 
   const { loading } = useStore();
   const inputRef = React.useRef<HTMLTextAreaElement>(null);
   const [inputMemo, setInputMemo] = useState<string>(''); // 입력중인 memo
   const [editTagName, setEditTagName] = useState<string>('');
   const [recommTag, setRecommTag] = useState<ITag | null>(null); // 첫 state를 빈 undefined 값이 아닌 null 설정하여 매번 초기화
-
-  const [toBeDeleteTag, setToBeDeleteTag] = useState<string>('') // 빈태그 체그 및 삭제
 
 
   // editmemo 설정시 tagName , content input state 설정
@@ -42,19 +41,6 @@ const TalkInpuContainer = ( { fbMemo, fbTag, tags, editMemo, setEditMemo, viewMe
     onChangeTagName(null, tagName)
     if (inputRef.current) inputRef.current.focus() 
   }, [editMemo])
-
-  
-  // 빈태그 삭제
-  useEffect(() => {
-    if (!toBeDeleteTag) return
-    const deleteEmptyTag = async (toBeDeleteTag: string) => {
-      const usedMemoLength = await fbTag.checkUsedMemoLength(toBeDeleteTag)
-      console.log("결과확인", usedMemoLength)
-      if (!usedMemoLength) await fbTag.deleteTag(toBeDeleteTag)
-    }
-    deleteEmptyTag(toBeDeleteTag)
-    setToBeDeleteTag('')
-  }, [toBeDeleteTag])
 
   
   // editmemo 취소
@@ -123,12 +109,17 @@ const TalkInpuContainer = ( { fbMemo, fbTag, tags, editMemo, setEditMemo, viewMe
     await fbMemo.editMemoUsedTag(editMemo.id, newTag.id) // 현재 메모의 태그 아이디를 수정해주고
     await fbTag.addUsedMemo(newTag.id, editMemo.id)  // 존재하던 태그에 수정한 메모 id 넣어주고
     await fbTag.deleteUsedMemo(editMemo) // 현재 태그에서 editMemo에서 현재 메모 아이디 빼주고
-  
-    if (editMemo.tagId === "toBeDeleted" || editMemo.tagId === "undefined") {
-    } else setToBeDeleteTag(editMemo.tagId) // 빈 태그 삭제 검사 (undefined / toBeDeleted는 검사하지 않는다.)
     
+    // 빈 태그 삭제 지정
+    if (editMemo.tagId === "toBeDeleted" || editMemo.tagId === "undefined") {
+    } else {
+      const usedMemoLength = await fbTag.checkUsedMemoLength(editMemo!.tagId);
+      if (!usedMemoLength) setToBeDeleteTag(editMemo!.tagId);
+    }
+
     return newTag; 
   }
+
 
 
   // 메모 수정시 메모 수정
