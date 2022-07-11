@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";;
 import { useNavigate } from "react-router";
 import useStore from "../../store/useStore";
-import Loading from "react-loading";
 
 import Header from "../../components/Header";
 import Text from "../../components/Text";
@@ -14,6 +13,7 @@ import SetToBeDeletedTime from "./setting_time/SetToBeDeletedTime";
 import WithdrawConfirmPopup from "./setting_user/WithdrawConfirmPopup";
 import SetUserContainer from "./setting_user/SetUserContainer";
 import SetTimeContainer from "./setting_time/SetTimeContainer";
+import Loading from "../../components/Loading";
 
 
 

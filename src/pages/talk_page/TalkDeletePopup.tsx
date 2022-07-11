@@ -27,6 +27,14 @@ const TalkDeletePopup = ( { fbAuth, fbMemo, fbTag,  viewMemo, setViewMemo , sele
 
   const { loading } = useStore();
 
+  useEffect(() => {
+    return () => {
+      loading.finish();
+      console.log("로딩창 삭제 실행됨", loading.isLoading)
+    }
+  }, [])
+  
+
 
   const deleteMemo = async () => {
     loading.start();
@@ -49,7 +57,6 @@ const TalkDeletePopup = ( { fbAuth, fbMemo, fbTag,  viewMemo, setViewMemo , sele
     setIsOpenDeletePopup(false);
     
     // 태그 삭제
-    loading.finish();
   }
 
 

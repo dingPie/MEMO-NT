@@ -89,7 +89,6 @@ const TalkPage = ( {  fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage ) => {
     if (!toBeDeleteTag) return
     const deleteEmptyTag = async (toBeDeleteTag: string) => {
       await fbTag.deleteTag(toBeDeleteTag)
-      console.log("삭제예정태그 삭제완료")
     }
     deleteEmptyTag(toBeDeleteTag)
     setToBeDeleteTag('')

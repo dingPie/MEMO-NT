@@ -18,8 +18,7 @@ import { FbTag } from './firebase/firestore_tag_service';
 
 import { ITag, IUserInfo } from './utils/interface/interface';
 import { MobileBox } from './components/MobileBox';
-import Loading from 'react-loading';
-
+import Loading from './components/Loading';
 
 
 
@@ -59,9 +58,10 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
     navitage('/talk', {replace: true})
   }
 
-  // 메모 설정 초기화
-  const initApp = async (user: User) => {
-    loading.start()
+
+  // 메모 로그인시 설정 초기화
+  const initAppLogin = async (user: User) => {
+    loading.start();
     const paletteObj = await fbAuth.getPalette() // 팔레트 설정
     palette.setPalette(paletteObj)
     console.log(palette, "색상정보 확인")
@@ -71,15 +71,21 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
 
     fbTag.onCheckTag(setTags); // 태그정보 실시간체크
     fbAuth.onCheckUserInfo(setUserInfo) // UserDB 정보 실시간체크
-
-    CheckAndInitUser(user) // 유저체크 및 생성
-    loading.finish()
+    loading.finish();
+    
+    CheckAndInitUser(user) // 유저체크 및 생성 setDoc이 먼저 진행되어야 해서 이 안에서 체크함
   }
   
   useEffect(() => {
     fbAuth.onCheckUser(setUser);
-    if (user) initApp(user)
-    else navitage('/login')
+    if (user) {
+      console.log(user, "왜안됨?")
+      loading.start();
+      initAppLogin(user);
+      // CheckAndInitUser(user);
+      loading.finish()
+    } 
+    else navitage('/login');
   }, [user])
 
 
@@ -131,10 +137,6 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
           />} 
         />
       </Routes>
-{/* 
-      { loading.isLoading &&
-        <Loading />
-      } */}
     </MobileBox>
   );
 }
