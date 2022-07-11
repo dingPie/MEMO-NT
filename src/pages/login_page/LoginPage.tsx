@@ -7,6 +7,7 @@ import Header from "../../components/Header";
 import { ColBox } from "../../components/FlexBox";
 import { CustomBtn } from "../../components/Buttons";
 import Text from "../../components/Text";
+import Loading from "../../components/Loading";
 
 // Page Component
 import WithoutLogin from "./WithoutLogin";
@@ -16,7 +17,6 @@ import WithSnsLogin from "./WithSnsLogin";
 import { FbAuth } from "../../firebase/firebase_auth_service";
 import { User } from "firebase/auth";
 import useStore from "../../store/useStore";
-import Loading from "react-loading";
 
 
 interface ILoginPage {
