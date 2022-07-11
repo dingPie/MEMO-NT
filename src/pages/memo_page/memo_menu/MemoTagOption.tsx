@@ -12,6 +12,7 @@ import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import {  faHashtag } from "@fortawesome/free-solid-svg-icons";
 import { faClockFour } from "@fortawesome/free-regular-svg-icons";
 import { IconBox } from "../../../components/IconBox";
+import { ScrollBox } from "../../../components/ScrollBox";
 
 interface IMemoTagOption  {
   tags: ITag[];
@@ -28,7 +29,7 @@ const MemoTagOption = ( { tags, editMemo, onClickTagOption }: IMemoTagOption ) =
 
   return(
     <InputOptionBox>
-      <TagScrollBox>
+      <ScrollBox>
         { recentTags.map( tag =>
           <TagOptions
             key={tag.name}
@@ -37,7 +38,7 @@ const MemoTagOption = ( { tags, editMemo, onClickTagOption }: IMemoTagOption ) =
             tagName={tag.name} 
           />
         )}
-      </TagScrollBox>
+      </ScrollBox>
 
       <RowBox gap={.25} padding="0" right>
         <TagIcon
@@ -61,27 +62,6 @@ export default (MemoTagOption);
 
 const TagIcon = styled(IconBox)`
   align-self: center;
-`
-
-const TagScrollBox = styled(RowBox)`
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  gap: .25rem;
-  
-  background: white;
-  padding: .5rem .25rem 0; 
-  border-radius: 1.25rem ;
-
-  &::-webkit-scrollbar {
-    height: .5rem;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: #d3d3d3;
-    border-radius: .25rem;
-    background-clip: padding-box;
-    border: 2px solid transparent;
-    align-items: center;
-  }
 `
 
  const InputOptionBox = styled.div`

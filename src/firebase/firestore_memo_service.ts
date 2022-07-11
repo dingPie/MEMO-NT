@@ -21,6 +21,7 @@ import {
   collectionGroup 
 } from "firebase/firestore";
 import { IMemo, ITag } from "../utils/interface/interface";
+import { getUndefinedMemo, getToBeDeletedMemo, getInitMenualMemo } from "./firebase_init_data";
 
 
 export class FbMemo {
@@ -53,39 +54,43 @@ export class FbMemo {
     return this.doc
   }
 
-  /* 메모 이니셜라이즈 (set) */
-  async initMemo ( uid?: string ) {
-    const undefinedTime = Date.now();
-    const docId = uid ? uid+"_memo" : this.doc // init 절차 및 인스턴스 생성 범위 때문에 외부 주입도 고려
-    const undefinedMemo = {
-      id: undefinedTime.toString(),
-      tagId: "undefined",
-      content: "태그 없는 메모 내용입니다", 
-      createTime: undefinedTime
-    }
-    const undefinedRef = doc(this.fireStoreDB, docId, undefinedTime.toString());
 
+  /* 메모 이니셜라이즈 (set) */
+  async initMemo () {
+    // 태그없음 관련
+    const undefinedTime = Date.now();
+    const undefinedMemo = getUndefinedMemo(undefinedTime)
+    const undefinedRef = doc(this.fireStoreDB, this.doc, undefinedTime.toString());
+    // 삭제예정 관련
     const toBeDeletedTime = undefinedTime+1;
-    const toBeDeletedMemo =  {
-        id: toBeDeletedTime.toString(),
-        tagId: "toBeDeleted",
-        content: "삭제될 메모 내용입니다", 
-        createTime: toBeDeletedTime
-      }
-    const toBeDeletedRef = doc(this.fireStoreDB, docId, toBeDeletedTime.toString());
-    
+    const toBeDeletedMemo =  getToBeDeletedMemo(toBeDeletedTime)
+    const toBeDeletedRef = doc(this.fireStoreDB, this.doc, toBeDeletedTime.toString());
+    // 매뉴얼 관련
+    const initMenualTime = toBeDeletedTime + 1;
+    const initMenualMemoArr = getInitMenualMemo(initMenualTime);
+
     try {
       await setDoc(undefinedRef, undefinedMemo);
       await setDoc(toBeDeletedRef, toBeDeletedMemo);
-      return { undefinedMemoId: undefinedTime.toString(), toBeDeletedMemoId: toBeDeletedTime.toString() }
+      initMenualMemoArr.map( async (memo, id) => {
+        const initMenualRef = doc(this.fireStoreDB, this.doc, (initMenualTime + id).toString());
+        await setDoc(initMenualRef, memo);
+      })
+
+      return { 
+        undefinedMemoId: undefinedTime.toString(), 
+        toBeDeletedMemoId: toBeDeletedTime.toString(),
+        initMenualMemoId: initMenualMemoArr.map((memo, id) => memo.id )
+      }
     } catch (e) {
       console.error("Error adding document: ", e);
     }
   }
 
+
   // 메모 불러오기
   async getMemo (
-    memo?: IMemo[],
+    memo: IMemo[],
     update?: (memo: IMemo[]) => void
   ) {
     if (this.lastMemo === undefined) return // undefined (으로 지정되었으면) 더이상 실행하지 않는다
@@ -101,13 +106,13 @@ export class FbMemo {
       if (result === []) this.lastMemo = undefined; // 결과지정. 더 불러올 메모가 없으면 undefined로 변경
       else this.lastMemo = querySnapshot.docs[querySnapshot.docs.length-1]
 
-      if (update) update([...result.reverse(), ...memo!])
-      return [...result.reverse(), ...memo!] as IMemo[]
+      if (update) update([...result.reverse(), ...memo])
+      return [...result.reverse(), ...memo] as IMemo[]
     } catch (e) {
       console.error("Error adding document: ", e);
     }
-    
   }
+
 
   // 새 메모 추가
   async addMemo ( tagId: string, newContent: string ) {
@@ -128,6 +133,7 @@ export class FbMemo {
     }
   }
 
+
   // 메모 내용 변경
   async editMemoContent (memoId: string, editContent: string) {
 
@@ -141,6 +147,7 @@ export class FbMemo {
       console.error("Error adding document: ", e);
     }
   }
+
 
   // 메모 태그 변경
   async editMemoUsedTag ( memoId: string, newTagId: string ) {
@@ -156,6 +163,7 @@ export class FbMemo {
     }
   }
 
+
   // 메모 삭제
   async deleteMemo ( memoId: string ) {
     const docRef = doc(this.fireStoreDB, this.doc, memoId);
@@ -168,7 +176,8 @@ export class FbMemo {
     }
   }
 
-  // tagId와 같은 메모를 전부 가져온다.
+
+  // tagId와 같은 메모를 가져온다.
   async getMemoWithTag (tag: ITag, gridPage?: "gridPage" ): Promise<IMemo[]> {
     const col = collection(this.fireStoreDB, this.doc)
     let q = query(col, where("tagId", "==", tag.id)); 
@@ -181,6 +190,7 @@ export class FbMemo {
     })
   }
 
+  
   // pinnedMemo 찾아서 가져오기
   async getPinnedMemo (memoId: string, update?: (v: IMemo) => void): Promise<IMemo> {
     const docRef = doc(this.fireStoreDB, this.doc, memoId);

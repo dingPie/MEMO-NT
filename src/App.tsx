@@ -18,7 +18,6 @@ import { FbTag } from './firebase/firestore_tag_service';
 
 import { ITag, IUserInfo } from './utils/interface/interface';
 import { MobileBox } from './components/MobileBox';
-import NotFoundPage from './pages/NotFoundPage';
 import Loading from 'react-loading';
 
 
@@ -47,10 +46,13 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
       loading.start();
       console.log("새로 가입을 진행합니다");
       await fbAuth.addUser(user);
-      await fbTag.initTag(user.uid);
-      const initMemoId = await fbMemo.initMemo(user.uid);
+      await fbTag.initTag(); // user.uid
+
+      const initMemoId = await fbMemo.initMemo(); // user.uid
       await fbTag.addUsedMemo("undefined", initMemoId!.undefinedMemoId);
       await fbTag.addUsedMemo("toBeDeleted", initMemoId!.toBeDeletedMemoId);
+      await fbTag.addUsedMemoAll("initMenual", initMemoId!.initMenualMemoId)
+
       loading.finish();
       window.location.reload(); // 첫 유저의 경우, user 정보를 받아오는 것 보다 메모 init이 느린 관계로, 새로고침 작업
     }
@@ -62,7 +64,7 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
     loading.start()
     const paletteObj = await fbAuth.getPalette() // 팔레트 설정
     palette.setPalette(paletteObj)
-    console.log(paletteObj, "색상정보 확인")
+    console.log(palette, "색상정보 확인")
     fbAuth.setUid(user) // uid 의존성 주입
     fbTag.setDoc(user) // uid 의존성 주입
     fbMemo.setDoc(user) // uid 의존성 주입
@@ -128,14 +130,11 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
             userInfo={userInfo}
           />} 
         />
-
-      {/* redirect 설정 떄문에 현재 쓰이지 않을 듯 하다. */}
-      {/* <Route path='/test' element={<NotFoundPage />} /> */}
       </Routes>
-
+{/* 
       { loading.isLoading &&
         <Loading />
-      }
+      } */}
     </MobileBox>
   );
 }

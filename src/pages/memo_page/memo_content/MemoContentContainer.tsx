@@ -43,15 +43,14 @@ const MemoContentContainer = ( { editMemo, setEditMemo, fbAuth, fbTag, fbMemo, u
   // 메모 클릭 => 수정 input창 출력
   const onClickMemo = useCallback((e: React.MouseEvent<HTMLDivElement>, memo: IMemo) => {
     if (isOpenMenu || isOpenInputMemo || isOpenEditTag) return
-    console.log("현재 에딧 메모", editMemo)
     if (editMemo) {
       setEditMemo(null)
       setInputMemo("")
     } else {
-      setInputMemo(memo.content)
       setEditMemo(memo)
+      setInputMemo(memo.content)
     }
-  }, [isOpenMenu, isOpenInputMemo, editMemo])
+  }, [isOpenMenu, isOpenInputMemo, isOpenEditTag, editMemo])
 
 
   // 수정 처리
@@ -93,9 +92,8 @@ const MemoContentContainer = ( { editMemo, setEditMemo, fbAuth, fbTag, fbMemo, u
       if (editMemo.tagId === "undefined" || editMemo.tagId === "toBeDeleted") {}
       else fbTag.deleteTag(editMemo.tagId)
       navigate('/grid')
-      
-
     }
+
     loading.finish();
   }, [memoList, userInfo])
 

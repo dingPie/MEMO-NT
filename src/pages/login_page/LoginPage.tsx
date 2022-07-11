@@ -60,7 +60,7 @@ const LoginPage = ( { fbAuth, user, setUser }: ILoginPage ) => {
           bold 
           fontSize="3x" 
         >
-          LOGIN
+          MEMO'NT
         </Text>
       
         {/* <WithoutLogin 

@@ -7,6 +7,7 @@ import { ITag } from "../../../utils/interface/interface";
 
 import TagOptions from "./TagOptions";
 import styled from "styled-components";
+import { ScrollBox } from "../../../components/ScrollBox";
 
 
 interface ITalkInputOption  {
@@ -24,7 +25,7 @@ const TalkInputOption = ( { tags, recommTag, onClickTagOption }: ITalkInputOptio
 
   return(
     <InputOptionBox>
-      <TagScrollBox>
+      <ScrollBox>
         { recentTags.map( tag =>
           <TagOptions
             key={tag.id}
@@ -33,7 +34,7 @@ const TalkInputOption = ( { tags, recommTag, onClickTagOption }: ITalkInputOptio
             tagName={tag.name} 
           />
         )}
-      </TagScrollBox>
+      </ScrollBox>
       <RowBox gap={.25} padding="0" right>
         { recommTag &&
           <TagOptions 
@@ -56,27 +57,6 @@ const TalkInputOption = ( { tags, recommTag, onClickTagOption }: ITalkInputOptio
 
 export default (TalkInputOption);
 
-const TagScrollBox = styled(RowBox)`
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  gap: .25rem;
-  
-  background: white;
-  padding: .5rem .25rem 0; 
-  border-radius: 1.25rem ;
-
-  &::-webkit-scrollbar {
-    height: .5rem;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: #d3d3d3;
-    border-radius: .25rem;
-    background-clip: padding-box;
-    border: 2px solid transparent;
-    align-items: center;
-  }
-`
-
  const InputOptionBox = styled.div`
   display: grid;
   grid-template-columns: 1fr 8rem;
@@ -84,6 +64,7 @@ const TagScrollBox = styled(RowBox)`
   gap: .5rem;
   
   width: 100%;
+  min-height: 2.5rem;
   padding: 0 .5rem;
   background: white;
 `

@@ -3,14 +3,16 @@ import styled from "styled-components";
 import useStore from "../../../store/useStore";
 
 import Text from "../../../components/Text"
-import { RowBox } from "../../../components/FlexBox";
+import { ColBox, RowBox } from "../../../components/FlexBox";
 import { IconBox } from "../../../components/IconBox";
+import { ScrollBox } from "../../../components/ScrollBox";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faHashtag, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faClockFour } from "@fortawesome/free-regular-svg-icons";
 
 import { IMemo, ITag } from "../../../utils/interface/interface";
+import TagOptions from "./TagOptions";
 
 
 interface ITalkEditTagName {
@@ -32,53 +34,71 @@ const TalkEditTagName = ( {
 
   const { palette } = useStore();
   const tag = tags.filter(v => v.id === editMemo.tagId)[0]
-
+  const recentTags = tags.filter( v => v.id !== "undefined" && v.id !== "toBeDeleted" )
 
   return(
-    <MenuBox 
-      between gap={.1} 
+    <ColBox 
+      padding="0" 
+      gap={.1} 
+      bgColor={"white"}
     >
-    <RowBox 
-      gap={.25} 
-      radius={1}
-      padding=".25rem .5rem"
-      bgColor={palette.getColor(tag)}
-     >
-      <Text 
-        bold 
-        padding="0" 
-        fontSize='l' 
-        width={1}
+      <RowBox padding="0 .5rem">
+        <ScrollBox>
+          { recentTags.map( tag =>
+            <TagOptions
+              key={tag.id}
+              onClick={ () => onChangeTagName(null, tag.name )}
+              tagColor={palette.getColor(tag)} 
+              tagName={tag.name} 
+            />
+          )}
+        </ScrollBox>
+      </RowBox>
+      <MenuBox 
+        between gap={.1} 
       >
-       #
-      </Text>
-      <TagInput
-        placeholder="태그 없음"
-        bgColor={palette.getColor(tag)}
-        value={editTagName}
-        onChange={(e) => onChangeTagName(e)}
-      />
-    </RowBox>
+        <RowBox 
+          gap={.25} 
+          radius={1}
+          padding=".25rem .5rem"
+          bgColor={tag.id === "toBeDeleted" ? "white" : palette.getColor(tag)}
+        >
+          <Text 
+            bold 
+            padding="0" 
+            fontSize='l' 
+            width={1}
+          >
+          #
+          </Text>
+          <TagInput
+            placeholder="태그 없음"
+            bgColor={tag.id === "toBeDeleted" ? "white" : palette.getColor(tag)}
+            value={editTagName}
+            onChange={(e) => onChangeTagName(e)}
+          />
+        </RowBox>
 
-    <RowBox gap={.25} padding="0" right>
-      <IconBox bgColor="#505050"
-        onClick={ () => onChangeTagName(null, "toBeDeleted")}
-      >
-        <Icon icon={faClockFour} color="#FFFFFF" />
-      </IconBox>
-      <IconBox bgColor="#f5f5f5"
-        onClick={ () => onChangeTagName(null, "")}
-      >
-        <Icon icon={faHashtag} />
-      </IconBox>
-      <IconBox
-        onClick={onClickCancelEditMemo}
-      >
-        <Icon icon={faXmark} />
-      </IconBox>
-    </RowBox>
+        <RowBox gap={.25} padding="0" right>
+          <IconBox bgColor="#505050"
+            onClick={ () => onChangeTagName(null, "toBeDeleted")}
+          >
+            <Icon icon={faClockFour} color="#FFFFFF" />
+          </IconBox>
+          <IconBox bgColor="#f5f5f5"
+            onClick={ () => onChangeTagName(null, "")}
+          >
+            <Icon icon={faHashtag} />
+          </IconBox>
+          <IconBox
+            onClick={onClickCancelEditMemo}
+          >
+            <Icon icon={faXmark} />
+          </IconBox>
+        </RowBox>
 
-    </MenuBox>
+      </MenuBox>
+    </ColBox>
   )
 }
 

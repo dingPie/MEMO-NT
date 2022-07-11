@@ -169,6 +169,33 @@ export class FbAuth {
     }
   }
 
+  // 메모 전체 삭제하기.
+  async deleteAllMemo () {
+    const col = collection(this.fireStoreDB, this.uid + "_memo")
+    try {
+      const querySnapshot  = await getDocs(query(col))
+      querySnapshot.forEach( async snapshot => {
+        await deleteDoc(snapshot.ref)
+      })
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }
+
+
+  // 태그 전체 삭제하기.
+  async deleteAllTag () {
+    const col = collection(this.fireStoreDB, this.uid + "_tag")
+    try {
+      const querySnapshot  = await getDocs(query(col))
+      querySnapshot.forEach( async snapshot => {
+        await deleteDoc(snapshot.ref)
+      })
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }
+
 
   
   // 색상정보 가져오기 (따로 service 만들기 싫어서)

@@ -5,7 +5,6 @@ import { RowBox } from "./FlexBox";
 import Text from "./Text";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faGear, faBox, faMessage, faReply } from "@fortawesome/free-solid-svg-icons";
-import { darken } from "polished";
 import { IconBox } from "./IconBox";
 import { useNavigate } from "react-router";
 
@@ -119,7 +118,7 @@ const HeaderEle = styled.div`
 
   padding: 1rem;
   margin: 0 auto;
-  max-width: 480px; 
+  max-width: 30rem; 
   width: 100%;
   height: 3.5rem;
 

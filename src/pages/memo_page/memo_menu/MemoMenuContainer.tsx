@@ -87,7 +87,7 @@ const MemoMenuContainer = ( { memoList, setMemoList, editMemo, setEditMemo, tags
   }, [isOpenMenu])
 
 
-  // 태그 옵션버튼 클릭 => 현재 메모의 태그 변겨으 태그만 변경됨.
+  // 태그 옵션버튼 클릭 => 현재 메모의 태그만 변경됨 (메모 내용 변경 없음).
   const onClickTagOption = async (tagId: string, editMemo: IMemo) => {
     setEditMemo(null)
     const confirm = window.confirm("이 메모의 태그를 변경할까요?")
