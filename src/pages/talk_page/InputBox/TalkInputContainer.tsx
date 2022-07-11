@@ -32,6 +32,15 @@ const TalkInpuContainer = ( { fbMemo, fbTag, tags, editMemo, setEditMemo, viewMe
   const [editTagName, setEditTagName] = useState<string>('');
   const [recommTag, setRecommTag] = useState<ITag | null>(null); // 첫 state를 빈 undefined 값이 아닌 null 설정하여 매번 초기화
 
+  const [isMobile, setIsMobile] = useState(false); // 모바일여부
+
+  // 모바일인지 체크하여 엔터 이벤트 넣어줌
+  useEffect(() => { 
+    const isMobile = () =>  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    console.log("감지결과 확인", isMobile())
+    setIsMobile(isMobile())
+  }, []) 
+
 
   // editmemo 설정시 tagName , content input state 설정
   useEffect(() => {
@@ -95,6 +104,15 @@ const TalkInpuContainer = ( { fbMemo, fbTag, tags, editMemo, setEditMemo, viewMe
     }
     loading.finish();
     setInputMemo("") // 이건 둘 다 실행되어야 함.
+  }
+
+  // 엔터 이벤트 추가
+  const onEnterInputEvent = async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (isMobile) return
+    const { key, shiftKey } = e;
+    if (!shiftKey && key === 'Enter') {
+      await onClickInputBtn();
+    }
   }
 
 
@@ -187,6 +205,7 @@ const TalkInpuContainer = ( { fbMemo, fbTag, tags, editMemo, setEditMemo, viewMe
         value={inputMemo}
         onChangeInputMemo={(e) => onChangeInputMemo(e)}
         onClickInputBtn={onClickInputBtn}
+        onEnterInputEvent={onEnterInputEvent}
       />
     </>
   )

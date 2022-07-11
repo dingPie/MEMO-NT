@@ -31,7 +31,15 @@ const MemoContentContainer = ( { editMemo, setEditMemo, fbAuth, fbTag, fbMemo, u
   const { loading } = useStore();
   const navigate = useNavigate();
   const [inputMemo, setInputMemo] = useState("");
-  // const [editMemo, setEditMemo] = useState<IMemo | null>(null)
+
+  const [isMobile, setIsMobile] = useState(false); // 모바일여부
+
+  // 모바일인지 체크하여 엔터 이벤트 넣어줌
+  useEffect(() => { 
+    const isMobile = () =>  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    console.log("감지결과 확인", isMobile())
+    setIsMobile(isMobile())
+  }, []) 
   
 
   //내용 수정
@@ -69,6 +77,15 @@ const MemoContentContainer = ( { editMemo, setEditMemo, fbAuth, fbTag, fbMemo, u
     setMemoList(newMemoList);
     loading.finish();
   }, [memoList] )
+
+  // 엔터 이벤트 추가
+  const onEnterInputEvent = async (e: React.KeyboardEvent<HTMLTextAreaElement>, editMemo: IMemo, inputMemo: string) => {
+    if (isMobile) return
+    const { key, shiftKey } = e;
+    if (!shiftKey && key === 'Enter') {
+      await onClickDoEditMemo(editMemo, inputMemo);
+    }
+  }
 
 
   // 메모 삭제 로직
@@ -120,6 +137,7 @@ const MemoContentContainer = ( { editMemo, setEditMemo, fbAuth, fbTag, fbMemo, u
                 onChangeInputMemo={onChangeInputMemo}
                 onClickDoEditMemo={onClickDoEditMemo}
                 onClickDoDeleteMemo={onClickDoDeleteMemo}
+                onEnterInputEvent={onEnterInputEvent}
               />
             )
           })}

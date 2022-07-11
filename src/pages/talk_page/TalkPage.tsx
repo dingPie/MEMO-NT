@@ -130,6 +130,7 @@ const TalkPage = ( {  fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage ) => {
 
 
 
+
   return(
     <>
       
