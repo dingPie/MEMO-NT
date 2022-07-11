@@ -21,6 +21,7 @@ interface IInputText extends IInputTextEle {
   noResize?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onClick?: (e: React.MouseEvent<HTMLTextAreaElement>) => void;
+  onKeyPress?: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
 }
 
 const InputText = forwardRef< HTMLTextAreaElement, IInputText>((
@@ -30,7 +31,9 @@ const InputText = forwardRef< HTMLTextAreaElement, IInputText>((
     noResize, 
     placeholder, 
     onClick, 
-    onChange, 
+    onChange,
+    onKeyPress,
+
     width, 
     height, 
     padding, 
@@ -64,6 +67,7 @@ const InputText = forwardRef< HTMLTextAreaElement, IInputText>((
       defaultValue={defaultValue}
       onChange={onChange}
       onClick={onClick}
+      onKeyPress={onKeyPress}
       // style
       placeholder={placeholder}
       width={width}

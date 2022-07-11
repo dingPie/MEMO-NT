@@ -8,8 +8,6 @@ import Text from "../../components/Text";
 import { User } from "firebase/auth";
 import { FbAuth } from "../../firebase/firebase_auth_service";
 
-import SetUser from "./setting_user/SetUser";
-import SetToBeDeletedTime from "./setting_time/SetToBeDeletedTime";
 import WithdrawConfirmPopup from "./setting_user/WithdrawConfirmPopup";
 import SetUserContainer from "./setting_user/SetUserContainer";
 import SetTimeContainer from "./setting_time/SetTimeContainer";
@@ -31,7 +29,7 @@ const SettingPage = ( { user, setUser, fbAuth }: ISettingPage ) => {
   const [isOpenWithdrawPopup, setIsOpenWithdrawPopup] = useState(false);
 
   // 뒤로가기
-  const onClickOtherBtn = () => navigate(-1)
+  const onClickOtherBtn = () => navigate(-1);
 
 
 

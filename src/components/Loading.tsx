@@ -1,8 +1,6 @@
 import React, { ReactNode, memo } from "react";
 import styled, { css } from "styled-components";
 import { center } from "../styles/stylesCss";
-import { MainBtn } from "./Buttons";
-import { RowBox } from "./FlexBox";
 import Text from './Text'
 
 import ReactLoading from 'react-loading'

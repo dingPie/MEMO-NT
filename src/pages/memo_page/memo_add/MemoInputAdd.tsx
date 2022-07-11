@@ -12,9 +12,10 @@ interface IMemoInputAdd {
   onChangeInputMemo: (e: React.ChangeEvent<HTMLTextAreaElement> ) => void;
   onClickAddConfirm: (tagId: string, inputMemo: string) => void;
   onClickAddCancel: () => void;
+  onEnterInputEvent: (e: React.KeyboardEvent<HTMLTextAreaElement>, tagId: string, inputMemo: string) => void;
 }
 
-const MemoInputAdd = ( {  tag, inputMemo, onChangeInputMemo, onClickAddConfirm, onClickAddCancel }: IMemoInputAdd ) => {
+const MemoInputAdd = ( {  tag, inputMemo, onChangeInputMemo, onClickAddConfirm, onClickAddCancel, onEnterInputEvent }: IMemoInputAdd ) => {
   
   const inputRef = useRef<HTMLTextAreaElement>(null)
   useEffect(() => {
@@ -31,6 +32,7 @@ const MemoInputAdd = ( {  tag, inputMemo, onChangeInputMemo, onClickAddConfirm, 
         padding=".5rem"
         value={inputMemo}
         onChange={(e) => onChangeInputMemo(e)}
+        onKeyPress={(e) => onEnterInputEvent(e, tag.id, inputMemo)}
       />
       <RowBox center gap={.5} padding="0" >
         <CustomBtn
