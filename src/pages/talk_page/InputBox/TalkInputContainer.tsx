@@ -10,7 +10,6 @@ import useStore from "../../../store/useStore";
 import TalkInput from "./TalkInput";
 import TalkEditTagName from "./TalkEditTagName";
 import TalkInputOption from "./TalkInputOption";
-import MemoTagOption from "../../memo_page/memo_menu/MemoTagOption";
 
 interface ITalkInpuContainer {
   tags: ITag[];
