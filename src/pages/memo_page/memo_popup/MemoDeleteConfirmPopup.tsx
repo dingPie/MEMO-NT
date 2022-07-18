@@ -11,7 +11,11 @@ interface IMemoDeleteConfirmPopup {
   onClickDoDeleteAll: (tag: ITag) => void;
 }
 
-const MemoDeleteConfirmPopup = ( { tag, onClickDoDeleteOnlyTag, onClickDoDeleteAll }: IMemoDeleteConfirmPopup ) => {
+const MemoDeleteConfirmPopup = ( { 
+  tag, 
+  onClickDoDeleteOnlyTag, 
+  onClickDoDeleteAll 
+}: IMemoDeleteConfirmPopup ) => {
 
   return(
     <Popup

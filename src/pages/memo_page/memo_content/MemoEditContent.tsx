@@ -21,7 +21,14 @@ interface IMemoEditContent {
 }
 
 
-const MemoEditContent = ( { editMemo, inputMemo, onClickDoEditMemo, onChangeInputMemo, onClickDoDeleteMemo, onEnterInputEvent }: IMemoEditContent ) => {
+const MemoEditContent = ( { 
+  editMemo, 
+  inputMemo, 
+  onChangeInputMemo, 
+  onClickDoEditMemo, 
+  onClickDoDeleteMemo, 
+  onEnterInputEvent 
+}: IMemoEditContent ) => {
 
 
   const inputRef = useRef<HTMLTextAreaElement>(null);

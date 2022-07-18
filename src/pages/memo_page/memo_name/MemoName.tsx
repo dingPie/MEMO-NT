@@ -11,12 +11,13 @@ import { setTalkTag } from "../../talk_page/utils/talk_service";
 
 interface IMemoName {
   tag: ITag;
-  isOpenMenu?: boolean;
   onClickTagName?: () => void;
 }
 
 
-const MemoName = ( { tag, isOpenMenu, onClickTagName }: IMemoName ) => {
+const MemoName = ( { 
+  tag, 
+  onClickTagName }: IMemoName ) => {
 
   const { palette } = useStore();
   const [memoName, setMemoName] = useState(setTalkTag(tag, "expand"))
@@ -25,8 +26,6 @@ const MemoName = ( { tag, isOpenMenu, onClickTagName }: IMemoName ) => {
     setMemoName(setTalkTag(tag, "expand"))
   }, [tag])
   
-
-  console.log("태그명 변화 확인", tag)
 
   return(
     <TalkTagExpand

@@ -18,7 +18,13 @@ interface ITalkListContainer {
 }
 
 
-const TalkListContainer = ( { tags, memo, editMemo, selectedMemo, setSelectedMemo }: ITalkListContainer ) => {
+const TalkListContainer = ( { 
+  tags, 
+  memo, 
+  editMemo, 
+  selectedMemo, 
+  setSelectedMemo 
+}: ITalkListContainer ) => {
 
   const tag = getTagWithMemo(tags, memo);
 

@@ -17,7 +17,12 @@ interface IMemoPalette {
   onClickSelectColor: (colorId: number) => void;
 }
 
-const MemoPalette = ( { tag, seletedColor, onClickDoEditPalette, onClickSelectColor }: IMemoPalette ) => {
+const MemoPalette = ( { 
+  tag, 
+  seletedColor, 
+  onClickDoEditPalette, 
+  onClickSelectColor 
+}: IMemoPalette ) => {
 
   const { palette } = useStore();
 

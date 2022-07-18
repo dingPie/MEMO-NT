@@ -14,14 +14,19 @@ import { setTalkTag } from "../talk_page/utils/talk_service";
 
 
 interface IGridMemo {
-  fbMemo: FbMemo;
   fbTag: FbTag;
+  fbMemo: FbMemo;
   tag: ITag;
   onClickMemo: () => void;
 }
 
 
-const GridMemo = ( {fbMemo, fbTag, tag, onClickMemo }: IGridMemo ) => {
+const GridMemo = ( { 
+  fbTag, 
+  fbMemo, 
+  tag, 
+  onClickMemo 
+}: IGridMemo ) => {
 
   const { palette } = useStore();
   const [usedMemo, setUsedMemo] = useState<IMemo[]>([]);

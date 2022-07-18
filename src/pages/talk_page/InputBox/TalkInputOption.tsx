@@ -17,7 +17,11 @@ interface ITalkInputOption  {
 }
 
 
-const TalkInputOption = ( { tags, recommTag, onClickTagOption }: ITalkInputOption ) => {
+const TalkInputOption = ( { 
+  tags, 
+  recommTag, 
+  onClickTagOption 
+}: ITalkInputOption ) => {
   
   const { palette } = useStore();
   const recentTags = tags.filter( v => v.id !== "undefined" && v.id !== "toBeDeleted" ) // .slice(0, 3)
@@ -46,7 +50,6 @@ const TalkInputOption = ( { tags, recommTag, onClickTagOption }: ITalkInputOptio
 
         <TagOptions
           onClick={ () => onClickTagOption("")}
-          end
           tagColor="#F5F5F5"
           tagName="#"
         />

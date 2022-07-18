@@ -12,18 +12,28 @@ import TalkEditTagName from "./TalkEditTagName";
 import TalkInputOption from "./TalkInputOption";
 
 interface ITalkInpuContainer {
-  tags: ITag[];
   fbMemo: FbMemo;
   fbTag: FbTag;
-  editMemo: IMemo | null;
-  setEditMemo: (v: IMemo | null) => void;
-  viewMemo: IMemo[];
-  setViewMemo: (v: IMemo[]) => void;
+  tags: ITag[];
   talkBoxRef: React.RefObject<HTMLDivElement>;
+  editMemo: IMemo | null;
+  viewMemo: IMemo[];
+  setEditMemo: (v: IMemo | null) => void;
+  setViewMemo: (v: IMemo[]) => void;
   setToBeDeleteTag: (tagId: string) => void;
 }
 
-const TalkInpuContainer = ( { fbMemo, fbTag, tags, editMemo, setEditMemo, viewMemo, setViewMemo, talkBoxRef, setToBeDeleteTag }: ITalkInpuContainer ) => {
+const TalkInpuContainer = ( { 
+  fbMemo, 
+  fbTag, 
+  tags, 
+  talkBoxRef, 
+  editMemo, 
+  viewMemo, 
+  setEditMemo, 
+  setViewMemo, 
+  setToBeDeleteTag 
+}: ITalkInpuContainer ) => {
 
   const { loading } = useStore();
   const inputRef = React.useRef<HTMLTextAreaElement>(null);

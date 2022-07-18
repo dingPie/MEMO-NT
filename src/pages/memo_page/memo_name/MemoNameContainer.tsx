@@ -13,17 +13,29 @@ import MemoName from "./MemoName";
 
 interface IMemoNameContainer extends MemoProps {
   tags: ITag[];
+  editMemo: IMemo | null;
+  memoList: IMemo[];
   isOpenMenu: boolean;
   isOpenEditTag: boolean;
-  memoList: IMemo[];
-  editMemo: IMemo | null;
   isOpenInputMemo: boolean;
   setIsOpenEditTag: (v: boolean) => void; 
   setIsOpenMenu: (v: boolean) => void; 
 }
 
 
-const MemoNameContainer = ( { fbTag, fbMemo, memoList, tag, tags, isOpenMenu, editMemo, setIsOpenMenu, isOpenEditTag, setIsOpenEditTag, isOpenInputMemo }: IMemoNameContainer ) => {
+const MemoNameContainer = ( { 
+  fbTag, 
+  fbMemo, 
+  tag, 
+  tags, 
+  memoList, 
+  editMemo, 
+  isOpenMenu, 
+  isOpenEditTag,
+  isOpenInputMemo,
+  setIsOpenMenu, 
+  setIsOpenEditTag, 
+ }: IMemoNameContainer ) => {
 
   const { loading } = useStore()
   const [inputMemoName, setinputMemoName] = useState("");
@@ -78,7 +90,6 @@ const MemoNameContainer = ( { fbTag, fbMemo, memoList, tag, tags, isOpenMenu, ed
           /> :
           <MemoName 
             tag={tag}
-            isOpenMenu={isOpenMenu}
             onClickTagName={onClickTagName}
           />
         }

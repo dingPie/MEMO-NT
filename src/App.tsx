@@ -18,7 +18,6 @@ import { FbTag } from './firebase/firestore_tag_service';
 
 import { ITag, IUserInfo } from './utils/interface/interface';
 import { MobileBox } from './components/MobileBox';
-import Loading from './components/Loading';
 
 
 
@@ -106,7 +105,6 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
         <Route path="/setting" element={
           <SettingPage 
             user={user}
-            setUser={setUser}
             fbAuth={fbAuth}
           />}
         />
@@ -123,7 +121,6 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
           <GridPage 
             fbMemo={fbMemo}
             fbTag={fbTag}
-            user={user}
             tags={tags}
           />} 
           />

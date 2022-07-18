@@ -18,24 +18,34 @@ import MemoTagOption from "./MemoTagOption";
 
 
 interface IMemoMenuContainer extends MemoProps {
-  isOpenMenu: boolean;
-  setIsOpenMenu: (v: boolean) => void;
-  setIsOpenDeleteMemo: (v: boolean) => void;
-  setIsOpenEditTag: (v: boolean) => void;
-
   tags: ITag[];
   editMemo: IMemo | null;
-  setEditMemo: (memo: IMemo| null) => void;
-
   memoList: IMemo[];
-  setMemoList: (memo: IMemo[]) => void;
-
   inputMemo: string;
-  setInputMemo: (v: string) => void;
+  isOpenMenu: boolean;
+  setEditMemo: (memo: IMemo| null) => void;
+  setMemoList: (memo: IMemo[]) => void;
+  setIsOpenMenu: (v: boolean) => void;
+  setIsOpenEditTag: (v: boolean) => void;
+  setIsOpenDeleteMemo: (v: boolean) => void;
 }
 
 
-const MemoMenuContainer = ( {inputMemo, setInputMemo, memoList, setMemoList, editMemo, setEditMemo, tags, fbTag, fbMemo, tag, isOpenMenu, setIsOpenMenu, setIsOpenDeleteMemo, setIsOpenEditTag }: IMemoMenuContainer ) => {
+const MemoMenuContainer = ( { 
+  fbTag, 
+  fbMemo, 
+  tags, 
+  tag, 
+  memoList, 
+  editMemo, 
+  isOpenMenu, 
+  inputMemo,
+  setMemoList, 
+  setEditMemo, 
+  setIsOpenMenu, 
+  setIsOpenDeleteMemo, 
+  setIsOpenEditTag 
+}: IMemoMenuContainer ) => {
 
   const { loading } = useStore();
   const navigate = useNavigate();

@@ -37,7 +37,13 @@ interface IMemoPage {
   userInfo: IUserInfo | null;
 }
 
-const MemoPage = ( { fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage ) => {
+const MemoPage = ( { 
+  fbMemo, 
+  fbAuth, 
+  fbTag, 
+  tags, 
+  userInfo
+ }: IMemoPage ) => {
 
   const navigate = useNavigate();
   const { tagId } = useParams();
@@ -111,7 +117,6 @@ const MemoPage = ( { fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage ) => {
               isOpenMenu={isOpenMenu}
               isOpenEditTag={isOpenEditTag}
               isOpenInputMemo={isOpenInputMemo}
-              setIsOpenInputMemo={setIsOpenInputMemo}
 
               editMemo={editMemo}
               setEditMemo={setEditMemo}
@@ -150,7 +155,6 @@ const MemoPage = ( { fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage ) => {
           setIsOpenEditTag={setIsOpenEditTag}
 
           inputMemo={inputMemo}
-          setInputMemo={setInputMemo}
         />
       }
         <MemoDeletePopupContainer

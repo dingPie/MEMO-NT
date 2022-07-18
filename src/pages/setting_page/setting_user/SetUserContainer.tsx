@@ -10,7 +10,10 @@ interface ISetUserContainer {
   setIsOpenWithdrawPopup: (v: boolean) => void;
 }
 
-const SetUserContainer = ( { fbAuth, user, setIsOpenWithdrawPopup }: ISetUserContainer ) => {
+const SetUserContainer = ( { 
+  fbAuth, 
+  user, 
+  setIsOpenWithdrawPopup }: ISetUserContainer ) => {
 
     // 로그아웃
     const onClickLogout = () => {

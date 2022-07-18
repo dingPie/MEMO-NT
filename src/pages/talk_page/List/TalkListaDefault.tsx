@@ -22,7 +22,11 @@ interface ITalkListaDefault {
 }
 
 
-const TalkListaDefault = ( {tag, memo, onClickMenuBtn }: ITalkListaDefault  ) => {
+const TalkListaDefault = ( {
+  tag, 
+  memo, 
+  onClickMenuBtn 
+}: ITalkListaDefault  ) => {
 
   const { palette } = useStore();
   const time = new Time();

@@ -17,7 +17,10 @@ interface ISetUser {
 }
 
 
-const SetUser = ( { user, onClickLogout, onClickWithdrawBtn }: ISetUser ) => {
+const SetUser = ( { 
+  user, 
+  onClickLogout, 
+  onClickWithdrawBtn }: ISetUser ) => {
 
   const presentEmail = (user: User) => {
     if (user.providerData[0].email) return user.providerData[0].email

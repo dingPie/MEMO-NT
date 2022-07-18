@@ -20,7 +20,13 @@ interface IMemoMenu {
 }
 
 
-const MemoMenu = ( { tag, onClickEditBtn, onClickDeleteBtn, onClickPaletteBtn, onClickCloseMenuBtn }: IMemoMenu ) => {
+const MemoMenu = ( { 
+  tag, 
+  onClickEditBtn, 
+  onClickDeleteBtn, 
+  onClickPaletteBtn, 
+  onClickCloseMenuBtn 
+}: IMemoMenu ) => {
 
   
   return(

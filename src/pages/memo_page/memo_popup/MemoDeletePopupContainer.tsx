@@ -20,7 +20,15 @@ interface IMemoDeletePopupContainer extends MemoProps {
   userInfo: IUserInfo | null;
 }
 
-const MemoDeletePopupContainer = ( { fbAuth, userInfo, fbTag, fbMemo, tag, isOpenDeleteMemo, setIsOpenDeleteMemo }: IMemoDeletePopupContainer ) => {
+const MemoDeletePopupContainer = ( { 
+  fbAuth, 
+  userInfo, 
+  fbTag, 
+  fbMemo, 
+  tag, 
+  isOpenDeleteMemo, 
+  setIsOpenDeleteMemo
+ }: IMemoDeletePopupContainer ) => {
 
   const navigate = useNavigate();
   const { loading } = useStore();

@@ -20,12 +20,16 @@ import { TalkListBox } from "./TalkListContainer";
 import { TalkContent } from "../utils/TalkComponents";
 
 interface ITalkListExpand {
-  onClickMenuBtn: (memo: IMemo) => void;
   memo: IMemo;
   tag: ITag;
+  onClickMenuBtn: (memo: IMemo) => void;
 }
 
-const TalkListExpand = ( { tag, memo, onClickMenuBtn }: ITalkListExpand  ) => {
+const TalkListExpand = ( { 
+  tag, 
+  memo, 
+  onClickMenuBtn 
+}: ITalkListExpand  ) => {
 
   const { palette } = useStore();
   const time = new Time();

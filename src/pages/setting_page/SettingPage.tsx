@@ -18,10 +18,9 @@ import Loading from "../../components/Loading";
 interface ISettingPage {
   fbAuth: FbAuth;
   user: User | null;
-  setUser: (v: User | null) => void;
 }
 
-const SettingPage = ( { user, setUser, fbAuth }: ISettingPage ) => {
+const SettingPage = ( { user, fbAuth }: ISettingPage ) => {
   
   const navigate = useNavigate();
   const { loading } = useStore();
@@ -56,7 +55,6 @@ const SettingPage = ( { user, setUser, fbAuth }: ISettingPage ) => {
         { isOpenWithdrawPopup &&
           <WithdrawConfirmPopup
           fbAuth={fbAuth}
-          user={user}
           setIsOpenWithdrawPopup={setIsOpenWithdrawPopup}
           />
         }

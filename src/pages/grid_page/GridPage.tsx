@@ -14,13 +14,16 @@ import { ITag } from "../../utils/interface/interface";
 import GridMemo from "./GridMemo";
 
 interface IGridPage {
-  user: User | null;
   tags: ITag[];
   fbMemo: FbMemo;
   fbTag: FbTag;
 }
 
-const GridPage = ( { tags, user, fbMemo, fbTag }: IGridPage ) => {
+const GridPage = ( { 
+  fbMemo, 
+  fbTag,
+  tags, 
+}: IGridPage ) => {
 
   const navigate = useNavigate();
 

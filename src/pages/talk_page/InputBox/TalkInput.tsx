@@ -10,14 +10,20 @@ import { faPlusSquare } from "@fortawesome/free-regular-svg-icons";
 
 
 interface ITaklInput {
-  value: string;
   inputRef: React.RefObject<HTMLTextAreaElement>;
+  value: string;
   onChangeInputMemo: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onEnterInputEvent: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
   onClickInputBtn: () => void;
 }
 
-const TalkInput = ( { inputRef, value, onChangeInputMemo, onEnterInputEvent, onClickInputBtn }: ITaklInput ) => {
+const TalkInput = ( { 
+  inputRef, 
+  value, 
+  onChangeInputMemo, 
+  onEnterInputEvent, 
+  onClickInputBtn 
+}: ITaklInput ) => {
 
 
   return (        

@@ -18,18 +18,18 @@ import TagOptions from "./TagOptions";
 interface ITalkEditTagName {
   tags: ITag[];
   editMemo: IMemo;
-  onClickCancelEditMemo: () => void;
   editTagName: string;
   onChangeTagName: (e?: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement> | null, tagName?: string) => void;
+  onClickCancelEditMemo: () => void;
 }
 
 
 const TalkEditTagName = ( { 
   tags, 
   editMemo, 
-  onClickCancelEditMemo, 
   editTagName, 
-  onChangeTagName
+  onChangeTagName,
+  onClickCancelEditMemo, 
 }: ITalkEditTagName ) => {
 
   const { palette } = useStore();

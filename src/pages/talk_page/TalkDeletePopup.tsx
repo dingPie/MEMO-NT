@@ -10,20 +10,31 @@ import useStore from "../../store/useStore";
 import { IMemo } from "../../utils/interface/interface";
 
 interface ITalkDeletePopup {
-  fbAuth: FbAuth
   fbMemo: FbMemo;
   fbTag: FbTag;
+  fbAuth: FbAuth
   viewMemo: IMemo[];
-  setViewMemo: (memoArr: IMemo[]) => void;
   selectedMemo: IMemo | null;
-  setSelectedMemo:(memo: IMemo | null) => void;
   pinnedMemo: IMemo | null;
+  setViewMemo: (memoArr: IMemo[]) => void;
+  setSelectedMemo:(memo: IMemo | null) => void;
   setIsOpenDeletePopup: (v: boolean) => void;
   setToBeDeleteTag: (v: string) => void;
 }
 
 
-const TalkDeletePopup = ( { fbAuth, fbMemo, fbTag,  viewMemo, setViewMemo , selectedMemo, setSelectedMemo, pinnedMemo, setIsOpenDeletePopup, setToBeDeleteTag }: ITalkDeletePopup ) => {
+const TalkDeletePopup = ( { 
+  fbMemo, 
+  fbTag, 
+  fbAuth, 
+  viewMemo, 
+  selectedMemo, 
+  pinnedMemo, 
+  setViewMemo, 
+  setSelectedMemo, 
+  setIsOpenDeletePopup, 
+  setToBeDeleteTag 
+}: ITalkDeletePopup ) => {
 
   const { loading } = useStore();
 

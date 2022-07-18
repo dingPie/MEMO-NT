@@ -6,13 +6,17 @@ import Select from "../../../components/Select";
 import Text from "../../../components/Text";
 
 interface ISetToBeDeletedTime {
-  onClickSetDeleteTimeBtn: () => void;
   toBeDeleteTime: number;
   onChangeSelect: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  onClickSetDeleteTimeBtn: () => void;
 }
 
 
-const SetToBeDeletedTime = ( { onClickSetDeleteTimeBtn, toBeDeleteTime, onChangeSelect }: ISetToBeDeletedTime ) => {
+const SetToBeDeletedTime = ( { 
+  toBeDeleteTime, 
+  onChangeSelect,
+  onClickSetDeleteTimeBtn, 
+}: ISetToBeDeletedTime ) => {
 
 
 

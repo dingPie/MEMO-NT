@@ -13,14 +13,17 @@ import TalkPinnDefault from "./TalkPinnDefault";
 
 
 interface ITalkPinnContainer {
+  fbAuth: FbAuth;
   tags: ITag[];
   memo: IMemo | null;
-  userInfo: IUserInfo | null;
-  fbAuth: FbAuth;
 }
 
 
-const TalkPinnContainer = ( {tags, fbAuth, memo }: ITalkPinnContainer ) => {
+const TalkPinnContainer = ( {
+  fbAuth, 
+  tags, 
+  memo 
+}: ITalkPinnContainer ) => {
   
   const navigate = useNavigate();
   const tag = getTagWithMemo(tags, memo!);
@@ -31,15 +34,18 @@ const TalkPinnContainer = ( {tags, fbAuth, memo }: ITalkPinnContainer ) => {
   const [animate, setAnimate] = useState(false);
   const [pinnHeight, setPinnHeight] = useState(0);
   
+
   // 확장버튼 클릭
   const onClickExpandPinn = () => {
      setIsExpand(true)
   }
 
+
   // 줄이기버튼 클릭
   const onClickReducePinn = () => {
     setIsExpand(false)
   }
+
 
   // 핀 삭제 버튼 클릭
   const onClickDeletePinn =  async () => {
@@ -47,13 +53,14 @@ const TalkPinnContainer = ( {tags, fbAuth, memo }: ITalkPinnContainer ) => {
     // setPinnedMemo(null)
   }
 
+
   // 메모 이동버튼 클릭
   const onClicGoMemoBtn = () => {
     navigate(`/memo/${memo!.tagId}`)
   }
 
+
   // 애니메이션 관련, 잠시 사용 X
-   
   // useEffect(() => {
   //   if (!isExpand) {
   //     setAnimate(true);

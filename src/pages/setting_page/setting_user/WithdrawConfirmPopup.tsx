@@ -10,11 +10,13 @@ import { ColBox } from "../../../components/FlexBox";
 
 interface IWithdrawConfirmPopup {
   fbAuth: FbAuth;
-  user: User | null;
   setIsOpenWithdrawPopup: (v: boolean) => void;
 }
 
-const WithdrawConfirmPopup = ( { fbAuth, user, setIsOpenWithdrawPopup} : IWithdrawConfirmPopup ) => {
+const WithdrawConfirmPopup = ( { 
+  fbAuth, 
+  setIsOpenWithdrawPopup
+} : IWithdrawConfirmPopup ) => {
 
   const confrimTextRef = useRef<HTMLTextAreaElement>(null)
 

@@ -8,12 +8,14 @@ import { setTextLine } from "../../../styles/stylesCss";
 interface ITagOptions {
   tagColor: string;
   tagName: string;
-  maxWidth?: number;
   onClick?: (v: any) => void;
-  end?: boolean;
 }
 
-const TagOptions = ( { end, tagColor, tagName, onClick }: ITagOptions ) => {
+const TagOptions = ( { 
+  tagColor, 
+  tagName, 
+  onClick 
+}: ITagOptions ) => {
 
 
   return(
@@ -23,7 +25,7 @@ const TagOptions = ( { end, tagColor, tagName, onClick }: ITagOptions ) => {
         padding=".25rem .5rem"
         radius={1}
         whiteSpace={"nowrap"}
-        end={end}
+        end
       >
         {tagName}
       </TagOptionBox>
@@ -36,7 +38,7 @@ export default TagOptions;
 
 const TagOptionBox = styled(CustomBtn)<{whiteSpace?: string, end?:boolean}>`
   flex: 0 0 auto;
-  justify-self: ${({end}) => end && "end" };
+  justify-self: ${({end}) => end && "flex-end" };
   align-self: center;
 
   min-width: 2rem;

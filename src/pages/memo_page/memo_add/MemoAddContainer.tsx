@@ -12,14 +12,24 @@ import MemoInputAdd from "./MemoInputAdd";
 
 interface IMemoAddContainer extends MemoProps {
   memoList: IMemo[];
-  setMemoList: (memo: IMemo[]) => void;
   isOpenMenu: boolean;
   isOpenInputMemo: boolean;
   isOpenEditTag: boolean;
+  setMemoList: (memo: IMemo[]) => void;
   setIsOpenInputMemo: (v: boolean) => void;
 }
 
-const MemoAddContainer = ( { fbTag, fbMemo, tag, memoList, setMemoList, isOpenMenu, isOpenEditTag, isOpenInputMemo, setIsOpenInputMemo }: IMemoAddContainer ) => {
+const MemoAddContainer = ( { 
+  fbTag, 
+  fbMemo, 
+  tag, 
+  memoList, 
+  isOpenMenu, 
+  isOpenEditTag, 
+  isOpenInputMemo, 
+  setMemoList, 
+  setIsOpenInputMemo 
+}: IMemoAddContainer ) => {
 
   const { loading } = useStore();
   const [inputMemo, setInputMemo] = useState("");

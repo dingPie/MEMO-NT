@@ -29,7 +29,13 @@ interface ITalkPage extends IApp {
 }
 
 
-const TalkPage = ( {  fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage ) => {
+const TalkPage = ( { 
+  fbMemo, 
+  fbTag, 
+  fbAuth, 
+  tags, 
+  userInfo 
+}: ITalkPage ) => {
 
   const navigate = useNavigate();
   const { loading } = useStore();
@@ -143,7 +149,6 @@ const TalkPage = ( {  fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage ) => {
         <TalkPinnContainer
           tags={tags}
           memo={pinnedMemo}
-          userInfo={userInfo}
           fbAuth={fbAuth}
         />
       }
@@ -174,8 +179,6 @@ const TalkPage = ( {  fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage ) => {
         {/* Talk menu 관련  */}
         <MenuContainer
           fbAuth={fbAuth}
-          fbTag={fbTag} 
-          fbMemo={fbMemo}
           selectedMemo={selectedMemo} 
           setSelectedMemo={setSelectedMemo} 
           setEditMemo={setEditMemo} 

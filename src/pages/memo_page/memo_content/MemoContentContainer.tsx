@@ -15,20 +15,32 @@ import MemoEditContent from "./MemoEditContent";
 interface IMemoContentContainer extends MemoProps {
   fbAuth: FbAuth;
   userInfo: IUserInfo | null;
+  editMemo: IMemo | null;
+  inputMemo: string;
   memoList: IMemo[];
-  setMemoList: (memo: IMemo[]) => void;
   isOpenMenu: boolean;
   isOpenInputMemo: boolean;
   isOpenEditTag: boolean;
-  setIsOpenInputMemo: (v: boolean) => void;
-
-  editMemo: IMemo | null;
-  setEditMemo: (memo: IMemo| null) => void;
-  inputMemo: string;
   setInputMemo: (v: string) => void;
+  setEditMemo: (memo: IMemo| null) => void;
+  setMemoList: (memo: IMemo[]) => void;
 }
 
-const MemoContentContainer = ( {inputMemo, setInputMemo, editMemo, setEditMemo, fbAuth, fbTag, fbMemo, userInfo, memoList, setMemoList, isOpenMenu, isOpenEditTag, isOpenInputMemo, setIsOpenInputMemo }: IMemoContentContainer ) => {
+const MemoContentContainer = ( {
+  fbAuth, 
+  fbTag, 
+  fbMemo, 
+  userInfo, 
+  inputMemo, 
+  editMemo, 
+  memoList, 
+  isOpenMenu, 
+  isOpenEditTag, 
+  isOpenInputMemo, 
+  setInputMemo, 
+  setMemoList, 
+  setEditMemo, 
+   }: IMemoContentContainer ) => {
 
   const { loading } = useStore();
   const navigate = useNavigate();

@@ -8,7 +8,7 @@ interface ISetTimeContainer {
   user: User | null;
 }
 
-const SetTimeContainer = ( { fbAuth, user}: ISetTimeContainer ) => {
+const SetTimeContainer = ( { fbAuth, user }: ISetTimeContainer ) => {
 
   const [toBeDeleteTime, setToBeDeleteTime] = useState(5);
   

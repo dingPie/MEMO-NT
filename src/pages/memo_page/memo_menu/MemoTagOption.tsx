@@ -9,7 +9,7 @@ import TagOptions from "../../talk_page/InputBox/TagOptions"
 import styled from "styled-components";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import {  faHashtag } from "@fortawesome/free-solid-svg-icons";
+import { faHashtag } from "@fortawesome/free-solid-svg-icons";
 import { faClockFour } from "@fortawesome/free-regular-svg-icons";
 import { IconBox } from "../../../components/IconBox";
 import { ScrollBox } from "../../../components/ScrollBox";
@@ -21,7 +21,11 @@ interface IMemoTagOption  {
 }
 
 
-const MemoTagOption = ( { tags, editMemo, onClickTagOption }: IMemoTagOption ) => {
+const MemoTagOption = ( { 
+  tags, 
+  editMemo, 
+  onClickTagOption 
+}: IMemoTagOption ) => {
   
   const { palette } = useStore();
   const recentTags = tags.filter( v => v.id !== "undefined" && v.id !== "toBeDeleted" ) // .slice(0, 3)
