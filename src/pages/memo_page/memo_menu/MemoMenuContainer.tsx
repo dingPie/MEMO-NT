@@ -29,10 +29,13 @@ interface IMemoMenuContainer extends MemoProps {
 
   memoList: IMemo[];
   setMemoList: (memo: IMemo[]) => void;
+
+  inputMemo: string;
+  setInputMemo: (v: string) => void;
 }
 
 
-const MemoMenuContainer = ( { memoList, setMemoList, editMemo, setEditMemo, tags, fbTag, fbMemo, tag, isOpenMenu, setIsOpenMenu, setIsOpenDeleteMemo, setIsOpenEditTag }: IMemoMenuContainer ) => {
+const MemoMenuContainer = ( {inputMemo, setInputMemo, memoList, setMemoList, editMemo, setEditMemo, tags, fbTag, fbMemo, tag, isOpenMenu, setIsOpenMenu, setIsOpenDeleteMemo, setIsOpenEditTag }: IMemoMenuContainer ) => {
 
   const { loading } = useStore();
   const navigate = useNavigate();
@@ -89,22 +92,28 @@ const MemoMenuContainer = ( { memoList, setMemoList, editMemo, setEditMemo, tags
 
   // 태그 옵션버튼 클릭 => 현재 메모의 태그만 변경됨 (메모 내용 변경 없음).
   const onClickTagOption = async (tagId: string, editMemo: IMemo) => {
-    setEditMemo(null)
-    const confirm = window.confirm("이 메모의 태그를 변경할까요?")
+    setEditMemo(null);
+    
+    const tagName = tags.filter(tag => tag.id === tagId)[0].name;
+    const confirm = window.confirm(`이 메모의 태그를 ${tagName} 으로 변경할까요?`)
     if (!confirm) return
     loading.start();
 
+    // 메모내용수정
+    if (inputMemo !== editMemo.content) 
+      await fbMemo.editMemoContent(editMemo.id, inputMemo)
+    // 태그수정
     await fbMemo.editMemoUsedTag(editMemo.id, tagId) // 현재 메모의 태그 아이디를 수정해주고
     await fbTag.addUsedMemo(tagId, editMemo.id)  // 존재하던 태그에 수정한 메모 id 넣어주고
     await fbTag.deleteUsedMemo(editMemo) // 현재 태그에서 editMemo에서 현재 메모 아이디 빼주고
-  
+    //memoList 수정
     const newViewMemo = memoList.filter(memo => memo.id !== editMemo.id );
     setMemoList(newViewMemo);
-
-    if (newViewMemo.length === 0) { 
-    if (editMemo.tagId === "undefined" || editMemo.tagId === "toBeDeleted") {} 
-    else fbTag.deleteTag(editMemo.tagId)
-    navigate('/grid')
+    // 태그 삭제
+    if (newViewMemo.length === 0) {
+      if (editMemo.tagId === "undefined" || editMemo.tagId === "toBeDeleted") {} 
+      else fbTag.deleteTag(editMemo.tagId)
+      navigate('/grid')
     }
     loading.finish();
   }

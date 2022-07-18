@@ -17,7 +17,7 @@ import { ScrollBox } from "../../../components/ScrollBox";
 interface IMemoTagOption  {
   tags: ITag[];
   editMemo: IMemo;
-  onClickTagOption: (tagName: string, editMemo: IMemo) => void;
+  onClickTagOption: (tagId: string, editMemo: IMemo) => void;
 }
 
 

@@ -44,7 +44,9 @@ const MemoPage = ( { fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage ) => {
   const { loading } = useStore();
 
   const [tag, setTag] = useState<ITag>(tags.filter(tag => tag.id === tagId )[0]);
-  const [memoList, setMemoList] = useState<IMemo[]>([])
+  const [memoList, setMemoList] = useState<IMemo[]>([]);
+
+  const [inputMemo, setInputMemo] = useState("");
 
   const [editMemo, setEditMemo] = useState<IMemo | null>(null);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
@@ -113,6 +115,9 @@ const MemoPage = ( { fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage ) => {
 
               editMemo={editMemo}
               setEditMemo={setEditMemo}
+
+              inputMemo={inputMemo}
+              setInputMemo={setInputMemo}
             />
             <MemoAddContainer 
               fbTag={fbTag}
@@ -144,6 +149,8 @@ const MemoPage = ( { fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage ) => {
           setIsOpenDeleteMemo={setIsOpenDeleteMemo}
           setIsOpenEditTag={setIsOpenEditTag}
 
+          inputMemo={inputMemo}
+          setInputMemo={setInputMemo}
         />
       }
         <MemoDeletePopupContainer
@@ -168,7 +175,6 @@ export default MemoPage;
 const MemoBox = styled(ColBox)`
   background: ${({theme}) => theme.colors.white};
   gap: .375rem;
-  
   
   height: 100%;
   padding: .5rem;

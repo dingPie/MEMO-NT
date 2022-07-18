@@ -24,13 +24,15 @@ interface IMemoContentContainer extends MemoProps {
 
   editMemo: IMemo | null;
   setEditMemo: (memo: IMemo| null) => void;
+  inputMemo: string;
+  setInputMemo: (v: string) => void;
 }
 
-const MemoContentContainer = ( { editMemo, setEditMemo, fbAuth, fbTag, fbMemo, userInfo, memoList, setMemoList, isOpenMenu, isOpenEditTag, isOpenInputMemo, setIsOpenInputMemo }: IMemoContentContainer ) => {
+const MemoContentContainer = ( {inputMemo, setInputMemo, editMemo, setEditMemo, fbAuth, fbTag, fbMemo, userInfo, memoList, setMemoList, isOpenMenu, isOpenEditTag, isOpenInputMemo, setIsOpenInputMemo }: IMemoContentContainer ) => {
 
   const { loading } = useStore();
   const navigate = useNavigate();
-  const [inputMemo, setInputMemo] = useState("");
+  // const [inputMemo, setInputMemo] = useState("");
 
   const [isMobile, setIsMobile] = useState(false); // 모바일여부
 
