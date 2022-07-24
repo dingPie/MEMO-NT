@@ -14,6 +14,8 @@ import { setTalkTag } from "../utils/talk_service";
 
 import { TalkListBox } from "./TalkListContainer";
 
+import Linkify from 'react-linkify';
+
 
 interface ITalkListaDefault {
   tag: ITag;
@@ -46,8 +48,11 @@ const TalkListaDefault = ( {
             shadow
             lineClamp={4}
           >
-            {memo.content}
+            <Linkify>
+              {memo.content}
+            </Linkify>
           </TalkContent>
+
           <Text
             bold
             center

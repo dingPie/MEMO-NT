@@ -67,7 +67,6 @@ const GridBox = styled.div`
   grid-template-columns: repeat(2, 1fr);
   gap: .5rem;
   padding: .5rem;
-
-
+  overflow-y: scroll ;
 `
 

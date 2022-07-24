@@ -13,7 +13,9 @@ import {
   Auth, 
   browserLocalPersistence, 
   signInWithRedirect,
-  UserCredential
+  UserCredential,
+  getAuth,
+  signInWithCredential
 } from "firebase/auth";
 import { 
   doc, 
@@ -51,6 +53,7 @@ export class FbAuth {
     this.uid = ""
   }
 
+
   setUid (user: User) {
     this.uid = user.uid
   }
@@ -64,16 +67,17 @@ export class FbAuth {
   async loginWithGoogle ( 
     update?: (user: User | null) => void 
     ) {
-    await setPersistence(this.firebaseAuth, browserLocalPersistence );
-    const googleProvider = new GoogleAuthProvider();
-
-    const result = await signInWithPopup(this.firebaseAuth, googleProvider);
-    // const result: UserCredential = await signInWithRedirect(this.firebaseAuth, googleProvider);
-
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    const token = credential!.accessToken;
-    console.log("유저정보", result.user)
-    if(update) update(result.user)
+      await setPersistence(this.firebaseAuth, browserLocalPersistence );
+      const googleProvider = new GoogleAuthProvider();
+      
+      const result = await signInWithPopup(this.firebaseAuth, googleProvider);
+      // const result: UserCredential = await signInWithRedirect(this.firebaseAuth, googleProvider);
+      
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential!.accessToken;
+      console.log("유저정보", result.user)
+      if(update) update(result.user)
+      console.log("토큰정보 테스트", result.user.getIdToken() )
     return result.user
   }
 
@@ -104,8 +108,10 @@ export class FbAuth {
   async onCheckUser (
     update?: (user: User | null) => void 
   ) {
-    onIdTokenChanged(this.firebaseAuth, (user) => {
+    onIdTokenChanged(this.firebaseAuth, async (user) => {
       if(update) update(user)
+      // var id_token = await user!.getIdToken();
+      // console.log( "토큰정보 추출", id_token)
       console.log("유저정보 감지", user)
     })
   }

@@ -45,7 +45,8 @@ const GridMemo = ( {
   
 
   return(
-    <ColBox shadow 
+    <ColBox
+      shadow 
       gap={.25} 
       padding=".5rem" 
       radius={.25}
@@ -75,7 +76,9 @@ const GridMemo = ( {
     </ColBox>
   )
 }
+
 export default GridMemo;
+
 
 const GridText = styled(Text)`
   padding: .125rem .25rem;
@@ -85,6 +88,7 @@ const GridText = styled(Text)`
 
   ${setTextLine}
 `
+
 const TalkTagExpand = styled(Text)`
   justify-content: flex-start;
   width: 100%;

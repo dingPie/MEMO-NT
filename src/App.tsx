@@ -78,11 +78,9 @@ const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
   useEffect(() => {
     fbAuth.onCheckUser(setUser);
     if (user) {
-      console.log(user, "왜안됨?")
       loading.start();
       initAppLogin(user);
-      // CheckAndInitUser(user);
-      loading.finish()
+      loading.finish();
     } 
     else navitage('/login');
   }, [user])
