@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import useStore from "../../store/useStore";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -65,7 +65,7 @@ const MemoPage = ( {
     getUsedMemo(tag)
   }, [])
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     setTag(tags.filter(tag => tag.id === tagId )[0])
   }, [tags])
   

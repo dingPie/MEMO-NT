@@ -1,4 +1,4 @@
-import React, { forwardRef, memo, useRef } from "react";
+import React, { forwardRef, memo, useEffect, useRef } from "react";
 import styled, { css } from "styled-components";
 import { fontSizeSet } from "../styles/stylesCss";
 
@@ -47,27 +47,30 @@ const InputText = forwardRef< HTMLTextAreaElement, IInputText>((
   // forwardRef로 넘겨준 externalRef 가 있으면, externalRef로 Ref값을 지정해준다. (focus 처리하기 위함.)
   const inputRef = externalRef ? externalRef as React.RefObject<HTMLTextAreaElement> : useRef<HTMLTextAreaElement>(null)
 
+  
+  // 크기 조절 이벤트
   const resize = (ref: React.RefObject<HTMLTextAreaElement>) => {
-    if (!ref.current || noResize) return
+    if (!ref.current) return
     ref.current.style.height = "auto" ; // 줄어들때 먼저 설정
     ref.current.style.height = ref.current.scrollHeight +"px";
   }
 
-  React.useEffect(() => {
+  // value가 바뀔때 마다 실행됨
+  useEffect(() => {
+    if (noResize) return
     resize(inputRef)
-  }, [defaultValue])
+  }, [value])
   
-
   
   return(
     <InputTextEle
       ref={inputRef}
-      onKeyDown={() => resize(inputRef)}
       value={value}
       defaultValue={defaultValue}
       onChange={onChange}
       onClick={onClick}
       onKeyPress={onKeyPress}
+
       // style
       placeholder={placeholder}
       width={width}
