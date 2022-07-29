@@ -22,6 +22,7 @@ export const fontSizeSet = css<{fontSize?: string}>`
   ${({ fontSize }) => {
     let result = "";
     if (fontSize === "3x") result = "2rem";
+    else if (fontSize === 'title') result = "3rem";
     else if (fontSize === '2x') result = "1.5rem";
     else if (fontSize === 'xl') result = "1.25rem";
     else if (fontSize === 'l') result = "1rem";
