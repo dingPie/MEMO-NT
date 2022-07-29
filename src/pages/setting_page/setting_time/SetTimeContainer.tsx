@@ -5,7 +5,7 @@ import SetToBeDeletedTime from "./SetToBeDeletedTime";
 
 interface ISetTimeContainer {
   fbAuth: FbAuth;
-  user: User | null;
+  user: User;
 }
 
 const SetTimeContainer = ( { fbAuth, user }: ISetTimeContainer ) => {

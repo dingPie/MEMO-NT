@@ -139,7 +139,6 @@ const TalkPage = ( {
 
   return(
     <>
-      
       <Header 
         page="talk"
         onClickOtherBtn={onClickOtherBtn}

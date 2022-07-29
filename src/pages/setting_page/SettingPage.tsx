@@ -17,7 +17,7 @@ import Loading from "../../components/Loading";
 
 interface ISettingPage {
   fbAuth: FbAuth;
-  user: User | null;
+  user: User;
 }
 
 const SettingPage = ( { user, fbAuth }: ISettingPage ) => {

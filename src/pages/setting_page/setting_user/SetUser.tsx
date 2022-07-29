@@ -11,7 +11,7 @@ import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 
 
 interface ISetUser {
-  user: User | null;
+  user: User;
   onClickLogout: () => void;
   onClickWithdrawBtn: () => void;
 }

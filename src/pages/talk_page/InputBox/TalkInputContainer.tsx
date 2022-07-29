@@ -46,7 +46,6 @@ const TalkInpuContainer = ( {
   // 모바일인지 체크하여 엔터 이벤트 넣어줌
   useEffect(() => { 
     const isMobile = () =>  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-    console.log("감지결과 확인", isMobile())
     setIsMobile(isMobile())
   }, []) 
 

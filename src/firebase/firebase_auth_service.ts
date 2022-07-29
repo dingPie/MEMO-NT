@@ -110,11 +110,11 @@ export class FbAuth {
   ) {
     onIdTokenChanged(this.firebaseAuth, async (user) => {
       if(update) update(user)
-      // var id_token = await user!.getIdToken();
-      // console.log( "토큰정보 추출", id_token)
-      console.log("유저정보 감지", user)
+      console.log("실시간 유저 정보 감지", user)
+      return user
     })
   }
+
 
   getLoginedUser () {
     return this.user
@@ -129,7 +129,7 @@ export class FbAuth {
     onSnapshot(docRef, (doc) => {
       const result = doc.data() as IUserInfo
       // const result: ITag[] = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()} as ITag ) )
-      console.log("유저정보 변화 감지", result)
+      console.log("현재 유저 DB정보:", result)
       if (update) update(result)
       resolve(result)
     }))
@@ -137,14 +137,15 @@ export class FbAuth {
 
   
   // 유저 DB에서 값 가져오기
-  async getUserInfo (): Promise<IUserInfo> {
-    const docRef = doc(this.fireStoreDB, this.doc, this.uid)
+  async getUserInfo (user?: User): Promise<IUserInfo> {
+    const docRef = doc(this.fireStoreDB, this.doc, user ? user.uid : this.uid)
 
     return new Promise ( async (resolve, rejects) => {
       const result = await getDoc(docRef)
       resolve(result.data() as IUserInfo)
     } )
   }
+
 
   // 유저 DB에 유저 추가
   async addUser (user: User) {
@@ -164,6 +165,7 @@ export class FbAuth {
     }
   }
   
+
   // 회원 탈퇴
   async withdrawUser () {
     const docRef = doc(this.fireStoreDB, this.doc, this.uid);
@@ -174,6 +176,7 @@ export class FbAuth {
       console.error("Error adding document: ", e);
     }
   }
+
 
   // 메모 전체 삭제하기.
   async deleteAllMemo () {
@@ -202,7 +205,6 @@ export class FbAuth {
     }
   }
 
-
   
   // 색상정보 가져오기 (따로 service 만들기 싫어서)
   async getPalette () : Promise<IPalette> {
@@ -218,6 +220,7 @@ export class FbAuth {
     })
   }
 
+
   // 삭제예정시간 업데이트
   async updatetoBeDeletedTime (newTime: number ) {
     const docRef = doc(this.fireStoreDB, this.doc, this.uid)
@@ -225,12 +228,12 @@ export class FbAuth {
     console.log("삭제시간 변경완료",newTime )
   }
 
+
   // 핀 설정
   async setPinnedMemo (memoId: string) {
     console.log("현재 uid", this.uid)
     const docRef = doc(this.fireStoreDB, this.doc, this.uid)
     await updateDoc(docRef, { pinnedMemo: memoId })
   }
-
 
 }

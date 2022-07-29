@@ -21,12 +21,12 @@ import useStore from "../../store/useStore";
 
 interface ILoginPage {
   fbAuth: FbAuth;
-  user: User | null;
+  // user: User | null;
   setUser: (v: User | null) => void;
 }
 
 
-const LoginPage = ( { fbAuth, user, setUser }: ILoginPage ) => {
+const LoginPage = ( { fbAuth, setUser }: ILoginPage ) => {
 
   const navigate = useNavigate();
   const { loading } = useStore();
