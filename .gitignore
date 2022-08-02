@@ -21,3 +21,9 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+# firebase 관련
+.firebase/
+/firebase_server/*.json
+/firebase_server/firebase_config.js
