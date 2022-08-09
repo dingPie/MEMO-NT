@@ -32,6 +32,7 @@ export interface IApp {
 
 const App = ( {fbAuth, fbTag, fbMemo }: IApp ) => {
 
+  
   const { palette, loading } = useStore();
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null | false>(false)
