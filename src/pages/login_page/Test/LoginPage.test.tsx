@@ -11,7 +11,6 @@ import Text from '../../../components/Text';
 
 describe('Login Page Testing', () => {
   let fbAuth: FbAuth;
-  let user: User | null;
   let setUser: () => void;
 
   beforeEach( () => {
@@ -27,7 +26,6 @@ describe('Login Page Testing', () => {
         <ThemeProvider theme={theme}>
           <LoginPage
             fbAuth={fbAuth}
-            user={user}
             setUser={setUser} 
           />
         </ThemeProvider>

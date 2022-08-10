@@ -21,7 +21,6 @@ import useStore from "../../store/useStore";
 
 interface ILoginPage {
   fbAuth: FbAuth;
-  // user: User | null;
   setUser: (v: User | null) => void;
 }
 
