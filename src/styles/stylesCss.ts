@@ -74,6 +74,9 @@ export const setTextLine = css<{whiteSpace?: string, lineClamp?: number}>`
   overflow: hidden;
   -webkit-line-clamp: ${({lineClamp}) => lineClamp ? lineClamp : 1  };;
   -webkit-box-orient: vertical;
+
+  ${overFlowHidden};
+
   text-overflow: ellipsis;
   white-space: ${({whiteSpace}) => whiteSpace ? whiteSpace : 'pre-wrap'  };
 `

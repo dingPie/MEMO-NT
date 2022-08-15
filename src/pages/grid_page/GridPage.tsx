@@ -68,5 +68,5 @@ const GridBox = styled.div`
   gap: .5rem;
   padding: .5rem;
   overflow-y: scroll ;
-`
 
+`
