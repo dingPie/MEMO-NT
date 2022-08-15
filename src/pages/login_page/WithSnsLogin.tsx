@@ -41,8 +41,10 @@ const WithSnsLogin = ( { onClickGoogleLlogin, onClickGithubLogin }: IWithSnsLogi
         </LoginBtn>
 
         <Text fontSize="s">
-          메모 정보는Google의 Firebase에 저장됩니다. <br/>
-          유저 정보 또한 Firebase에 암호화되어 저장됩니다.
+          메모 목록은 Google의 Firebase 저장소에 저장됩니다. <br/>
+          탈퇴시 저장된 메모 목록은 즉시 삭제됩니다. <br/>
+          <br/>
+          사용 이메일 및 uid를 제외한 정보는 따로 수집되지 않습니다 <br/>
         </Text>
 
       </ColBox>

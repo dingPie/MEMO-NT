@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import styled from "styled-components";
-
+import Linkify from 'react-linkify';
 import Text from "../../../components/Text";
 import { IMemo, ITag } from "../../../utils/interface/interface";
 
@@ -16,7 +16,9 @@ const MemoContent = ( { memo, onClickMemo }: IMemoContent ) => {
     <MemoText
       onClick={onClickMemo}
     >
-      {memo.content}
+      <Linkify>
+        {memo.content}
+      </Linkify>
     </MemoText>
   )
 }

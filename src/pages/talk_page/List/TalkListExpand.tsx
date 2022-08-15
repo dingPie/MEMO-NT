@@ -1,15 +1,14 @@
 import React, { forwardRef, memo, useMemo } from "react";
 import styled from "styled-components";
 import useStore from "../../../store/useStore";
+import Linkify from 'react-linkify';
 
-import Header from "../../../components/Header";
 import Text from "../../../components/Text";
 import { IconBox } from "../../../components/IconBox";
 import { ColBox, RowBox } from "../../../components/FlexBox";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faEllipsis, faHashtag } from "@fortawesome/free-solid-svg-icons";
-import { faClockFour } from "@fortawesome/free-regular-svg-icons";
 
 import { IMemo, ITag } from "../../../utils/interface/interface";
 import { Time } from "../../../utils/service/time";
@@ -20,12 +19,16 @@ import { TalkListBox } from "./TalkListContainer";
 import { TalkContent } from "../utils/TalkComponents";
 
 interface ITalkListExpand {
-  onClickMenuBtn: (memo: IMemo) => void;
   memo: IMemo;
   tag: ITag;
+  onClickMenuBtn: (memo: IMemo) => void;
 }
 
-const TalkListExpand = ( { tag, memo, onClickMenuBtn }: ITalkListExpand  ) => {
+const TalkListExpand = ( { 
+  tag, 
+  memo, 
+  onClickMenuBtn 
+}: ITalkListExpand  ) => {
 
   const { palette } = useStore();
   const time = new Time();
@@ -50,7 +53,9 @@ const TalkListExpand = ( { tag, memo, onClickMenuBtn }: ITalkListExpand  ) => {
           shadow
           lineClamp={20}
         >
-          {memo.content}
+          <Linkify>
+            {memo.content}
+          </Linkify>
         </TalkContent>
         <Text
           bold

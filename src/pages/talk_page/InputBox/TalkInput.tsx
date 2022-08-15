@@ -10,13 +10,20 @@ import { faPlusSquare } from "@fortawesome/free-regular-svg-icons";
 
 
 interface ITaklInput {
+  inputRef: React.RefObject<HTMLTextAreaElement>;
   value: string;
   onChangeInputMemo: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onEnterInputEvent: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
   onClickInputBtn: () => void;
-  inputRef: React.RefObject<HTMLTextAreaElement>;
 }
 
-const TalkInput = ( { inputRef, value, onChangeInputMemo, onClickInputBtn }: ITaklInput ) => {
+const TalkInput = ( { 
+  inputRef, 
+  value, 
+  onChangeInputMemo, 
+  onEnterInputEvent, 
+  onClickInputBtn 
+}: ITaklInput ) => {
 
 
   return (        
@@ -27,6 +34,7 @@ const TalkInput = ( { inputRef, value, onChangeInputMemo, onClickInputBtn }: ITa
       ref={inputRef}
       value={value}
       onChange={onChangeInputMemo}
+      onKeyPress={onEnterInputEvent}
       maxHeight={5}
       placeholder="내용과 # 로 제목을 입력하세요"
     />

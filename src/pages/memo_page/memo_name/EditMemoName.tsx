@@ -21,7 +21,11 @@ interface IEditMemoName {
 }
 
 
-const EditMemoName = ( { tag, onClickDoEditTag, inputMemoName, onChangeMemoName }: IEditMemoName ) => {
+const EditMemoName = ( { 
+  tag, 
+  inputMemoName, 
+  onClickDoEditTag, 
+  onChangeMemoName }: IEditMemoName ) => {
 
   const { palette } = useStore();
   const inputRef = useRef<HTMLTextAreaElement>(null)

@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import useStore from "../../store/useStore";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -37,15 +37,24 @@ interface IMemoPage {
   userInfo: IUserInfo | null;
 }
 
-const MemoPage = ( { fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage ) => {
+const MemoPage = ( { 
+  fbMemo, 
+  fbAuth, 
+  fbTag, 
+  tags, 
+  userInfo
+ }: IMemoPage ) => {
 
   const navigate = useNavigate();
   const { tagId } = useParams();
   const { loading } = useStore();
 
   const [tag, setTag] = useState<ITag>(tags.filter(tag => tag.id === tagId )[0]);
-  const [memoList, setMemoList] = useState<IMemo[]>([])
+  const [memoList, setMemoList] = useState<IMemo[]>([]);
 
+  const [inputMemo, setInputMemo] = useState("");
+
+  const [editMemo, setEditMemo] = useState<IMemo | null>(null);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isOpenEditTag, setIsOpenEditTag] = useState(false);
   const [isOpenDeleteMemo, setIsOpenDeleteMemo] = useState(false);
@@ -56,7 +65,7 @@ const MemoPage = ( { fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage ) => {
     getUsedMemo(tag)
   }, [])
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     setTag(tags.filter(tag => tag.id === tagId )[0])
   }, [tags])
   
@@ -89,6 +98,7 @@ const MemoPage = ( { fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage ) => {
               fbMemo={fbMemo} 
               tags={tags}
               tag={tag}
+              editMemo={editMemo}
               memoList={memoList}
               isOpenMenu={isOpenMenu}
               isOpenEditTag={isOpenEditTag}
@@ -107,7 +117,12 @@ const MemoPage = ( { fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage ) => {
               isOpenMenu={isOpenMenu}
               isOpenEditTag={isOpenEditTag}
               isOpenInputMemo={isOpenInputMemo}
-              setIsOpenInputMemo={setIsOpenInputMemo}
+
+              editMemo={editMemo}
+              setEditMemo={setEditMemo}
+
+              inputMemo={inputMemo}
+              setInputMemo={setInputMemo}
             />
             <MemoAddContainer 
               fbTag={fbTag}
@@ -125,15 +140,22 @@ const MemoPage = ( { fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage ) => {
         </MemoBox>
       </OuterBox>
       {tag &&
-          <MemoMenuContainer
-            fbTag={fbTag}
-            fbMemo={fbMemo}
-            tag={tag}
-            isOpenMenu={isOpenMenu}
-            setIsOpenMenu={setIsOpenMenu}
-            setIsOpenDeleteMemo={setIsOpenDeleteMemo}
-            setIsOpenEditTag={setIsOpenEditTag}
-          />
+        <MemoMenuContainer
+          fbTag={fbTag}
+          fbMemo={fbMemo}
+          tag={tag}
+          tags={tags}
+          memoList={memoList}
+          setMemoList={setMemoList}
+          editMemo={editMemo}
+          setEditMemo={setEditMemo}
+          isOpenMenu={isOpenMenu}
+          setIsOpenMenu={setIsOpenMenu}
+          setIsOpenDeleteMemo={setIsOpenDeleteMemo}
+          setIsOpenEditTag={setIsOpenEditTag}
+
+          inputMemo={inputMemo}
+        />
       }
         <MemoDeletePopupContainer
           fbAuth={fbAuth} 
@@ -157,7 +179,6 @@ export default MemoPage;
 const MemoBox = styled(ColBox)`
   background: ${({theme}) => theme.colors.white};
   gap: .375rem;
-  
   
   height: 100%;
   padding: .5rem;

@@ -1,5 +1,6 @@
 import React, { forwardRef, memo } from "react";
 import useStore from "../../../store/useStore";
+import Linkify from 'react-linkify';
 
 import Text from "../../../components/Text";
 import { IconBox } from "../../../components/IconBox";
@@ -15,6 +16,7 @@ import { setTalkTag } from "../utils/talk_service";
 import { TalkListBox } from "./TalkListContainer";
 
 
+
 interface ITalkListaDefault {
   tag: ITag;
   memo: IMemo;
@@ -22,7 +24,11 @@ interface ITalkListaDefault {
 }
 
 
-const TalkListaDefault = ( {tag, memo, onClickMenuBtn }: ITalkListaDefault  ) => {
+const TalkListaDefault = ( {
+  tag, 
+  memo, 
+  onClickMenuBtn 
+}: ITalkListaDefault  ) => {
 
   const { palette } = useStore();
   const time = new Time();
@@ -31,8 +37,8 @@ const TalkListaDefault = ( {tag, memo, onClickMenuBtn }: ITalkListaDefault  ) =>
   return(
       <TalkListBox>
         <IconBox 
-          bgColor={palette.getColor(tag)}
           shadow 
+          bgColor={palette.getColor(tag)}
           width={1.75} 
           height={1.75}
         >
@@ -40,10 +46,13 @@ const TalkListaDefault = ( {tag, memo, onClickMenuBtn }: ITalkListaDefault  ) =>
         </IconBox>
           <TalkContent
             shadow
-            lineClamp={4}
+            lineClamp={6}
           >
-            {memo.content}
+            <Linkify>
+              {memo.content}
+            </Linkify>
           </TalkContent>
+
           <Text
             bold
             center

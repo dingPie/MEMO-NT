@@ -17,7 +17,12 @@ interface IMemoPalette {
   onClickSelectColor: (colorId: number) => void;
 }
 
-const MemoPalette = ( { tag, seletedColor, onClickDoEditPalette, onClickSelectColor }: IMemoPalette ) => {
+const MemoPalette = ( { 
+  tag, 
+  seletedColor, 
+  onClickDoEditPalette, 
+  onClickSelectColor 
+}: IMemoPalette ) => {
 
   const { palette } = useStore();
 
@@ -36,6 +41,7 @@ const MemoPalette = ( { tag, seletedColor, onClickDoEditPalette, onClickSelectCo
       { Object.values(palette.palette).slice(2, Object.values(palette.palette).length )
           .map( color => { return (
             <PaletteBox
+              key={color.name}
               onClick={() => onClickSelectColor(color.id)}
               bgColor={color.code}
               selectedColor={seletedColor === color.id ? true : false}

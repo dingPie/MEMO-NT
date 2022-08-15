@@ -14,13 +14,16 @@ import { ITag } from "../../utils/interface/interface";
 import GridMemo from "./GridMemo";
 
 interface IGridPage {
-  user: User | null;
   tags: ITag[];
   fbMemo: FbMemo;
   fbTag: FbTag;
 }
 
-const GridPage = ( { tags, user, fbMemo, fbTag }: IGridPage ) => {
+const GridPage = ( { 
+  fbMemo, 
+  fbTag,
+  tags, 
+}: IGridPage ) => {
 
   const navigate = useNavigate();
 
@@ -31,7 +34,7 @@ const GridPage = ( { tags, user, fbMemo, fbTag }: IGridPage ) => {
     navigate(`/talk`)
   }
   
-  const usedTag = tags.filter(v => v.usedMemo.length > 0 );
+  const usedTag = tags.filter(v => v.name !== "toBeDeleted" );
 
  
   return(
@@ -41,7 +44,7 @@ const GridPage = ( { tags, user, fbMemo, fbTag }: IGridPage ) => {
         onClickOtherBtn={onClickOtherBtn}
       />
       <GridBox>
-      { usedTag.map( (tag, id) => {
+      { tags.map( (tag, id) => {
         return (
           <GridMemo
             key={id}
@@ -64,7 +67,6 @@ const GridBox = styled.div`
   grid-template-columns: repeat(2, 1fr);
   gap: .5rem;
   padding: .5rem;
-
-
+  overflow-y: scroll ;
 `
 

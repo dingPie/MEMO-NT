@@ -1,4 +1,4 @@
-import React, { forwardRef, memo, useImperativeHandle, useRef } from "react";
+import React, { forwardRef, memo, useEffect, useImperativeHandle, useRef } from "react";
 import styled, { css } from "styled-components";
 import { fontSizeSet } from "../styles/stylesCss";
 
@@ -14,6 +14,8 @@ interface IInputTextEle {
   lineHeight?: number;
   fontSize?: string;
 }
+
+
 interface IInputText extends IInputTextEle {
   value?: string;
   defaultValue?: string;
@@ -21,6 +23,7 @@ interface IInputText extends IInputTextEle {
   noResize?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onClick?: (e: React.MouseEvent<HTMLTextAreaElement>) => void;
+  onKeyPress?: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
 }
 
 const InputText = forwardRef< HTMLTextAreaElement, IInputText>((
@@ -30,7 +33,9 @@ const InputText = forwardRef< HTMLTextAreaElement, IInputText>((
     noResize, 
     placeholder, 
     onClick, 
-    onChange, 
+    onChange,
+    onKeyPress,
+
     width, 
     height, 
     padding, 
@@ -42,30 +47,32 @@ const InputText = forwardRef< HTMLTextAreaElement, IInputText>((
     fontSize }, externalRef ) => {
 
   // forwardRef로 넘겨준 externalRef 가 있으면, externalRef로 Ref값을 지정해준다. (focus 처리하기 위함.)
-
   const inputRef = useRef<HTMLTextAreaElement>(null)
   useImperativeHandle(externalRef, () => inputRef.current as HTMLTextAreaElement);
-
+  
+  // 크기 조절 이벤트
   const resize = (ref: React.RefObject<HTMLTextAreaElement>) => {
-    if (!ref.current || noResize) return
+    if (!ref.current) return
     ref.current.style.height = "auto" ; // 줄어들때 먼저 설정
     ref.current.style.height = ref.current.scrollHeight +"px";
   }
 
-  React.useEffect(() => {
+  // value가 바뀔때 마다 실행됨
+  useEffect(() => {
+    if (noResize) return
     resize(inputRef)
-  }, [defaultValue])
+  }, [noResize, value])
   
-
   
   return(
     <InputTextEle
       ref={inputRef}
-      onKeyDown={() => resize(inputRef)}
       value={value}
       defaultValue={defaultValue}
       onChange={onChange}
       onClick={onClick}
+      onKeyPress={onKeyPress}
+
       // style
       placeholder={placeholder}
       width={width}

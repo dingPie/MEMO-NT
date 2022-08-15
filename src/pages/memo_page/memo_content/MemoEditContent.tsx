@@ -17,10 +17,18 @@ interface IMemoEditContent {
   onChangeInputMemo: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onClickDoEditMemo: (editMemo: IMemo, inputMemo: string) => Promise<void>;
   onClickDoDeleteMemo: (e: React.MouseEvent<HTMLDivElement>, editMemo: IMemo) => Promise<void>;
+  onEnterInputEvent: (e: React.KeyboardEvent<HTMLTextAreaElement>, editMemo: IMemo, inputMemo: string) => Promise<void>;
 }
 
 
-const MemoEditContent = ( { editMemo, inputMemo, onClickDoEditMemo, onChangeInputMemo, onClickDoDeleteMemo }: IMemoEditContent ) => {
+const MemoEditContent = ( { 
+  editMemo, 
+  inputMemo, 
+  onChangeInputMemo, 
+  onClickDoEditMemo, 
+  onClickDoDeleteMemo, 
+  onEnterInputEvent 
+}: IMemoEditContent ) => {
 
 
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -38,6 +46,7 @@ const MemoEditContent = ( { editMemo, inputMemo, onClickDoEditMemo, onChangeInpu
           lineHeight={1.125}
           value={inputMemo}
           onChange={onChangeInputMemo}
+          onKeyPress={(e) => onEnterInputEvent(e, editMemo!, inputMemo)}
         />
         <RowBox 
           right

@@ -17,14 +17,22 @@ import { PinnBox, PinnBtns } from "./TalkPinnContainer";
 interface ITalkPinnExpand {
   tag: ITag;
   memo: IMemo;
+  isExpand: boolean;
+  pinnHeight: number;
   onClickDeletePinn: () => void;
   onClickReducePinn: () => void;
   onClicGoMemoBtn: () => void;
-  isExpand: boolean;
-  pinnHeight: number;
 }
 
-const TalkPinnExpand = forwardRef<HTMLDivElement, ITalkPinnExpand>(( { pinnHeight, tag, memo, isExpand, onClickDeletePinn, onClickReducePinn, onClicGoMemoBtn }, ref ) => {
+const TalkPinnExpand = forwardRef<HTMLDivElement, ITalkPinnExpand>(( {
+  tag, 
+  memo, 
+  isExpand, 
+  pinnHeight, 
+  onClickDeletePinn, 
+  onClickReducePinn, 
+  onClicGoMemoBtn },
+  ref ) => {
 
   const { palette } = useStore();
   
@@ -86,8 +94,8 @@ const TalkTagExpand = styled(IconBox)<{isExpand: boolean}>`
   padding: 0 .5rem;
   border-radius: .25rem;
 
-  animation:  ${ ({isExpand}) => isExpand ? expandPinnTag : reducePinnTag} .3s ease-in-out;
-`
+  `
+  /* animation:  ${ ({isExpand}) => isExpand ? expandPinnTag : reducePinnTag} .3s ease-in-out; */
 
 export const expandPinnTag = keyframes`
   from {

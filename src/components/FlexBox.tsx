@@ -49,7 +49,7 @@ export const RowBox = styled.div<IFlexPosition>`
 
   ${setJustify};
   ${fontSizeSet};
-  `
+`
 
 export const ColBox = styled.div<IFlexPosition>`
   display: flex;

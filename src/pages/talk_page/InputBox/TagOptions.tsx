@@ -8,27 +8,27 @@ import { setTextLine } from "../../../styles/stylesCss";
 interface ITagOptions {
   tagColor: string;
   tagName: string;
-  maxWidth?: number;
   onClick?: (v: any) => void;
-  end?: boolean;
 }
 
-const TagOptions = ( { end, tagColor, tagName, onClick }: ITagOptions ) => {
+const TagOptions = ( { 
+  tagColor, 
+  tagName, 
+  onClick 
+}: ITagOptions ) => {
 
 
   return(
-    <>
-      <RecomandTag
+      <TagOptionBox
         onClick={onClick}
         bgColor={tagColor}
         padding=".25rem .5rem"
         radius={1}
         whiteSpace={"nowrap"}
-        end={end}
+        end
       >
         {tagName}
-      </RecomandTag>
-    </>
+      </TagOptionBox>
   )
 }
 
@@ -36,9 +36,9 @@ export default TagOptions;
 
 // 여기 이제 input 옵션창 해야함..
 
-const RecomandTag = styled(CustomBtn)<{whiteSpace?: string, end?:boolean}>`
+const TagOptionBox = styled(CustomBtn)<{whiteSpace?: string, end?:boolean}>`
   flex: 0 0 auto;
-  justify-self: ${({end}) => end && "end" };
+  justify-self: ${({end}) => end && "flex-end" };
   align-self: center;
 
   min-width: 2rem;

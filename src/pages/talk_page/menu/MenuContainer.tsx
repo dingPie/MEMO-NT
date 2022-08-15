@@ -3,17 +3,12 @@ import { useNavigate } from "react-router";
 
 import { IMemo } from "../../../utils/interface/interface";
 
-import { FbMemo } from "../../../firebase/firestore_memo_service";
-import { FbTag } from "../../../firebase/firestore_tag_service";
-
 import TalkMemu from "../menu/TalkMenu";
 import { FbAuth } from "../../../firebase/firebase_auth_service";
 
 
 interface IMenuContainer {
   fbAuth: FbAuth;
-  fbTag: FbTag;
-  fbMemo: FbMemo;
   selectedMemo: IMemo | null;
   setSelectedMemo: (v: IMemo | null) => void;
   setEditMemo: (v: IMemo | null) => void;
@@ -23,8 +18,6 @@ interface IMenuContainer {
 
 const MenuContainer = ( {
   fbAuth,
-  fbTag, 
-  fbMemo,
   selectedMemo, 
   setSelectedMemo, 
   setEditMemo,  

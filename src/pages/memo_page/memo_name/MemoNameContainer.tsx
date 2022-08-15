@@ -13,16 +13,29 @@ import MemoName from "./MemoName";
 
 interface IMemoNameContainer extends MemoProps {
   tags: ITag[];
+  editMemo: IMemo | null;
+  memoList: IMemo[];
   isOpenMenu: boolean;
   isOpenEditTag: boolean;
-  memoList: IMemo[];
   isOpenInputMemo: boolean;
   setIsOpenEditTag: (v: boolean) => void; 
   setIsOpenMenu: (v: boolean) => void; 
 }
 
 
-const MemoNameContainer = ( { fbTag, fbMemo, memoList, tag, tags, isOpenMenu, setIsOpenMenu, isOpenEditTag, setIsOpenEditTag, isOpenInputMemo }: IMemoNameContainer ) => {
+const MemoNameContainer = ( { 
+  fbTag, 
+  fbMemo, 
+  tag, 
+  tags, 
+  memoList, 
+  editMemo, 
+  isOpenMenu, 
+  isOpenEditTag,
+  isOpenInputMemo,
+  setIsOpenMenu, 
+  setIsOpenEditTag, 
+ }: IMemoNameContainer ) => {
 
   const { loading } = useStore()
   const [inputMemoName, setinputMemoName] = useState("");
@@ -30,7 +43,7 @@ const MemoNameContainer = ( { fbTag, fbMemo, memoList, tag, tags, isOpenMenu, se
 
   // 태그네임 클릭: Menu Open
   const onClickTagName = () => {
-    if (isOpenInputMemo) return
+    if (isOpenInputMemo || editMemo) return
     setIsOpenMenu(!isOpenMenu)
   }
 
@@ -42,7 +55,7 @@ const MemoNameContainer = ( { fbTag, fbMemo, memoList, tag, tags, isOpenMenu, se
   // 메모  태그네임 변경
   const onClickDoEditTag = (tag: ITag) => {
     setIsOpenEditTag(false);
-    if (inputMemoName === tag.name) return
+    if (inputMemoName === tag.name) return;
     loading.start();
 
     const duplicateTag = getTagWithTagName(tags, inputMemoName); // 현재 talk page_service에서 받아옴. 나중에 구조 변경
@@ -77,7 +90,6 @@ const MemoNameContainer = ( { fbTag, fbMemo, memoList, tag, tags, isOpenMenu, se
           /> :
           <MemoName 
             tag={tag}
-            isOpenMenu={isOpenMenu}
             onClickTagName={onClickTagName}
           />
         }

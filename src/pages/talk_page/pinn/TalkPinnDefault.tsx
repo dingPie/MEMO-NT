@@ -19,13 +19,19 @@ import { PinnBox, PinnBtns } from "./TalkPinnContainer";
 interface ITalkPinnDefault {
   tag: ITag;
   memo: IMemo;
+  isExpand: boolean;
   onClickDeletePinn: () => void;
   onClickExpandPinn: () => void;
-  isExpand: boolean;
 }
 
 
-const TalkPinnDefault = forwardRef<HTMLDivElement ,ITalkPinnDefault>(( { tag, memo, isExpand, onClickDeletePinn, onClickExpandPinn }, ref  ) => {
+const TalkPinnDefault = forwardRef<HTMLDivElement ,ITalkPinnDefault>(( {
+  tag, 
+  memo, 
+  isExpand, 
+  onClickDeletePinn, 
+  onClickExpandPinn }
+  , ref  ) => {
 
   const { palette } = useStore();
   

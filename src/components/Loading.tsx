@@ -1,26 +1,29 @@
 import React, { ReactNode, memo } from "react";
 import styled, { css } from "styled-components";
 import { center } from "../styles/stylesCss";
-import { MainBtn } from "./Buttons";
-import { RowBox } from "./FlexBox";
 import Text from './Text'
 
 import ReactLoading from 'react-loading'
 
+interface ILoading {
+  title?: string;
+}
 
 
-
-const Loading = () => {
+const Loading = ( {title }: ILoading ) => {
 
   return (
       <Outer>
         <Inner
         >
           <Text bold center fontSize='xl' padding="0" color="#679BFF" >
-            Loading...
+            Loading... {title}
           </Text>
             <ReactLoading
-              type={"cylon"} color={"#679BFF"} height={'40%'} width={'40%'}
+              type={"cylon"} 
+              color={"#679BFF"} 
+              height={'40%'} 
+              width={'40%'}
             />
         </Inner>
       </Outer>

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import styled, { css } from "styled-components";
 import { fontSizeSet } from "../styles/stylesCss";
+import Linkify from 'react-linkify';
 
-interface Itext {
+interface IText {
   fontSize?: string;
   bold?: boolean;
   width?: number;
@@ -18,16 +19,68 @@ interface Itext {
   margin?: string;
 }
 
+interface ITextComponent extends IText {
+  children?: ReactNode;
+  onClick?: (v: any) => void;
+  onLinkify?: boolean;
+}
 
 
-const Text = styled.div<Itext>`
+const TextComponent = ( {
+  fontSize,
+  bold,
+  width,
+  height,
+  padding,
+  color, 
+  bgColor, 
+  radius, 
+  shadow,
+  inline,
+  cursor,
+  center,
+  margin,
 
+  children,
+  onClick,
+  onLinkify
+}: ITextComponent ) => {
+
+  
+  return(
+    <Text
+      fontSize={fontSize}
+      bold={bold}
+      width={width}
+      height={height}
+      padding={padding}
+      color={color} 
+      bgColor={bgColor} 
+      radius={radius} 
+      shadow={shadow}
+      inline={inline}
+      cursor={cursor}
+      center={center}
+      margin={margin}
+
+      onClick={onClick}
+    >
+      {children}
+    </Text>
+  )
+
+}
+
+
+
+const Text = styled.div<IText>`
   // 크기
   width: ${({width}) => width && width+"rem" };
   height: ${({height}) => height && height+"rem" };
   line-height: ${({height}) => height && height+"rem" };
   padding: ${({padding}) => padding ? padding : ".5rem"};
   margin: ${({margin}) => margin && margin };
+
   // 폰트
   font-weight: ${({bold}) => bold && "bold"};
   text-align: ${({center}) => center && "center" };

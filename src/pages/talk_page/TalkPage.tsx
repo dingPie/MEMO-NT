@@ -29,7 +29,13 @@ interface ITalkPage extends IApp {
 }
 
 
-const TalkPage = ( {  fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage ) => {
+const TalkPage = ( { 
+  fbMemo, 
+  fbTag, 
+  fbAuth, 
+  tags, 
+  userInfo 
+}: ITalkPage ) => {
 
   const navigate = useNavigate();
   const { loading } = useStore();
@@ -40,13 +46,14 @@ const TalkPage = ( {  fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage ) => {
   const [prevScrollHeight, setPrevScrollHeight] = useState(0);
   const [prevMemoCount, setPrevMemoCount] = useState(0)
 
+  // view Memo caching 필요. memopage 왔다갔다 할 때마다 매번 실행됨.
   const [viewMemo, setViewMemo] = useState<IMemo[]>([]) // 데이터를 load해와서 보여지는 메모
   const [selectedMemo, setSelectedMemo] = useState<IMemo | null>(null); // 선택한 메모(메뉴)
   const [pinnedMemo, setPinnedMemo] = useState<IMemo | null>(null); // 상단 pinn메모
   const [editMemo, setEditMemo] = useState<IMemo | null>(null); // 수정할 메모 (따로 관리하기 위함)
   
   const [isOpenDeletePopup, setIsOpenDeletePopup] = useState(false);
-  
+  const [toBeDeleteTag, setToBeDeleteTag] = useState<string>('') // 빈태그 체크 및 삭제
 
   // Header 버튼: grid 이동
   const onClickOtherBtn = useCallback(() => navigate('/grid'), [])
@@ -58,12 +65,14 @@ const TalkPage = ( {  fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage ) => {
     await fbMemo.getMemo(viewMemo, setViewMemo);
     loading.finish();
   }
+
+
   // 메모 init 
   useEffect(() => {
     if (!viewMemo.length && tags.length >= 2) { // 오류를 막기 위한 조건문
-      fbMemo.initLastMemo();
+      fbMemo.initLastMemo(); // 불러왔던 마지막 메모 초기화
       doGetMemo(viewMemo, setViewMemo);
-    } 
+    }
   }, [tags])
 
   
@@ -72,6 +81,8 @@ const TalkPage = ( {  fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage ) => {
     if (!userInfo.pinnedMemo) setPinnedMemo(null)
     else await fbMemo.getPinnedMemo(userInfo.pinnedMemo, setPinnedMemo)
   }, [pinnedMemo])
+
+
   // pinnedMemo 세팅
   useEffect(() => {
     if (!userInfo) return
@@ -79,13 +90,24 @@ const TalkPage = ( {  fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage ) => {
   }, [userInfo])
 
 
-  /* 무한스크롤 메모불러오기 */
+  // 태그 수정이나 삭제 후 빈 태그 확인, 삭제
+  useEffect(() => {
+    if (!toBeDeleteTag) return
+    const deleteEmptyTag = async (toBeDeleteTag: string) => {
+      await fbTag.deleteTag(toBeDeleteTag)
+    }
+    deleteEmptyTag(toBeDeleteTag)
+    setToBeDeleteTag('')
+  }, [toBeDeleteTag])
+
+
+  /* 무한스크롤  */
   const observerOpt = {
     // root: document.querySelector("#scrollArea"), // 겹칠 요소. 설정하지 않으면 브라우저 뷰포트가 기본값.
     rootMargin: "0px",
     threshold: 1.0,
   }
-  
+  // 무한스크롤 실행함수 (메모 불러오기)
   const checkIntersect = (entries: any) => { // 객체목록과 관찰자를 파라메터로 받는다.
     entries.forEach( async (entry: any) => {
       if (entry.isIntersecting) { // isIntersecting 은 t/f로 반환됨. 교차되면 true
@@ -93,10 +115,9 @@ const TalkPage = ( {  fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage ) => {
       }
     });
   }
-
+  // 무한스크롤 useEffect
   useEffect(() => {
     if (!topRef.current || !talkBoxRef.current) return
-    // isLoading true
     observerRef.current = new IntersectionObserver(checkIntersect, observerOpt); // observe 할 요소를 current로 지정,
     observerRef.current.observe(topRef.current);
 
@@ -115,20 +136,18 @@ const TalkPage = ( {  fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage ) => {
 
 
 
+
   return(
     <>
-      
       <Header 
         page="talk"
         onClickOtherBtn={onClickOtherBtn}
       />
-      {/* 상단 pinn ui, absoulte로 적용되어있음 */}
 
       { pinnedMemo && 
         <TalkPinnContainer
           tags={tags}
           memo={pinnedMemo}
-          userInfo={userInfo}
           fbAuth={fbAuth}
         />
       }
@@ -140,6 +159,7 @@ const TalkPage = ( {  fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage ) => {
           ref={topRef}
           style={{ height:"1px"}}
         />
+
         {/* 메모 리스트 표시 */}
         { viewMemo.map((memo, i) => {
           return (
@@ -158,13 +178,12 @@ const TalkPage = ( {  fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage ) => {
         {/* Talk menu 관련  */}
         <MenuContainer
           fbAuth={fbAuth}
-          fbTag={fbTag} 
-          fbMemo={fbMemo}
           selectedMemo={selectedMemo} 
           setSelectedMemo={setSelectedMemo} 
           setEditMemo={setEditMemo} 
           setIsOpenDeletePopup={setIsOpenDeletePopup}
         />
+
         {/* Talk Input관련 Container */}
         <TalkInpuContainer
           fbMemo={fbMemo}
@@ -175,6 +194,7 @@ const TalkPage = ( {  fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage ) => {
           viewMemo={viewMemo}
           setViewMemo={setViewMemo}
           talkBoxRef={talkBoxRef}
+          setToBeDeleteTag={setToBeDeleteTag}
         />
       </InputOuterBox>
 
@@ -189,9 +209,11 @@ const TalkPage = ( {  fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage ) => {
           selectedMemo={selectedMemo}
           setSelectedMemo={setSelectedMemo}
           pinnedMemo={pinnedMemo}
-          setIsOpenDeletePopup={setIsOpenDeletePopup} 
+          setIsOpenDeletePopup={setIsOpenDeletePopup}
+          setToBeDeleteTag={setToBeDeleteTag}
         />
       }
+
       { loading.isLoading &&
         <Loading />
       }

@@ -8,7 +8,10 @@ interface IMemoDeletePopup {
   onClickDoDelete: () => void;
 }
 
-const MemoDeletePopup = ( { onClickCancelDelete, onClickDoDelete }: IMemoDeletePopup ) => {
+const MemoDeletePopup = ( { 
+  onClickCancelDelete, 
+  onClickDoDelete 
+}: IMemoDeletePopup ) => {
 
 
   return(

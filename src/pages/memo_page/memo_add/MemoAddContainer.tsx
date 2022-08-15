@@ -12,17 +12,36 @@ import MemoInputAdd from "./MemoInputAdd";
 
 interface IMemoAddContainer extends MemoProps {
   memoList: IMemo[];
-  setMemoList: (memo: IMemo[]) => void;
   isOpenMenu: boolean;
   isOpenInputMemo: boolean;
   isOpenEditTag: boolean;
+  setMemoList: (memo: IMemo[]) => void;
   setIsOpenInputMemo: (v: boolean) => void;
 }
 
-const MemoAddContainer = ( { fbTag, fbMemo, tag, memoList, setMemoList, isOpenMenu, isOpenEditTag, isOpenInputMemo, setIsOpenInputMemo }: IMemoAddContainer ) => {
+const MemoAddContainer = ( { 
+  fbTag, 
+  fbMemo, 
+  tag, 
+  memoList, 
+  isOpenMenu, 
+  isOpenEditTag, 
+  isOpenInputMemo, 
+  setMemoList, 
+  setIsOpenInputMemo 
+}: IMemoAddContainer ) => {
 
   const { loading } = useStore();
   const [inputMemo, setInputMemo] = useState("");
+
+  const [isMobile, setIsMobile] = useState(false); // 모바일여부
+
+  // 모바일인지 체크하여 엔터 이벤트 넣어줌
+  useEffect(() => { 
+    const isMobile = () =>  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    console.log("감지결과 확인", isMobile())
+    setIsMobile(isMobile())
+  }, []) 
 
 
   // 추가하기 버튼 클릭
@@ -43,6 +62,15 @@ const MemoAddContainer = ( { fbTag, fbMemo, tag, memoList, setMemoList, isOpenMe
     setInputMemo("")
     loading.finish();
   }, [memoList, loading])
+
+  // 엔터 이벤트 추가
+  const onEnterInputEvent = async (e: React.KeyboardEvent<HTMLTextAreaElement>, tagId: string, inputMemo: string) => {
+    if (isMobile) return
+    const { key, shiftKey } = e;
+    if (!shiftKey && key === 'Enter') {
+      await onClickAddConfirm(tagId, inputMemo);
+    }
+  }
 
 
   // 메모 추가 취소
@@ -69,6 +97,7 @@ const MemoAddContainer = ( { fbTag, fbMemo, tag, memoList, setMemoList, isOpenMe
             onChangeInputMemo={onChangeInputMemo}
             onClickAddConfirm={onClickAddConfirm}
             onClickAddCancel={onClickAddCancel}
+            onEnterInputEvent={onEnterInputEvent}
           /> 
         }
         { !isOpenInputMemo &&

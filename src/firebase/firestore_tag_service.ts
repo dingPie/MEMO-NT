@@ -23,6 +23,7 @@ import {
   arrayRemove} from "firebase/firestore";
 
 import { IMemo, ITag } from "../utils/interface/interface";
+import { initMenualTag, tobeDeletedTag, undefinedTag } from "./firebase_init_data";
 
 
 export class FbTag {
@@ -35,7 +36,7 @@ export class FbTag {
     this.firebaseAuth = firebaseAuth
     this.fireStoreDB = fireStoreDB
     this.doc = "default"
-    this.paletteLength = 9 // 0, 1번을 제외한 팔레트 수
+    this.paletteLength = 9 // 0, 1번을 제외한 팔레트 수, color code를 위함.
   }
 
   setDoc (user: User) {
@@ -45,6 +46,7 @@ export class FbTag {
   getDoc () {
     return this.doc
   }
+  
 
   // 태그 실시간 변화 감시
   async onCheckTag (update?: (tags: ITag[]) => void): Promise<ITag[]> {
@@ -59,32 +61,23 @@ export class FbTag {
     }))
   }
 
+
   // 첫 유저 기본태그 작성
-  async initTag (uid?: string) {
-    const undefinedTag = {
-      name: "undefined", 
-      color: "0", 
-      usedMemo: [],
-      lastUpdate: 0
-    }
-    const tobeDeletedTag = {
-      name: "toBeDeleted", 
-      color: "1", 
-      usedMemo: [],
-      lastUpdate: 0
-    }
-    // const docId = uid ? uid+"_tag" : this.doc // init 절차 및 인스턴스 생성 범위 때문에 외부 주입도 고려
-    
+  async initTag () {
     const undefinedRef = doc(this.fireStoreDB, this.doc, "undefined");
     const toBeDeletedRef = doc(this.fireStoreDB, this.doc, "toBeDeleted");
+    const initMenualRef = doc(this.fireStoreDB, this.doc, "initMenual");
+    
     try {
       await setDoc(undefinedRef, undefinedTag); 
       await setDoc(toBeDeletedRef, tobeDeletedTag);
+      await setDoc(initMenualRef, initMenualTag);
       console.log( this.doc, "기본 태그 생성완료")
     } catch (e) {
       console.error("Error adding document: ", e);
     }
   }
+
 
   // 새 태그 추가
   async addTag (tagName: string ) {
@@ -104,6 +97,7 @@ export class FbTag {
       console.error("Error adding document: ", e);
     }
   }
+
 
   // 해당 태그에 사용한 메모 추가
   async addUsedMemo ( tagId: string, memoId: string ) {
@@ -133,6 +127,7 @@ export class FbTag {
     }
   }
 
+
   // 해당 태그에 사용한 메모 전부 추가
   async addUsedMemoAll ( tagId: string,  usedMemoArr: string[] ) {
     const docRef = doc(this.fireStoreDB, this.doc, tagId)
@@ -140,6 +135,7 @@ export class FbTag {
     try {
       await updateDoc( docRef, {
         usedMemo: usedMemoArr,
+        lastUpdate: parseInt(usedMemoArr[usedMemoArr.length - 1])
       }); 
       console.log("사용된 메모id 추가완료")
     } catch (e) {
@@ -147,6 +143,8 @@ export class FbTag {
     }
   }
 
+
+  // 해당 태그에 사용한 메모 전부 삭제
   async deleteUsedMemoAll (
     tagId: string,
   ) {
@@ -178,6 +176,7 @@ export class FbTag {
     }
   }
 
+  
   // 태그 이름 변경
   async editTagName (tagId: string, changeName: string ) {
     const docRef = doc(this.fireStoreDB, this.doc, tagId);
@@ -206,8 +205,8 @@ export class FbTag {
   }
 
 
-  // 현재 태그의 (태그명 변경하고 난 후 태그의) 길이 확인
   async checkUsedMemoLength (tagId: string): Promise<number> {
+  // 현재 태그의 (태그명 변경하고 난 후 태그의) 길이 확인
     const docRef = doc(this.fireStoreDB, this.doc, tagId);
     const docSnap = await getDoc(docRef);
     const data = docSnap.data() as ITag

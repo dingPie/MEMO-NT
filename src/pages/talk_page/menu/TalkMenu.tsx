@@ -20,7 +20,14 @@ interface ITalkMenu {
 }
 
 
-const TalkMemu = ( { selectedMemo, onClickEditBtn, onClickDeleteBtn, onClickPinnBtn, onClicGoMemoBtn, onClickCloseMenuBtn }: ITalkMenu ) => {
+const TalkMemu = ( { 
+  selectedMemo, 
+  onClickEditBtn, 
+  onClickDeleteBtn, 
+  onClickPinnBtn, 
+  onClicGoMemoBtn, 
+  onClickCloseMenuBtn 
+}: ITalkMenu ) => {
 
   return(
     <MenuBox

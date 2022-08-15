@@ -14,14 +14,19 @@ import { setTalkTag } from "../talk_page/utils/talk_service";
 
 
 interface IGridMemo {
-  fbMemo: FbMemo;
   fbTag: FbTag;
+  fbMemo: FbMemo;
   tag: ITag;
   onClickMemo: () => void;
 }
 
 
-const GridMemo = ( {fbMemo, fbTag, tag, onClickMemo }: IGridMemo ) => {
+const GridMemo = ( { 
+  fbTag, 
+  fbMemo, 
+  tag, 
+  onClickMemo 
+}: IGridMemo ) => {
 
   const { palette } = useStore();
   const [usedMemo, setUsedMemo] = useState<IMemo[]>([]);
@@ -40,7 +45,8 @@ const GridMemo = ( {fbMemo, fbTag, tag, onClickMemo }: IGridMemo ) => {
   
 
   return(
-    <ColBox shadow 
+    <ColBox
+      shadow 
       gap={.25} 
       padding=".5rem" 
       radius={.25}
@@ -51,7 +57,7 @@ const GridMemo = ( {fbMemo, fbTag, tag, onClickMemo }: IGridMemo ) => {
         bold
         shadow
         height={2}
-        bgColor={palette.getColor(tag)} // 테스트 컬러
+        bgColor={palette.getColor(tag)}
       >
         {setTalkTag(tag, "expand")}
       </TalkTagExpand>
@@ -70,19 +76,20 @@ const GridMemo = ( {fbMemo, fbTag, tag, onClickMemo }: IGridMemo ) => {
     </ColBox>
   )
 }
+
 export default GridMemo;
+
 
 const GridText = styled(Text)`
   padding: .125rem .25rem;
   border-radius: 0;
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
-  line-height: 1.375rem ;
+  line-height: 1.375rem;
 
-  ${setTextLine}
+  ${setTextLine};
 `
+
 const TalkTagExpand = styled(Text)`
-  justify-content: flex-start;
-  width: 100%;
   padding: 0 .5rem;
   border-radius: .25rem;
 
