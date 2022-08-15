@@ -1,4 +1,4 @@
-import React, { forwardRef, memo, useRef } from "react";
+import React, { forwardRef, memo, useImperativeHandle, useRef } from "react";
 import styled, { css } from "styled-components";
 import { fontSizeSet } from "../styles/stylesCss";
 
@@ -42,7 +42,9 @@ const InputText = forwardRef< HTMLTextAreaElement, IInputText>((
     fontSize }, externalRef ) => {
 
   // forwardRef로 넘겨준 externalRef 가 있으면, externalRef로 Ref값을 지정해준다. (focus 처리하기 위함.)
-  const inputRef = externalRef ? externalRef as React.RefObject<HTMLTextAreaElement> : useRef<HTMLTextAreaElement>(null)
+
+  const inputRef = useRef<HTMLTextAreaElement>(null)
+  useImperativeHandle(externalRef, () => inputRef.current as HTMLTextAreaElement);
 
   const resize = (ref: React.RefObject<HTMLTextAreaElement>) => {
     if (!ref.current || noResize) return
