@@ -57,7 +57,7 @@ const GridMemo = ( {
         bold
         shadow
         height={2}
-        bgColor={palette.getColor(tag)} // 테스트 컬러
+        bgColor={palette.getColor(tag)}
       >
         {setTalkTag(tag, "expand")}
       </TalkTagExpand>
@@ -84,14 +84,12 @@ const GridText = styled(Text)`
   padding: .125rem .25rem;
   border-radius: 0;
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
-  line-height: 1.375rem ;
+  line-height: 1.375rem;
 
-  ${setTextLine}
+  ${setTextLine};
 `
 
 const TalkTagExpand = styled(Text)`
-  justify-content: flex-start;
-  width: 100%;
   padding: 0 .5rem;
   border-radius: .25rem;
 
