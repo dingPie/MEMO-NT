@@ -34,7 +34,7 @@ const GridPage = ( {
     navigate(`/talk`)
   }
   
-  const usedTag = tags.filter(v => v.name !== "toBeDeleted" );
+  const usedTag = tags.filter(v => v.usedMemo.length );
 
  
   return(
@@ -44,7 +44,7 @@ const GridPage = ( {
         onClickOtherBtn={onClickOtherBtn}
       />
       <GridBox>
-        { tags.map( tag => {
+        { usedTag.map( tag => {
           return (
             <GridMemo
               key={tag.id}
