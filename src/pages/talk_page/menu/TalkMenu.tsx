@@ -30,11 +30,7 @@ const TalkMemu = ( {
 }: ITalkMenu ) => {
 
   return(
-    <MenuBox
-      // align="center"
-      // padding=".25rem .5rem"
-      // bgColor="white"
-    >
+    <MenuBox>
       <RowBox gap={.5} padding=".25rem">
         <IconBox
           onClick={onClickEditBtn}

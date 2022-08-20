@@ -44,7 +44,7 @@ const MemoTagOption = ( {
         )}
       </ScrollBox>
 
-      <RowBox gap={.25} padding="0" right>
+      <RowBox gap={.25} padding="0" justifyEnd>
         <TagIcon
           bgColor="#505050"
           onClick={ () => onClickTagOption("toBeDeleted", editMemo)}

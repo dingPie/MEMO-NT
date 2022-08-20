@@ -1,6 +1,34 @@
 import { css, keyframes } from "styled-components";
 import { darken, lighten } from 'polished';
 
+export interface IFlexLayout {
+  justifyCenter?: boolean;
+  justifyEnd?: boolean;
+  justifyBetween?: boolean;
+  alignEnd?: boolean;
+  alignCenter?: boolean;
+  alignBetween?: boolean;
+}
+/**
+ * flex 레이아웃 설정을 위한 props 모음
+ */
+export const setFlexLayout = css<IFlexLayout>`
+${({ justifyCenter, justifyEnd, justifyBetween, alignEnd, alignCenter, alignBetween }) => {
+  let justify = "flex-start";
+  if (justifyEnd) justify = "flex-end";
+  else if (justifyCenter) justify = "center";
+  else if (justifyBetween) justify ="space-between";
+  let align = "flex-start";
+  if (alignEnd) align = "flex-end";
+  else if (alignCenter) align = "center";
+  else if (alignBetween) align ="space-between";
+  return css`
+    justify-content: ${ justify };
+    align-items: ${ align }
+  `;
+}}
+`
+
 
 export const polishedColor = css<{bgColor: string}>`
   ${({ bgColor }) => {

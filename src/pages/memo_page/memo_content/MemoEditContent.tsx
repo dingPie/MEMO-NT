@@ -49,7 +49,7 @@ const MemoEditContent = ( {
           onKeyPress={(e) => onEnterInputEvent(e, editMemo!, inputMemo)}
         />
         <RowBox 
-          right
+          justifyEnd
           padding=" .25rem .5rem .5rem" 
           gap={.5} 
         >

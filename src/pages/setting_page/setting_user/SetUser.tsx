@@ -33,8 +33,8 @@ const SetUser = ( {
       return  (
         <>
           <RowBox 
-            between 
-            align="center" 
+            justifyCenter 
+            alignCenter
             padding="0 .5rem"
           >
             <Text bold fontSize='xl' width={10}>
@@ -78,7 +78,7 @@ const SetUser = ( {
           </UserBox>
 
           <RowBox 
-            between
+            justifyBetween
             padding=".5rem"
           >
             <Text color="#505050">
@@ -103,8 +103,8 @@ const SetUser = ( {
       return (
         <>
           <RowBox 
-            between 
-            align="center" 
+            justifyBetween 
+            alignCenter 
             padding="0"
           >
             <Text bold fontSize='xl'>

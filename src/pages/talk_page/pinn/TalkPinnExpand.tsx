@@ -44,7 +44,11 @@ const TalkPinnExpand = forwardRef<HTMLDivElement, ITalkPinnExpand>(( {
       isExpand={isExpand} 
       pinnHeight={pinnHeight} 
     >
-      <RowBox padding="0" gap={.5} between >
+      <RowBox 
+        padding="0" 
+        gap={.5} 
+        justifyBetween
+       >
         <TalkTagExpand
           height={2}
           bgColor={palette.getColor(tag)} // 테스트 컬러

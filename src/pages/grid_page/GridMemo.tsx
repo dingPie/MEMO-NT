@@ -8,7 +8,7 @@ import { ColBox } from "../../components/FlexBox";
 import { FbMemo } from "../../firebase/firestore_memo_service";
 import { FbTag } from "../../firebase/firestore_tag_service";
 
-import { setTextLine } from "../../styles/stylesCss";
+import { setTextLine, stretchY } from "../../styles/stylesCss";
 import { IMemo, ITag } from "../../utils/interface/interface";
 import { setTalkTag } from "../talk_page/utils/talk_service";
 
@@ -79,15 +79,21 @@ const GridMemo = ( {
 
 export default GridMemo;
 
+const TestDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+`
 
 const GridText = styled(Text)`
   padding: .125rem .25rem;
   border-radius: 0;
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
-  line-height: 1.375rem;
+  /* line-height: 1.375rem; */
 
-  max-width: 22vh; /*  예기치못한 에러로 임시 지정값 */
-  ${setTextLine};
+  /* max-width: 22vh; */
+   /*  예기치못한 에러로 임시 지정값 */
+  ${setTextLine}
 `
 
 const TalkTagExpand = styled(Text)`

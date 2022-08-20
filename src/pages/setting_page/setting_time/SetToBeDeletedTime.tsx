@@ -26,7 +26,8 @@ const SetToBeDeletedTime = ( {
       gap={.5}
     >
       <RowBox 
-        between align="center" 
+        justifyBetween
+        alignCenter 
         padding="0 .5rem"
       >
         <Text bold fontSize='xl'>
@@ -44,7 +45,7 @@ const SetToBeDeletedTime = ( {
       </RowBox>
 
       <RowBox 
-        align="center" 
+        alignCenter
         gap={.125} 
         padding="0 .5rem"
       >

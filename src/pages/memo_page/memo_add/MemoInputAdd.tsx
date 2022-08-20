@@ -41,7 +41,11 @@ const MemoInputAdd = ( {
         onChange={(e) => onChangeInputMemo(e)}
         onKeyPress={(e) => onEnterInputEvent(e, tag.id, inputMemo)}
       />
-      <RowBox center gap={.5} padding="0" >
+      <RowBox
+        justifyCenter
+        gap={.5}
+        padding="0" 
+      >
         <CustomBtn
           fontSize="s"
           width={15}

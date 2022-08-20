@@ -39,7 +39,7 @@ const TalkInputOption = ( {
           />
         )}
       </ScrollBox>
-      <RowBox gap={.25} padding="0" right>
+      <RowBox gap={.25} padding="0" justifyEnd>
         { recommTag &&
           <TagOptions 
             onClick={() => onClickTagOption(recommTag.name)}

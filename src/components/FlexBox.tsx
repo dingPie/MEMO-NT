@@ -1,13 +1,13 @@
 import React from "react";
 import styled, { css } from "styled-components"
-import { fontSizeSet } from "../styles/stylesCss";
+import { fontSizeSet, IFlexLayout, setFlexLayout } from "../styles/stylesCss";
 
-interface IFlexPosition {
-  center?: boolean;
-  right?: boolean;
-  between?: boolean;
+interface IFlexBox extends IFlexLayout {
+  // center?: boolean;
+  // right?: boolean;
+  // between?: boolean;
+  // align?: string;
   gap?: number;
-  align?: string;
   padding?: string;
   width?: number;
   shadow?: boolean;
@@ -17,22 +17,22 @@ interface IFlexPosition {
   size?: string;
 }
 
-const setJustify = css<IFlexPosition>`
-  ${({ center, right, between, align }) => {
-    let justify = "flex-start";
-    if (right) justify = "flex-end";
-    else if (center) justify = "center";
-    else if (between) justify ="space-between"
+// const setJustify = css<IFlexBox>`
+//   ${({ center, right, between, align }) => {
+//     let justify = "flex-start";
+//     if (right) justify = "flex-end";
+//     else if (center) justify = "center";
+//     else if (between) justify ="space-between"
 
-    return css`
-      justify-content: ${ justify };
-      align-items: ${ align && align }
-    `;
-  }}
-`
+//     return css`
+//       justify-content: ${ justify };
+//       align-items: ${ align && align }
+//     `;
+//   }}
+// `
 
 
-export const RowBox = styled.div<IFlexPosition>`
+export const RowBox = styled.div<IFlexBox>`
   display: flex;
   flex-direction: row;
   gap: ${({gap}) => gap ? gap+"rem" : "1.5rem"};
@@ -47,11 +47,11 @@ export const RowBox = styled.div<IFlexPosition>`
       return shadow && 'box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1), -2px -2px 4px rgba(0, 0, 0, 0.05)'
   }};
 
-  ${setJustify};
   ${fontSizeSet};
+  ${setFlexLayout};
 `
 
-export const ColBox = styled.div<IFlexPosition>`
+export const ColBox = styled.div<IFlexBox>`
   display: flex;
   flex-direction: column;
   gap: ${({gap}) => gap ? gap+"rem" : ".5rem"};
@@ -66,4 +66,5 @@ export const ColBox = styled.div<IFlexPosition>`
       return shadow && 'box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1), -2px -2px 4px rgba(0, 0, 0, 0.05)'
   }};
   ${fontSizeSet};
+  ${setFlexLayout};
 `

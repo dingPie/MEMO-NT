@@ -55,7 +55,8 @@ const TalkEditTagName = ( {
         </ScrollBox>
       </RowBox>
       <MenuBox 
-        between gap={.1} 
+        justifyBetween 
+        gap={.1} 
       >
         <RowBox 
           gap={.25} 
@@ -79,7 +80,7 @@ const TalkEditTagName = ( {
           />
         </RowBox>
 
-        <RowBox gap={.25} padding="0" right>
+        <RowBox gap={.25} padding="0" justifyEnd>
           <IconBox bgColor="#505050"
             onClick={ () => onChangeTagName(null, "toBeDeleted")}
           >
