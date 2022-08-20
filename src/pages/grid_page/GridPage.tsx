@@ -44,17 +44,17 @@ const GridPage = ( {
         onClickOtherBtn={onClickOtherBtn}
       />
       <GridBox>
-      { tags.map( (tag, id) => {
-        return (
-          <GridMemo
-            key={id}
-            fbMemo={fbMemo}
-            fbTag={fbTag}
-            tag={tag}
-            onClickMemo={() => onClickTag(tag)}
-          />
-        )
-      })}
+        { tags.map( tag => {
+          return (
+            <GridMemo
+              key={tag.id}
+              tag={tag}
+              fbMemo={fbMemo}
+              fbTag={fbTag}
+              onClickMemo={() => onClickTag(tag)}
+            />
+          )
+        })}
       </GridBox>
     </>
   )

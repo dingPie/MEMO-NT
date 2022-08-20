@@ -18,10 +18,12 @@ ${({ justifyCenter, justifyEnd, justifyBetween, alignEnd, alignCenter, alignBetw
   if (justifyEnd) justify = "flex-end";
   else if (justifyCenter) justify = "center";
   else if (justifyBetween) justify ="space-between";
+
   let align = "flex-start";
   if (alignEnd) align = "flex-end";
   else if (alignCenter) align = "center";
   else if (alignBetween) align ="space-between";
+  
   return css`
     justify-content: ${ justify };
     align-items: ${ align }
