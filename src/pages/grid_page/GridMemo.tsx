@@ -87,7 +87,7 @@ const GridText = styled(Text)`
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
   line-height: 1.375rem;
 
-  max-width: 25vh;
+  max-width: 21.5vh;
   ${setTextLine}
 `
 

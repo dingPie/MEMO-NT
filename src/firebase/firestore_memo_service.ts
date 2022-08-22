@@ -1,24 +1,20 @@
 import { Auth, User } from "firebase/auth";
 import { 
   collection,
-  addDoc, 
   getDoc, 
   doc, 
   query, 
   getDocs, 
-  where, 
-  onSnapshot, 
+  where,  
   setDoc, 
   limit, 
   startAfter, 
   orderBy, 
   updateDoc, 
-  deleteDoc, 
-  deleteField, 
+  deleteDoc,  
   QueryDocumentSnapshot, 
   DocumentData, 
-  Firestore,
-  collectionGroup 
+  Firestore, 
 } from "firebase/firestore";
 import { IMemo, ITag } from "../utils/interface/interface";
 import { getUndefinedMemo, getToBeDeletedMemo, getInitMenualMemo } from "./firebase_init_data";
@@ -183,10 +179,10 @@ export class FbMemo {
     let q = query(col, where("tagId", "==", tag.id)); 
     if (gridPage) q = query(col, where("tagId", "==", tag.id), limit(3));
 
-    return new Promise( async(resolve, rejects) => {
-      const querySnapshot = await getDocs(q);
-      const result = querySnapshot.docs.map(doc => doc.data() as IMemo)
-      resolve(result)
+    return new Promise( (resolve, rejects) => {
+      getDocs(q).then(querySnapshot => {
+        resolve(querySnapshot.docs.map(doc => doc.data() as IMemo))
+      })
     })
   }
 

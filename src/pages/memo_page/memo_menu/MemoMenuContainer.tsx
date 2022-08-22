@@ -121,7 +121,9 @@ const MemoMenuContainer = ( {
     setMemoList(newViewMemo);
     // 태그 삭제
     if (newViewMemo.length === 0) {
-      if (editMemo.tagId === "undefined" || editMemo.tagId === "toBeDeleted") {} 
+      if (editMemo.tagId === "undefined" || editMemo.tagId === "toBeDeleted") {
+        console.log("undefiend / toBeDeleted 태그 자체는 삭제되지 않습니다.")
+      } 
       else fbTag.deleteTag(editMemo.tagId)
       navigate('/grid')
     }

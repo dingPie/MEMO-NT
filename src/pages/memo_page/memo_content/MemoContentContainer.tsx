@@ -120,7 +120,9 @@ const MemoContentContainer = ( {
     }
     // 해당 태그의 메모가 비었을 떄 삭제
     if (newViewMemo.length === 0) { 
-      if (editMemo.tagId === "undefined" || editMemo.tagId === "toBeDeleted") {}
+      if (editMemo.tagId === "undefined" || editMemo.tagId === "toBeDeleted") {
+        console.log("undefiend / toBeDeleted 태그 자체는 삭제되지 않습니다.")
+      }
       else fbTag.deleteTag(editMemo.tagId)
       navigate('/grid')
     }

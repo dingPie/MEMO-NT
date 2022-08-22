@@ -5,17 +5,11 @@ import {
   GoogleAuthProvider, 
   GithubAuthProvider, 
   onIdTokenChanged, 
-  getRedirectResult, 
-  setPersistence, 
-  updateCurrentUser, 
+  setPersistence,  
   browserSessionPersistence, 
   User, 
   Auth, 
   browserLocalPersistence, 
-  signInWithRedirect,
-  UserCredential,
-  getAuth,
-  signInWithCredential
 } from "firebase/auth";
 import { 
   doc, 
@@ -27,12 +21,11 @@ import {
   orderBy, 
   query, 
   setDoc, 
-  where,
   updateDoc,
   onSnapshot
 } from "firebase/firestore";
 import { IPalette } from "../store/palette";
-import { IMemo, ITag, IUserInfo } from "../utils/interface/interface";
+import { IUserInfo } from "../utils/interface/interface";
 import { Time } from "../utils/service/time";
 
 
@@ -140,10 +133,10 @@ export class FbAuth {
   async getUserInfo (user?: User): Promise<IUserInfo> {
     const docRef = doc(this.fireStoreDB, this.doc, user ? user.uid : this.uid)
 
-    return new Promise ( async (resolve, rejects) => {
-      const result = await getDoc(docRef)
-      resolve(result.data() as IUserInfo)
-    } )
+    return new Promise ( (resolve, rejects) => {
+      getDoc(docRef).then(result => 
+        resolve(result.data() as IUserInfo))
+    })
   }
 
 
@@ -211,12 +204,13 @@ export class FbAuth {
     const col = collection(this.fireStoreDB, "palette") ;
     const q = query(col, orderBy("id", "asc")) 
 
-     return new Promise ( async (resolve, reject) => {
-      const querySnapshot  = await getDocs(q)
-      const paletteArr = querySnapshot.docs.map(v => v.data())
-      let obj = {}
-      const result = Object.assign(obj, paletteArr)
-      resolve(result as unknown as IPalette) // 왜 이렇게하지...
+     return new Promise (  (resolve, reject) => {
+        getDocs(q).then(querySnapshot => {
+          const paletteArr = querySnapshot.docs.map(v => v.data())
+          const obj = {}
+          const result = Object.assign(obj, paletteArr)
+          resolve(result as unknown as IPalette) // 왜 이렇게하지...
+        })
     })
   }
 

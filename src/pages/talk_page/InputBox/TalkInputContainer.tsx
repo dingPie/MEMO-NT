@@ -76,7 +76,7 @@ const TalkInpuContainer = ( {
   
   //input memo가 바뀔때마다 실행되는 로직 -> input창 크기감지 / 추천 검색어 표시 
   const onChangeInputMemo = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    let { value } = e.target
+    const { value } = e.target
     const tagName = value.split("#")[1];
     if (tagName) {
       const recommandTag = tags.filter(v=> v.name.includes(tagName))
@@ -138,6 +138,7 @@ const TalkInpuContainer = ( {
     
     // 빈 태그 삭제 지정
     if (editMemo.tagId === "toBeDeleted" || editMemo.tagId === "undefined") {
+      console.log("undefiend / toBeDeleted 태그 자체는 삭제되지 않습니다.")
     } else {
       const usedMemoLength = await fbTag.checkUsedMemoLength(editMemo!.tagId);
       if (!usedMemoLength) setToBeDeleteTag(editMemo!.tagId);
@@ -159,7 +160,7 @@ const TalkInpuContainer = ( {
   const doAddMemo = async (inputMemo: string) => {
     loading.start();
     const target = inputMemo.split("#")
-    let content = target[0]
+    const content = target[0]
     let tagName = target[1]
     if (tagName === "") tagName = "undefined"
     else if (tagName === undefined) tagName = "toBeDeleted"
