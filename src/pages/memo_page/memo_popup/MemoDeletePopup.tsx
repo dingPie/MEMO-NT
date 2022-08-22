@@ -8,23 +8,19 @@ interface IMemoDeletePopup {
   onClickDoDelete: () => void;
 }
 
-const MemoDeletePopup = ( { 
-  onClickCancelDelete, 
-  onClickDoDelete 
-}: IMemoDeletePopup ) => {
-
-
-  return(
+const MemoDeletePopup = ({
+  onClickCancelDelete,
+  onClickDoDelete,
+}: IMemoDeletePopup) => {
+  return (
     <Popup
       title="태그 삭제"
       onClickCancel={onClickCancelDelete}
       onClickDo={onClickDoDelete}
     >
-      <Text>
-        이 태그를 삭제할까요?
-      </Text>
+      <Text>이 태그를 삭제할까요?</Text>
     </Popup>
-  )
-}
+  );
+};
 
 export default MemoDeletePopup;

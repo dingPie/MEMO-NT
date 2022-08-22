@@ -102,7 +102,12 @@ const Header = ( { page, onClickGear, onClickOtherBtn }: IHeader ) => {
       <Text bold fontSize='2x' color='white'>
         MEMO'NT
       </Text>
-      <RowBox width={5} padding="0" gap={.75} right>
+      <RowBox 
+        width={5} 
+        padding="0" 
+        gap={.75} 
+        justifyEnd
+      >
         {setIcons(page)}
       </RowBox>
     </HeaderEle>

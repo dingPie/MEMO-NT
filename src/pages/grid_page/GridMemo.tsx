@@ -8,10 +8,9 @@ import { ColBox } from "../../components/FlexBox";
 import { FbMemo } from "../../firebase/firestore_memo_service";
 import { FbTag } from "../../firebase/firestore_tag_service";
 
-import { setTextLine } from "../../styles/stylesCss";
+import { setTextLine, stretchY } from "../../styles/stylesCss";
 import { IMemo, ITag } from "../../utils/interface/interface";
 import { setTalkTag } from "../talk_page/utils/talk_service";
-
 
 interface IGridMemo {
   fbTag: FbTag;
@@ -20,79 +19,59 @@ interface IGridMemo {
   onClickMemo: () => void;
 }
 
-
-const GridMemo = ( { 
-  fbTag, 
-  fbMemo, 
-  tag, 
-  onClickMemo 
-}: IGridMemo ) => {
-
+const GridMemo = ({ fbTag, fbMemo, tag, onClickMemo }: IGridMemo) => {
   const { palette } = useStore();
   const [usedMemo, setUsedMemo] = useState<IMemo[]>([]);
 
   useEffect(() => {
-    if (!tag) return
-    getUsedMemo(tag)
-  }, [tag])
+    if (!tag) return;
+    getUsedMemo(tag);
+  }, [tag]);
 
   const getUsedMemo = async (tag: ITag) => {
     // const promiseResult = await fbMemo.getUsedMemo(tag.usedMemo);
     const promiseResult = await fbMemo.getMemoWithTag(tag, "gridPage");
     const result = await Promise.all(promiseResult);
-    setUsedMemo(result)
-  }
-  
+    setUsedMemo(result);
+  };
 
-  return(
+  return (
     <ColBox
-      shadow 
-      gap={.25} 
-      padding=".5rem" 
-      radius={.25}
+      shadow
+      gap={0.25}
+      padding=".5rem"
+      radius={0.25}
       onClick={onClickMemo}
       bgColor={"white"}
     >
-      <TalkTagExpand
-        bold
-        shadow
-        height={2}
-        bgColor={palette.getColor(tag)}
-      >
+      <TalkTagExpand bold shadow height={2} bgColor={palette.getColor(tag)}>
         {setTalkTag(tag, "expand")}
       </TalkTagExpand>
-      
-      <ColBox gap={.25} padding="0" >
-        <GridText>
-          {usedMemo[0] ? usedMemo[0].content : " "}
-        </GridText>
-        <GridText>
-          {usedMemo[1] ? usedMemo[1].content : " "}
-        </GridText>
-        <GridText>
-          {usedMemo[2] ? usedMemo[2].content : " "}
-        </GridText>
+
+      <ColBox gap={0.25} padding="0">
+        <GridText>{usedMemo[0] ? usedMemo[0].content : " "}</GridText>
+        <GridText>{usedMemo[1] ? usedMemo[1].content : " "}</GridText>
+        <GridText>{usedMemo[2] ? usedMemo[2].content : " "}</GridText>
       </ColBox>
     </ColBox>
-  )
-}
+  );
+};
 
 export default GridMemo;
 
-
 const GridText = styled(Text)`
-  padding: .125rem .25rem;
+  padding: 0.125rem 0.25rem;
   border-radius: 0;
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
   line-height: 1.375rem;
 
-  max-width: 22vh; /*  예기치못한 에러로 임시 지정값 */
-  ${setTextLine};
-`
+  max-width: 21.5vh;
+  ${setTextLine}
+`;
 
 const TalkTagExpand = styled(Text)`
-  padding: 0 .5rem;
-  border-radius: .25rem;
+  padding: 0 0.5rem;
+  border-radius: 0.25rem;
 
   ${setTextLine};
-`
+`;

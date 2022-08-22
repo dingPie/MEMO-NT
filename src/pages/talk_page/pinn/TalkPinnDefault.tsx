@@ -15,7 +15,6 @@ import { TalkContent } from "../utils/TalkComponents";
 
 import { PinnBox, PinnBtns } from "./TalkPinnContainer";
 
-
 interface ITalkPinnDefault {
   tag: ITag;
   memo: IMemo;
@@ -24,58 +23,34 @@ interface ITalkPinnDefault {
   onClickExpandPinn: () => void;
 }
 
+const TalkPinnDefault = forwardRef<HTMLDivElement, ITalkPinnDefault>(
+  ({ tag, memo, isExpand, onClickDeletePinn, onClickExpandPinn }, ref) => {
+    const { palette } = useStore();
 
-const TalkPinnDefault = forwardRef<HTMLDivElement ,ITalkPinnDefault>(( {
-  tag, 
-  memo, 
-  isExpand, 
-  onClickDeletePinn, 
-  onClickExpandPinn }
-  , ref  ) => {
-
-  const { palette } = useStore();
-  
-
-  return(
-    <PinnBox isExpand={isExpand} ref={ref} >
-
-      <IconBox
-        bgColor={palette.getColor(tag)} // 테스트 컬러
-        width={1.875}
-        height={1.875}
-      >
-        {setTalkTag(tag)}
-      </IconBox>
-
-      <TalkContent
-        shadow
-        lineHieght={1.5}
-        lineClamp={1}
-      >
-        {memo.content}
-      </TalkContent>
-
-      <PinnBtns
-        width={4}
-      >
-        <IconBox 
-          height={1.75}
-          onClick={onClickDeletePinn}
+    return (
+      <PinnBox isExpand={isExpand} ref={ref}>
+        <IconBox
+          bgColor={palette.getColor(tag)} // 테스트 컬러
+          width={1.875}
+          height={1.875}
         >
-         <Icon size="lg" icon={faTrashCan} />
+          {setTalkTag(tag)}
         </IconBox>
-        <IconBox 
-          height={1.75}
-          onClick={onClickExpandPinn}
-        >
-         <Icon size="lg" icon={faChevronDown} />
-        </IconBox>
-      </PinnBtns>
 
-    </PinnBox>
-  )
-})
+        <TalkContent shadow lineHieght={1.5} lineClamp={1}>
+          {memo.content}
+        </TalkContent>
+
+        <PinnBtns width={4}>
+          <IconBox height={1.75} onClick={onClickDeletePinn}>
+            <Icon size="lg" icon={faTrashCan} />
+          </IconBox>
+          <IconBox height={1.75} onClick={onClickExpandPinn}>
+            <Icon size="lg" icon={faChevronDown} />
+          </IconBox>
+        </PinnBtns>
+      </PinnBox>
+    );
+  }
+);
 export default TalkPinnDefault;
-
-
-

@@ -10,69 +10,68 @@ import { faTrashCan, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 
 import { IMemo } from "../../../utils/interface/interface";
 
-
 interface IMemoEditContent {
   editMemo: IMemo | null;
   inputMemo: string;
   onChangeInputMemo: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onClickDoEditMemo: (editMemo: IMemo, inputMemo: string) => Promise<void>;
-  onClickDoDeleteMemo: (e: React.MouseEvent<HTMLDivElement>, editMemo: IMemo) => Promise<void>;
-  onEnterInputEvent: (e: React.KeyboardEvent<HTMLTextAreaElement>, editMemo: IMemo, inputMemo: string) => Promise<void>;
+  onClickDoDeleteMemo: (
+    e: React.MouseEvent<HTMLDivElement>,
+    editMemo: IMemo
+  ) => Promise<void>;
+  onEnterInputEvent: (
+    e: React.KeyboardEvent<HTMLTextAreaElement>,
+    editMemo: IMemo,
+    inputMemo: string
+  ) => Promise<void>;
 }
 
-
-const MemoEditContent = ( { 
-  editMemo, 
-  inputMemo, 
-  onChangeInputMemo, 
-  onClickDoEditMemo, 
-  onClickDoDeleteMemo, 
-  onEnterInputEvent 
-}: IMemoEditContent ) => {
-
-
+const MemoEditContent = ({
+  editMemo,
+  inputMemo,
+  onChangeInputMemo,
+  onClickDoEditMemo,
+  onClickDoDeleteMemo,
+  onEnterInputEvent,
+}: IMemoEditContent) => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (inputRef.current) inputRef.current.focus();
-  }, [])
+  }, []);
 
   return (
-      <EditBox>
-        <InputText
-          ref={inputRef}
+    <EditBox>
+      <InputText
+        ref={inputRef}
+        shadow
+        padding=".5rem"
+        lineHeight={1.125}
+        value={inputMemo}
+        onChange={onChangeInputMemo}
+        onKeyPress={e => onEnterInputEvent(e, editMemo!, inputMemo)}
+      />
+      <RowBox justifyEnd padding=" .25rem .5rem .5rem" gap={0.5}>
+        <IconBox
           shadow
-          padding=".5rem"
-          lineHeight={1.125}
-          value={inputMemo}
-          onChange={onChangeInputMemo}
-          onKeyPress={(e) => onEnterInputEvent(e, editMemo!, inputMemo)}
-        />
-        <RowBox 
-          right
-          padding=" .25rem .5rem .5rem" 
-          gap={.5} 
+          fontSize="l"
+          onClick={e => onClickDoDeleteMemo(e, editMemo!)}
         >
-          <IconBox
-            shadow
-            fontSize="l"
-            onClick={(e) => onClickDoDeleteMemo(e, editMemo!)}
-          >
-            <Icon icon={faTrashCan} />
-          </IconBox>
-          <IconBox
-            shadow
-            fontSize="l"
-            onClick={ () => onClickDoEditMemo(editMemo!, inputMemo)}
-          >
-            <Icon icon={faCheckCircle} />
-          </IconBox>
-        </RowBox>
-      </EditBox>
-  )
-}
+          <Icon icon={faTrashCan} />
+        </IconBox>
+        <IconBox
+          shadow
+          fontSize="l"
+          onClick={() => onClickDoEditMemo(editMemo!, inputMemo)}
+        >
+          <Icon icon={faCheckCircle} />
+        </IconBox>
+      </RowBox>
+    </EditBox>
+  );
+};
 export default MemoEditContent;
 
 const EditBox = styled.div`
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
-`
+`;

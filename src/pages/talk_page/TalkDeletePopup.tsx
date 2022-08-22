@@ -12,81 +12,78 @@ import { IMemo } from "../../utils/interface/interface";
 interface ITalkDeletePopup {
   fbMemo: FbMemo;
   fbTag: FbTag;
-  fbAuth: FbAuth
+  fbAuth: FbAuth;
   viewMemo: IMemo[];
   selectedMemo: IMemo | null;
   pinnedMemo: IMemo | null;
   setViewMemo: (memoArr: IMemo[]) => void;
-  setSelectedMemo:(memo: IMemo | null) => void;
+  setSelectedMemo: (memo: IMemo | null) => void;
   setIsOpenDeletePopup: (v: boolean) => void;
   setToBeDeleteTag: (v: string) => void;
 }
 
-
-const TalkDeletePopup = ( { 
-  fbMemo, 
-  fbTag, 
-  fbAuth, 
-  viewMemo, 
-  selectedMemo, 
-  pinnedMemo, 
-  setViewMemo, 
-  setSelectedMemo, 
-  setIsOpenDeletePopup, 
-  setToBeDeleteTag 
-}: ITalkDeletePopup ) => {
-
+const TalkDeletePopup = ({
+  fbMemo,
+  fbTag,
+  fbAuth,
+  viewMemo,
+  selectedMemo,
+  pinnedMemo,
+  setViewMemo,
+  setSelectedMemo,
+  setIsOpenDeletePopup,
+  setToBeDeleteTag,
+}: ITalkDeletePopup) => {
   const { loading } = useStore();
 
   useEffect(() => {
     return () => {
       loading.finish();
-      console.log("로딩창 삭제 실행됨", loading.isLoading)
-    }
-  }, [])
-  
-
+      console.log("로딩창 삭제 실행됨", loading.isLoading);
+    };
+  }, []);
 
   const deleteMemo = async () => {
     loading.start();
-    await fbMemo.deleteMemo(selectedMemo!.id)
-    await fbTag.deleteUsedMemo(selectedMemo!)
+    await fbMemo.deleteMemo(selectedMemo!.id);
+    await fbTag.deleteUsedMemo(selectedMemo!);
     const newViewMemo = viewMemo.filter(memo => memo.id !== selectedMemo!.id);
-    
+
     // 핀 삭제
-    if ( pinnedMemo && selectedMemo!.id === pinnedMemo!.id) await fbAuth.setPinnedMemo('')
+    if (pinnedMemo && selectedMemo!.id === pinnedMemo!.id)
+      await fbAuth.setPinnedMemo("");
     // 빈 태그 삭제
-    if (selectedMemo!.tagId === "undefined" || selectedMemo!.tagId === "toBeDeleted" ) {
-      console.log("해당 태그는 빈 태그지만, 삭제되지 않습니다.")
+    if (
+      selectedMemo!.tagId === "undefined" ||
+      selectedMemo!.tagId === "toBeDeleted"
+    ) {
+      console.log("해당 태그는 빈 태그지만, 삭제되지 않습니다.");
     } else {
-      const usedMemoLength = await fbTag.checkUsedMemoLength(selectedMemo!.tagId);
+      const usedMemoLength = await fbTag.checkUsedMemoLength(
+        selectedMemo!.tagId
+      );
       if (!usedMemoLength) setToBeDeleteTag(selectedMemo!.tagId);
     }
-    
+
     setViewMemo(newViewMemo);
     setSelectedMemo(null);
     setIsOpenDeletePopup(false);
-    
-    // 태그 삭제
-  }
 
+    // 태그 삭제
+  };
 
   // 취소버튼 클릭
-  const onClickCanlcelBtn = () => setIsOpenDeletePopup(false)
+  const onClickCanlcelBtn = () => setIsOpenDeletePopup(false);
 
-
-
-  return(
+  return (
     <Popup
       title="메모 삭제"
       onClickCancel={onClickCanlcelBtn}
       onClickDo={deleteMemo}
     >
-      <Text>
-        이 메모를 삭제할까요?
-      </Text>
+      <Text>이 메모를 삭제할까요?</Text>
     </Popup>
-  )
-}
+  );
+};
 
 export default TalkDeletePopup;

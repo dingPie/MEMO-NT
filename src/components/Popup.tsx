@@ -33,7 +33,7 @@ const Popup = ( { children, title, onClickCancel, onClickDo, cancelBtnName, doBt
             {title}
           </Text>
             {children}
-            <RowBox center padding="0" >
+            <RowBox justifyCenter padding="0" >
               <MainBtn
                 onClick={onClickCancel}
               > 
@@ -58,7 +58,7 @@ const Popup = ( { children, title, onClickCancel, onClickDo, cancelBtnName, doBt
             {title}
           </Text>
             {children}
-            <RowBox center padding="0" >
+            <RowBox justifyCenter padding="0" >
               <MainBtn
                 onClick={onClickCancel}
               > { cancelBtnName ? cancelBtnName : "취소" }

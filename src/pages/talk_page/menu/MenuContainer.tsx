@@ -6,65 +6,59 @@ import { IMemo } from "../../../utils/interface/interface";
 import TalkMemu from "../menu/TalkMenu";
 import { FbAuth } from "../../../firebase/firebase_auth_service";
 
-
 interface IMenuContainer {
   fbAuth: FbAuth;
   selectedMemo: IMemo | null;
   setSelectedMemo: (v: IMemo | null) => void;
   setEditMemo: (v: IMemo | null) => void;
-  setIsOpenDeletePopup: (v:boolean) => void;
+  setIsOpenDeletePopup: (v: boolean) => void;
 }
 
-
-const MenuContainer = ( {
+const MenuContainer = ({
   fbAuth,
-  selectedMemo, 
-  setSelectedMemo, 
-  setEditMemo,  
-  setIsOpenDeletePopup
-}: IMenuContainer ) => {
-
+  selectedMemo,
+  setSelectedMemo,
+  setEditMemo,
+  setIsOpenDeletePopup,
+}: IMenuContainer) => {
   const navigate = useNavigate();
   // const [isOpenDeletePopup, setIsOpenDeletePopup] = useState(false);
 
   const onClickCloseMenuBtn = () => {
-    setSelectedMemo(null)
-  }
-  
-  /* Menu: 수정관련 */ 
+    setSelectedMemo(null);
+  };
+
+  /* Menu: 수정관련 */
   // 수정버튼 클릭
   const onClickEditBtn = () => {
-    if (!selectedMemo) return
-    setEditMemo(selectedMemo)
-    setSelectedMemo(null)
-  }
+    if (!selectedMemo) return;
+    setEditMemo(selectedMemo);
+    setSelectedMemo(null);
+  };
 
   /* Menu: 삭제관련 */
   // 삭제버튼 클릭
   const onClickDeleteBtn = () => {
-    setIsOpenDeletePopup(true)
-  }
-  
-  /* Menu: 상단 핀: 핀 버튼 클릭 */
-   const onClickPinnBtn = async () => {
-    if (selectedMemo) {
-      await fbAuth.setPinnedMemo(selectedMemo.id)
-    } 
-    setSelectedMemo(null)
-  }
+    setIsOpenDeletePopup(true);
+  };
 
+  /* Menu: 상단 핀: 핀 버튼 클릭 */
+  const onClickPinnBtn = async () => {
+    if (selectedMemo) {
+      await fbAuth.setPinnedMemo(selectedMemo.id);
+    }
+    setSelectedMemo(null);
+  };
 
   /* Menu: 메모 이동 : 메모 이동 클릭*/
   const onClicGoMemoBtn = () => {
-    navigate(`/memo/${selectedMemo!.tagId}`)
-  }
+    navigate(`/memo/${selectedMemo!.tagId}`);
+  };
 
-  
-
-  return(
+  return (
     <>
       {/* ... 클릭시 메뉴 */}
-      { selectedMemo && 
+      {selectedMemo && (
         <TalkMemu
           selectedMemo={selectedMemo}
           onClickEditBtn={onClickEditBtn}
@@ -73,9 +67,9 @@ const MenuContainer = ( {
           onClicGoMemoBtn={onClicGoMemoBtn}
           onClickCloseMenuBtn={onClickCloseMenuBtn}
         />
-      }
+      )}
     </>
-  )
-}
+  );
+};
 
 export default MenuContainer;
