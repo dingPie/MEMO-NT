@@ -19,32 +19,23 @@ interface IGridPage {
   fbTag: FbTag;
 }
 
-const GridPage = ( { 
-  fbMemo, 
-  fbTag,
-  tags, 
-}: IGridPage ) => {
-
+const GridPage = ({ fbMemo, fbTag, tags }: IGridPage) => {
   const navigate = useNavigate();
 
-  const onClickTag = (tag: ITag)  => {
-    navigate(`/memo/${tag.id}`, { state: tag })
-  }
-  const onClickOtherBtn = ()  => {
-    navigate(`/talk`)
-  }
-  
-  const usedTag = tags.filter(v => v.usedMemo.length );
+  const onClickTag = (tag: ITag) => {
+    navigate(`/memo/${tag.id}`, { state: tag });
+  };
+  const onClickOtherBtn = () => {
+    navigate(`/talk`);
+  };
 
- 
-  return(
+  const usedTag = tags.filter(v => v.usedMemo.length);
+
+  return (
     <>
-      <Header 
-        page='grid' 
-        onClickOtherBtn={onClickOtherBtn}
-      />
+      <Header page="grid" onClickOtherBtn={onClickOtherBtn} />
       <GridBox>
-        { usedTag.map( tag => {
+        {usedTag.map(tag => {
           return (
             <GridMemo
               key={tag.id}
@@ -53,20 +44,19 @@ const GridPage = ( {
               fbTag={fbTag}
               onClickMemo={() => onClickTag(tag)}
             />
-          )
+          );
         })}
       </GridBox>
     </>
-  )
-}
+  );
+};
 
 export default GridPage;
 
 const GridBox = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: .5rem;
-  padding: .5rem;
-  overflow-y: scroll ;
-
-`
+  gap: 0.5rem;
+  padding: 0.5rem;
+  overflow-y: scroll;
+`;

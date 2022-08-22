@@ -18,65 +18,51 @@ import { FbAuth } from "../../firebase/firebase_auth_service";
 import { User } from "firebase/auth";
 import useStore from "../../store/useStore";
 
-
 interface ILoginPage {
   fbAuth: FbAuth;
   setUser: (v: User | null) => void;
 }
 
-
-const LoginPage = ( { fbAuth, setUser }: ILoginPage ) => {
-
+const LoginPage = ({ fbAuth, setUser }: ILoginPage) => {
   const navigate = useNavigate();
   const { loading } = useStore();
 
   const onClickWithoutLogin = () => {
-    alert("작동안함")
+    alert("작동안함");
     // navigate(`/talk`)
-  }
-  
+  };
+
   const onClickGoogleLlogin = async () => {
-    await fbAuth.loginWithGoogle(setUser)
-    navigate(`/talk`)
-  }
-  
+    await fbAuth.loginWithGoogle(setUser);
+    navigate(`/talk`);
+  };
+
   const onClickGithubLogin = async () => {
-    await fbAuth.loginWithGithub(setUser)
-    navigate(`/talk`)
-  }
- 
-  return(
+    await fbAuth.loginWithGithub(setUser);
+    navigate(`/talk`);
+  };
+
+  return (
     <>
-      <Header
-        page="login"
-      />
-      <ColBox 
-        gap={3.5} 
-        padding="4rem 1.5rem"
-      >
-        <Text 
-          center 
-          bold 
-          fontSize="3x" 
-        >
+      <Header page="login" />
+      <ColBox gap={3.5} padding="4rem 1.5rem">
+        <Text center bold fontSize="3x">
           MEMO'NT
         </Text>
-      
+
         {/* <WithoutLogin 
           onClickWithoutLogin={onClickWithoutLogin}
         /> */}
- 
+
         <WithSnsLogin
           onClickGoogleLlogin={onClickGoogleLlogin}
           onClickGithubLogin={onClickGithubLogin}
         />
       </ColBox>
-      { loading.isLoading &&
-        <Loading />
-      }
+      {loading.isLoading && <Loading />}
     </>
-  )
-}
+  );
+};
 
 export default LoginPage;
 
@@ -86,4 +72,4 @@ export const LoginBtn = styled(CustomBtn)`
   grid-template-columns: 2rem 1fr;
   align-items: center;
   padding: 0 1rem;
-`
+`;

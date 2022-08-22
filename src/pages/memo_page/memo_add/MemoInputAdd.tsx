@@ -9,28 +9,30 @@ import { ITag } from "../../../utils/interface/interface";
 interface IMemoInputAdd {
   tag: ITag;
   inputMemo: string;
-  onChangeInputMemo: (e: React.ChangeEvent<HTMLTextAreaElement> ) => void;
+  onChangeInputMemo: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onClickAddConfirm: (tagId: string, inputMemo: string) => void;
   onClickAddCancel: () => void;
-  onEnterInputEvent: (e: React.KeyboardEvent<HTMLTextAreaElement>, tagId: string, inputMemo: string) => void;
+  onEnterInputEvent: (
+    e: React.KeyboardEvent<HTMLTextAreaElement>,
+    tagId: string,
+    inputMemo: string
+  ) => void;
 }
 
-const MemoInputAdd = ( { 
-  tag, 
-  inputMemo, 
-  onChangeInputMemo, 
-  onClickAddConfirm, 
-  onClickAddCancel, 
-  onEnterInputEvent 
-}: IMemoInputAdd ) => {
-  
-  const inputRef = useRef<HTMLTextAreaElement>(null)
+const MemoInputAdd = ({
+  tag,
+  inputMemo,
+  onChangeInputMemo,
+  onClickAddConfirm,
+  onClickAddCancel,
+  onEnterInputEvent,
+}: IMemoInputAdd) => {
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   useEffect(() => {
     if (inputRef.current) inputRef.current.focus();
-  }, [])
-  
+  }, []);
 
-  return(
+  return (
     <ColBox padding="0 0 .5rem">
       <InputText
         ref={inputRef}
@@ -38,14 +40,10 @@ const MemoInputAdd = ( {
         height={1.5}
         padding=".5rem"
         value={inputMemo}
-        onChange={(e) => onChangeInputMemo(e)}
-        onKeyPress={(e) => onEnterInputEvent(e, tag.id, inputMemo)}
+        onChange={e => onChangeInputMemo(e)}
+        onKeyPress={e => onEnterInputEvent(e, tag.id, inputMemo)}
       />
-      <RowBox
-        justifyCenter
-        gap={.5}
-        padding="0" 
-      >
+      <RowBox justifyCenter gap={0.5} padding="0">
         <CustomBtn
           fontSize="s"
           width={15}
@@ -64,7 +62,7 @@ const MemoInputAdd = ( {
         </CustomBtn>
       </RowBox>
     </ColBox>
-  )
-}
+  );
+};
 
 export default memo(MemoInputAdd);

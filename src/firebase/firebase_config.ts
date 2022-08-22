@@ -15,7 +15,7 @@ const firebaseConfig = {
   storageBucket: "memont-51c30.appspot.com",
   messagingSenderId: "936975326331",
   appId: "1:936975326331:web:b1ce9f40286e20a7ded6de",
-  measurementId: "G-QZ31X847KM"
+  measurementId: "G-QZ31X847KM",
 };
 
 // Initialize Firebase

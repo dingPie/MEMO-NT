@@ -11,13 +11,12 @@ interface IMemoDeleteConfirmPopup {
   onClickDoDeleteAll: (tag: ITag) => void;
 }
 
-const MemoDeleteConfirmPopup = ( { 
-  tag, 
-  onClickDoDeleteOnlyTag, 
-  onClickDoDeleteAll 
-}: IMemoDeleteConfirmPopup ) => {
-
-  return(
+const MemoDeleteConfirmPopup = ({
+  tag,
+  onClickDoDeleteOnlyTag,
+  onClickDoDeleteAll,
+}: IMemoDeleteConfirmPopup) => {
+  return (
     <Popup
       title="태그 삭제"
       onClickCancel={() => onClickDoDeleteOnlyTag(tag)}
@@ -30,7 +29,7 @@ const MemoDeleteConfirmPopup = ( {
         아니요 클릭시, 태그만 삭제되며 메모들은 지정된 태그만 사라집니다.
       </Text>
     </Popup>
-  )
-}
+  );
+};
 
 export default MemoDeleteConfirmPopup;

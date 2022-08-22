@@ -5,10 +5,15 @@ import { RowBox } from "../../../components/FlexBox";
 import { IconBox } from "../../../components/IconBox";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { faPen, faTrashCan, faThumbTack, faAlignLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPen,
+  faTrashCan,
+  faThumbTack,
+  faAlignLeft,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import { slideUp } from "../../../styles/stylesCss";
 import { IMemo } from "../../../utils/interface/interface";
-
 
 interface ITalkMenu {
   selectedMemo: IMemo;
@@ -19,62 +24,50 @@ interface ITalkMenu {
   onClickCloseMenuBtn: () => void;
 }
 
-
-const TalkMemu = ( { 
-  selectedMemo, 
-  onClickEditBtn, 
-  onClickDeleteBtn, 
-  onClickPinnBtn, 
-  onClicGoMemoBtn, 
-  onClickCloseMenuBtn 
-}: ITalkMenu ) => {
-
-  return(
+const TalkMemu = ({
+  selectedMemo,
+  onClickEditBtn,
+  onClickDeleteBtn,
+  onClickPinnBtn,
+  onClicGoMemoBtn,
+  onClickCloseMenuBtn,
+}: ITalkMenu) => {
+  return (
     <MenuBox>
-      <RowBox gap={.5} padding=".25rem">
-        <IconBox
-          onClick={onClickEditBtn}
-        >
+      <RowBox gap={0.5} padding=".25rem">
+        <IconBox onClick={onClickEditBtn}>
           <Icon icon={faPen} />
         </IconBox>
-        
-        <IconBox
-          onClick={onClickDeleteBtn}
-        >
+
+        <IconBox onClick={onClickDeleteBtn}>
           <Icon icon={faTrashCan} />
         </IconBox>
 
-        { selectedMemo.tagId !== "toBeDeleted" &&
-          <IconBox
-          onClick={onClickPinnBtn}
-          >
+        {selectedMemo.tagId !== "toBeDeleted" && (
+          <IconBox onClick={onClickPinnBtn}>
             <Icon icon={faThumbTack} />
           </IconBox>
-        }
+        )}
 
-        <IconBox
-          onClick={onClicGoMemoBtn}
-        >
+        <IconBox onClick={onClicGoMemoBtn}>
           <Icon icon={faAlignLeft} />
         </IconBox>
       </RowBox>
 
-      <IconBox
-        onClick={onClickCloseMenuBtn}
-      >
+      <IconBox onClick={onClickCloseMenuBtn}>
         <Icon icon={faXmark} />
       </IconBox>
     </MenuBox>
-  )
-}
+  );
+};
 
 export default TalkMemu;
 
 export const MenuBox = styled(RowBox)`
   align-items: center;
-  padding: .25rem;
+  padding: 0.25rem;
   background: white;
   // transition 적용 여부때문에 일단 보류
 
-  animation: ${slideUp} .2s;
-`
+  animation: ${slideUp} 0.2s;
+`;
