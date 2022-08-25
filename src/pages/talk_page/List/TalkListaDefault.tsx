@@ -28,6 +28,7 @@ const TalkListaDefault = ({ tag, memo, onClickMenuBtn }: ITalkListaDefault) => {
   const { palette } = useStore();
   const time = new Time();
   const link = linkify.find(memo.content);
+  const options = { defaultProtocol: "https" };
 
   // const test = async () => {
   //   // const res = await fetch(link[0].value, { method: "GET", mode: "no-cors" });
@@ -50,7 +51,6 @@ const TalkListaDefault = ({ tag, memo, onClickMenuBtn }: ITalkListaDefault) => {
   //커밋 테스트
   console.log("커밋테스트");
 
-  const options = { defaultProtocol: "https" };
   return (
     <TalkListBox>
       <IconBox
