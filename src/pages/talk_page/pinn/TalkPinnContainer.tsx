@@ -11,20 +11,13 @@ import { getTagWithMemo } from "../utils/talk_service";
 import TalkPinnExpand from "./TalkPinnExpand";
 import TalkPinnDefault from "./TalkPinnDefault";
 
-
 interface ITalkPinnContainer {
   fbAuth: FbAuth;
   tags: ITag[];
   memo: IMemo | null;
 }
 
-
-const TalkPinnContainer = ( {
-  fbAuth, 
-  tags, 
-  memo 
-}: ITalkPinnContainer ) => {
-  
+const TalkPinnContainer = ({ fbAuth, tags, memo }: ITalkPinnContainer) => {
   const navigate = useNavigate();
   const tag = getTagWithMemo(tags, memo!);
   const [isExpand, setIsExpand] = useState(false);
@@ -33,32 +26,27 @@ const TalkPinnContainer = ( {
   const pinnBoxRef = useRef<HTMLDivElement>(null);
   const [animate, setAnimate] = useState(false);
   const [pinnHeight, setPinnHeight] = useState(0);
-  
 
   // 확장버튼 클릭
   const onClickExpandPinn = () => {
-     setIsExpand(true)
-  }
-
+    setIsExpand(true);
+  };
 
   // 줄이기버튼 클릭
   const onClickReducePinn = () => {
-    setIsExpand(false)
-  }
-
+    setIsExpand(false);
+  };
 
   // 핀 삭제 버튼 클릭
-  const onClickDeletePinn =  async () => {
-    await fbAuth.setPinnedMemo('')
+  const onClickDeletePinn = async () => {
+    await fbAuth.setPinnedMemo("");
     // setPinnedMemo(null)
-  }
-
+  };
 
   // 메모 이동버튼 클릭
   const onClicGoMemoBtn = () => {
-    navigate(`/memo/${memo!.tagId}`)
-  }
-
+    navigate(`/memo/${memo!.tagId}`);
+  };
 
   // 애니메이션 관련, 잠시 사용 X
   // useEffect(() => {
@@ -73,10 +61,9 @@ const TalkPinnContainer = ( {
   //     }
   // }, [isExpand]);
 
-
-  return(
+  return (
     <>
-      { (!isExpand && !animate) ?
+      {!isExpand && !animate ? (
         <TalkPinnDefault
           ref={pinnBoxRef}
           tag={tag}
@@ -84,7 +71,8 @@ const TalkPinnContainer = ( {
           onClickDeletePinn={onClickDeletePinn}
           onClickExpandPinn={onClickExpandPinn}
           isExpand={isExpand}
-        /> :
+        />
+      ) : (
         <TalkPinnExpand
           ref={pinnBoxRef}
           tag={tag}
@@ -95,43 +83,49 @@ const TalkPinnContainer = ( {
           isExpand={isExpand}
           pinnHeight={pinnHeight}
         />
-      }
+      )}
     </>
-  )
-}
+  );
+};
 export default TalkPinnContainer;
 
-
-export const PinnBox = styled.div<{expand?: boolean, isExpand?: boolean, pinnHeight?: number}>`
+export const PinnBox = styled.div<{
+  expand?: boolean;
+  isExpand?: boolean;
+  pinnHeight?: number;
+}>`
   display: flex;
-  gap: .5rem;
-  
+  gap: 0.5rem;
+
   max-width: 30rem;
   width: 100%;
   height: 3rem;
-  padding: .5rem;
-  background: ${({theme}) => theme.colors.primary_blue };
+  padding: 0.5rem;
+  background: ${({ theme }) => theme.colors.primary_blue};
 
-  ${({expand, isExpand, pinnHeight}) => 
-    expand && css`
-      flex-direction: column ;
-      height: auto; 
-      /* animation: ${!isExpand ? reducePinnBox(pinnHeight!) : expandPinnBox(pinnHeight!)} .3s ;
+  ${({ expand, isExpand, pinnHeight }) =>
+    expand &&
+    css`
+      flex-direction: column;
+      height: auto;
+      /* animation: ${!isExpand
+        ? reducePinnBox(pinnHeight!)
+        : expandPinnBox(pinnHeight!)} .3s ;
       animation-delay: .01s;  */
-  `}
-`
+    `}
+`;
 
 export const PinnBtns = styled(RowBox)`
   align-items: center;
-  padding: 0 .25rem;
-  gap: .5rem;
-  
-  height: 2rem;
-  background: ${({theme}) => theme.colors.white };
-  border-radius: .25rem;
-`
+  padding: 0 0.25rem;
+  gap: 0.5rem;
 
- const expandPinnBox = (height: number) => keyframes`
+  height: 2rem;
+  background: ${({ theme }) => theme.colors.white};
+  border-radius: 0.25rem;
+`;
+
+const expandPinnBox = (height: number) => keyframes`
   from {
     height: 44px;
   }
@@ -140,7 +134,7 @@ export const PinnBtns = styled(RowBox)`
   }
   `;
 
- const reducePinnBox = (height: number) => keyframes`
+const reducePinnBox = (height: number) => keyframes`
   from {
     height: ${height}px;
   }

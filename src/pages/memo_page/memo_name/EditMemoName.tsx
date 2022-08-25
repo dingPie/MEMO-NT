@@ -12,7 +12,6 @@ import { ITag } from "../../../utils/interface/interface";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 
-
 interface IEditMemoName {
   tag: ITag;
   inputMemoName?: string;
@@ -20,26 +19,21 @@ interface IEditMemoName {
   onClickDoEditTag: (tag: ITag) => void;
 }
 
-
-const EditMemoName = ( { 
-  tag, 
-  inputMemoName, 
-  onClickDoEditTag, 
-  onChangeMemoName }: IEditMemoName ) => {
-
+const EditMemoName = ({
+  tag,
+  inputMemoName,
+  onClickDoEditTag,
+  onChangeMemoName,
+}: IEditMemoName) => {
   const { palette } = useStore();
-  const inputRef = useRef<HTMLTextAreaElement>(null)
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    if (inputRef.current) inputRef.current.focus()
-  }, [])
-  
+    if (inputRef.current) inputRef.current.focus();
+  }, []);
 
   return (
-    <EditTagBox
-      shadow
-      bgColor={palette.getColor(tag)}
-    >
+    <EditTagBox shadow bgColor={palette.getColor(tag)}>
       <InputText
         ref={inputRef}
         bold
@@ -61,13 +55,13 @@ const EditMemoName = ( {
         <Icon icon={faCheckCircle} />
       </IconBox>
     </EditTagBox>
-  )
-}
+  );
+};
 
 export default EditMemoName;
 
 const EditTagBox = styled(RowBox)`
   width: 100%;
-  padding: .5rem .75rem;
-  border-radius: .25rem;
-`
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.25rem;
+`;
