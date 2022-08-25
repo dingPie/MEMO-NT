@@ -1,34 +1,36 @@
-
 export class Time {
-
   toTalk(dateTime: number) {
-    const d: Date = new Date(dateTime)
+    const d: Date = new Date(dateTime);
     const year = d.getFullYear().toString().slice(2, 4);
-    const month = d.getMonth()+1 >= 10 ? d.getMonth()+1 : "0" + (d.getMonth()+1).toString();
+    const month =
+      d.getMonth() + 1 >= 10
+        ? d.getMonth() + 1
+        : "0" + (d.getMonth() + 1).toString();
     const date = d.getDate() >= 10 ? d.getDate() : "0" + d.getDate().toString();
     // const hours = d.getHours() >= 10 ? d.getHours() : "0" + d.getHours().toString();
     const hours = d.getHours() >= 13 ? d.getHours() - 12 : d.getHours();
-    const miuntes = d.getMinutes() >= 10 ? d.getMinutes() : "0" + d.getMinutes().toString();
-    const ampm = hours >= 12 ? 'pm' : 'am';
+    const miuntes =
+      d.getMinutes() >= 10 ? d.getMinutes() : "0" + d.getMinutes().toString();
+    const ampm = hours >= 12 ? "pm" : "am";
     const result = `${year}.${month}.${date} ${ampm} ${hours}:${miuntes}`;
-    
-    return result
+
+    return result;
   }
 
-   KorDate()  {
+  KorDate() {
     const now = new Date();
-    const utcNow = now.getTime() + (now.getTimezoneOffset() * 60 * 1000);
+    const utcNow = now.getTime() + now.getTimezoneOffset() * 60 * 1000;
     const koreaTimeDiff = 9 * 60 * 60 * 1000;
     const koreaNow = new Date(utcNow + koreaTimeDiff);
-    return koreaNow
+    return koreaNow;
   }
 
-  getToBeDeletedDate () {
+  getToBeDeletedDate() {
     const date = this.KorDate();
     const year = date.getFullYear();
     const month = ("0" + (1 + date.getMonth())).slice(-2);
     const day = ("0" + date.getDate()).slice(-2);
-  
+
     return parseInt(year + month + day);
   }
 }
