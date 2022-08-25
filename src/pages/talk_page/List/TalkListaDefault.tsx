@@ -15,13 +15,8 @@ import { setTalkTag } from "../utils/talk_service";
 
 import { TalkListBox } from "./TalkListContainer";
 
-<<<<<<< HEAD
 import * as linkify from "linkifyjs";
 import Linkify from "linkify-react";
-
-=======
-import axios from "axios";
->>>>>>> mac
 interface ITalkListaDefault {
   tag: ITag;
   memo: IMemo;
