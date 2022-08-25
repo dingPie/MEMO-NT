@@ -25,6 +25,28 @@ const TalkListaDefault = ({ tag, memo, onClickMenuBtn }: ITalkListaDefault) => {
   const { palette } = useStore();
   const time = new Time();
 
+  // const test = async () => {
+  //   // const res = await fetch(link[0].value, { method: "GET", mode: "no-cors" });
+  //   // const tt = res.body.querySelector('meta[name="description"]').content;
+  //   axios.defaults.withCredentials = true;
+  //   const result = await axios.get(link[0].value, {
+  //     headers: {
+  //       "Access-Control-Allow-Origin": `*`,
+  //       "Access-Control-Allow-Credentials": "true",
+  //     },
+  //   });
+  //   console.log(
+  //     result.data
+  //       .split("<meta ")
+  //       .filter((data: string) => data.includes("og:title"))
+  //   );
+  // };
+  // console.log(link.length && test());
+
+  //커밋 테스트
+  console.log("커밋테스트");
+
+  const options = { defaultProtocol: "https" };
   return (
     <TalkListBox>
       <IconBox
