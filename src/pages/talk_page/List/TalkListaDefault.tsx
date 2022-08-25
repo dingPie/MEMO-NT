@@ -15,9 +15,13 @@ import { setTalkTag } from "../utils/talk_service";
 
 import { TalkListBox } from "./TalkListContainer";
 
+<<<<<<< HEAD
 import * as linkify from "linkifyjs";
 import Linkify from "linkify-react";
 
+=======
+import axios from "axios";
+>>>>>>> mac
 interface ITalkListaDefault {
   tag: ITag;
   memo: IMemo;
@@ -30,23 +34,25 @@ const TalkListaDefault = ({ tag, memo, onClickMenuBtn }: ITalkListaDefault) => {
   const link = linkify.find(memo.content);
   const options = { defaultProtocol: "https" };
 
-  // const test = async () => {
-  //   // const res = await fetch(link[0].value, { method: "GET", mode: "no-cors" });
-  //   // const tt = res.body.querySelector('meta[name="description"]').content;
-  //   axios.defaults.withCredentials = true;
-  //   const result = await axios.get(link[0].value, {
-  //     headers: {
-  //       "Access-Control-Allow-Origin": `*`,
-  //       "Access-Control-Allow-Credentials": "true",
-  //     },
-  //   });
-  //   console.log(
-  //     result.data
-  //       .split("<meta ")
-  //       .filter((data: string) => data.includes("og:title"))
-  //   );
-  // };
-  // console.log(link.length && test());
+  const options = { defaultProtocol: "https" };
+  const link = link;
+  const test = async () => {
+    // const res = await fetch(link[0].value, { method: "GET", mode: "no-cors" });
+    // const tt = res.body.querySelector('meta[name="description"]').content;
+    axios.defaults.withCredentials = true;
+    const result = await axios.get(link[0].value, {
+      headers: {
+        "Access-Control-Allow-Origin": `*`,
+        "Access-Control-Allow-Credentials": "true",
+      },
+    });
+    console.log(
+      result.data
+        .split("<meta ")
+        .filter((data: string) => data.includes("og:title"))
+    );
+  };
+  console.log(link.length && test());
 
   //커밋 테스트
   console.log("커밋테스트");
