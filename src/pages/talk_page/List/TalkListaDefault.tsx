@@ -47,6 +47,9 @@ const TalkListaDefault = ({ tag, memo, onClickMenuBtn }: ITalkListaDefault) => {
   // };
   // console.log(link.length && test());
 
+  //커밋 테스트
+  console.log("커밋테스트");
+
   const options = { defaultProtocol: "https" };
   return (
     <TalkListBox>
