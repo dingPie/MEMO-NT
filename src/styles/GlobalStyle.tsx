@@ -1,7 +1,6 @@
-import {createGlobalStyle} from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
-
-const GlobalStyle= createGlobalStyle`
+const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
     font-family: "Neo둥근모Code";
@@ -13,8 +12,8 @@ const GlobalStyle= createGlobalStyle`
   body {
     margin: 0 auto;
     height: 100%;
-    background: ${({theme}) => theme.colors.light_gray};
+    background: ${({ theme }) => theme.colors.light_gray};
   }
-`
+`;
 
 export default GlobalStyle;

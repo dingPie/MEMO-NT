@@ -1,5 +1,5 @@
 // my-theme.ts
-import { DefaultTheme } from 'styled-components';
+import { DefaultTheme } from "styled-components";
 
 const calcRem = (size: number) => `${size / 16}rem`;
 
@@ -59,14 +59,14 @@ const device = {
 
 const border = {
   main: `4px double ${colors.dark_gray}`,
-  bottom: `2px solid ${colors.dark_gray}`
-}
+  bottom: `2px solid ${colors.dark_gray}`,
+};
 
 const boxShadow = {
   main: `4px 4px 10px rgba(0, 0, 0, 0.1), -2px -2px 4px rgba(0, 0, 0, 0.05)`,
   top: `-2px -2px 4px 0px #0000000D`,
   bottom: `4px 4px 10px 0px #0000001A`,
-}
+};
 
 const theme: DefaultTheme = {
   colors,
@@ -77,7 +77,7 @@ const theme: DefaultTheme = {
   device,
   deviceSizes,
   border,
-  boxShadow
+  boxShadow,
 };
 
 export type ThemeColors = typeof colors;

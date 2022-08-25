@@ -4,115 +4,85 @@ import { RowBox } from "./FlexBox";
 
 import Text from "./Text";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { faGear, faBox, faMessage, faReply } from "@fortawesome/free-solid-svg-icons";
+import {
+  faGear,
+  faBox,
+  faMessage,
+  faReply,
+} from "@fortawesome/free-solid-svg-icons";
 import { IconBox } from "./IconBox";
 import { useNavigate } from "react-router";
 
 interface IHeader {
-  page: string
+  page: string;
   onClickGear?: () => void;
   onClickOtherBtn?: () => void;
 }
 
-const Header = ( { page, onClickGear, onClickOtherBtn }: IHeader ) => {
-  
+const Header = ({ page, onClickGear, onClickOtherBtn }: IHeader) => {
   const navigate = useNavigate();
 
   const onClickGaerBtn = () => {
-    navigate('/setting')
-  }
-
+    navigate("/setting");
+  };
 
   const setIcons = (page: string) => {
     switch (page) {
-      case "talk" :
+      case "talk":
         return (
           <>
-            <IconBox
-              height={2}
-              width={2}
-              onClick={onClickGaerBtn}
-            >
+            <IconBox height={2} width={2} onClick={onClickGaerBtn}>
               <Icon icon={faGear} size="lg" color="#679BFF" />
             </IconBox>
-            <IconBox
-              height={2}
-              width={2}
-              onClick={onClickOtherBtn}
-            >
-              <Icon icon={faBox } size="lg" color="#679BFF" />
+            <IconBox height={2} width={2} onClick={onClickOtherBtn}>
+              <Icon icon={faBox} size="lg" color="#679BFF" />
             </IconBox>
           </>
-        ) 
-      case "grid" :
+        );
+      case "grid":
         return (
           <>
-            <IconBox
-              height={2}
-              width={2}
-              onClick={onClickGaerBtn}
-            >
+            <IconBox height={2} width={2} onClick={onClickGaerBtn}>
               <Icon icon={faGear} size="lg" color="#679BFF" />
             </IconBox>
-            <IconBox
-              height={2}
-              width={2}
-              onClick={onClickOtherBtn}
-            >
+            <IconBox height={2} width={2} onClick={onClickOtherBtn}>
               <Icon icon={faMessage} size="lg" color="#679BFF" />
             </IconBox>
           </>
-        ) 
+        );
       case "memo":
         return (
           <>
-            <IconBox
-              height={2}
-              width={2}
-              onClick={onClickGaerBtn}
-            >
+            <IconBox height={2} width={2} onClick={onClickGaerBtn}>
               <Icon icon={faGear} size="lg" color="#679BFF" />
             </IconBox>
-            <IconBox
-              height={2}
-              width={2}
-              onClick={onClickOtherBtn}
-            >
-             <Icon icon={faReply} size="lg" color="#679BFF" />
+            <IconBox height={2} width={2} onClick={onClickOtherBtn}>
+              <Icon icon={faReply} size="lg" color="#679BFF" />
             </IconBox>
           </>
-        ) 
+        );
       case "setting":
         return (
           <>
-            <IconBox
-              height={2}
-              width={2}
-              onClick={onClickOtherBtn}
-            >
-             <Icon icon={faReply} size="lg" color="#679BFF" />
+            <IconBox height={2} width={2} onClick={onClickOtherBtn}>
+              <Icon icon={faReply} size="lg" color="#679BFF" />
             </IconBox>
           </>
-        ) 
+        );
     }
-  }
+  };
 
-  return(
+  return (
     <HeaderEle>
-      <Text bold fontSize='2x' color='white'>
+      <Text bold fontSize="2x" color="white">
         MEMO'NT
       </Text>
-      <RowBox 
-        width={5} 
-        padding="0" 
-        gap={.75} 
-        justifyEnd
-      >
+      <RowBox width={5} padding="0" gap={0.75} justifyEnd>
         {setIcons(page)}
       </RowBox>
     </HeaderEle>
-  )
-}
+  );
+};
 
 export default memo(Header);
 
@@ -123,9 +93,9 @@ const HeaderEle = styled.div`
 
   padding: 1rem;
   margin: 0 auto;
-  max-width: 30rem; 
+  max-width: 30rem;
   width: 100%;
   height: 3.5rem;
 
-  background: ${({theme}) => theme.colors.primary_blue};
-`
+  background: ${({ theme }) => theme.colors.primary_blue};
+`;
