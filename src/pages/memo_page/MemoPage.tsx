@@ -21,7 +21,6 @@ import MemoMenuContainer from "./memo_menu/MemoMenuContainer";
 import MemoDeletePopupContainer from "./memo_popup/MemoDeletePopupContainer";
 import MemoAddContainer from "./memo_add/MemoAddContainer";
 
-
 export interface MemoProps {
   fbMemo: FbMemo;
   fbTag: FbTag;
@@ -37,19 +36,12 @@ interface IMemoPage {
   userInfo: IUserInfo | null;
 }
 
-const MemoPage = ( { 
-  fbMemo, 
-  fbAuth, 
-  fbTag, 
-  tags, 
-  userInfo
- }: IMemoPage ) => {
-
+const MemoPage = ({ fbMemo, fbAuth, fbTag, tags, userInfo }: IMemoPage) => {
   const navigate = useNavigate();
   const { tagId } = useParams();
   const { loading } = useStore();
 
-  const [tag, setTag] = useState<ITag>(tags.filter(tag => tag.id === tagId )[0]);
+  const [tag, setTag] = useState<ITag>(tags.filter(tag => tag.id === tagId)[0]);
   const [memoList, setMemoList] = useState<IMemo[]>([]);
 
   const [inputMemo, setInputMemo] = useState("");
@@ -61,85 +53,78 @@ const MemoPage = ( {
   const [isOpenInputMemo, setIsOpenInputMemo] = useState(false);
 
   useLayoutEffect(() => {
-    if(!tag) return
-    getUsedMemo(tag)
-  }, [])
+    if (!tag) return;
+    getUsedMemo(tag);
+  }, []);
 
   useEffect(() => {
-    setTag(tags.filter(tag => tag.id === tagId )[0])
-  }, [tags])
-  
+    setTag(tags.filter(tag => tag.id === tagId)[0]);
+  }, [tags]);
+
   // 현재 태그에서 사용 할 메모 가져오기
   const getUsedMemo = async (tag: ITag) => {
     const promiseResult = await fbMemo.getMemoWithTag(tag);
     const result = await Promise.all(promiseResult);
-    setMemoList(result)
-  }
+    setMemoList(result);
+  };
 
   // 뒤로가기 버튼 (Header)
   const onClickOtherBtn = () => {
-    navigate(-1)
-  }
+    navigate(-1);
+  };
 
-
-  
-  return(
-      <>
-      <Header 
-        page="memo"
-        onClickOtherBtn={onClickOtherBtn}
-      />
+  return (
+    <>
+      <Header page="memo" onClickOtherBtn={onClickOtherBtn} />
       <OuterBox>
         <MemoBox className="test">
-          {tag &&
-          <>
-            <MemoNameContainer
-              fbTag={fbTag}
-              fbMemo={fbMemo} 
-              tags={tags}
-              tag={tag}
-              editMemo={editMemo}
-              memoList={memoList}
-              isOpenMenu={isOpenMenu}
-              isOpenEditTag={isOpenEditTag}
-              isOpenInputMemo={isOpenInputMemo}
-              setIsOpenMenu={setIsOpenMenu}
-              setIsOpenEditTag={setIsOpenEditTag}
-            />
-            <MemoContentContainer 
-              fbAuth={fbAuth}
-              fbTag={fbTag}
-              fbMemo={fbMemo}
-              tag={tag}
-              userInfo={userInfo}
-              memoList={memoList}
-              setMemoList={setMemoList}
-              isOpenMenu={isOpenMenu}
-              isOpenEditTag={isOpenEditTag}
-              isOpenInputMemo={isOpenInputMemo}
-
-              editMemo={editMemo}
-              setEditMemo={setEditMemo}
-
-              inputMemo={inputMemo}
-              setInputMemo={setInputMemo}
-            />
-            <MemoAddContainer 
-              fbTag={fbTag}
-              fbMemo={fbMemo}
-              tag={tag}
-              memoList={memoList}
-              setMemoList={setMemoList}
-              isOpenMenu={isOpenMenu}
-              isOpenEditTag={isOpenEditTag}
-              isOpenInputMemo={isOpenInputMemo}
-              setIsOpenInputMemo={setIsOpenInputMemo}
-            />
-          </>
-          }
+          {tag && (
+            <>
+              <MemoNameContainer
+                fbTag={fbTag}
+                fbMemo={fbMemo}
+                tags={tags}
+                tag={tag}
+                editMemo={editMemo}
+                memoList={memoList}
+                isOpenMenu={isOpenMenu}
+                isOpenEditTag={isOpenEditTag}
+                isOpenInputMemo={isOpenInputMemo}
+                setIsOpenMenu={setIsOpenMenu}
+                setIsOpenEditTag={setIsOpenEditTag}
+              />
+              <MemoContentContainer
+                fbAuth={fbAuth}
+                fbTag={fbTag}
+                fbMemo={fbMemo}
+                tag={tag}
+                userInfo={userInfo}
+                memoList={memoList}
+                setMemoList={setMemoList}
+                isOpenMenu={isOpenMenu}
+                isOpenEditTag={isOpenEditTag}
+                isOpenInputMemo={isOpenInputMemo}
+                editMemo={editMemo}
+                setEditMemo={setEditMemo}
+                inputMemo={inputMemo}
+                setInputMemo={setInputMemo}
+              />
+              <MemoAddContainer
+                fbTag={fbTag}
+                fbMemo={fbMemo}
+                tag={tag}
+                memoList={memoList}
+                setMemoList={setMemoList}
+                isOpenMenu={isOpenMenu}
+                isOpenEditTag={isOpenEditTag}
+                isOpenInputMemo={isOpenInputMemo}
+                setIsOpenInputMemo={setIsOpenInputMemo}
+              />
+            </>
+          )}
         </MemoBox>
       </OuterBox>
-      {tag &&
+      {tag && (
         <MemoMenuContainer
           fbTag={fbTag}
           fbMemo={fbMemo}
@@ -153,49 +138,46 @@ const MemoPage = ( {
           setIsOpenMenu={setIsOpenMenu}
           setIsOpenDeleteMemo={setIsOpenDeleteMemo}
           setIsOpenEditTag={setIsOpenEditTag}
-
           inputMemo={inputMemo}
         />
-      }
-        <MemoDeletePopupContainer
-          fbAuth={fbAuth} 
-          fbTag={fbTag}
-          fbMemo={fbMemo}
-          userInfo={userInfo}
-          tag={tag}
-          isOpenDeleteMemo={isOpenDeleteMemo}
-          setIsOpenDeleteMemo={setIsOpenDeleteMemo}
-        />
+      )}
+      <MemoDeletePopupContainer
+        fbAuth={fbAuth}
+        fbTag={fbTag}
+        fbMemo={fbMemo}
+        userInfo={userInfo}
+        tag={tag}
+        isOpenDeleteMemo={isOpenDeleteMemo}
+        setIsOpenDeleteMemo={setIsOpenDeleteMemo}
+      />
 
-      { loading.isLoading &&
-        <Loading />
-      }
-      </>
-  )
-}
+      {loading.isLoading && <Loading />}
+    </>
+  );
+};
 
 export default MemoPage;
 
 const MemoBox = styled(ColBox)`
-  background: ${({theme}) => theme.colors.white};
-  gap: .375rem;
-  
+  background: ${({ theme }) => theme.colors.white};
+  gap: 0.375rem;
+
   height: 100%;
-  padding: .5rem;
+  padding: 0.5rem;
   overflow-y: scroll;
-  border-radius: .5rem;
-  box-shadow: ${({theme}) => theme.boxShadow.main };
+  border-radius: 0.5rem;
+  box-shadow: ${({ theme }) => theme.boxShadow.main};
 
   &::-webkit-scrollbar {
     width: 0;
   }
-`
+`;
 
 const OuterBox = styled.div`
-  padding: .5rem;
+  padding: 0.5rem;
   overflow-y: scroll;
   height: 100%;
   &::-webkit-scrollbar {
     width: 0;
   }
-`
+`;

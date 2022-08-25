@@ -65,15 +65,9 @@ const GridText = styled(Text)`
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
   line-height: 1.375rem;
 
-<<<<<<< HEAD
-  max-width: 22vh; //  예기치못한 에러로 임시 지정값
-  ${setTextLine};
-`
-=======
   max-width: 21.5vh;
   ${setTextLine}
 `;
->>>>>>> 7fc89ad50635e0d74a9f2664ca0b0edb0d1104e8
 
 const TalkTagExpand = styled(Text)`
   padding: 0 0.5rem;

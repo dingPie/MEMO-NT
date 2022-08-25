@@ -25,6 +25,7 @@ const GridPage = ({ fbMemo, fbTag, tags }: IGridPage) => {
   const onClickTag = (tag: ITag) => {
     navigate(`/memo/${tag.id}`, { state: tag });
   };
+
   const onClickOtherBtn = () => {
     navigate(`/talk`);
   };

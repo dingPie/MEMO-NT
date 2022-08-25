@@ -7,16 +7,17 @@ interface ITalkContent {
   lineHieght?: number;
 }
 export const TalkContent = styled(RowBox)<ITalkContent>`
-  padding: .25rem .5rem;
+  padding: 0.25rem 0.5rem;
   background: white;
-  border-radius: .25rem;
-  line-height: ${({lineHieght}) => lineHieght ? lineHieght + "rem" : "1.125rem" };
+  border-radius: 0.25rem;
+  line-height: ${({ lineHieght }) =>
+    lineHieght ? lineHieght + "rem" : "1.125rem"};
   ${setTextLine};
-`
+`;
 
 export const MenuBox = styled(RowBox)`
   align-items: center;
-  padding: .25rem;
+  padding: 0.25rem;
   background: white;
   // transition 적용 여부때문에 일단 보류
-`
+`;
