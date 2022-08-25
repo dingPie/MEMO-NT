@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const MobileBox = styled.div`
   display: flex;
@@ -8,5 +8,5 @@ export const MobileBox = styled.div`
   min-width: 20rem;
   max-width: 30rem;
   margin: 0 auto;
-  background: ${({theme}) => theme.colors.light_gray};
-`
+  background: ${({ theme }) => theme.colors.light_gray};
+`;

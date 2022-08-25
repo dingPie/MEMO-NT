@@ -1,6 +1,6 @@
 import React, { forwardRef, memo } from "react";
 import useStore from "../../../store/useStore";
-import Linkify from "react-linkify";
+// import Linkify from "react-linkify";
 
 import Text from "../../../components/Text";
 import { IconBox } from "../../../components/IconBox";
@@ -15,6 +15,9 @@ import { setTalkTag } from "../utils/talk_service";
 
 import { TalkListBox } from "./TalkListContainer";
 
+import * as linkify from "linkifyjs";
+import Linkify from "linkify-react";
+
 interface ITalkListaDefault {
   tag: ITag;
   memo: IMemo;
@@ -24,7 +27,27 @@ interface ITalkListaDefault {
 const TalkListaDefault = ({ tag, memo, onClickMenuBtn }: ITalkListaDefault) => {
   const { palette } = useStore();
   const time = new Time();
+  const link = linkify.find(memo.content);
 
+  // const test = async () => {
+  //   // const res = await fetch(link[0].value, { method: "GET", mode: "no-cors" });
+  //   // const tt = res.body.querySelector('meta[name="description"]').content;
+  //   axios.defaults.withCredentials = true;
+  //   const result = await axios.get(link[0].value, {
+  //     headers: {
+  //       "Access-Control-Allow-Origin": `*`,
+  //       "Access-Control-Allow-Credentials": "true",
+  //     },
+  //   });
+  //   console.log(
+  //     result.data
+  //       .split("<meta ")
+  //       .filter((data: string) => data.includes("og:title"))
+  //   );
+  // };
+  // console.log(link.length && test());
+
+  const options = { defaultProtocol: "https" };
   return (
     <TalkListBox>
       <IconBox
@@ -36,7 +59,13 @@ const TalkListaDefault = ({ tag, memo, onClickMenuBtn }: ITalkListaDefault) => {
         {setTalkTag(tag)}
       </IconBox>
       <TalkContent shadow lineClamp={6}>
-        <Linkify>{memo.content}</Linkify>
+        {link.length ? (
+          <>
+            <Linkify options={options}>{memo.content}</Linkify>
+          </>
+        ) : (
+          memo.content
+        )}
       </TalkContent>
 
       <Text bold center padding="0" fontSize="xs">
