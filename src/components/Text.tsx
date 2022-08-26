@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import styled, { css } from "styled-components";
 import { fontSizeSet } from "../styles/stylesCss";
-import Linkify from 'react-linkify';
+import Linkify from "react-linkify";
 
 interface IText {
   fontSize?: string;
@@ -25,16 +25,15 @@ interface ITextComponent extends IText {
   onLinkify?: boolean;
 }
 
-
-const TextComponent = ( {
+const TextComponent = ({
   fontSize,
   bold,
   width,
   height,
   padding,
-  color, 
-  bgColor, 
-  radius, 
+  color,
+  bgColor,
+  radius,
   shadow,
   inline,
   cursor,
@@ -43,65 +42,62 @@ const TextComponent = ( {
 
   children,
   onClick,
-  onLinkify
-}: ITextComponent ) => {
-
-  
-  return(
+  onLinkify,
+}: ITextComponent) => {
+  return (
     <Text
       fontSize={fontSize}
       bold={bold}
       width={width}
       height={height}
       padding={padding}
-      color={color} 
-      bgColor={bgColor} 
-      radius={radius} 
+      color={color}
+      bgColor={bgColor}
+      radius={radius}
       shadow={shadow}
       inline={inline}
       cursor={cursor}
       center={center}
       margin={margin}
-
       onClick={onClick}
     >
       {children}
     </Text>
-  )
-
-}
-
-
+  );
+};
 
 const Text = styled.div<IText>`
   // 크기
-  width: ${({width}) => width && width+"rem" };
-  height: ${({height}) => height && height+"rem" };
-  line-height: ${({height}) => height && height+"rem" };
-  padding: ${({padding}) => padding ? padding : ".5rem"};
-  margin: ${({margin}) => margin && margin };
+  width: ${({ width }) => width && width + "rem"};
+  height: ${({ height }) => height && height + "rem"};
+  line-height: ${({ height }) => height && height + "rem"};
+  padding: ${({ padding }) => (padding ? padding : ".5rem")};
+  margin: ${({ margin }) => margin && margin};
 
   // 폰트
-  font-weight: ${({bold}) => bold && "bold"};
-  text-align: ${({center}) => center && "center" };
+  font-weight: ${({ bold }) => bold && "bold"};
+  text-align: ${({ center }) => center && "center"};
   ${fontSizeSet};
 
   // 배경, 색상
-  color: ${({color}) => color && color };
-  background: ${({bgColor}) => bgColor && bgColor };
-  border-radius: ${({radius}) => radius ? radius+"rem" : `.25rem` };
+  color: ${({ color }) => color && color};
+  background: ${({ bgColor }) => bgColor && bgColor};
+  border-radius: ${({ radius }) => (radius ? radius + "rem" : `.25rem`)};
 
-  ${({inline}) => {
-    return inline && 'display: inline-block'
+  ${({ inline }) => {
+    return inline && "display: inline-block";
   }};
 
-  ${({shadow}) => {
-      return shadow && 'box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1), -2px -2px 4px rgba(0, 0, 0, 0.05)'
+  ${({ shadow }) => {
+    return (
+      shadow &&
+      "box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1), -2px -2px 4px rgba(0, 0, 0, 0.05)"
+    );
   }};
 
-  ${({cursor}) => {
-    return cursor ? `cursor: pointer` : `cursor: auto`
+  ${({ cursor }) => {
+    return cursor ? `cursor: pointer` : `cursor: auto`;
   }}
-`
+`;
 
 export default Text;

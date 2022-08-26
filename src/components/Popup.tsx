@@ -3,8 +3,7 @@ import styled, { css } from "styled-components";
 import { center } from "../styles/stylesCss";
 import { MainBtn } from "./Buttons";
 import { RowBox } from "./FlexBox";
-import Text from './Text'
-
+import Text from "./Text";
 
 interface IPopup {
   children: ReactNode;
@@ -19,64 +18,59 @@ interface IPopup {
   noBackground?: boolean;
 }
 
-const Popup = ( { children, title, onClickCancel, onClickDo, cancelBtnName, doBtnName, gap, zIndex, noBackground }: IPopup) => {
-
+const Popup = ({
+  children,
+  title,
+  onClickCancel,
+  onClickDo,
+  cancelBtnName,
+  doBtnName,
+  gap,
+  zIndex,
+  noBackground,
+}: IPopup) => {
   return (
     <>
-      { noBackground ?
-          <Inner
-            gap={gap}
-            zIndex={zIndex}
-            noBackground={noBackground}
-          >
-          <Text bold center fontSize='xl' padding="0" >
+      {noBackground ? (
+        <Inner gap={gap} zIndex={zIndex} noBackground={noBackground}>
+          <Text bold center fontSize="xl" padding="0">
             {title}
           </Text>
-            {children}
-            <RowBox justifyCenter padding="0" >
-              <MainBtn
-                onClick={onClickCancel}
-              > 
-                { cancelBtnName ? cancelBtnName : "취소" }
-              </MainBtn>
-              <MainBtn primary
-                onClick={onClickDo}
-              > 
-                { doBtnName ? doBtnName : "확인" }
-              </MainBtn>
-            </RowBox>
-          </Inner>
-      :
+          {children}
+          <RowBox justifyCenter padding="0">
+            <MainBtn onClick={onClickCancel}>
+              {cancelBtnName ? cancelBtnName : "취소"}
+            </MainBtn>
+            <MainBtn primary onClick={onClickDo}>
+              {doBtnName ? doBtnName : "확인"}
+            </MainBtn>
+          </RowBox>
+        </Inner>
+      ) : (
         <Outer>
-          <Inner
-            gap={gap}
-            zIndex={zIndex}
-            noBackground={noBackground}
-          >
-
-          <Text bold center fontSize='xl' padding="0" >
-            {title}
-          </Text>
+          <Inner gap={gap} zIndex={zIndex} noBackground={noBackground}>
+            <Text bold center fontSize="xl" padding="0">
+              {title}
+            </Text>
             {children}
-            <RowBox justifyCenter padding="0" >
-              <MainBtn
-                onClick={onClickCancel}
-              > { cancelBtnName ? cancelBtnName : "취소" }
+            <RowBox justifyCenter padding="0">
+              <MainBtn onClick={onClickCancel}>
+                {" "}
+                {cancelBtnName ? cancelBtnName : "취소"}
               </MainBtn>
-              <MainBtn primary
-                onClick={onClickDo}
-              > { doBtnName ? doBtnName : "확인" }
+              <MainBtn primary onClick={onClickDo}>
+                {" "}
+                {doBtnName ? doBtnName : "확인"}
               </MainBtn>
             </RowBox>
           </Inner>
         </Outer>
-      }
+      )}
     </>
+  );
+};
 
-  )
-}
-
-export default memo(Popup)
+export default memo(Popup);
 
 interface IInner {
   gap?: number;
@@ -90,7 +84,7 @@ export const Inner = styled.div<IInner>`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  gap: ${({gap}) => gap ? gap+"rem" : ".5rem"};
+  gap: ${({ gap }) => (gap ? gap + "rem" : ".5rem")};
 
   ${center}; // 중앙정렬
 
@@ -98,12 +92,13 @@ export const Inner = styled.div<IInner>`
   width: 17.5rem;
   min-height: 10rem;
   padding: 1rem;
-  box-shadow: ${({theme, noBackground}) => !noBackground ? theme.boxShadow.main : "none" };
-  
-  z-index:${({zIndex}) => zIndex ? zIndex : 3 };
+  box-shadow: ${({ theme, noBackground }) =>
+    !noBackground ? theme.boxShadow.main : "none"};
+
+  z-index: ${({ zIndex }) => (zIndex ? zIndex : 3)};
   background: white;
-  border-radius: .25rem;
-`
+  border-radius: 0.25rem;
+`;
 
 const Outer = styled.div`
   position: fixed;
@@ -111,5 +106,5 @@ const Outer = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, .25);
-`
+  background: rgba(0, 0, 0, 0.25);
+`;

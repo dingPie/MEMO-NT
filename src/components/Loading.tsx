@@ -1,36 +1,33 @@
 import React, { ReactNode, memo } from "react";
 import styled, { css } from "styled-components";
 import { center } from "../styles/stylesCss";
-import Text from './Text'
+import Text from "./Text";
 
-import ReactLoading from 'react-loading'
+import ReactLoading from "react-loading";
 
 interface ILoading {
   title?: string;
 }
 
-
-const Loading = ( {title }: ILoading ) => {
-
+const Loading = ({ title }: ILoading) => {
   return (
-      <Outer>
-        <Inner
-        >
-          <Text bold center fontSize='xl' padding="0" color="#679BFF" >
-            Loading... {title}
-          </Text>
-            <ReactLoading
-              type={"cylon"} 
-              color={"#679BFF"} 
-              height={'40%'} 
-              width={'40%'}
-            />
-        </Inner>
-      </Outer>
-  )
-}
+    <Outer>
+      <Inner>
+        <Text bold center fontSize="xl" padding="0" color="#679BFF">
+          Loading... {title}
+        </Text>
+        <ReactLoading
+          type={"cylon"}
+          color={"#679BFF"}
+          height={"40%"}
+          width={"40%"}
+        />
+      </Inner>
+    </Outer>
+  );
+};
 
-export default memo(Loading)
+export default memo(Loading);
 
 interface IInner {
   gap?: number;
@@ -42,7 +39,7 @@ export const Inner = styled.div<IInner>`
   flex-direction: column;
   align-items: center;
   /* justify-content: space-between; */
-  gap: ${({gap}) => gap ? gap+"rem" : ".5rem"};
+  gap: ${({ gap }) => (gap ? gap + "rem" : ".5rem")};
 
   ${center}; // 중앙정렬
 
@@ -50,12 +47,12 @@ export const Inner = styled.div<IInner>`
   width: 12rem;
   min-height: 6rem;
   padding: 1rem;
-  box-shadow: ${({theme}) => theme.boxShadow.main};
-  
+  box-shadow: ${({ theme }) => theme.boxShadow.main};
+
   z-index: 20;
-  background: ${({theme}) => theme.colors.white};
-  border-radius: .25rem;
-`
+  background: ${({ theme }) => theme.colors.white};
+  border-radius: 0.25rem;
+`;
 
 const Outer = styled.div`
   position: fixed;
@@ -63,4 +60,4 @@ const Outer = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-`
+`;

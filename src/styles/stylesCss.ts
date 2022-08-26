@@ -1,5 +1,5 @@
 import { css, keyframes } from "styled-components";
-import { darken, lighten } from 'polished';
+import { darken, lighten } from "polished";
 
 export interface IFlexLayout {
   justifyCenter?: boolean;
@@ -13,28 +13,33 @@ export interface IFlexLayout {
  * flex 레이아웃 설정을 위한 props 모음
  */
 export const setFlexLayout = css<IFlexLayout>`
-${({ justifyCenter, justifyEnd, justifyBetween, alignEnd, alignCenter, alignBetween }) => {
-  let justify = "flex-start";
-  if (justifyEnd) justify = "flex-end";
-  else if (justifyCenter) justify = "center";
-  else if (justifyBetween) justify ="space-between";
+  ${({
+    justifyCenter,
+    justifyEnd,
+    justifyBetween,
+    alignEnd,
+    alignCenter,
+    alignBetween,
+  }) => {
+    let justify = "flex-start";
+    if (justifyEnd) justify = "flex-end";
+    else if (justifyCenter) justify = "center";
+    else if (justifyBetween) justify = "space-between";
 
-  let align = "flex-start";
-  if (alignEnd) align = "flex-end";
-  else if (alignCenter) align = "center";
-  else if (alignBetween) align ="space-between";
-  
-  return css`
-    justify-content: ${ justify };
-    align-items: ${ align }
-  `;
-}}
-`
+    let align = "flex-start";
+    if (alignEnd) align = "flex-end";
+    else if (alignCenter) align = "center";
+    else if (alignBetween) align = "space-between";
 
+    return css`
+      justify-content: ${justify};
+      align-items: ${align};
+    `;
+  }}
+`;
 
-export const polishedColor = css<{bgColor: string}>`
+export const polishedColor = css<{ bgColor: string }>`
   ${({ bgColor }) => {
-
     return css`
       background: ${bgColor};
 
@@ -46,30 +51,30 @@ export const polishedColor = css<{bgColor: string}>`
       }
     `;
   }}
-`
+`;
 
-export const fontSizeSet = css<{fontSize?: string}>`
+export const fontSizeSet = css<{ fontSize?: string }>`
   ${({ fontSize }) => {
     let result = "";
     if (fontSize === "3x") result = "2rem";
-    else if (fontSize === 'title') result = "3rem";
-    else if (fontSize === '2x') result = "1.5rem";
-    else if (fontSize === 'xl') result = "1.25rem";
-    else if (fontSize === 'l') result = "1rem";
-    else if (fontSize === 's') result = ".75rem";
-    else if (fontSize === 'xs') result = ".625rem";
-    else if (fontSize === 'm' || !fontSize) result = ".875rem";
+    else if (fontSize === "title") result = "3rem";
+    else if (fontSize === "2x") result = "1.5rem";
+    else if (fontSize === "xl") result = "1.25rem";
+    else if (fontSize === "l") result = "1rem";
+    else if (fontSize === "s") result = ".75rem";
+    else if (fontSize === "xs") result = ".625rem";
+    else if (fontSize === "m" || !fontSize) result = ".875rem";
 
     return css`
       font-size: ${result};
-    `
+    `;
   }}
-`
+`;
 export interface IJustfiy {
   center?: boolean;
   right?: boolean;
   between?: boolean;
-  align?: string
+  align?: string;
 }
 
 export const setJustify = css<IJustfiy>`
@@ -77,40 +82,39 @@ export const setJustify = css<IJustfiy>`
     let justify = "flex-start";
     if (right) justify = "flex-end";
     else if (center) justify = "center";
-    else if (between) justify ="space-between"
+    else if (between) justify = "space-between";
 
     return css`
-      justify-content: ${ justify };
-      align-items: ${ align && align }
+      justify-content: ${justify};
+      align-items: ${align && align};
     `;
   }}
-`
+`;
 
 export const overFlowHidden = css`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-`
+`;
 
 export const center = css`
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
-`
+  transform: translate(-50%, -50%);
+`;
 
-export const setTextLine = css<{whiteSpace?: string, lineClamp?: number}>`
+export const setTextLine = css<{ whiteSpace?: string; lineClamp?: number }>`
   display: -webkit-box;
   overflow: hidden;
-  -webkit-line-clamp: ${({lineClamp}) => lineClamp ? lineClamp : 1  };;
+  -webkit-line-clamp: ${({ lineClamp }) => (lineClamp ? lineClamp : 1)};
   -webkit-box-orient: vertical;
 
   ${overFlowHidden};
 
   text-overflow: ellipsis;
-  white-space: ${({whiteSpace}) => whiteSpace ? whiteSpace : 'pre-wrap'  };
-`
-
+  white-space: ${({ whiteSpace }) => (whiteSpace ? whiteSpace : "pre-wrap")};
+`;
 
 /* 
   키프레임 
@@ -166,8 +170,7 @@ export const shrinkY = keyframes`
   }
 `;
 
-
-  export const stretchX = keyframes`
+export const stretchX = keyframes`
     from {
       transform-origin: 0 100%;
       transform: scaleX(.2);
@@ -177,8 +180,8 @@ export const shrinkY = keyframes`
       transform: scaleX(1);
     }
   `;
-  
-  export const shrinkX = keyframes`
+
+export const shrinkX = keyframes`
   from {
     transform-origin: 0 100%;
     transform: scaleX(1);
