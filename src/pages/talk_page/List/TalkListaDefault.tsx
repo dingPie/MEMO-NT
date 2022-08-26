@@ -17,6 +17,7 @@ import { TalkListBox } from "./TalkListContainer";
 
 import * as linkify from "linkifyjs";
 import Linkify from "linkify-react";
+import axios from "axios";
 interface ITalkListaDefault {
   tag: ITag;
   memo: IMemo;
@@ -29,28 +30,20 @@ const TalkListaDefault = ({ tag, memo, onClickMenuBtn }: ITalkListaDefault) => {
   const link = linkify.find(memo.content);
   const options = { defaultProtocol: "https" };
 
-  const options = { defaultProtocol: "https" };
-  const link = link;
   const test = async () => {
-    // const res = await fetch(link[0].value, { method: "GET", mode: "no-cors" });
-    // const tt = res.body.querySelector('meta[name="description"]').content;
-    axios.defaults.withCredentials = true;
-    const result = await axios.get(link[0].value, {
-      headers: {
-        "Access-Control-Allow-Origin": `*`,
-        "Access-Control-Allow-Credentials": "true",
-      },
+    const result = await axios.get(link[0].href, {
+      // headers: {
+      //   "Access-Control-Allow-Origin": `*`,
+      //   "Access-Control-Allow-Credentials": "true",
+      // },
     });
-    console.log(
-      result.data
-        .split("<meta ")
-        .filter((data: string) => data.includes("og:title"))
-    );
   };
   console.log(link.length && test());
 
-  //커밋 테스트
-  console.log("커밋테스트");
+  // 결론적으로 문제를 해결하려면 server에서 포워딩 해 주는 수밖에 없다는건가.
+  // 그럼 해결이 가능해도, 굳이 좋은 해결방법은 아닌 것 같다.
+  // 링크 축약의 방법이나 내 메타정보 및 og 데이터 넣는거나 생각하자...
+  // 시발...
 
   return (
     <TalkListBox>

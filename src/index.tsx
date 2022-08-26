@@ -22,19 +22,11 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-<<<<<<< HEAD
-=======
-  // <React.StrictMode>
->>>>>>> bb86c14a1e25c19c72f391552f663266af151bb8
   <BrowserRouter>
     <ThemeProvider theme={theme}>
       <App fbAuth={fbAuth} fbTag={fbTag} fbMemo={fbMemo} />
     </ThemeProvider>
   </BrowserRouter>
-<<<<<<< HEAD
-=======
-  // </React.StrictMode>
->>>>>>> bb86c14a1e25c19c72f391552f663266af151bb8
 );
 
 // If you want your app to work offline and load faster, you can change
