@@ -1,6 +1,5 @@
 import React, { forwardRef, memo } from "react";
 import useStore from "../../../store/useStore";
-// import Linkify from "react-linkify";
 
 import Text from "../../../components/Text";
 import { IconBox } from "../../../components/IconBox";
@@ -30,15 +29,15 @@ const TalkListaDefault = ({ tag, memo, onClickMenuBtn }: ITalkListaDefault) => {
   const link = linkify.find(memo.content);
   const options = { defaultProtocol: "https" };
 
-  const test = async () => {
-    const result = await axios.get(link[0].href, {
-      // headers: {
-      //   "Access-Control-Allow-Origin": `*`,
-      //   "Access-Control-Allow-Credentials": "true",
-      // },
-    });
-  };
-  console.log(link.length && test());
+//   const test = async () => {
+//     const result = await axios.get(link[0].href, {
+//       // headers: {
+//       //   "Access-Control-Allow-Origin": `*`,
+//       //   "Access-Control-Allow-Credentials": "true",
+//       // },
+// ``    });
+//   };
+//   console.log(link.length && test());
 
   // 결론적으로 문제를 해결하려면 server에서 포워딩 해 주는 수밖에 없다는건가.
   // 그럼 해결이 가능해도, 굳이 좋은 해결방법은 아닌 것 같다.
