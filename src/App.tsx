@@ -19,7 +19,6 @@ import { FbTag } from "./firebase/firestore_tag_service";
 import { ITag, IUserInfo } from "./utils/interface/interface";
 import { MobileBox } from "./components/MobileBox";
 import IndexPage from "./pages/index_page/IndexPage";
-import Loading from "./components/Loading";
 
 export interface IApp {
   fbAuth: FbAuth;
