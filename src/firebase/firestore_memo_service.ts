@@ -35,7 +35,7 @@ export class FbMemo {
     this.fireStoreDB = fireStoreDB;
     this.doc = "default";
     this.lastMemo = null;
-    this.loadSize = 50;
+    this.loadSize = 30;
   }
 
   initLastMemo() {
@@ -111,7 +111,7 @@ export class FbMemo {
     try {
       const querySnapshot = await getDocs(q);
       const result = querySnapshot.docs.map(doc => doc.data() as IMemo);
-
+      console.log("불러올 메모 확인", result)
       if (result === []) this.lastMemo = undefined;
       // 결과지정. 더 불러올 메모가 없으면 undefined로 변경
       else this.lastMemo = querySnapshot.docs[querySnapshot.docs.length - 1];
