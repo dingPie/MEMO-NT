@@ -68,7 +68,6 @@ const TalkPage = ({ fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage) => {
   // 메모 init
   useEffect(() => {
     if (!viewMemo.length && tags.length >= 2) {
-      // 오류를 막기 위한 조건문
       fbMemo.initLastMemo(); // 불러왔던 마지막 메모 초기화
       doGetMemo(viewMemo, setViewMemo);
     }
@@ -115,6 +114,7 @@ const TalkPage = ({ fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage) => {
       }
     });
   };
+
   // 무한스크롤 useEffect
   useEffect(() => {
     if (!topRef.current || !talkBoxRef.current) return;

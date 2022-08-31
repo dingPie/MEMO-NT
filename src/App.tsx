@@ -52,14 +52,12 @@ const App = ({ fbAuth, fbTag, fbMemo }: IApp) => {
 
   // 메모 로그인시 설정 초기화
   const initAppLogin = async (user: User) => {
-    // loading.start();
     const paletteObj = await fbAuth.getPalette(); // 팔레트 설정
     palette.setPalette(paletteObj);
     fbAuth.setUid(user); // uid 의존성 주입
     fbTag.setDoc(user); // uid 의존성 주입
     fbMemo.setDoc(user); // uid 의존성 주입
 
-    // loading.finish();
     fbTag.onCheckTag(setTags); // 태그정보 실시간체크
     fbAuth.onCheckUserInfo(setUserInfo); // UserDB 정보 실시간체크
     navigate("/talk", { replace: true });
