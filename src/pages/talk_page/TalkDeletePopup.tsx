@@ -38,8 +38,7 @@ const TalkDeletePopup = ({
 
   useEffect(() => {
     return () => {
-      loading.finish();
-      console.log("로딩창 삭제 실행됨", loading.isLoading);
+      loading.isLoading && loading.finish();
     };
   }, []);
 
@@ -64,12 +63,10 @@ const TalkDeletePopup = ({
       );
       if (!usedMemoLength) setToBeDeleteTag(selectedMemo!.tagId);
     }
-
+    loading.finish();
     setViewMemo(newViewMemo);
     setSelectedMemo(null);
     setIsOpenDeletePopup(false);
-
-    // 태그 삭제
   };
 
   // 취소버튼 클릭

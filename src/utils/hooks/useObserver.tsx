@@ -12,8 +12,8 @@ export const useObserver = (
   targetEle: RefObject<HTMLElement>,
   callback: (...params: any) => void,
   root: HTMLElement | null = null,
-  rootMargin: string = "0px",
-  threshold: number = 1.0,
+  rootMargin = "0px",
+  threshold = 1.0,
 ) => {
   useEffect(() => {
     let observer: IntersectionObserver;

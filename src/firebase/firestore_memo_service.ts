@@ -35,7 +35,7 @@ export class FbMemo {
     this.fireStoreDB = fireStoreDB;
     this.doc = "default";
     this.lastMemo = null;
-    this.loadSize = 30;
+    this.loadSize = 20;
   }
 
   initLastMemo() {

@@ -4,14 +4,10 @@ import React, {
   useEffect,
   useCallback,
   useMemo,
+  RefObject,
 } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
-
-import { FbAuth } from "../../firebase/firebase_auth_service";
-import { FbTag } from "../../firebase/firestore_tag_service";
-import { FbMemo } from "../../firebase/firestore_memo_service";
-import { User } from "firebase/auth";
 
 import { MobileBox } from "../../components/MobileBox";
 import { ColBox } from "../../components/FlexBox";
@@ -39,7 +35,6 @@ const TalkPage = ({ fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage) => {
 
   const talkBoxRef = useRef<HTMLDivElement>(null);
   const topRef = useRef<HTMLDivElement>(null);
-  const observerRef = useRef<IntersectionObserver>();
   const [prevScrollHeight, setPrevScrollHeight] = useState(0);
   const [prevMemoCount, setPrevMemoCount] = useState(0);
 
@@ -99,39 +94,39 @@ const TalkPage = ({ fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage) => {
   }, [toBeDeleteTag]);
 
   /* 무한스크롤  */
+  let observer: IntersectionObserver;
   const observerOpt = {
     // root: document.querySelector("#scrollArea"), // 겹칠 요소. 설정하지 않으면 브라우저 뷰포트가 기본값.
     rootMargin: "0px",
     threshold: 1.0,
   };
-  // 무한스크롤 실행함수 (메모 불러오기)
+
+  // 겹칠때 실행되는 함수
   const checkIntersect = (entries: any) => {
-    // 객체목록과 관찰자를 파라메터로 받는다.
     entries.forEach(async (entry: any) => {
-      if (entry.isIntersecting) {
-        // isIntersecting 은 t/f로 반환됨. 교차되면 true
-        doGetMemo(viewMemo, setViewMemo); // 실행할 함수
-      }
+      if (!entry.isIntersecting) return;
+      doGetMemo(viewMemo, setViewMemo); // 실행할 함수
     });
+  };
+
+  const maintainScroll = (targtEle: HTMLElement) => {
+    const currScrollHieght = targtEle.scrollHeight;
+    if (viewMemo.length > prevMemoCount + 2) {
+      targtEle.scrollTo(0, currScrollHieght - prevScrollHeight);
+    }
+    setPrevScrollHeight(currScrollHieght);
+    setPrevMemoCount(viewMemo.length);
   };
 
   // 무한스크롤 useEffect
   useEffect(() => {
     if (!topRef.current || !talkBoxRef.current) return;
-    observerRef.current = new IntersectionObserver(checkIntersect, observerOpt); // observe 할 요소를 current로 지정,
-    observerRef.current.observe(topRef.current);
+    observer = new IntersectionObserver(checkIntersect, observerOpt); // observe 할 요소를 current로 지정,
+    maintainScroll(talkBoxRef.current);
 
-    // 무한스크롤시 스크롤 유지를 위한 부분
-    const currScrollHieght = talkBoxRef.current.scrollHeight;
-    if (viewMemo.length > prevMemoCount + 2) {
-      // 메모가 한번에 2개 이상 바뀌는 건 데이터 불러오기밖에 없으므로 제한사항.
-      talkBoxRef.current.scrollTo(0, currScrollHieght - prevScrollHeight);
-    }
-    setPrevScrollHeight(currScrollHieght);
-    setPrevMemoCount(viewMemo.length);
-
+    observer.observe(topRef.current);
     return () => {
-      observerRef.current && observerRef.current.disconnect(); // observerRef.current.unobserve()와 동일
+      observer && observer.disconnect(); // observer.unobserve()와 동일
     };
   }, [viewMemo]); // viewMemo 변경되면 observer를 새로 지정
 
