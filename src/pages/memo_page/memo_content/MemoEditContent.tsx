@@ -17,12 +17,12 @@ interface IMemoEditContent {
   onClickDoEditMemo: (editMemo: IMemo, inputMemo: string) => Promise<void>;
   onClickDoDeleteMemo: (
     e: React.MouseEvent<HTMLDivElement>,
-    editMemo: IMemo
+    editMemo: IMemo,
   ) => Promise<void>;
   onEnterInputEvent: (
     e: React.KeyboardEvent<HTMLTextAreaElement>,
     editMemo: IMemo,
-    inputMemo: string
+    inputMemo: string,
   ) => Promise<void>;
 }
 

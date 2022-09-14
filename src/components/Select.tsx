@@ -31,7 +31,7 @@ export const Select = forwardRef<HTMLSelectElement, ISelect>(
         })}
       </SelectEle>
     );
-  }
+  },
 );
 
 export default Select;

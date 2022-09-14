@@ -60,7 +60,7 @@ const TalkDeletePopup = ({
       console.log("해당 태그는 빈 태그지만, 삭제되지 않습니다.");
     } else {
       const usedMemoLength = await fbTag.checkUsedMemoLength(
-        selectedMemo!.tagId
+        selectedMemo!.tagId,
       );
       if (!usedMemoLength) setToBeDeleteTag(selectedMemo!.tagId);
     }

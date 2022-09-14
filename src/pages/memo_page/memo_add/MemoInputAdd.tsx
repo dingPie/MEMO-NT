@@ -15,7 +15,7 @@ interface IMemoInputAdd {
   onEnterInputEvent: (
     e: React.KeyboardEvent<HTMLTextAreaElement>,
     tagId: string,
-    inputMemo: string
+    inputMemo: string,
   ) => void;
 }
 

@@ -51,13 +51,13 @@ const InputText = forwardRef<HTMLTextAreaElement, IInputText>(
       bgColor,
       fontSize,
     },
-    externalRef
+    externalRef,
   ) => {
     // forwardRef로 넘겨준 externalRef 가 있으면, externalRef로 Ref값을 지정해준다. (focus 처리하기 위함.)
     const inputRef = useRef<HTMLTextAreaElement>(null);
     useImperativeHandle(
       externalRef,
-      () => inputRef.current as HTMLTextAreaElement
+      () => inputRef.current as HTMLTextAreaElement,
     );
 
     // 크기 조절 이벤트
@@ -94,7 +94,7 @@ const InputText = forwardRef<HTMLTextAreaElement, IInputText>(
         fontSize={fontSize}
       />
     );
-  }
+  },
 );
 
 export default memo(InputText);

@@ -85,7 +85,7 @@ const MemoDeletePopupContainer = ({
       await fbTag.deleteUsedMemoAll(tag.id);
     } else {
       tag.usedMemo.map(
-        async memoId => await fbMemo.editMemoUsedTag(memoId, "undefined")
+        async memoId => await fbMemo.editMemoUsedTag(memoId, "undefined"),
       );
       await fbTag.addUsedMemoAll("undefined", tag.usedMemo);
       await fbTag.deleteTag(tag.id); // 태그 삭제

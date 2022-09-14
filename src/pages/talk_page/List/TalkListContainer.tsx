@@ -34,7 +34,7 @@ const TalkListContainer = ({
       if (editMemo) return;
       selectedMemo === memo ? setSelectedMemo(null) : setSelectedMemo(memo);
     },
-    [selectedMemo, editMemo]
+    [selectedMemo, editMemo],
   );
 
   return (

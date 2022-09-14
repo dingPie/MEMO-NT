@@ -58,7 +58,7 @@ const TalkPage = ({ fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage) => {
   // 메모 불러오기 함수. pagnination 에도 같이 사용
   const doGetMemo = async (
     viewMemo: IMemo[],
-    setViewMemo?: (v: IMemo[]) => void
+    setViewMemo?: (v: IMemo[]) => void,
   ) => {
     loading.start();
     await fbMemo.getMemo(viewMemo, setViewMemo);
@@ -79,7 +79,7 @@ const TalkPage = ({ fbMemo, fbTag, fbAuth, tags, userInfo }: ITalkPage) => {
       if (!userInfo.pinnedMemo) setPinnedMemo(null);
       else await fbMemo.getPinnedMemo(userInfo.pinnedMemo, setPinnedMemo);
     },
-    [pinnedMemo]
+    [pinnedMemo],
   );
 
   // pinnedMemo 세팅

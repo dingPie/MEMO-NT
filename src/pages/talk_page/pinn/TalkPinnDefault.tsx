@@ -51,6 +51,6 @@ const TalkPinnDefault = forwardRef<HTMLDivElement, ITalkPinnDefault>(
         </PinnBtns>
       </PinnBox>
     );
-  }
+  },
 );
 export default TalkPinnDefault;
