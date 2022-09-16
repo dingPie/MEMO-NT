@@ -25,7 +25,7 @@ const SetUser = ({ user, onClickLogout, onClickWithdrawBtn }: ISetUser) => {
     if (user) {
       return (
         <>
-          <RowBox justifyCenter alignCenter padding="0 .5rem">
+          <RowBox justifyBetween alignCenter padding="0 .5rem">
             <Text bold fontSize="xl" width={10}>
               연결된 계정
             </Text>
