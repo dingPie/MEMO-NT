@@ -50,7 +50,7 @@ const TalkInpuContainer = ({
   useEffect(() => {
     const isMobile = () =>
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
+        navigator.userAgent,
       );
     setIsMobile(isMobile());
   }, []);
@@ -74,7 +74,7 @@ const TalkInpuContainer = ({
   // 수정할 tagName state 관리
   const onChangeTagName = (
     e?: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement> | null,
-    tagName?: string
+    tagName?: string,
   ) => {
     if (e) setEditTagName(e.target.value);
     else if (tagName !== undefined) setEditTagName(tagName);
@@ -107,7 +107,7 @@ const TalkInpuContainer = ({
         content: inputMemo,
       };
       const newViewMemo = viewMemo.map(v =>
-        v.id === editMemo.id ? editedMemo : v
+        v.id === editMemo.id ? editedMemo : v,
       );
       setViewMemo(newViewMemo);
       setEditMemo(null);
@@ -124,7 +124,7 @@ const TalkInpuContainer = ({
 
   // 엔터 이벤트 추가
   const onEnterInputEvent = async (
-    e: React.KeyboardEvent<HTMLTextAreaElement>
+    e: React.KeyboardEvent<HTMLTextAreaElement>,
   ) => {
     if (isMobile) return;
     const { key, shiftKey } = e;

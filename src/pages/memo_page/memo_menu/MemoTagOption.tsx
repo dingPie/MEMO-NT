@@ -27,7 +27,7 @@ const MemoTagOption = ({
 }: IMemoTagOption) => {
   const { palette } = useStore();
   const recentTags = tags.filter(
-    v => v.id !== "undefined" && v.id !== "toBeDeleted"
+    v => v.id !== "undefined" && v.id !== "toBeDeleted",
   ); // .slice(0, 3)
 
   return (

@@ -39,7 +39,7 @@ const TalkPinnExpand = forwardRef<HTMLDivElement, ITalkPinnExpand>(
       onClickReducePinn,
       onClicGoMemoBtn,
     },
-    ref
+    ref,
   ) => {
     const { palette } = useStore();
 
@@ -71,7 +71,7 @@ const TalkPinnExpand = forwardRef<HTMLDivElement, ITalkPinnExpand>(
         </TalkContent>
       </PinnBox>
     );
-  }
+  },
 );
 export default TalkPinnExpand;
 

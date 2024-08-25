@@ -19,14 +19,14 @@ const fbTag = new FbTag(firebaseAuth, fireStoreDB);
 const fbMemo = new FbMemo(firebaseAuth, fireStoreDB);
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+  document.getElementById("root") as HTMLElement,
 );
 root.render(
   <BrowserRouter>
     <ThemeProvider theme={theme}>
       <App fbAuth={fbAuth} fbTag={fbTag} fbMemo={fbMemo} />
     </ThemeProvider>
-  </BrowserRouter>
+  </BrowserRouter>,
 );
 
 // If you want your app to work offline and load faster, you can change

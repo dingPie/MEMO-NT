@@ -22,7 +22,7 @@ const TalkInputOption = ({
 }: ITalkInputOption) => {
   const { palette } = useStore();
   const recentTags = tags.filter(
-    v => v.id !== "undefined" && v.id !== "toBeDeleted"
+    v => v.id !== "undefined" && v.id !== "toBeDeleted",
   ); // .slice(0, 3)
   // firebase에서 sort시, sort 된 옵션으로 불러와진다!
 

@@ -104,7 +104,7 @@ export class FbAuth {
 
   // userDB의 user정보 확인
   async onCheckUserInfo(
-    update?: (tags: IUserInfo) => void
+    update?: (tags: IUserInfo) => void,
   ): Promise<IUserInfo> {
     const q = query(collection(this.fireStoreDB, this.doc));
     const docRef = doc(this.fireStoreDB, this.doc, this.uid);
@@ -115,7 +115,7 @@ export class FbAuth {
         console.log("현재 유저 DB정보:", result);
         if (update) update(result);
         resolve(result);
-      })
+      }),
     );
   }
 

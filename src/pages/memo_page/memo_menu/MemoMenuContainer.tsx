@@ -93,7 +93,7 @@ const MemoMenuContainer = ({
 
     const tagName = tags.filter(tag => tag.id === tagId)[0].name;
     const confirm = window.confirm(
-      `이 메모의 태그를 ${tagName} 으로 변경할까요?`
+      `이 메모의 태그를 ${tagName} 으로 변경할까요?`,
     );
     if (!confirm) return;
     loading.start();

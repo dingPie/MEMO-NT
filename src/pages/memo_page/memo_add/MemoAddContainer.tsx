@@ -39,7 +39,7 @@ const MemoAddContainer = ({
   useEffect(() => {
     const isMobile = () =>
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
+        navigator.userAgent,
       );
     console.log("감지결과 확인", isMobile());
     setIsMobile(isMobile());
@@ -63,14 +63,14 @@ const MemoAddContainer = ({
       setInputMemo("");
       loading.finish();
     },
-    [memoList, loading]
+    [memoList, loading],
   );
 
   // 엔터 이벤트 추가
   const onEnterInputEvent = async (
     e: React.KeyboardEvent<HTMLTextAreaElement>,
     tagId: string,
-    inputMemo: string
+    inputMemo: string,
   ) => {
     if (isMobile) return;
     const { key, shiftKey } = e;
@@ -90,7 +90,7 @@ const MemoAddContainer = ({
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       setInputMemo(e.target.value);
     },
-    [inputMemo]
+    [inputMemo],
   );
 
   return (
