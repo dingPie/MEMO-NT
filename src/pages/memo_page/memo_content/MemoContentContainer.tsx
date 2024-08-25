@@ -51,7 +51,7 @@ const MemoContentContainer = ({
   useEffect(() => {
     const isMobile = () =>
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
+        navigator.userAgent,
       );
     console.log("감지결과 확인", isMobile());
     setIsMobile(isMobile());
@@ -62,7 +62,7 @@ const MemoContentContainer = ({
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       setInputMemo(e.target.value);
     },
-    [inputMemo]
+    [inputMemo],
   );
 
   // 메모 클릭 => 수정 input창 출력
@@ -77,7 +77,7 @@ const MemoContentContainer = ({
         setInputMemo(memo.content);
       }
     },
-    [isOpenMenu, isOpenInputMemo, isOpenEditTag, editMemo]
+    [isOpenMenu, isOpenInputMemo, isOpenEditTag, editMemo],
   );
 
   // 수정 처리
@@ -95,19 +95,19 @@ const MemoContentContainer = ({
         content: inputMemo,
       };
       const newMemoList = memoList.map(memo =>
-        memo.id === editMemo.id ? editedMemo : memo
+        memo.id === editMemo.id ? editedMemo : memo,
       );
       setMemoList(newMemoList);
       loading.finish();
     },
-    [memoList]
+    [memoList],
   );
 
   // 엔터 이벤트 추가
   const onEnterInputEvent = async (
     e: React.KeyboardEvent<HTMLTextAreaElement>,
     editMemo: IMemo,
-    inputMemo: string
+    inputMemo: string,
   ) => {
     if (isMobile) return;
     const { key, shiftKey } = e;
@@ -146,7 +146,7 @@ const MemoContentContainer = ({
 
       loading.finish();
     },
-    [memoList, userInfo]
+    [memoList, userInfo],
   );
 
   return (

@@ -20,7 +20,7 @@ interface ITalkEditTagName {
   editTagName: string;
   onChangeTagName: (
     e?: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement> | null,
-    tagName?: string
+    tagName?: string,
   ) => void;
   onClickCancelEditMemo: () => void;
 }
@@ -35,7 +35,7 @@ const TalkEditTagName = ({
   const { palette } = useStore();
   const tag = tags.filter(v => v.id === editMemo.tagId)[0];
   const recentTags = tags.filter(
-    v => v.id !== "undefined" && v.id !== "toBeDeleted"
+    v => v.id !== "undefined" && v.id !== "toBeDeleted",
   );
 
   return (

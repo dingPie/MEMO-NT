@@ -45,6 +45,7 @@ const App = ({ fbAuth, fbTag, fbMemo }: IApp) => {
     const initMemoId = await fbMemo.initMemo(); // user.uid
     await fbTag.addUsedMemo("undefined", initMemoId!.undefinedMemoId);
     await fbTag.addUsedMemo("toBeDeleted", initMemoId!.toBeDeletedMemoId);
+
     await fbTag.addUsedMemoAll("initMenual", initMemoId!.initMenualMemoId);
     // loading.finish();
     window.location.reload(); // 첫 유저의 경우, user 정보를 받아오는 것 보다 메모 init이 느린 관계로, 새로고침 작업

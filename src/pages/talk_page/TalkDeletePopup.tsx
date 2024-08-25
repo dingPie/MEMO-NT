@@ -38,8 +38,7 @@ const TalkDeletePopup = ({
 
   useEffect(() => {
     return () => {
-      loading.finish();
-      console.log("로딩창 삭제 실행됨", loading.isLoading);
+      loading.isLoading && loading.finish();
     };
   }, []);
 
@@ -60,16 +59,14 @@ const TalkDeletePopup = ({
       console.log("해당 태그는 빈 태그지만, 삭제되지 않습니다.");
     } else {
       const usedMemoLength = await fbTag.checkUsedMemoLength(
-        selectedMemo!.tagId
+        selectedMemo!.tagId,
       );
       if (!usedMemoLength) setToBeDeleteTag(selectedMemo!.tagId);
     }
-
+    loading.finish();
     setViewMemo(newViewMemo);
     setSelectedMemo(null);
     setIsOpenDeletePopup(false);
-
-    // 태그 삭제
   };
 
   // 취소버튼 클릭

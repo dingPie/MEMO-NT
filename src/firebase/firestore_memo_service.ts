@@ -35,7 +35,7 @@ export class FbMemo {
     this.fireStoreDB = fireStoreDB;
     this.doc = "default";
     this.lastMemo = null;
-    this.loadSize = 30;
+    this.loadSize = 20;
   }
 
   initLastMemo() {
@@ -58,7 +58,7 @@ export class FbMemo {
     const undefinedRef = doc(
       this.fireStoreDB,
       this.doc,
-      undefinedTime.toString()
+      undefinedTime.toString(),
     );
     // 삭제예정 관련
     const toBeDeletedTime = undefinedTime + 1;
@@ -66,7 +66,7 @@ export class FbMemo {
     const toBeDeletedRef = doc(
       this.fireStoreDB,
       this.doc,
-      toBeDeletedTime.toString()
+      toBeDeletedTime.toString(),
     );
     // 매뉴얼 관련
     const initMenualTime = toBeDeletedTime + 1;
@@ -79,7 +79,7 @@ export class FbMemo {
         const initMenualRef = doc(
           this.fireStoreDB,
           this.doc,
-          (initMenualTime + id).toString()
+          (initMenualTime + id).toString(),
         );
         await setDoc(initMenualRef, memo);
       });
@@ -105,14 +105,14 @@ export class FbMemo {
         colRef,
         orderBy("createTime", "desc"),
         startAfter(this.lastMemo),
-        limit(this.loadSize)
+        limit(this.loadSize),
       );
 
     try {
       const querySnapshot = await getDocs(q);
       const result = querySnapshot.docs.map(doc => doc.data() as IMemo);
-      console.log("불러올 메모 확인", result)
-      if (result === []) this.lastMemo = undefined;
+      console.log("불러올 메모 확인", result);
+      if (!result.length) this.lastMemo = undefined;
       // 결과지정. 더 불러올 메모가 없으면 undefined로 변경
       else this.lastMemo = querySnapshot.docs[querySnapshot.docs.length - 1];
 
@@ -196,7 +196,7 @@ export class FbMemo {
   // pinnedMemo 찾아서 가져오기
   async getPinnedMemo(
     memoId: string,
-    update?: (v: IMemo) => void
+    update?: (v: IMemo) => void,
   ): Promise<IMemo> {
     const docRef = doc(this.fireStoreDB, this.doc, memoId);
     const result = await getDoc(docRef);

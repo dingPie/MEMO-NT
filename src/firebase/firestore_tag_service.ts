@@ -47,18 +47,18 @@ export class FbTag {
   async onCheckTag(update?: (tags: ITag[]) => void): Promise<ITag[]> {
     const q = query(
       collection(this.fireStoreDB, this.doc),
-      orderBy("lastUpdate", "desc")
+      orderBy("lastUpdate", "desc"),
     ); // , where("name", "!=", false)
 
     return new Promise((resolve, reject) =>
       onSnapshot(q, querySnapshot => {
         const result: ITag[] = querySnapshot.docs.map(
-          doc => ({ id: doc.id, ...doc.data() } as ITag)
+          doc => ({ id: doc.id, ...doc.data() } as ITag),
         );
         console.log("태그 변화감시", result);
         if (update) update(result);
         resolve(result);
-      })
+      }),
     );
   }
 
@@ -156,7 +156,7 @@ export class FbTag {
   // 태그 색상변경
   async editTagColor(
     tagId: string,
-    changeColor: string // 추후 colorCode의 id 방식으로 변경
+    changeColor: string, // 추후 colorCode의 id 방식으로 변경
   ) {
     const docRef = doc(this.fireStoreDB, this.doc, tagId);
 

@@ -60,7 +60,7 @@ const MemoNameContainer = ({
       alert(
         `태그명 ${
           duplicateTag.name === "undefeined" ? "태그없음" : duplicateTag.name
-        } 과 같은 태그가 발견되어 해당 태그로 병합됩니다.`
+        } 과 같은 태그가 발견되어 해당 태그로 병합됩니다.`,
       );
       memoList.map(async memo => {
         await fbMemo.editMemoUsedTag(memo.id, duplicateTag.id); // 현재 메모의 태그 아이디를 수정해주고
